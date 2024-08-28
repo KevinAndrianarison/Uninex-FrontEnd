@@ -203,7 +203,7 @@ function closeCreateSemestre() {
             <DisclosureButton
               class="flex w-full justify-between rounded-lg bg-yellow-100 px-4 py-2 text-left text-lm font-black text-black hover:bg-yellow-200 focus:outline-none focus-visible:ring focus-visible:ring-yellow-500/75"
             >
-              <span>Voir la liste des semestre ?</span>
+              <span>Voir la liste des semestres ?</span>
               <ChevronUpIcon
                 :class="open ? 'rotate-180 transform' : ''"
                 class="h-5 w-5 text-yellow-500"
