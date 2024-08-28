@@ -1,0 +1,122 @@
+.fonctionnalite {
+    margin-bottom: 20px;
+}
+
+.bienvenue {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.btn {
+    margin-left: 10%;
+}
+
+button {
+    background-color: var(--color-primary);
+    padding: 10px 30px 10px 30px;
+    margin-bottom: 150px;
+    font-size: 16px;
+    color: var(--color-text-secondary);
+    border-radius: 5px;
+    transition: all 0.5s ease-in-out;
+}
+
+button:hover {
+    border-radius: 20px;
+}
+
+.text {
+    margin-left: 10%;
+    color: var(--color-text-main);
+}
+
+h1 {
+    font-family: 'oswald', sans-serif;
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.logo {
+    margin: 0 auto;
+    height: 200px;
+    width: 200px;
+    background-image: url('../assets/Blue_Modern_Free_Academy_Logo-removebg-preview.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.image {
+    height: 500px;
+    width: 500px;
+    background-image: url('../assets/31197263_7809456.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 25px;
+}
+
+.home {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.left {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 50vw;
+}
+
+.right {
+    width: 50vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+@media (max-width: 1040px) {
+    .image {
+        height: 400px;
+        width: 400px;
+    }
+
+    button {
+        margin-bottom: 100px;
+    }
+}
+
+@media (max-width: 900px) {
+    .image {
+        height: 300px;
+        width: 300px;
+    }
+
+    button {
+        margin-bottom: 100px;
+    }
+}
+
+@media (max-width: 800px) {
+    button {
+        margin-bottom: 50px;
+    }
+}
+
+@media (max-width: 600px) {
+    .right {
+        display: none;
+    }
+
+    .left {
+        margin: 0 auto;
+    }
+
+    .logo {
+        height: 140px;
+        width: 140px;
+    }
+}

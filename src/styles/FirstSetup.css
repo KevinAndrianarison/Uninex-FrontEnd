@@ -1,0 +1,123 @@
+.continuer {
+  background-color: var(--color-primary);
+  color: var(--color-background-main);
+  display: flex;
+  align-items: center;
+  border: 2px var(--color-primary) solid;
+}
+
+.retour {
+  background-color: var(--color-background-main);
+  color: var(--color-text-main);
+  border: 2px rgba(128, 128, 128, 0.575) solid;
+  margin-right: 10px;
+}
+
+.formInput {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.filepond--credits {
+  display: none !important;
+}
+
+.infos {
+  height: 70px;
+  padding-top: 30px;
+  padding-left: 30px;
+  font-weight: 600;
+}
+
+.firstsetup {
+  width: 100vw;
+  height: 100vh;
+  background-image: url('../assets/20689.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.content {
+  width: 600px;
+  height: 100vh;
+  z-index: 99;
+  margin-left: 5%;
+}
+
+.form {
+  background-color: var(--color-background-main);
+  height: 60%;
+  border-radius: 10px;
+  box-shadow:
+    0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  overflow-y: scroll;
+}
+
+.titre {
+  font-family: 'oswald', sans-serif;
+  height: 20%;
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-main);
+}
+
+.err {
+  font-size: 12px;
+  color: var(--color-text-danger);
+
+}
+
+.btn {
+  height: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+}
+
+.BTN {
+  padding: 10px 30px 10px 30px;
+  border-radius: 5px;
+  transition: all 0.5s ease-in-out;
+}
+
+.BTNdiv {
+  padding: 10px 10px 10px 20px;
+  border-radius: 5px;
+  transition: all 0.5s ease-in-out;
+}
+
+.BTN:hover,
+.BTNdiv:hover {
+  border-radius: 20px;
+}
+
+
+
+@media (max-width: 650px) {
+  .content {
+    width: 350px;
+    margin: 0 auto;
+  }
+
+  .form {
+    margin-top: 20px;
+  }
+
+  .btn {
+    margin-top: 10px;
+  }
+}
+
+.msg{
+  position: sticky;
+  bottom: 0px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 30px;
+  background-color: var(--color-background-main);
+  font-size: 13px;
+  color: grey;
+}
