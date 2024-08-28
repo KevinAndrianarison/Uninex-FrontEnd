@@ -66,7 +66,7 @@
             class="DisclosurePanel mt-2 text-sm text-gray-500"
           >
             <div class="listNiv" :key="index" v-for="(mnt, index) in mention.ListMention">
-              {{ mnt.abr_mention }}
+              {{ mnt.nom_mention }} / {{ mnt.abr_mention }}
               <TrashIcon
                 class="deletes h-6 w-5 ml-3 pb-1"
                 @click="deleteMention(mnt.abr_mention, mnt.id)"

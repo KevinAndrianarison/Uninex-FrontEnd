@@ -25,6 +25,11 @@
 
 }
 
+.mention{
+    display: flex;
+    align-items: center;
+}
+
 
 .delete {
     color: red;

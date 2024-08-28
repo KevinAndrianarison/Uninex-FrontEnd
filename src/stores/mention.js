@@ -47,6 +47,7 @@ export const useMention = defineStore('Mention', () => {
           }, 3000)
         }
         if (response.data.message === 'Mention créé !') {
+          getByAuId()
           messages.messageSucces = 'Mention créé  !'
           setTimeout(() => {
             messages.messageSucces = ''
@@ -65,7 +66,6 @@ export const useMention = defineStore('Mention', () => {
   }
 
   function getByAuId() {
-    ListMention.value = []
     mentionParcours.nom = ""
     mentionParcours.id = null
     show.showSpinner = true

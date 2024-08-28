@@ -17,6 +17,8 @@ export const useEnseignant = defineStore('Enseignant', () => {
   const ListeENS = ref([])
   const ListeENSTemp = ref([])
   const nomComplet_ens = ref('')
+  const nom_ens = ref('')
+  const name = ref('')
   const date_recrutement_ens = ref('')
   const categorie_ens = ref('')
   const grade_ens = ref('')
@@ -84,6 +86,8 @@ export const useEnseignant = defineStore('Enseignant', () => {
       .get(`${URL}/api/enseignant`)
       .then((response) => {
         ListeENS.value = response.data
+        nom_ens.value = ListeENS.value[0].nomComplet_ens
+        name.value = ListeENS.value[0].nomComplet_ens
         ListeENSTemp.value = response.data
         show.showSpinner = false
       })
@@ -112,6 +116,8 @@ export const useEnseignant = defineStore('Enseignant', () => {
     grade_ens,
     searchalue,
     categorie_ens,
+    nom_ens,
+    name,
     createEnseignant,
     getAllENS,
     search

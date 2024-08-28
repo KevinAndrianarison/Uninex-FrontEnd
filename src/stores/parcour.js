@@ -68,7 +68,6 @@ export const useParcour = defineStore('Parcour', () => {
   }
 
   function getByNiveauId() {
-    ListParcours.value = []
     parcours_nom.value = ''
     parcours_id.value = null
     show.showSpinner = true

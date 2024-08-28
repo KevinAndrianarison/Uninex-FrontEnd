@@ -24,7 +24,7 @@ export const useShow = defineStore('Show', () => {
   const showDeleteMention= ref(false)
   const showDeleteParcour= ref(false)
   const showDeleteSemestre= ref(false)
-  const showCreateSemestre= ref(true)
+  const showCreateSemestre= ref(false)
 
 
 

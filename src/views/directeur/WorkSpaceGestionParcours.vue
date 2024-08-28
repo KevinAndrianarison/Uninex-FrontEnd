@@ -123,7 +123,7 @@
                                 : 'font-normal',
                               'block truncate'
                             ]"
-                            >{{ mnt.nom_mention }}</span
+                            >{{ mnt.nom_mention }} / {{ mnt.abr_mention }}</span
                           >
                           <span
                             v-if="mention.mentionParcours.nom === mnt.nom_mention"
