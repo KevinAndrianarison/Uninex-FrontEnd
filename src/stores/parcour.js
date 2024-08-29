@@ -9,7 +9,6 @@ import { useShow } from '@/stores/Show'
 import { useSemestre } from '@/stores/Semestre'
 import { useEnseignant } from '@/stores/Enseignant'
 
-
 export const useParcour = defineStore('Parcour', () => {
   const nom_parcours = ref('')
   const parcours_id = ref(null)
@@ -26,7 +25,6 @@ export const useParcour = defineStore('Parcour', () => {
   const URL = useUrl().url
   const messages = useMessages()
   const enseignant = useEnseignant()
-
 
   watch(parcours_nom, (newValue, oldValue) => {
     if (newValue) {
@@ -108,20 +106,31 @@ export const useParcour = defineStore('Parcour', () => {
       })
   }
 
-  function addRespParcours(){
+  function addRespParcours() {
     let formData = {
-      enseignant_id : enseignant.idBottom
+      enseignant_id: enseignant.idBottom
     }
     show.showSpinner = true
     axios
       .put(`${URL}/api/parcours/${parcours_id.value}`, formData)
       .then((response) => {
-        messages.messageSucces = 'Chef de parcours ajouté !'
-        setTimeout(() => {
-          messages.messageSucces = ''
-        }, 3000)
-        show.showSpinner = false
-        getByNiveauId()
+        let formDatasetEns = {
+          chefParcours_status: true
+        }
+        axios
+          .put(`${URL}/api/enseignant/${enseignant.idBottom}`, formDatasetEns)
+          .then((response) => {
+            messages.messageSucces = 'Chef de parcours ajouté !'
+            setTimeout(() => {
+              messages.messageSucces = ''
+            }, 3000)
+            show.showSpinner = false
+            getByNiveauId()
+          })
+          .catch((err) => {
+            console.error(err)
+            show.showSpinner = false
+          })
       })
       .catch((err) => {
         console.error(err)

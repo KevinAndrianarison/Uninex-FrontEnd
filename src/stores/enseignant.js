@@ -30,7 +30,7 @@ export const useEnseignant = defineStore('Enseignant', () => {
   function createEnseignant() {
     show.showSpinner = true
     const formDataUserENS = {
-      status_user: 'AS',
+      status_user: 'ENS',
       email: user.email,
       password: password.password,
       photo: user.photo
@@ -83,6 +83,9 @@ export const useEnseignant = defineStore('Enseignant', () => {
   }
 
   function getAllENS() {
+    //Corrige nomEns tsy miala après suppr ens
+    nom_ens.value = ""
+    name.value = ""
     show.showSpinner = true
     axios
       .get(`${URL}/api/enseignant`)

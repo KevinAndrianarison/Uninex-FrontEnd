@@ -112,12 +112,23 @@ export const useMention = defineStore('Mention', () => {
     axios
       .put(`${URL}/api/mention/${mentionParcours.id}`, formData)
       .then((response) => {
-        messages.messageSucces = 'Chef de mention ajouté !'
-        setTimeout(() => {
-          messages.messageSucces = ''
-        }, 3000)
-        show.showSpinner = false
-        getByAuId()
+        let formDatasetEns = {
+          chefMention_status: true
+        }
+        axios
+          .put(`${URL}/api/enseignant/${enseignant.idTop}`, formDatasetEns)
+          .then((response) => {
+            messages.messageSucces = 'Chef de mention ajouté !'
+            setTimeout(() => {
+              messages.messageSucces = ''
+            }, 3000)
+            show.showSpinner = false
+            getByAuId()
+          })
+          .catch((err) => {
+            console.error(err)
+            show.showSpinner = false
+          })
       })
       .catch((err) => {
         console.error(err)
