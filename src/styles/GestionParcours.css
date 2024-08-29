@@ -25,6 +25,17 @@
 
 }
 
+.listRole {
+    height: 34vh;
+    background-color: white;
+    border-radius: 10px;
+    border: 2px solid rgba(128, 128, 128, 0.127);
+    margin-top: 5px;
+    width: 80%;
+    margin: 0 auto;
+
+}
+
 .mention{
     display: flex;
     align-items: center;
@@ -42,6 +53,11 @@
     font-weight: 600;
 }
 
+.widthemails {
+    width: 40%;
+    font-weight: 600;
+}
+
 
 .widthvaluenom {
     width: 50%;
@@ -52,9 +68,15 @@
 
 }
 
+.widthvalueemails {
+    width: 40%;
+
+}
+
 .widthvaluenom {
     width: 50%;
 }
+
 
 
 .btn {

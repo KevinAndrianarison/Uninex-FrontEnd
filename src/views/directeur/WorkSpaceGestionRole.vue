@@ -67,7 +67,9 @@
         </div>
       </div>
 
-      <h1 class="create pl-5 mt-2" v-if="mention.mentionParcours.nom && enseignant.nom_ens">Ajouter un nouveau chef de mention :</h1>
+      <h1 class="create pl-5 mt-2" v-if="mention.mentionParcours.nom && enseignant.nom_ens">
+        Ajouter un nouveau chef de mention :
+      </h1>
 
       <div class="content pb-2">
         <div class="right ml-2 px-4 mt-2" v-if="mention.mentionParcours.nom && enseignant.nom_ens">
@@ -102,6 +104,7 @@
                           :key="index"
                           v-for="(ens, index) in enseignant.ListeENS"
                           :value="ens.nomComplet_ens"
+                          @click="setEnseignantTop(ens.id)"
                         >
                           <li
                             :class="[
@@ -136,7 +139,7 @@
 
               <div class="w-52 mt-1 mr-4">
                 <Listbox v-model="mention.mentionParcours.nom">
-                  <div class="relative ">
+                  <div class="relative">
                     <ListboxButton
                       class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
                     >
@@ -154,7 +157,7 @@
                       leave-to-class="opacity-0"
                     >
                       <ListboxOptions
-                        class="absolute  z-20 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+                        class="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                       >
                         <ListboxOption
                           :key="index"
@@ -194,17 +197,15 @@
               </div>
 
               <div class="sm:col-span-3 mt-1">
-                <Button
-                  class="btn"
-                >
-                  Valider</Button
-                >
+                <Button class="btn" @click="mention.addRespMention()"> Valider</Button>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <h1 class="create pl-5 mt-2" v-if="parcour.parcours_nom && enseignant.name">Ajouter un nouveau chef de parcours :</h1>
+      <h1 class="create pl-5 mt-2" v-if="parcour.parcours_nom && enseignant.name">
+        Ajouter un nouveau chef de parcours :
+      </h1>
 
       <div class="content pb-5">
         <div class="right ml-2 px-4 mt-2" v-if="parcour.parcours_nom && enseignant.name">
@@ -239,6 +240,7 @@
                           :key="index"
                           v-for="(ens, index) in enseignant.ListeENS"
                           :value="ens.nomComplet_ens"
+                          @click="setEnseignantBottom(ens.id)"
                         >
                           <li
                             :class="[
@@ -297,6 +299,8 @@
                           :key="index"
                           v-for="(prc, index) in parcour.ListParcours"
                           :value="prc.nom_parcours"
+                          @click="setIdParcours(prc.id)"
+
                         >
                           <li
                             :class="[
@@ -330,34 +334,26 @@
               </div>
 
               <div class="sm:col-span-3 mt-1">
-                <Button
-                  class="btn"
-                >
-                  Valider</Button
-                >
+                <Button class="btn" @click="parcour.addRespParcours()"> Valider</Button>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div
-      class="listParcours"
-      v-if="mention.mentionParcours.nom || parcour.parcours_nom"
-    >
+    <div class="listRole" v-if="mention.mentionParcours.nom || parcour.parcours_nom">
       <div class="listScolValue">
         <div class="head pb-2">
-          <li class="widthnom">Mentions / Parcours</li>
-          <li class="widthemail">Responsable</li>
-          <li class="h-5 w-5"></li>
+          <li class="widthnom">Mentions et Parcours</li>
+          <li class="widthemails">Responsables</li>
+        </div>
+        <div class="body" :key="index" v-for="(mnt, index) in mention.ListMention">
+          <li class="widthvaluenom">{{ mnt.nom_mention }} / {{ mnt.abr_mention }}</li>
+          <li class="widthvalueemails" >{{ mnt.enseignant.nomComplet_ens }}</li>
         </div>
         <div class="body" :key="index" v-for="(prc, index) in parcour.ListParcours">
-          <li class="widthvaluenom">{{ prc.nom_parcours }}</li>
-          <li class="widthvalueemail">{{ prc.abr_parcours }}</li>
-          <TrashIcon
-            class="delete h-5 w-5"
-            @click="showDeleteParcoursModal(prc.id, prc.abr_parcours)"
-          />
+          <li class="widthvaluenom">{{ prc.nom_parcours }} / {{ prc.abr_parcours }}</li>
+          <li class="widthvalueemails">{{ prc.enseignant.nomComplet_ens }}</li>
         </div>
       </div>
     </div>
@@ -370,7 +366,6 @@ import { useNiveau } from '@/stores/Niveau'
 import { useParcour } from '@/stores/Parcour'
 import { useMention } from '@/stores/Mention'
 import { useEnseignant } from '@/stores/Enseignant'
-import { useShow } from '@/stores/Show'
 import {
   RadioGroup,
   RadioGroupLabel,
@@ -379,29 +374,34 @@ import {
 } from '@headlessui/vue'
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
-import { TrashIcon } from '@heroicons/vue/24/outline'
-import {onBeforeMount} from 'vue'
+import { onBeforeMount } from 'vue'
 
 const niveau = useNiveau()
 const mention = useMention()
 const parcour = useParcour()
-const show = useShow()
 const enseignant = useEnseignant()
 
-
-function showDeleteParcoursModal(id, abr) {
-  parcour.parcours_id = id
-  parcour.parcours_abr = abr
-  show.showDeleteParcour = true
-}
-
-onBeforeMount(()=>{
+onBeforeMount(() => {
   enseignant.getAllENS()
 })
 
 function setIdMention(id) {
   mention.mentionParcours.id = id
 }
+
+function setEnseignantTop(id) {
+  enseignant.idTop = id
+}
+
+function setEnseignantBottom(id){
+  enseignant.idBottom = id
+}
+
+function setIdParcours(id){
+  parcour.parcours_id = id
+
+}
+
 </script>
 
 <style scoped src="../../styles/GestionParcours.css"></style>

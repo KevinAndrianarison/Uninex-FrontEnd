@@ -5,12 +5,14 @@ import { useShow } from '@/stores/Show'
 import { useUrl } from '@/stores/url'
 import axios from 'axios'
 import { useMessages } from '@/stores/messages'
+import { useEnseignant } from '@/stores/Enseignant'
 
 export const useMention = defineStore('Mention', () => {
   const niveau = useNiveau()
   const show = useShow()
   const URL = useUrl().url
   const messages = useMessages()
+  const enseignant = useEnseignant()
 
   const nom_mention = ref('')
   const mentionParcours = reactive({
@@ -66,7 +68,7 @@ export const useMention = defineStore('Mention', () => {
   }
 
   function getByAuId() {
-    mentionParcours.nom = ""
+    mentionParcours.nom = ''
     mentionParcours.id = null
     show.showSpinner = true
     axios
@@ -95,7 +97,27 @@ export const useMention = defineStore('Mention', () => {
         show.showDeleteMention = false
         show.showSpinner = false
         getByAuId()
-        show.showDeleteAU = false
+      })
+      .catch((err) => {
+        console.error(err)
+        show.showSpinner = false
+      })
+  }
+
+  function addRespMention() {
+    let formData = {
+      enseignant_id: enseignant.idTop
+    }
+    show.showSpinner = true
+    axios
+      .put(`${URL}/api/mention/${mentionParcours.id}`, formData)
+      .then((response) => {
+        messages.messageSucces = 'Chef de mention ajouté !'
+        setTimeout(() => {
+          messages.messageSucces = ''
+        }, 3000)
+        show.showSpinner = false
+        getByAuId()
       })
       .catch((err) => {
         console.error(err)
@@ -111,6 +133,7 @@ export const useMention = defineStore('Mention', () => {
     mentionParcours,
     postMentionByNiveau,
     getByAuId,
-    deleteMention
+    deleteMention,
+    addRespMention
   }
 })

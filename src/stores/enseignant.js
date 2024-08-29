@@ -18,6 +18,8 @@ export const useEnseignant = defineStore('Enseignant', () => {
   const ListeENSTemp = ref([])
   const nomComplet_ens = ref('')
   const nom_ens = ref('')
+  const idTop = ref(null)
+  const idBottom = ref(null)
   const name = ref('')
   const date_recrutement_ens = ref('')
   const categorie_ens = ref('')
@@ -88,6 +90,8 @@ export const useEnseignant = defineStore('Enseignant', () => {
         ListeENS.value = response.data
         nom_ens.value = ListeENS.value[0].nomComplet_ens
         name.value = ListeENS.value[0].nomComplet_ens
+        idBottom.value = ListeENS.value[0].id
+        idTop.value = ListeENS.value[0].id
         ListeENSTemp.value = response.data
         show.showSpinner = false
       })
@@ -118,6 +122,8 @@ export const useEnseignant = defineStore('Enseignant', () => {
     categorie_ens,
     nom_ens,
     name,
+    idTop,
+    idBottom,
     createEnseignant,
     getAllENS,
     search

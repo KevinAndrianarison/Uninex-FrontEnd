@@ -1,0 +1,110 @@
+.role {
+    height: 83vh;
+    font-weight: bold;
+    color: var(--color-text-main);
+}
+
+.addrole {
+    background-color: white;
+    margin-top: 5px;
+    border-radius: 10px;
+    border: 2px solid rgba(128, 128, 128, 0.127);
+    width: 80%;
+    margin: 0 auto;
+
+}
+
+.radio {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+}
+
+.titre {
+    font-size: 26px;
+    font-family: 'Montserrat', 'sans-serif';
+    display: flex;
+    align-items: center;
+    margin-left: 10%;
+}
+
+.create {
+    font-weight: bold;
+}
+
+.widthnom {
+    width: 50%;
+    font-weight: 600;
+}
+
+.widthvaluenom {
+    width: 50%;
+}
+
+.widthvalueemail {
+    width: 40%;
+
+}
+
+.btn {
+    background-color: var(--color-third);
+    padding: 5px 20px 5px 20px;
+    border: 2px var(--color-third) solid;
+    border-radius: 5px;
+    transition: all 0.2s ease-in-out;
+    margin-right: 15px;
+}
+
+.body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-bottom: 2px solid rgba(128, 128, 128, 0.127);
+}
+
+.widthemail {
+    width: 40%;
+    font-weight: 600;
+}
+
+.head {
+    padding-left: 20px;
+    padding-right: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 30px;
+    border-bottom: 2px solid rgba(128, 128, 128, 0.127);
+    list-style: none;
+}
+
+.content {
+    display: flex;
+}
+
+.mention {
+    display: flex;
+    align-items: center;
+}
+
+
+.listRespValue {
+    margin-top: 10px;
+    height: 90%;
+    overflow-y: scroll;
+    list-style: none;
+}
+
+.listResp {
+    height: 34vh;
+    background-color: white;
+    border-radius: 10px;
+    border: 2px solid rgba(128, 128, 128, 0.127);
+    margin-top: 5px;
+    width: 80%;
+    margin: 0 auto;
+
+}
