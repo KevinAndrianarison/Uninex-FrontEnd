@@ -349,11 +349,11 @@
         </div>
         <div class="body" :key="index" v-for="(mnt, index) in mention.ListMention">
           <li class="widthvaluenom">{{ mnt.nom_mention }} / {{ mnt.abr_mention }}</li>
-          <li class="widthvalueemails" >{{ mnt.enseignant.nomComplet_ens }}</li>
+          <li class="widthvalueemails" v-if="mnt.enseignant !== null" >{{ mnt.enseignant.nomComplet_ens }}</li>
         </div>
         <div class="body" :key="index" v-for="(prc, index) in parcour.ListParcours">
           <li class="widthvaluenom">{{ prc.nom_parcours }} / {{ prc.abr_parcours }}</li>
-          <li class="widthvalueemails">{{ prc.enseignant.nomComplet_ens }}</li>
+          <li class="widthvalueemails" v-if="prc.enseignant !== null">{{ prc.enseignant.nomComplet_ens }}</li>
         </div>
       </div>
     </div>

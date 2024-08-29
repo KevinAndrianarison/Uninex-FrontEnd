@@ -42,6 +42,7 @@ export const useAu = defineStore('Au', () => {
   watch(oneAU, (newValue, oldValue) => {
     if (newValue) {
       ShowIdAU()
+      //mention.ListMention = []
       niveau.getByAuId()
       niveau.NiveauChecked = []
     }

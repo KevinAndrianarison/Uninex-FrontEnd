@@ -9,7 +9,6 @@ import { useParcour } from '@/stores/Parcour'
 import { useMessages } from '@/stores/messages'
 import { useSemestre } from '@/stores/Semestre'
 
-
 export const useNiveau = defineStore('Niveau', () => {
   const show = useShow()
   const URL = useUrl().url
@@ -32,10 +31,10 @@ export const useNiveau = defineStore('Niveau', () => {
 
   watch(NiveauCheck, (newValue, oldValue) => {
     if (newValue) {
-      niveau.id_niveau = newValue.id  
-      niveau.ListMention = [] 
-      parcour.ListParcours = [] 
-      semestre.ListeSemestre = []    
+      niveau.id_niveau = newValue.id
+      niveau.ListMention = []
+      parcour.ListParcours = []
+      semestre.ListeSemestre = []
       mention.getByAuId()
       parcour.getByNiveauId()
     }
@@ -75,6 +74,7 @@ export const useNiveau = defineStore('Niveau', () => {
   }
 
   function getByAuId() {
+    NiveauCheck.value = []
     show.showSpinner = true
     axios
       .get(`${URL}/api/niveau/getById/${au.idAU}`)

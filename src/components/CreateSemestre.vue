@@ -165,7 +165,7 @@ function closeCreateSemestre() {
                                   : 'font-normal',
                                 'block truncate'
                               ]"
-                              >{{ prc.nom_parcours }}</span
+                              >{{ prc.abr_parcours }}</span
                             >
                             <span
                               v-if="parcour.parcours_nom === prc.nom_parcours"
