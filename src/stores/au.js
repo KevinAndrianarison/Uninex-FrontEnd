@@ -23,7 +23,7 @@ export const useAu = defineStore('Au', () => {
   const listeAU = ref([])
 
   function getallAU() {
-    // oneAU.value = ''    //Choix 1
+    // oneAU.value = '' //Choix 1 mandeha tsara
     show.showSpinner = true
     axios
       .get(`${URL}/api/au`)
@@ -71,7 +71,7 @@ export const useAu = defineStore('Au', () => {
       .then((response) => {
         annee_debut.value = null
         annee_fin.value = null
-        messages.messageSucces = "AU créé !"
+        messages.messageSucces = 'AU créé !'
         setTimeout(() => {
           messages.messageSucces = ''
         }, 3000)
@@ -81,7 +81,7 @@ export const useAu = defineStore('Au', () => {
       })
       .catch((error) => {
         console.error('Erreur du POST AU : ', error.response.data.message)
-        messages.messageError =  error.response.data.message
+        messages.messageError = error.response.data.message
         setTimeout(() => {
           messages.messageError = ''
         }, 3000)
@@ -94,10 +94,9 @@ export const useAu = defineStore('Au', () => {
     axios
       .delete(`${URL}/api/au/${idAU.value}`)
       .then((response) => {
-        
-        //niveau.getByAuId()       //Choix 1
-        window.location.reload();  //Choix 2
-        messages.messageSucces = "AU supprimé !"
+        // niveau.getByAuId() //Choix 1 mandeha tsara
+        window.location.reload() //Choix 2
+        messages.messageSucces = 'AU supprimé !'
         setTimeout(() => {
           messages.messageSucces = ''
         }, 3000)
