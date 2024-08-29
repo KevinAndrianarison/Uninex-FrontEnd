@@ -15,8 +15,6 @@ export const useAu = defineStore('Au', () => {
   const messages = useMessages()
   const etablissement = useEtablissement()
   const niveau = useNiveau()
-  const mention = useMention()
-
 
   const annee_debut = ref(null)
   const annee_fin = ref(null)
@@ -25,6 +23,7 @@ export const useAu = defineStore('Au', () => {
   const listeAU = ref([])
 
   function getallAU() {
+    // oneAU.value = ''    //Choix 1
     show.showSpinner = true
     axios
       .get(`${URL}/api/au`)
@@ -42,7 +41,6 @@ export const useAu = defineStore('Au', () => {
   watch(oneAU, (newValue, oldValue) => {
     if (newValue) {
       ShowIdAU()
-      //mention.ListMention = []
       niveau.getByAuId()
       niveau.NiveauChecked = []
     }
@@ -96,6 +94,9 @@ export const useAu = defineStore('Au', () => {
     axios
       .delete(`${URL}/api/au/${idAU.value}`)
       .then((response) => {
+        
+        //niveau.getByAuId()       //Choix 1
+        window.location.reload();  //Choix 2
         messages.messageSucces = "AU supprimé !"
         setTimeout(() => {
           messages.messageSucces = ''
