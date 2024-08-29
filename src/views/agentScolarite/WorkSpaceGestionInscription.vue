@@ -1,9 +1,9 @@
 <template>
-  <div class="scol">
+  <div class="inscr">
     <h1 class="titre">
       <font-awesome-icon class="h-7 w-7 mr-5" :icon="['fas', 'paperclip']" /> Inscriptions
     </h1>
-    <div class="createScol">
+    <div class="createEtud">
       <div class="radio px-4 mt-2 pb-2 ml-2">
         <div class="mt-2">
           <RadioGroup v-model="niveau.NiveauCheck">
@@ -173,7 +173,7 @@
         </div>
       </div>
     </div>
-    <div class="listScol" v-if="agentscolarite.ListeAS.length !== 0">
+    <div class="listEtud" >
       <input
         placeholder="🔎 Recherche par nom"
         @input="agentscolarite.search(agentscolarite.searchalue)"
@@ -181,7 +181,7 @@
         type="search"
         class="pl-3 pr-3 ml-5 mt-3 block rounded-sm border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
       />
-      <div class="listScolValue">
+      <div class="listEtudValue">
         <div class="head">
           <li class="widthnom">Nom complet</li>
           <li class="widthemail">Adresse email</li>
@@ -249,4 +249,4 @@ onBeforeMount(() => {
 })
 </script>
 
-<style scoped src="../../styles/GestionAgentScol.css"></style>
+<style scoped src="../../styles/GestionInscription.css"></style>

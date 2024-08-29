@@ -6,7 +6,7 @@
       </RouterLink>
 
       <NavBarDir v-if="show.showNavBarDir" />
-      <NavBarAS />
+      <NavBarAS v-if="show.showNavBarAS"/>
 
       <RouterLink to="/Discussion">
         <li><ChatBubbleLeftRightIcon class="h-5 w-5 mr-2" /> Discussions</li>
