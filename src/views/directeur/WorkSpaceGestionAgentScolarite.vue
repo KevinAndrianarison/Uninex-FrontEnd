@@ -142,7 +142,7 @@
         </div>
       </div>
     </div>
-    <div class="listScol" v-if="agentscolarite.ListeAS.length !== 0">
+    <div class="listScol">
       <input
         placeholder="🔎 Recherche par nom"
         @input="agentscolarite.search(agentscolarite.searchalue)"

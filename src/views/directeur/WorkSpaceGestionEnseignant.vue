@@ -196,7 +196,7 @@
         </div>
       </div>
     </div>
-    <div class="listens" v-if="enseignant.ListeENS.length !== 0">
+    <div class="listens">
       <input
         placeholder="🔎 Recherche par nom"
         @input="enseignant.search(enseignant.searchalue)"
