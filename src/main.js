@@ -21,7 +21,10 @@ import {
   faSquarePen,
   faCheckCircle,
   faExclamationTriangle,
-  faAnglesRight
+  faAnglesRight,
+  faPaperclip,
+  faRotateRight,
+  faFolderOpen
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -34,7 +37,10 @@ library.add(
   faSquarePen,
   faCheckCircle,
   faExclamationTriangle,
-  faAnglesRight
+  faAnglesRight,
+  faPaperclip,
+  faRotateRight,
+  faFolderOpen
 )
 
 import App from './App.vue'

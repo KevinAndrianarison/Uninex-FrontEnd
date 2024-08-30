@@ -3,13 +3,32 @@ import WorkSpaceGestionAgentScolarite from '../views/directeur/WorkSpaceGestionA
 import WorkSpaceGestionEnseignant from '../views/directeur/WorkSpaceGestionEnseignant.vue'
 import WorkSpaceGestionMention from '../views/directeur/WorkSpaceGestionMention.vue'
 import WorkSpaceGestionParcours from '../views/directeur/WorkSpaceGestionParcours.vue'
+import WorkSpaceGestionInscription from '../views/agentScolarite/WorkSpaceGestionInscription.vue'
+import WorkSpaceGestionReinscription from '../views/agentScolarite/WorkSpaceGestionReinscription.vue'
+import WorkSpaceGestionNotes from '../views/agentScolarite/WorkSpaceGestionNotes.vue'
 import WorkSpaceGestionRole from '../views/directeur/WorkSpaceGestionRole.vue'
 import WorkSpaceDiscussion from '../views/WorkSpaceDiscussion.vue'
 import WorkSpaceAnnonces from '../views/WorkSpaceAnnonces.vue'
 
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: '/agentScolarite/GestionNotes',
+      name: 'GestionNotes',
+      component: WorkSpaceGestionNotes
+    },
+    {
+      path: '/agentScolarite/GestionReinscription',
+      name: 'GestionReinscription',
+      component: WorkSpaceGestionReinscription
+    },
+    {
+      path: '/agentScolarite/GestionInscription',
+      name: 'GestionInscription',
+      component: WorkSpaceGestionInscription
+    },
     {
       path: '/directeur/GestionAgentScolarite',
       name: 'GestionAgentScolarite',

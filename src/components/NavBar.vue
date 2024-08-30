@@ -5,8 +5,9 @@
         <li><NewspaperIcon class="h-5 w-5 mr-2" /> Annonces</li>
       </RouterLink>
 
+      <NavBarDir v-if="show.showNavBarDir" />
+      <NavBarAS />
 
-       <NavBarDir v-if="show.showNavBarDir"/>
       <RouterLink to="/Discussion">
         <li><ChatBubbleLeftRightIcon class="h-5 w-5 mr-2" /> Discussions</li>
       </RouterLink>
@@ -29,6 +30,7 @@ import {
 } from '@heroicons/vue/24/outline'
 import { useShow } from '@/stores/Show'
 import NavBarDir from './navbar/NavBarDir.vue'
+import NavBarAS from './navbar/NavBarAS.vue'
 
 const show = useShow()
 
