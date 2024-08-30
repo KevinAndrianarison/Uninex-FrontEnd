@@ -13,7 +13,7 @@
       <h1>{{ etablissement.etablissement.abr_etab }}</h1>
     </div>
     <div>
-      <h1 class="dir"><AtSymbolIcon class="h-7 w-7 mr-2" /> Directeur</h1>
+      <h1 class="dir"><AtSymbolIcon class="h-7 w-7 mr-2" /> Agent de la scolarité</h1>
     </div>
     <div class="right">
       <div class="profil">
@@ -59,7 +59,7 @@
                       class="spanAU"
                       :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']"
                       >{{ AU.annee_debut }} - {{ AU.annee_fin }}
-                      <TrashIcon class="delete h-6 w-5 ml-3 pb-1" @click="showDeleteAU()" />
+                      <TrashIcon v-if="show.showNavBarDir" class="delete h-6 w-5 ml-3 pb-1" @click="showDeleteAU()" />
                     </span>
                     <span
                       v-if="selected"
@@ -74,7 +74,7 @@
         </Listbox>
       </div>
       <Tooltip content="Nouvelle AU ">
-      <button class="ml-1">
+      <button class="ml-1" v-if="show.showNavBarDir">
         <font-awesome-icon
           @click="createAU()"
           class="iconadd h-7 w-5"
