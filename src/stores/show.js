@@ -20,19 +20,13 @@ export const useShow = defineStore('Show', () => {
   const showCreateAU = ref(false)
   const showCreateNiveau = ref(false)
   const showDeleteAU = ref(false)
-  const showDeleteNiveau= ref(false)
-  const showDeleteMention= ref(false)
-  const showDeleteParcour= ref(false)
-  const showDeleteSemestre= ref(false)
-  const showCreateSemestre= ref(false)
-  const showNavBarDir= ref(false)
-  const showNavBarAS= ref(true)
-
-
-
-
-
-
+  const showDeleteNiveau = ref(false)
+  const showDeleteMention = ref(false)
+  const showDeleteParcour = ref(false)
+  const showDeleteSemestre = ref(false)
+  const showCreateSemestre = ref(false)
+  const showNavBarDir = ref(false)
+  const showNavBarAS = ref(true)
 
   function toggleCreatePasswordVisibility() {
     showCreatePassword.value = !showCreatePassword.value

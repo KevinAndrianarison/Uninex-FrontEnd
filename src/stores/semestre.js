@@ -8,11 +8,12 @@ import { useMessages } from '@/stores/messages'
 
 export const useSemestre = defineStore('Semestre', () => {
   const nom_semestre = ref('')
+  const semestreNom = ref('')
+  const semestreIds = ref([])
   const ListeSemestre = ref([])
   const semestre = reactive({
-    nom : "", 
-    id : "", 
-
+    nom: '',
+    id: ''
   })
 
   const parcour = useParcour()
@@ -56,13 +57,21 @@ export const useSemestre = defineStore('Semestre', () => {
   }
 
   function getSemestreByParcour() {
+    semestreNom.value = ''
+    show.showSpinner = true
     axios
       .get(`${URL}/api/semestre/getById/${parcour.parcours_id}`)
       .then((response) => {
         ListeSemestre.value = response.data
+        semestreIds.value = response.data.map((val) => {
+          return val.id
+        })        
+        semestreNom.value = ListeSemestre.value[0].nom_semestre
+        show.showSpinner = false
       })
       .catch((error) => {
         console.error('Erreur du GET BY ID Parcours : ', error)
+        show.showSpinner = false
       })
   }
 
@@ -89,6 +98,8 @@ export const useSemestre = defineStore('Semestre', () => {
     nom_semestre,
     ListeSemestre,
     semestre,
+    semestreNom,
+    semestreIds,
     postSemestre,
     getSemestreByParcour,
     deleteSemestre
