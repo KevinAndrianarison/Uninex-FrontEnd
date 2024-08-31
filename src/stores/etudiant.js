@@ -13,13 +13,16 @@ export const useEtudiant = defineStore('Etudiant', () => {
   const show = useShow()
   const URL = useUrl().url
   const messages = useMessages()
+
   const nomComplet_etud = ref('')
+  const ListeEtudiant = ref([])
 
   function createEtudiant() {
     show.showSpinner = true
     let formData = {
       email: user.email,
-      status_user: 'Etudiant'
+      status_user: 'Etudiant',
+      validiter_compte: true
     }
 
     axios
@@ -44,8 +47,7 @@ export const useEtudiant = defineStore('Etudiant', () => {
               etudiant_id: response.data.id,
               semestre_ids: semestre.semestreIds
             }
-            console.log(formDataToSemestre);
-            
+
             axios
               .post(`${URL}/api/semestres/addEtudiant`, formDataToSemestre, {
                 headers: {
@@ -55,6 +57,7 @@ export const useEtudiant = defineStore('Etudiant', () => {
               .then((response) => {
                 user.email = ''
                 nomComplet_etud.value = ''
+                getAllEtudiantBysemestre()
                 messages.messageSucces = response.data.message
                 show.showSpinner = false
                 setTimeout(() => {
@@ -77,8 +80,21 @@ export const useEtudiant = defineStore('Etudiant', () => {
       })
   }
 
+  function getAllEtudiantBysemestre() {
+    axios
+      .get(`${URL}/api/semestres/${semestre.semestreId}/etudiants`)
+      .then((response) => {
+        ListeEtudiant.value = response.data
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  }
+
   return {
     nomComplet_etud,
-    createEtudiant
+    ListeEtudiant,
+    createEtudiant,
+    getAllEtudiantBysemestre
   }
 })

@@ -55,6 +55,9 @@
   <Teleport to="body">
     <DeleteSemestre />
   </Teleport>
+  <Teleport to="body">
+    <FormatExcel />
+  </Teleport>
 </template>
 
 <script setup>
@@ -64,6 +67,7 @@ import WorkSpaceLogin from './views/WorkSpaceLogin.vue'
 import WorkSpaceDash from './views/WorkSpaceDash.vue'
 import Deconnexion from './components/Deconnexion.vue'
 import CreateAU from './components/CreateAU.vue'
+import FormatExcel from './components/FormatExcel.vue'
 import CreateNiveau from './components/CreateNiveau.vue'
 import CreateSemestre from './components/CreateSemestre.vue'
 import Alert from './components/Alert.vue'

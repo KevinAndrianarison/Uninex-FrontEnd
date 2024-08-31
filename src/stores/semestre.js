@@ -1,14 +1,16 @@
 import { defineStore } from 'pinia'
-import { reactive, ref } from 'vue'
+import { reactive, ref, watch } from 'vue'
 import { useParcour } from '@/stores/Parcour'
 import { useShow } from '@/stores/Show'
 import { useUrl } from '@/stores/url'
 import axios from 'axios'
 import { useMessages } from '@/stores/messages'
+import { useEtudiant } from '@/stores/Etudiant'
 
 export const useSemestre = defineStore('Semestre', () => {
   const nom_semestre = ref('')
   const semestreNom = ref('')
+  const semestreId = ref('')
   const semestreIds = ref([])
   const ListeSemestre = ref([])
   const semestre = reactive({
@@ -16,10 +18,17 @@ export const useSemestre = defineStore('Semestre', () => {
     id: ''
   })
 
+  const etudiant = useEtudiant()
   const parcour = useParcour()
   const show = useShow()
   const URL = useUrl().url
   const messages = useMessages()
+
+  watch(semestreNom, (newValue, oldValue) => {
+    if (newValue) {
+      etudiant.getAllEtudiantBysemestre()
+    }
+  })
 
   function postSemestre() {
     show.showSpinner = true
@@ -57,6 +66,7 @@ export const useSemestre = defineStore('Semestre', () => {
   }
 
   function getSemestreByParcour() {
+    semestreId.value = null
     semestreNom.value = ''
     show.showSpinner = true
     axios
@@ -65,8 +75,9 @@ export const useSemestre = defineStore('Semestre', () => {
         ListeSemestre.value = response.data
         semestreIds.value = response.data.map((val) => {
           return val.id
-        })        
+        })
         semestreNom.value = ListeSemestre.value[0].nom_semestre
+        semestreId.value = ListeSemestre.value[0].id
         show.showSpinner = false
       })
       .catch((error) => {
@@ -100,6 +111,7 @@ export const useSemestre = defineStore('Semestre', () => {
     semestre,
     semestreNom,
     semestreIds,
+    semestreId,
     postSemestre,
     getSemestreByParcour,
     deleteSemestre

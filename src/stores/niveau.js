@@ -8,6 +8,7 @@ import { useMention } from '@/stores/Mention'
 import { useParcour } from '@/stores/Parcour'
 import { useMessages } from '@/stores/messages'
 import { useSemestre } from '@/stores/Semestre'
+import { useEtudiant } from '@/stores/Etudiant'
 
 export const useNiveau = defineStore('Niveau', () => {
   const show = useShow()
@@ -17,6 +18,7 @@ export const useNiveau = defineStore('Niveau', () => {
   const mention = useMention()
   const parcour = useParcour()
   const semestre = useSemestre()
+  const etudiant = useEtudiant()
 
   const abr_niveau = ref('')
   const nom_niveau = ref('')
@@ -35,7 +37,8 @@ export const useNiveau = defineStore('Niveau', () => {
       niveau.ListMention = []
       parcour.ListParcours = []
       semestre.ListeSemestre = []
-      semestre.semestreNom = ""
+      etudiant.ListeEtudiant = []
+      semestre.semestreNom = ''
       semestre.idsemestre = null
       mention.getByAuId()
       parcour.getByNiveauId()

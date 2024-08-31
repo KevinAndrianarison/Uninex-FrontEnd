@@ -43,6 +43,7 @@ export const useEtablissement = defineStore('Etablissement', () => {
 
     const formDataUserDir = {
       status_user: 'Directeur',
+      validiter_compte: true,
       email: user.email,
       password: user.password,
       photo: user.photo

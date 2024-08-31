@@ -26,6 +26,7 @@ export const useAgentscolarite = defineStore('Agentscolarite', () => {
     show.showSpinner = true
     const formDataUserAS = {
       status_user: 'AS',
+      validiter_compte: true,
       email: user.email,
       password: password.password,
       photo: user.photo

@@ -17,6 +17,14 @@
 }
 
 
+.formInputs{
+    background-color: red;
+    height: 200px;
+    background-image: url("../assets/excel.PNG");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 .formModales {
     width: 370px;
     margin: 50px auto;
@@ -46,6 +54,17 @@
     background: rgb(255, 255, 255);
     padding: 35px;
     margin-top: 15%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    z-index: 12;
+}
+
+.formMod {
+    width: 370px;
+    margin: 50px auto;
+    background: rgb(255, 255, 255);
+    padding: 35px;
+    margin-top: 10%;
     border-radius: 10px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     z-index: 12;

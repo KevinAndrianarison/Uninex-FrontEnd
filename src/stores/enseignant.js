@@ -31,6 +31,7 @@ export const useEnseignant = defineStore('Enseignant', () => {
     show.showSpinner = true
     const formDataUserENS = {
       status_user: 'ENS',
+      validiter_compte: true,
       email: user.email,
       password: password.password,
       photo: user.photo
