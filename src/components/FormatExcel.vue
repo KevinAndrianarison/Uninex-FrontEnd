@@ -1,10 +1,16 @@
 <script setup>
 import { useShow } from '@/stores/Show'
-import { ref } from 'vue'
+import { useEtudiant } from '@/stores/Etudiant'
+import { useMessages } from '@/stores/Messages'
 import * as XLSX from 'xlsx'
 
-const data = ref([])
 const show = useShow()
+const etudiant = useEtudiant()
+const messages = useMessages()
+
+function closeModal() {
+  show.showFormatExcel = false
+}
 
 function onFileChange(event) {
   const file = event.target.files[0]
@@ -17,7 +23,10 @@ function onFileChange(event) {
       const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 })
 
       if (jsonData.length === 0) {
-        console.error('Le fichier Excel est vide !')
+        messages.messageError = 'Le fichier Excel est vide !'
+        setTimeout(() => {
+          messages.messageError = ''
+        }, 3000)
         return
       }
       const headers = (jsonData[0] || []).map((header) =>
@@ -26,18 +35,21 @@ function onFileChange(event) {
       const nomCompletIndex = headers.indexOf('nom complet')
       const adresseEmailIndex = headers.indexOf('adresse email')
       if (nomCompletIndex === -1 || adresseEmailIndex === -1) {
-        console.error('Les colonnes "Nom complet" et "Adresse email sont introvables !')
+        messages.messageError = 'Les colonnes "Nom complet" et "Adresse email sont introvables !'
+        setTimeout(() => {
+          messages.messageError = ''
+        }, 3000)
+
         return
       }
-      data.value = jsonData
+      etudiant.ListeEtudiantByExcel = jsonData
         .slice(1)
         .map((row) => ({
           nomComplet: row[nomCompletIndex] || '',
           adresseEmail: row[adresseEmailIndex] || ''
         }))
         .filter((row) => row.nomComplet && row.adresseEmail)
-
-      console.log('Données importées :', data.value)
+      etudiant.bigPostEtudiant()
     }
 
     reader.readAsArrayBuffer(file)
@@ -47,7 +59,7 @@ function onFileChange(event) {
 
 <template>
   <Transition>
-    <div class="showModal" v-if="show.showFormatExcel">
+    <div class="showModal" v-if="show.showFormatExcel" @click="closeModal()">
       <div class="formMod">
         <p class="infos">Assurez-vous que votre fichier Excel a la structure suivante :</p>
         <div class="class formInputs mt-4"></div>

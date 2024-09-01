@@ -1,7 +1,7 @@
 <template>
   <div class="inscr">
     <h1 class="titre">
-      <font-awesome-icon class="h-7 w-7 mr-5" :icon="['fas', 'paperclip']" /> Inscriptions
+      <font-awesome-icon class="h-7 w-7 mr-5" :icon="['fas', 'paperclip']" /> Inscriptions et comptes
     </h1>
     <div class="createEtud">
       <div class="radio px-4 mt-2 pb-2 ml-2">
@@ -242,7 +242,7 @@
           type="search"
           class="pl-3 pr-3 ml-5 mt-3 block rounded-sm border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
         />
-        <div class="ml-4 excel">
+        <div class="ml-4 excel" v-if="semestre.semestreNom">
           <h1 class="creates">Vous pouvez importer une liste depuis Excel ici :</h1>
           <div class="sm:col-span-3 mt-2 ml-4">
             <div class="relative flex items-center">

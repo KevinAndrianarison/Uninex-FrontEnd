@@ -16,6 +16,71 @@ export const useEtudiant = defineStore('Etudiant', () => {
 
   const nomComplet_etud = ref('')
   const ListeEtudiant = ref([])
+  const ListeEtudiantByExcel = ref([])
+
+  function bigPostEtudiant() {
+    ListeEtudiantByExcel.value.forEach((etud) => {
+      show.showSpinner = true
+      let formData = {
+        email: etud.adresseEmail,
+        status_user: 'Etudiant',
+        validiter_compte: false
+      }
+      axios
+        .post(`${URL}/api/user/createEtudiant`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        .then((response) => {
+          let formDataEtudiant = {
+            user_id: response.data.id,
+            nomComplet_etud: etud.nomComplet
+          }
+          axios
+            .post(`${URL}/api/etudiant`, formDataEtudiant, {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            })
+            .then((response) => {
+              let formDataToSemestre = {
+                etudiant_id: response.data.id,
+                semestre_ids: semestre.semestreIds
+              }
+
+              axios
+                .post(`${URL}/api/semestres/addEtudiant`, formDataToSemestre, {
+                  headers: {
+                    'Content-Type': 'multipart/form-data'
+                  }
+                })
+                .then((response) => {
+                  user.email = ''
+                  nomComplet_etud.value = ''
+                  getAllEtudiantBysemestre()
+                  messages.messageSucces = 'Étudiants ajoutés !'
+                  show.showSpinner = false
+                  setTimeout(() => {
+                    messages.messageSucces = ''
+                  }, 3000)
+                })
+                .catch((err) => {
+                  console.error(err)
+                  show.showSpinner = false
+                })
+            })
+            .catch((err) => {
+              console.error(err)
+              show.showSpinner = false
+            })
+        })
+        .catch((err) => {
+          console.error(err)
+          show.showSpinner = false
+        })
+    })
+  }
 
   function createEtudiant() {
     show.showSpinner = true
@@ -94,7 +159,9 @@ export const useEtudiant = defineStore('Etudiant', () => {
   return {
     nomComplet_etud,
     ListeEtudiant,
+    ListeEtudiantByExcel,
     createEtudiant,
-    getAllEtudiantBysemestre
+    getAllEtudiantBysemestre,
+    bigPostEtudiant
   }
 })
