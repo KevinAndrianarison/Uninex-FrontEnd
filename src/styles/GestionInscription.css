@@ -4,6 +4,10 @@
     color: var(--color-text-main);
 }
 
+.file-label{
+    cursor: pointer;
+}
+
 .titre {
     font-size: 26px;
     font-family: 'Montserrat', 'sans-serif';

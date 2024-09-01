@@ -246,14 +246,9 @@
           <h1 class="creates">Vous pouvez importer une liste depuis Excel ici :</h1>
           <div class="sm:col-span-3 mt-2 ml-4">
             <div class="relative flex items-center">
-              <input
-                @change="onFileChange"
-                class="absolute inset-0 opacity-0 cursor-pointer"
-                type="file"
-                :disabled="show.showFormatExcel"
-              />
               <div
                 class="file-label bg-green-100 text-green-800 py-1 px-2 rounded-md border border-green-300"
+                @click="showImportExcel()"
               >
                 <font-awesome-icon class="h-4 w-4 mr-1 mt-1" :icon="['fas', 'file-excel']" />
                 Importer
@@ -292,8 +287,6 @@ import { useRegex } from '@/stores/Regex'
 import { useShow } from '@/stores/Show'
 import { useParcour } from '@/stores/Parcour'
 import { useSemestre } from '@/stores/Semestre'
-import { ref } from 'vue'
-import * as XLSX from 'xlsx'
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import { useNiveau } from '@/stores/Niveau'
@@ -315,14 +308,12 @@ const agentscolarite = useAgentscolarite()
 const parcour = useParcour()
 const etudiant = useEtudiant()
 
-const dataList = ref([])
-
 function setIdParcours(id) {
   parcour.parcours_id = id
 }
 
-function onFileChange(event) {
-  console.log(event)
+function showImportExcel() {
+  show.showFormatExcel = true
 }
 
 function setSemestreId(id) {

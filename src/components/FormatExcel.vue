@@ -1,10 +1,47 @@
 <script setup>
 import { useShow } from '@/stores/Show'
+import { ref } from 'vue'
+import * as XLSX from 'xlsx'
 
+const data = ref([])
 const show = useShow()
 
-function close() {
-  show.showFormatExcel = false
+function onFileChange(event) {
+  const file = event.target.files[0]
+  if (file) {
+    const reader = new FileReader()
+
+    reader.onload = function (e) {
+      const workbook = XLSX.read(e.target.result, { type: 'array' })
+      const worksheet = workbook.Sheets[workbook.SheetNames[0]]
+      const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 })
+
+      if (jsonData.length === 0) {
+        console.error('Le fichier Excel est vide !')
+        return
+      }
+      const headers = (jsonData[0] || []).map((header) =>
+        header ? header.toString().trim().toLowerCase() : ''
+      )
+      const nomCompletIndex = headers.indexOf('nom complet')
+      const adresseEmailIndex = headers.indexOf('adresse email')
+      if (nomCompletIndex === -1 || adresseEmailIndex === -1) {
+        console.error('Les colonnes "Nom complet" et "Adresse email sont introvables !')
+        return
+      }
+      data.value = jsonData
+        .slice(1)
+        .map((row) => ({
+          nomComplet: row[nomCompletIndex] || '',
+          adresseEmail: row[adresseEmailIndex] || ''
+        }))
+        .filter((row) => row.nomComplet && row.adresseEmail)
+
+      console.log('Données importées :', data.value)
+    }
+
+    reader.readAsArrayBuffer(file)
+  }
 }
 </script>
 
@@ -14,10 +51,15 @@ function close() {
       <div class="formMod">
         <p class="infos">Assurez-vous que votre fichier Excel a la structure suivante :</p>
         <div class="class formInputs mt-4"></div>
-
         <div class="valide">
-          <button type="submit" @click="close()" class="Modifie btn btn-primary mt-4">
+          <button type="submit" class="Modifie btn btn-primary mt-4">
             J'ai compris
+            <input
+              class="absolute inset-0 opacity-0 cursor-pointer"
+              type="file"
+              accept=".xlsx, .xls"
+              @change="onFileChange"
+            />
           </button>
         </div>
       </div>
