@@ -1,7 +1,8 @@
 <template>
   <div class="inscr">
     <h1 class="titre">
-      <font-awesome-icon class="h-7 w-7 mr-5" :icon="['fas', 'paperclip']" /> Inscriptions et comptes
+      <font-awesome-icon class="h-7 w-7 mr-5" :icon="['fas', 'paperclip']" /> Inscriptions et
+      comptes des étudiants
     </h1>
     <div class="createEtud">
       <div class="radio px-4 mt-2 pb-2 ml-2">
@@ -67,7 +68,7 @@
       </div>
 
       <h1 class="create pl-5 mt-2" v-if="parcour.parcours_nom">
-        Ajouter des étudiants en Première année :
+        Ajouter des étudiants en {{ niveau.NiveauCheck.abr_niveau }} :
       </h1>
       <div v-if="parcour.parcours_nom" class="class formInput border-gray-900/10 pb-5 pl-5">
         <div class="sm:col-span-3 mr-4 mt-2">
@@ -237,8 +238,8 @@
       <div class="header">
         <input
           placeholder="🔎 Recherche par nom"
-          @input="agentscolarite.search(agentscolarite.searchalue)"
-          v-model="agentscolarite.searchalue"
+          @input="etudiant.search(etudiant.searchalue)"
+          v-model="etudiant.searchalue"
           type="search"
           class="pl-3 pr-3 ml-5 mt-3 block rounded-sm border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
         />
@@ -262,17 +263,26 @@
           <li class="widthnom">Nom complet</li>
           <li class="widthemail">Adresse email</li>
           <li class="widthemails">Mot de passe</li>
-          <li class="width">Inscription</li>
+          <li class="width">Informations</li>
           <li class="width">Valider</li>
           <li class="h-5 w-5"></li>
         </div>
         <div class="body" :key="index" v-for="(etd, index) in etudiant.ListeEtudiant">
           <li class="widthvaluenom">{{ etd.nomComplet_etud }}</li>
           <li class="widthvalueemail">{{ etd.user.email }}</li>
-          <li class="widthvalueemails">A</li>
-          <li class="widthvalue">B</li>
-          <li class="widthvalue">C</li>
-          <TrashIcon class="delete h-5 w-5" />
+          <li class="widthvalueemails">
+            <Tooltip content="Générer un mot de passe">
+              <SparklesIcon v-if="etd.user.validiter_compte === 'false'" class="generate h-6 w-6"
+            /></Tooltip>
+            <p class="already" v-if="etd.user.validiter_compte === 'true'">Déjà créé</p>
+          </li>
+          <li class="widthvalue"><InformationCircleIcon class="info h-6 w-6" /></li>
+          <li class="widthvalue">
+            <Tooltip content="Envoyer à la liste définitive"
+              ><CheckBadgeIcon class="valider h-6 w-6"
+            /></Tooltip>
+          </li>
+          <TrashIcon class="delete h-5 w-5" @click="showDelete(etd.user_id)" />
         </div>
       </div>
     </div>
@@ -280,8 +290,12 @@
 </template>
 
 <script setup>
-import { TrashIcon } from '@heroicons/vue/24/outline'
-import { useAgentscolarite } from '@/stores/Agentscolarite'
+import {
+  TrashIcon,
+  SparklesIcon,
+  InformationCircleIcon,
+  CheckBadgeIcon
+} from '@heroicons/vue/24/outline'
 import { useUser } from '@/stores/User'
 import { useRegex } from '@/stores/Regex'
 import { useShow } from '@/stores/Show'
@@ -291,6 +305,7 @@ import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headless
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import { useNiveau } from '@/stores/Niveau'
 import { useEtudiant } from '@/stores/Etudiant'
+import Tooltip from '../../components/Tooltip.vue'
 
 import {
   RadioGroup,
@@ -304,12 +319,17 @@ const semestre = useSemestre()
 const user = useUser()
 const regex = useRegex()
 const show = useShow()
-const agentscolarite = useAgentscolarite()
 const parcour = useParcour()
 const etudiant = useEtudiant()
 
 function setIdParcours(id) {
   parcour.parcours_id = id
+}
+
+function showDelete(id) {
+  show.showDeleteusers = true
+  user.user_id = id
+  user.user_status = 'Etudiant'
 }
 
 function showImportExcel() {

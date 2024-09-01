@@ -58,7 +58,7 @@
                 />
                 <font-awesome-icon :icon="['fas', 'rotate-right']" class="h-4 w-5 mr-2" />
 
-                Réinscriptions
+                Liste des étudiants
               </button>
             </RouterLink>
           </MenuItem>

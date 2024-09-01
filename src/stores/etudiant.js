@@ -16,7 +16,9 @@ export const useEtudiant = defineStore('Etudiant', () => {
 
   const nomComplet_etud = ref('')
   const ListeEtudiant = ref([])
+  const ListeEtudiantTemp = ref([])
   const ListeEtudiantByExcel = ref([])
+  const searchalue = ref('')
 
   function bigPostEtudiant() {
     ListeEtudiantByExcel.value.forEach((etud) => {
@@ -87,7 +89,7 @@ export const useEtudiant = defineStore('Etudiant', () => {
     let formData = {
       email: user.email,
       status_user: 'Etudiant',
-      validiter_compte: true
+      validiter_compte: false
     }
 
     axios
@@ -150,18 +152,35 @@ export const useEtudiant = defineStore('Etudiant', () => {
       .get(`${URL}/api/semestres/${semestre.semestreId}/etudiants`)
       .then((response) => {
         ListeEtudiant.value = response.data
+        ListeEtudiantTemp.value = response.data
+        console.log(ListeEtudiant.value)
+        show.showSpinner = false
       })
       .catch((err) => {
         console.error(err)
       })
   }
 
+  function search(valeur) {
+    if (!valeur) {
+      getAllEtudiantBysemestre()
+    } else {
+      ListeEtudiant.value = ListeEtudiantTemp.value
+      ListeEtudiant.value = ListeEtudiant.value.filter((list) => {
+        return list.nomComplet_etud.toLocaleLowerCase().match(valeur.toLocaleLowerCase())
+      })
+    }
+  }
+
   return {
     nomComplet_etud,
     ListeEtudiant,
     ListeEtudiantByExcel,
+    ListeEtudiantTemp,
+    searchalue,
     createEtudiant,
     getAllEtudiantBysemestre,
-    bigPostEtudiant
+    bigPostEtudiant,
+    search
   }
 })
