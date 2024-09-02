@@ -272,15 +272,22 @@
           <li class="widthvalueemail">{{ etd.user.email }}</li>
           <li class="widthvalueemails">
             <Tooltip content="Générer un mot de passe">
-              <SparklesIcon v-if="etd.user.validiter_compte === 'false'" @click="showMdp(etd.user_id)" class="generate h-6 w-6"
+              <SparklesIcon
+                v-if="etd.user.validiter_compte === 'false'"
+                @click="showMdp(etd.user_id)"
+                class="generate h-6 w-6"
             /></Tooltip>
             <p class="already ml-3" v-if="etd.user.validiter_compte === 'true'">Déjà créé</p>
           </li>
           <li class="widthvalue"><InformationCircleIcon class="info h-6 w-6" /></li>
           <li class="widthvalue">
             <Tooltip content="Envoyer à la liste définitive"
-              ><CheckBadgeIcon class="valider h-6 w-6"
+              ><CheckBadgeIcon
+                @click="showValiderInscription(etd.id, etd.nomComplet_etud)"
+                v-if="etd.validiter_inscri === 'false'"
+                class="valider h-6 w-6"
             /></Tooltip>
+            <p class="already" v-if="etd.validiter_inscri === 'true'">Déjà validé</p>
           </li>
           <TrashIcon class="delete h-5 w-5" @click="showDelete(etd.user_id)" />
         </div>
@@ -338,10 +345,16 @@ function showImportExcel() {
   show.showFormatExcel = true
 }
 
-function showMdp(id){
+function showMdp(id) {
   password.generatePassword()
   user.user_id = id
   show.showMdpEtudiant = true
+}
+
+function showValiderInscription(id, nom) {
+  etudiant.etudnomComplet = nom
+  etudiant.etudID = id
+  show.showValiderInscription = true
 }
 
 function setSemestreId(id) {

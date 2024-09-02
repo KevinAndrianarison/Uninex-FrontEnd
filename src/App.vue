@@ -61,6 +61,9 @@
   <Teleport to="body">
     <ShowMdpEtudiant />
   </Teleport>
+  <Teleport to="body">
+    <ValiderInscription />
+  </Teleport>
 </template>
 
 <script setup>
@@ -77,6 +80,7 @@ import Alert from './components/Alert.vue'
 import ShowMdpAS from './components/ShowMdpAS.vue'
 import ShowMdpENS from './components/ShowMdpENS.vue'
 import ShowMdpEtudiant from './components/ShowMdpEtudiant.vue'
+import ValiderInscription from './components/ValiderInscription.vue'
 import DeletetUser from './components/delete/DeleteUser.vue'
 import DeleteAU from './components/delete/DeleteAU.vue'
 import DeleteNiveau from './components/delete/DeleteNiveau.vue'

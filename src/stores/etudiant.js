@@ -17,6 +17,8 @@ export const useEtudiant = defineStore('Etudiant', () => {
   const password = usePassword()
 
   const nomComplet_etud = ref('')
+  const etudnomComplet = ref('')
+  const etudID = ref(null)
   const ListeEtudiant = ref([])
   const ListeEtudiantTemp = ref([])
   const ListeEtudiantByExcel = ref([])
@@ -39,7 +41,8 @@ export const useEtudiant = defineStore('Etudiant', () => {
         .then((response) => {
           let formDataEtudiant = {
             user_id: response.data.id,
-            nomComplet_etud: etud.nomComplet
+            nomComplet_etud: etud.nomComplet,
+            validiter_inscri: false
           }
           axios
             .post(`${URL}/api/etudiant`, formDataEtudiant, {
@@ -103,7 +106,8 @@ export const useEtudiant = defineStore('Etudiant', () => {
       .then((response) => {
         let formDataEtudiant = {
           user_id: response.data.id,
-          nomComplet_etud: nomComplet_etud.value
+          nomComplet_etud: nomComplet_etud.value,
+          validiter_inscri: false
         }
         axios
           .post(`${URL}/api/etudiant`, formDataEtudiant, {
@@ -155,6 +159,7 @@ export const useEtudiant = defineStore('Etudiant', () => {
       .then((response) => {
         ListeEtudiant.value = response.data
         ListeEtudiantTemp.value = response.data
+
         show.showSpinner = false
       })
       .catch((err) => {
@@ -177,7 +182,7 @@ export const useEtudiant = defineStore('Etudiant', () => {
     show.showSpinner = true
     let formData = {
       password: password.password,
-      validiter_compte: "true"
+      validiter_compte: 'true'
     }
 
     axios
@@ -196,6 +201,28 @@ export const useEtudiant = defineStore('Etudiant', () => {
         show.showSpinner = false
       })
   }
+  function setValiditeInscriptionEtudiant() {
+    show.showSpinner = true
+    let formData = {
+      validiter_inscri: 'true'
+    }
+
+    axios
+      .put(`${URL}/api/etudiant/${etudID.value}`, formData)
+      .then((response) => {
+        password.password = ''
+        getAllEtudiantBysemestre()
+        messages.messageSucces = 'Inscription validé !'
+        show.showSpinner = false
+        setTimeout(() => {
+          messages.messageSucces = ''
+        }, 3000)
+      })
+      .catch((err) => {
+        console.error(err)
+        show.showSpinner = false
+      })
+  }
 
   return {
     nomComplet_etud,
@@ -203,7 +230,10 @@ export const useEtudiant = defineStore('Etudiant', () => {
     ListeEtudiantByExcel,
     ListeEtudiantTemp,
     searchalue,
+    etudnomComplet,
+    etudID,
     createEtudiant,
+    setValiditeInscriptionEtudiant,
     getAllEtudiantBysemestre,
     bigPostEtudiant,
     search,
