@@ -6,6 +6,7 @@ import { useShow } from '@/stores/Show'
 import { useUrl } from '@/stores/url'
 import axios from 'axios'
 import { useMessages } from '@/stores/messages'
+import { usePassword } from '@/stores/Password'
 
 export const useEtudiant = defineStore('Etudiant', () => {
   const user = useUser()
@@ -13,6 +14,7 @@ export const useEtudiant = defineStore('Etudiant', () => {
   const show = useShow()
   const URL = useUrl().url
   const messages = useMessages()
+  const password = usePassword()
 
   const nomComplet_etud = ref('')
   const ListeEtudiant = ref([])
@@ -153,7 +155,6 @@ export const useEtudiant = defineStore('Etudiant', () => {
       .then((response) => {
         ListeEtudiant.value = response.data
         ListeEtudiantTemp.value = response.data
-        console.log(ListeEtudiant.value)
         show.showSpinner = false
       })
       .catch((err) => {
@@ -172,6 +173,30 @@ export const useEtudiant = defineStore('Etudiant', () => {
     }
   }
 
+  function setMdpEtudiant() {
+    show.showSpinner = true
+    let formData = {
+      password: password.password,
+      validiter_compte: "true"
+    }
+
+    axios
+      .put(`${URL}/api/user/setup/${user.user_id}`, formData)
+      .then((response) => {
+        password.password = ''
+        getAllEtudiantBysemestre()
+        messages.messageSucces = 'Mot de passe créé avec succès !'
+        show.showSpinner = false
+        setTimeout(() => {
+          messages.messageSucces = ''
+        }, 3000)
+      })
+      .catch((err) => {
+        console.error(err)
+        show.showSpinner = false
+      })
+  }
+
   return {
     nomComplet_etud,
     ListeEtudiant,
@@ -181,6 +206,7 @@ export const useEtudiant = defineStore('Etudiant', () => {
     createEtudiant,
     getAllEtudiantBysemestre,
     bigPostEtudiant,
-    search
+    search,
+    setMdpEtudiant
   }
 })

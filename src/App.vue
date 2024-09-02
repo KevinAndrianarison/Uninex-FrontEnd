@@ -58,6 +58,9 @@
   <Teleport to="body">
     <FormatExcel />
   </Teleport>
+  <Teleport to="body">
+    <ShowMdpEtudiant />
+  </Teleport>
 </template>
 
 <script setup>
@@ -73,6 +76,7 @@ import CreateSemestre from './components/CreateSemestre.vue'
 import Alert from './components/Alert.vue'
 import ShowMdpAS from './components/ShowMdpAS.vue'
 import ShowMdpENS from './components/ShowMdpENS.vue'
+import ShowMdpEtudiant from './components/ShowMdpEtudiant.vue'
 import DeletetUser from './components/delete/DeleteUser.vue'
 import DeleteAU from './components/delete/DeleteAU.vue'
 import DeleteNiveau from './components/delete/DeleteNiveau.vue'

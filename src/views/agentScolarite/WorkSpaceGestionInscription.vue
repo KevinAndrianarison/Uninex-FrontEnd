@@ -272,9 +272,9 @@
           <li class="widthvalueemail">{{ etd.user.email }}</li>
           <li class="widthvalueemails">
             <Tooltip content="Générer un mot de passe">
-              <SparklesIcon v-if="etd.user.validiter_compte === 'false'" class="generate h-6 w-6"
+              <SparklesIcon v-if="etd.user.validiter_compte === 'false'" @click="showMdp(etd.user_id)" class="generate h-6 w-6"
             /></Tooltip>
-            <p class="already" v-if="etd.user.validiter_compte === 'true'">Déjà créé</p>
+            <p class="already ml-3" v-if="etd.user.validiter_compte === 'true'">Déjà créé</p>
           </li>
           <li class="widthvalue"><InformationCircleIcon class="info h-6 w-6" /></li>
           <li class="widthvalue">
@@ -300,6 +300,7 @@ import { useUser } from '@/stores/User'
 import { useRegex } from '@/stores/Regex'
 import { useShow } from '@/stores/Show'
 import { useParcour } from '@/stores/Parcour'
+import { usePassword } from '@/stores/Password'
 import { useSemestre } from '@/stores/Semestre'
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
@@ -321,6 +322,7 @@ const regex = useRegex()
 const show = useShow()
 const parcour = useParcour()
 const etudiant = useEtudiant()
+const password = usePassword()
 
 function setIdParcours(id) {
   parcour.parcours_id = id
@@ -334,6 +336,12 @@ function showDelete(id) {
 
 function showImportExcel() {
   show.showFormatExcel = true
+}
+
+function showMdp(id){
+  password.generatePassword()
+  user.user_id = id
+  show.showMdpEtudiant = true
 }
 
 function setSemestreId(id) {
