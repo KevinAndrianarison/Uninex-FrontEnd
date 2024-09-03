@@ -219,6 +219,9 @@
           <li class="widthvalue">{{ ens.categorie_ens }}</li>
           <TrashIcon @click="showdelete(ens.user_id)" class="delete h-5 w-5" />
         </div>
+        <div class="Empty" v-if="enseignant.ListeENS.length === 0">
+          <div class="gif"></div>
+        </div>
       </div>
     </div>
   </div>

@@ -19,6 +19,21 @@
   background-color: rgba(128, 128, 128, 0.064);
 }
 
+.Empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gif {
+  height: 150px;
+  width: 150px;
+  background-image: url("../assets/icon-404.gif");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+
 .width {
   width: 15%;
   font-weight: 600;
@@ -154,4 +169,3 @@
 li {
   list-style: none;
 }
-

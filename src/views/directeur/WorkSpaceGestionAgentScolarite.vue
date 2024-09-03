@@ -165,6 +165,9 @@
           <li class="widthvalue">{{ as.categorie_scol }}</li>
           <TrashIcon @click="showdelete(as.user_id)" class="delete h-5 w-5" />
         </div>
+        <div class="Empty" v-if="agentscolarite.ListeAS.length === 0">
+          <div class="gif"></div>
+        </div>
       </div>
     </div>
   </div>
