@@ -97,6 +97,12 @@
     cursor: pointer;
 }
 
+.generates {
+    color: var(--color-third);
+    margin-left: 40px;
+    cursor: pointer;
+}
+
 .info {
     margin-left: 30px;
     color: var(--color-secondary);
@@ -137,6 +143,8 @@
 .widthvaluenom {
     width: 25%;
 }
+
+
 
 .width {
     width: 15%;

@@ -1,0 +1,129 @@
+.list {
+    height: 83vh;
+    font-weight: bold;
+    color: var(--color-text-main);
+}
+
+.titre {
+    font-size: 26px;
+    font-family: 'Montserrat', 'sans-serif';
+    display: flex;
+    align-items: center;
+}
+
+.chooseSemestre {
+    background-color: white;
+    margin-top: 5px;
+    border-radius: 10px;
+    border: 2px solid rgba(128, 128, 128, 0.127);
+}
+
+.create {
+    font-weight: bold;
+}
+
+.file-label{
+    cursor: pointer;
+}
+
+.listEtud {
+    height: 49vh;
+    background-color: white;
+    border-radius: 10px;
+    border: 2px solid rgba(128, 128, 128, 0.127);
+    margin-top: 5px;
+}
+
+
+.listEtudValue {
+    margin-top: 10px;
+    height: 75%;
+    overflow-y: scroll;
+}
+
+.header {
+    display: flex;
+    align-items: end;
+}
+
+.widthemails {
+    width: 20%;
+    font-weight: 600;
+}
+
+.width {
+    width: 15%;
+    font-weight: 600;
+}
+
+li {
+    list-style: none;
+}
+
+
+.generates {
+    color: var(--color-third);
+    margin-left: 35px;
+    cursor: pointer;
+}
+
+.widthvalue {
+    width: 15%;
+    display: flex;
+    align-items: center;
+    overflow-x: hidden;
+}
+
+.widthvalueemails {
+    width: 20%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.widthvaluenom {
+    width: 30%;
+}
+
+.widthvalueemail {
+    width: 30%;
+}
+
+
+.body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-bottom: 2px solid rgba(128, 128, 128, 0.127);
+}
+
+.formInput {
+    display: flex;
+    flex-wrap: wrap
+}
+
+.widthnom {
+    width: 30%;
+    font-weight: 600;
+}
+
+
+.widthemail {
+    width: 30%;
+    font-weight: 600;
+
+}
+
+.head {
+    padding-left: 20px;
+    padding-right: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+    border-bottom: 2px solid rgba(128, 128, 128, 0.127);
+    border-top: 2px solid rgba(128, 128, 128, 0.127);
+}

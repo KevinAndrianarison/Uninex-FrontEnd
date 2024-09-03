@@ -4,7 +4,7 @@ import WorkSpaceGestionEnseignant from '../views/directeur/WorkSpaceGestionEnsei
 import WorkSpaceGestionMention from '../views/directeur/WorkSpaceGestionMention.vue'
 import WorkSpaceGestionParcours from '../views/directeur/WorkSpaceGestionParcours.vue'
 import WorkSpaceGestionInscription from '../views/agentScolarite/WorkSpaceGestionInscription.vue'
-import WorkSpaceGestionReinscription from '../views/agentScolarite/WorkSpaceGestionReinscription.vue'
+import WorkSpaceListeEtudiant from '../views/agentScolarite/WorkSpaceListeEtudiant.vue'
 import WorkSpaceGestionNotes from '../views/agentScolarite/WorkSpaceGestionNotes.vue'
 import WorkSpaceGestionRole from '../views/directeur/WorkSpaceGestionRole.vue'
 import WorkSpaceDiscussion from '../views/WorkSpaceDiscussion.vue'
@@ -20,9 +20,9 @@ const router = createRouter({
       component: WorkSpaceGestionNotes
     },
     {
-      path: '/agentScolarite/GestionReinscription',
-      name: 'GestionReinscription',
-      component: WorkSpaceGestionReinscription
+      path: '/agentScolarite/ListeEtudiant',
+      name: 'ListeEtudiant',
+      component: WorkSpaceListeEtudiant
     },
     {
       path: '/agentScolarite/GestionInscription',

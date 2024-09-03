@@ -1,0 +1,102 @@
+.numberTitre,
+.numberValue {
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.592);
+  padding-bottom: 10px;
+  width: 10%;
+}
+
+.nomTitre,
+.nomValue {
+  border: 1px solid rgba(0, 0, 0, 0.592);
+  padding-bottom: 10px;
+  width: 90%;
+}
+
+.numberTitre {
+  font-weight: bold;
+}
+
+.nomTitre {
+  text-align: center;
+  font-weight: bold;
+}
+
+.nomValue {
+  padding-left: 5px;
+}
+
+.list {
+  padding-top: 20px;
+  width: 600px;
+  margin: 0 auto;
+}
+
+li {
+  list-style: none;
+}
+
+.hearContent {
+  display: flex;
+}
+
+.headerListe {
+  display: flex;
+}
+
+button {
+  border: 2px solid rgba(128, 128, 128, 0.252);
+  border-radius: 3px;
+  padding: 3px 15px 3px 15px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.logoEtab {
+  width: 110px;
+  margin-left: 10%;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.contents {
+  margin-right: 10%;
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+}
+
+.content {
+  margin-left: 2%;
+}
+
+h1 {
+  font-weight: bold;
+}
+
+.head {
+  margin-top: 30px;
+  display: flex;
+  height: 100px;
+}
+
+.heads {
+  display: flex;
+  justify-content: right;
+  height: 100px;
+}
+
+.body{
+  height: 100vh;
+  overflow-y: scroll;
+}
+
+.sousTitre {
+  text-align: right;
+  margin-right: 10%;
+}
+
+.element {
+  padding-bottom: 10px;
+  background-color: white;
+}

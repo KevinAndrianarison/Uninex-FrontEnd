@@ -79,6 +79,7 @@ export const useParcour = defineStore('Parcour', () => {
         ListParcours.value = response.data
         parcours_nom.value = ListParcours.value[0].nom_parcours
         parcours_id.value = ListParcours.value[0].id
+        parcours_abr.value = ListParcours.value[0].abr_parcours
         show.showSpinner = false
       })
       .catch((error) => {

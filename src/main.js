@@ -25,7 +25,9 @@ import {
   faPaperclip,
   faRotateRight,
   faFolderOpen,
-  faFileExcel
+  faFileExcel,
+  faListUl,
+  faPrint
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -42,7 +44,9 @@ library.add(
   faPaperclip,
   faRotateRight,
   faFolderOpen,
-  faFileExcel
+  faFileExcel,
+  faListUl,
+  faPrint
 )
 
 import App from './App.vue'

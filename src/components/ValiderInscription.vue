@@ -23,7 +23,7 @@ function ValiderInscription() {
           Voulez-vous vraiment valider l'inscription de "<b>{{ etudiant.etudnomComplet }} </b>" ?
         </h6>
         <div class="valider">
-          <button type="button" class="delete btn btn-primary mt-5" @click="ValiderInscription()">
+          <button type="button" class="Modifier btn btn-primary mt-5" @click="ValiderInscription()">
             OUI
           </button>
           <button

@@ -1,0 +1,16 @@
+.inProgress {
+    margin-top: 10%;
+    width: 200px;
+    height: 180px;
+    background-image: url("../assets/configuration-flat-illustration-setting-signs-illustration-vector-removebg-preview.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  
+  .body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+  }

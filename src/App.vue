@@ -12,6 +12,7 @@
     <Transition>
       <WorkSpaceDash v-if="show.showAdmin" />
     </Transition>
+    <ListeEtudiantPdf v-if="show.showListeEtudiantPdf" />
   </div>
   <Teleport to="body">
     <Overlay />
@@ -87,6 +88,7 @@ import DeleteNiveau from './components/delete/DeleteNiveau.vue'
 import DeleteMention from './components/delete/DeleteMention.vue'
 import DeleteSemestre from './components/delete/DeleteSemestre.vue'
 import DeleteParcours from './components/delete/DeleteParcours.vue'
+import ListeEtudiantPdf from './components/ListeEtudiantPdf.vue'
 
 import Overlay from './components/Overlay.vue'
 

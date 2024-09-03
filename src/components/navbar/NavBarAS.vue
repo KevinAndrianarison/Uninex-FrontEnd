@@ -43,7 +43,7 @@
             </RouterLink>
           </MenuItem>
           <MenuItem v-slot="{ active }">
-            <RouterLink to="/agentScolarite/GestionReinscription">
+            <RouterLink to="/agentScolarite/ListeEtudiant">
               <button
                 class="btndrop"
                 :class="[
@@ -56,9 +56,9 @@
                   class="mr-2 h-5 w-5 text-violet-400"
                   aria-hidden="true"
                 />
-                <font-awesome-icon :icon="['fas', 'rotate-right']" class="h-4 w-5 mr-2" />
+                <font-awesome-icon :icon="['fas', 'list-ul']" class="h-4 w-5 mr-2" />
 
-                Liste des étudiants
+                Listes des étudiants
               </button>
             </RouterLink>
           </MenuItem>

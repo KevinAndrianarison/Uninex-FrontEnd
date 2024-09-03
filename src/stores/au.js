@@ -4,7 +4,6 @@ import { useShow } from '@/stores/Show'
 import { useUrl } from '@/stores/url'
 import { useEtablissement } from '@/stores/Etablissement'
 import { useNiveau } from '@/stores/Niveau'
-import { useMention } from '@/stores/Mention'
 import { useMessages } from '@/stores/messages'
 
 import axios from 'axios'
