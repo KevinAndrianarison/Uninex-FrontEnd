@@ -4,6 +4,21 @@
     color: var(--color-text-main);
 }
 
+.Empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gif {
+    height: 150px;
+    width: 150px;
+    background-image: url("../assets/icon-404.gif");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+
 .titre {
     font-size: 26px;
     font-family: 'Montserrat', 'sans-serif';
@@ -22,7 +37,7 @@
     font-weight: bold;
 }
 
-.file-label{
+.file-label {
     cursor: pointer;
 }
 

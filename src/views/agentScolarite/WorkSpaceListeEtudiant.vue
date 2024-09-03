@@ -234,6 +234,9 @@
             </li>
           </div>
         </div>
+        <div class="Empty" v-if="show.ShowListEtudiantEmpty">
+          <div class="gif"></div>
+        </div>
       </div>
     </div>
   </div>

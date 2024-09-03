@@ -31,13 +31,11 @@
           <li class="numberTitre">N°</li>
           <li class="nomTitre">Nom et prénoms</li>
         </div>
-        <div class="hearContent">
-          <li class="numberValue">1</li>
-          <li class="nomValue">ANDRIANARISON Steeve</li>
-        </div>
-        <div class="hearContent">
-          <li class="numberValue">1</li>
-          <li class="nomValue">ANDRIANARISON Steeve</li>
+        <div :key="index" v-for="(etd, index) in etudiant.ListeEtudiant">
+          <div class="hearContent" v-if="etd.validiter_inscri === 'true'">
+            <li class="numberValue">{{ index + 1 }}</li>
+            <li class="nomValue">{{ etd.nomComplet_etud }}</li>
+          </div>
         </div>
       </div>
       <p class="mt-5 sousTitre">Arrêtée la présente liste à ( 2 ) étudiants</p>
@@ -57,11 +55,13 @@ import { useAu } from '@/stores/Au'
 import { useMention } from '@/stores/Mention'
 import { useParcour } from '@/stores/Parcour'
 import { useEtablissement } from '@/stores/Etablissement'
+import { useEtudiant } from '@/stores/Etudiant'
 import { useUrl } from '@/stores/url'
 
 const elementToPrint = ref(null)
 const formattedDate = ref('')
 const htmltopdf = useHtml2pdf()
+const etudiant = useEtudiant()
 const semestre = useSemestre()
 const au = useAu()
 const mention = useMention()

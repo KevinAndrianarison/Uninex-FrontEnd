@@ -291,6 +291,9 @@
           </li>
           <TrashIcon class="delete h-5 w-5" @click="showDelete(etd.user_id)" />
         </div>
+        <div class="Empty" v-if="etudiant.ListeEtudiant.length === 0">
+          <div class="gif"></div>
+        </div>
       </div>
     </div>
   </div>

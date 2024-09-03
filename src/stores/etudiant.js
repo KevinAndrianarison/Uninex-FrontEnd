@@ -154,11 +154,17 @@ export const useEtudiant = defineStore('Etudiant', () => {
   }
 
   function getAllEtudiantBysemestre() {
+    show.ShowListEtudiantEmpty = true
     axios
       .get(`${URL}/api/semestres/${semestre.semestreId}/etudiants`)
       .then((response) => {
         ListeEtudiant.value = response.data
         ListeEtudiantTemp.value = response.data
+        ListeEtudiantTemp.value.forEach((val) => {
+          if (val.validiter_inscri === 'true') {
+            show.ShowListEtudiantEmpty = false
+          }
+        })
 
         show.showSpinner = false
       })
