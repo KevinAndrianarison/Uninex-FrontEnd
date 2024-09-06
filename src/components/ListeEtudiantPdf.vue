@@ -13,7 +13,11 @@
         ></div>
         <div class="content">
           <h1>{{ etablissement.etablissement.nom_etab }}</h1>
-          <p>email : steeve@gmail.com</p>
+          <p>email : {{ etablissement.etablissement.email_etab }}</p>
+          <p>
+            BP.O {{ etablissement.etablissement.codePostal_etab }} - {{ etablissement.etablissement.ville_etab }} -
+            {{ etablissement.etablissement.pays_etab }}
+          </p>
         </div>
       </div>
       <div class="heads">
@@ -39,7 +43,7 @@
         </div>
       </div>
       <p class="mt-5 sousTitre">Arrêtée la présente liste à ( 2 ) étudiants</p>
-      <p class="mt-2 sousTitre">Fait à Antsiranana, {{ formattedDate }}</p>
+      <p class="mt-2 sousTitre">Fait à {{ etablissement.etablissement.ville_etab }}, {{ formattedDate }}</p>
       <p class="mt-2 sousTitre">Le Directeur de l'{{ etablissement.etablissement.abr_etab }}</p>
 
       <p class="mt-20 sousTitre">Docteur ANDRIANARISON Steeve</p>

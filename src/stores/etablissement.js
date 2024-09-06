@@ -20,7 +20,11 @@ export const useEtablissement = defineStore('Etablissement', () => {
   const abr_etab = ref('')
   const logo_etab = ref(null)
   const dateCreation_etab = ref('')
+  const pays_etab = ref('')
+  const ville_etab = ref('')
   const etablissement_id = ref(1)
+  const codePostal_etab = ref(null)
+  const email_etab = ref('')
   const etablissement = reactive({
     nom_etab: '',
     slogan_etab: '',
@@ -37,6 +41,10 @@ export const useEtablissement = defineStore('Etablissement', () => {
       slogan_etab: slogan_etab.value,
       descri_etab: descri_etab.value,
       abr_etab: abr_etab.value,
+      email_etab: email_etab.value,
+      codePostal_etab: codePostal_etab.value,
+      ville_etab: ville_etab.value,
+      pays_etab: pays_etab.value,
       logo_etab: logo_etab.value,
       dateCreation_etab: dateCreation_etab.value.split('-').reverse().join('-')
     }
@@ -90,6 +98,7 @@ export const useEtablissement = defineStore('Etablissement', () => {
           show.showSpinner = true
           const formDataDir = {
             nomComplet_dir: directeur.nomComplet_dir,
+            grade_dir: directeur.grade_dir,
             telephone_dir: directeur.telephone_dir,
             user_id: responseSecond.data.id
           }
@@ -113,6 +122,10 @@ export const useEtablissement = defineStore('Etablissement', () => {
         slogan_etab.value = ''
         descri_etab.value = ''
         abr_etab.value = ''
+        pays_etab.value = ''
+        ville_etab.value = ''
+        codePostal_etab.value = null
+        email_etab.value = ''
         logo_etab.value = null
         dateCreation_etab.value = ''
         user.email = ''
@@ -138,6 +151,10 @@ export const useEtablissement = defineStore('Etablissement', () => {
         etablissement.descri_etab = response.data.descri_etab
         etablissement.dateCreation_etab = response.data.dateCreation_etab
         etablissement.abr_etab = response.data.abr_etab
+        etablissement.email_etab = response.data.email_etab
+        etablissement.codePostal_etab = response.data.codePostal_etab
+        etablissement.ville_etab = response.data.ville_etab
+        etablissement.pays_etab = response.data.pays_etab
         etablissement.nomlogo_etab = response.data.logo_name
         show.showSpinner = false
       })
@@ -156,6 +173,10 @@ export const useEtablissement = defineStore('Etablissement', () => {
     dateCreation_etab,
     etablissement_id,
     etablissement,
+    pays_etab,
+    ville_etab,
+    codePostal_etab,
+    email_etab,
     createfirstConfig,
     getEtab
   }

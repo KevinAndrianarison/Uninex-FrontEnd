@@ -68,6 +68,54 @@
             </div>
 
             <div class="sm:col-span-3">
+              <label class="block text-sm font-medium leading-6 text-gray-900">Pays</label>
+              <div class="mt-2">
+                <input
+                  type="text"
+                  v-model="etablissement.pays_etab"
+                  class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
+                />
+              </div>
+            </div>
+
+            <div class="sm:col-span-3">
+              <label class="block text-sm font-medium leading-6 text-gray-900">Ville</label>
+              <div class="mt-2">
+                <input
+                  type="text"
+                  v-model="etablissement.ville_etab"
+                  class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
+                />
+              </div>
+            </div>
+
+            <div class="sm:col-span-3">
+              <label class="block text-sm font-medium leading-6 text-gray-900">Code postal</label>
+              <div class="mt-2">
+                <input
+                  type="number"
+                  v-model="etablissement.codePostal_etab"
+                  class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
+                />
+              </div>
+            </div>
+
+            <div class="sm:col-span-3">
+              <label class="block text-sm font-medium leading-6 text-gray-900"
+                >Adresse e-mail</label
+              >
+              <div class="mt-2">
+                <input
+                  @input="regex.RegexEmailDir(etablissement.email_etab)"
+                  type="email"
+                  v-model="etablissement.email_etab"
+                  class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
+                />
+              </div>
+              <p class="err" v-if="show.showMessageErrorEmailDir">Adresse email invalide</p>
+            </div>
+
+            <div class="sm:col-span-3">
               <label class="block text-sm font-medium leading-6 text-gray-900">Votre logo</label>
               <div class="mt-2">
                 <div class="relative flex items-center">
@@ -122,7 +170,7 @@
 
         <p class="infos">Compte du directeur :</p>
 
-        <div class="class formInput  pb-10">
+        <div class="class formInput pb-10">
           <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div class="sm:col-span-3">
               <label for="name" class="block text-sm font-medium leading-6 text-gray-900"
@@ -134,6 +182,64 @@
                   type="text"
                   class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
                 />
+              </div>
+            </div>
+
+            <div class="sm:col-span-3 mr-4 ctgr">
+              <label class="block text-sm font-medium leading-6 text-gray-900"
+                >Titre académique</label
+              >
+              <div class="w-60">
+                <Listbox v-model="directeur.grade_dir">
+                  <div class="relative mt-2">
+                    <ListboxButton
+                      class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+                    >
+                      <span class="block truncate">{{ directeur.grade_dir }}</span>
+                      <span
+                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
+                      >
+                        <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+                      </span>
+                    </ListboxButton>
+
+                    <transition
+                      leave-active-class="transition duration-100 ease-in"
+                      leave-from-class="opacity-100"
+                      leave-to-class="opacity-0"
+                    >
+                      <ListboxOptions
+                        class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+                      >
+                        <ListboxOption
+                          v-slot="{ active, selected }"
+                          v-for="grade in grades"
+                          :key="grade"
+                          :value="grade"
+                          as="template"
+                        >
+                          <li
+                            :class="[
+                              active ? 'bg-amber-100 text-amber-900' : 'text-gray-900',
+                              'relative cursor-default select-none py-2 pl-10 pr-4'
+                            ]"
+                          >
+                            <span
+                              :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']"
+                              >{{ grade }}</span
+                            >
+                            <span
+                              v-if="selected"
+                              class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
+                            >
+                              <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                            </span>
+                          </li>
+                        </ListboxOption>
+                      </ListboxOptions>
+                    </transition>
+                  </div>
+                </Listbox>
               </div>
             </div>
             <div class="sm:col-span-3">
@@ -230,7 +336,9 @@
             </div>
           </div>
         </div>
-        <p class="msg border-t border-gray-900/10">*Veuillez remplir tous les champs pour pouvoir continuer ! </p>
+        <p class="msg border-t border-gray-900/10">
+          *Veuillez remplir tous les champs pour pouvoir continuer !
+        </p>
       </div>
 
       <div class="btn">
@@ -239,14 +347,17 @@
           class="continuer BTNdiv"
           :disabled="
             !etablissement.nom_etab ||
+            !etablissement.email_etab ||
             !au.annee_debut ||
             !au.annee_fin ||
             !directeur.nomComplet_dir ||
+            !directeur.grade_dir ||
             !user.photo ||
             !user.password ||
             !user.passwordVerifier ||
             !etablissement.logo_etab ||
             show.showMessageErrorEmail ||
+            show.showMessageErrorEmailDir ||
             show.showMessageErrorMdp ||
             show.showMessageErrorConfirmMdp
           "
@@ -259,6 +370,7 @@
 </template>
 
 <script setup>
+import { onBeforeMount } from 'vue'
 import { EyeIcon, EyeSlashIcon, ArrowRightIcon } from '@heroicons/vue/24/solid'
 import { useShow } from '@/stores/Show'
 import { useAu } from '@/stores/Au'
@@ -266,12 +378,16 @@ import { useUser } from '@/stores/User'
 import { useDirecteur } from '@/stores/Directeur'
 import { useRegex } from '@/stores/Regex'
 import { useEtablissement } from '@/stores/Etablissement'
+import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
+import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 const show = useShow()
 const directeur = useDirecteur()
 const user = useUser()
 const au = useAu()
 const regex = useRegex()
 const etablissement = useEtablissement()
+
+const grades = ['Ingénieur', 'Docteur', 'Professeur']
 
 function onFileLogoChange(event) {
   etablissement.logo_etab = event.target.files[0]
@@ -301,6 +417,10 @@ function limitInputAUfinLength(event) {
     au.annee_fin = event.target.value
   }
 }
+
+onBeforeMount(() => {
+  directeur.grade_dir = grades[0]
+})
 
 function testAnimation() {
   show.showHome = true

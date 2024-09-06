@@ -25,8 +25,17 @@ export const useRegex = defineStore('Regex', () => {
     }
   }
 
+  function RegexEmailDir(email) {
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+    show.showMessageErrorEmailDir = !regex.test(email)
+    if (email === '') {
+      show.showMessageErrorEmailDir = false
+    }
+  }
+
   return {
     RegexPassword,
+    RegexEmailDir,
     RegexEmail
   }
 })

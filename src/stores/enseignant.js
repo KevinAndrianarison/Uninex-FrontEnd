@@ -85,8 +85,8 @@ export const useEnseignant = defineStore('Enseignant', () => {
 
   function getAllENS() {
     //Corrige nomEns tsy miala après suppr ens
-    nom_ens.value = ""
-    name.value = ""
+    nom_ens.value = ''
+    name.value = ''
     show.showSpinner = true
     axios
       .get(`${URL}/api/enseignant`)
