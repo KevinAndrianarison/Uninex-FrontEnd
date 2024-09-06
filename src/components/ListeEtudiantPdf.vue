@@ -35,14 +35,14 @@
           <li class="numberTitre">N°</li>
           <li class="nomTitre">Nom et prénoms</li>
         </div>
-        <div :key="index" v-for="(etd, index) in etudiant.ListeEtudiant">
-          <div class="hearContent" v-if="etd.validiter_inscri === 'true'">
+        <div :key="index" v-for="(etd, index) in etudiant.listdefinitive">
+          <div class="hearContent">
             <li class="numberValue">{{ index + 1 }}</li>
             <li class="nomValue">{{ etd.nomComplet_etud }}</li>
           </div>
         </div>
       </div>
-      <p class="mt-5 sousTitre">Arrêtée la présente liste à ( 2 ) étudiants</p>
+      <p class="mt-5 sousTitre">Arrêtée la présente liste à ({{ etudiant.listdefinitive.length }}) étudiants</p>
       <p class="mt-2 sousTitre">Fait à {{ etablissement.etablissement.ville_etab }}, {{ formattedDate }}</p>
       <p class="mt-2 sousTitre">Le Directeur de l'{{ etablissement.etablissement.abr_etab }}</p>
 

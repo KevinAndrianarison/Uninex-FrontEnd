@@ -220,8 +220,8 @@
           <li class="widthemails">Téléphone</li>
           <li class="width">Carte d'étudiant</li>
         </div>
-        <div :key="index" v-for="(etd, index) in etudiant.ListeEtudiant">
-          <div class="body" v-if="etd.validiter_inscri === 'true'">
+        <div :key="index" v-for="(etd, index) in etudiant.listdefinitive">
+          <div class="body">
             <li class="widthvaluenom">{{ etd.nomComplet_etud }}</li>
             <li class="widthvalueemail">{{ etd.user.email }}</li>
             <li class="widthvalueemails">
@@ -234,7 +234,7 @@
             </li>
           </div>
         </div>
-        <div class="Empty" v-if="show.ShowListEtudiantEmpty">
+        <div class="Empty" v-if="etudiant.listdefinitive.length === 0">
           <div class="gif"></div>
         </div>
       </div>

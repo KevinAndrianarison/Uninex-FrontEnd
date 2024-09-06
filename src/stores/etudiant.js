@@ -22,6 +22,7 @@ export const useEtudiant = defineStore('Etudiant', () => {
   const ListeEtudiant = ref([])
   const ListeEtudiantTemp = ref([])
   const ListeEtudiantByExcel = ref([])
+  const listdefinitive = ref([])
   const searchalue = ref('')
 
   function bigPostEtudiant() {
@@ -158,8 +159,10 @@ export const useEtudiant = defineStore('Etudiant', () => {
     axios
       .get(`${URL}/api/semestres/${semestre.semestreId}/etudiants`)
       .then((response) => {
-        ListeEtudiant.value = response.data
-        ListeEtudiantTemp.value = response.data
+        let listeAlphabetique = response.data.sort((a, b) => a.nomComplet_etud.localeCompare(b.nomComplet_etud, 'fr', { sensitivity: 'base' }))
+        listdefinitive.value = listeAlphabetique.filter(list => list.validiter_inscri === "true")
+        ListeEtudiant.value = listeAlphabetique
+        ListeEtudiantTemp.value = listeAlphabetique
         ListeEtudiantTemp.value.forEach((val) => {
           if (val.validiter_inscri === 'true') {
             show.ShowListEtudiantEmpty = false
@@ -238,6 +241,7 @@ export const useEtudiant = defineStore('Etudiant', () => {
     searchalue,
     etudnomComplet,
     etudID,
+    listdefinitive,
     createEtudiant,
     setValiditeInscriptionEtudiant,
     getAllEtudiantBysemestre,
