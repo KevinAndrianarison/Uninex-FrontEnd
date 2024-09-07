@@ -20,6 +20,7 @@ export const useEtablissement = defineStore('Etablissement', () => {
   const abr_etab = ref('')
   const logo_etab = ref(null)
   const dateCreation_etab = ref('')
+  const mdpAppGmail_etab = ref('')
   const pays_etab = ref('')
   const ville_etab = ref('')
   const etablissement_id = ref(1)
@@ -44,6 +45,7 @@ export const useEtablissement = defineStore('Etablissement', () => {
       email_etab: email_etab.value,
       codePostal_etab: codePostal_etab.value,
       ville_etab: ville_etab.value,
+      mdpAppGmail_etab : mdpAppGmail_etab.value,
       pays_etab: pays_etab.value,
       logo_etab: logo_etab.value,
       dateCreation_etab: dateCreation_etab.value.split('-').reverse().join('-')
@@ -62,7 +64,7 @@ export const useEtablissement = defineStore('Etablissement', () => {
         'Content-Type': 'multipart/form-data'
       }
     })
-    const createUserDir = axios.post(`${URL}/api/user/register`, formDataUserDir, {
+    const createUserDir = axios.post(`${URL}/api/user/directeur`, formDataUserDir, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -95,6 +97,7 @@ export const useEtablissement = defineStore('Etablissement', () => {
             })
         }
         if (responseSecond.data) {
+          console.log(responseSecond.data)
           show.showSpinner = true
           const formDataDir = {
             nomComplet_dir: directeur.nomComplet_dir,
@@ -126,6 +129,7 @@ export const useEtablissement = defineStore('Etablissement', () => {
         ville_etab.value = ''
         codePostal_etab.value = null
         email_etab.value = ''
+        mdpAppGmail_etab.value = ""
         logo_etab.value = null
         dateCreation_etab.value = ''
         user.email = ''
@@ -148,6 +152,7 @@ export const useEtablissement = defineStore('Etablissement', () => {
       .then((response) => {
         etablissement.nom_etab = response.data.nom_etab
         etablissement.slogan_etab = response.data.slogan_etab
+        mdpAppGmail_etab.value = response.data.mdpAppGmail_etab
         etablissement.descri_etab = response.data.descri_etab
         etablissement.dateCreation_etab = response.data.dateCreation_etab
         etablissement.abr_etab = response.data.abr_etab
@@ -176,6 +181,7 @@ export const useEtablissement = defineStore('Etablissement', () => {
     pays_etab,
     ville_etab,
     codePostal_etab,
+    mdpAppGmail_etab,
     email_etab,
     createfirstConfig,
     getEtab

@@ -22,8 +22,11 @@ export const useEtudiant = defineStore('Etudiant', () => {
   const ListeEtudiant = ref([])
   const ListeEtudiantTemp = ref([])
   const ListeEtudiantByExcel = ref([])
+  const listdefinitiveTemp = ref([])
   const listdefinitive = ref([])
   const searchalue = ref('')
+  const searchalueDef = ref('')
+
 
   function bigPostEtudiant() {
     ListeEtudiantByExcel.value.forEach((etud) => {
@@ -159,15 +162,15 @@ export const useEtudiant = defineStore('Etudiant', () => {
     axios
       .get(`${URL}/api/semestres/${semestre.semestreId}/etudiants`)
       .then((response) => {
-        let listeAlphabetique = response.data.sort((a, b) => a.nomComplet_etud.localeCompare(b.nomComplet_etud, 'fr', { sensitivity: 'base' }))
-        listdefinitive.value = listeAlphabetique.filter(list => list.validiter_inscri === "true")
+        let listeAlphabetique = response.data.sort((a, b) =>
+          a.nomComplet_etud.localeCompare(b.nomComplet_etud, 'fr', { sensitivity: 'base' })
+        )
+        listdefinitive.value = listeAlphabetique.filter((list) => list.validiter_inscri === 'true')
+        listdefinitiveTemp.value = listeAlphabetique.filter(
+          (list) => list.validiter_inscri === 'true'
+        )
         ListeEtudiant.value = listeAlphabetique
         ListeEtudiantTemp.value = listeAlphabetique
-        ListeEtudiantTemp.value.forEach((val) => {
-          if (val.validiter_inscri === 'true') {
-            show.ShowListEtudiantEmpty = false
-          }
-        })
 
         show.showSpinner = false
       })
@@ -182,6 +185,17 @@ export const useEtudiant = defineStore('Etudiant', () => {
     } else {
       ListeEtudiant.value = ListeEtudiantTemp.value
       ListeEtudiant.value = ListeEtudiant.value.filter((list) => {
+        return list.nomComplet_etud.toLocaleLowerCase().match(valeur.toLocaleLowerCase())
+      })
+    }
+  }
+
+  function searchDefinitive(valeur) {
+    if (!valeur) {
+      getAllEtudiantBysemestre()
+    } else {
+      listdefinitive.value = listdefinitiveTemp.value
+      listdefinitive.value = listdefinitive.value.filter((list) => {
         return list.nomComplet_etud.toLocaleLowerCase().match(valeur.toLocaleLowerCase())
       })
     }
@@ -239,14 +253,17 @@ export const useEtudiant = defineStore('Etudiant', () => {
     ListeEtudiantByExcel,
     ListeEtudiantTemp,
     searchalue,
+    searchalueDef,
     etudnomComplet,
     etudID,
     listdefinitive,
+    listdefinitiveTemp,
     createEtudiant,
     setValiditeInscriptionEtudiant,
     getAllEtudiantBysemestre,
     bigPostEtudiant,
     search,
+    searchDefinitive,
     setMdpEtudiant
   }
 })

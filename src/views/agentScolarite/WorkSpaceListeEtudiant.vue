@@ -197,8 +197,8 @@
       <div class="header">
         <input
           placeholder="🔎 Recherche par nom"
-          @input="etudiant.search(etudiant.searchalue)"
-          v-model="etudiant.searchalue"
+          @input="etudiant.searchDefinitive(etudiant.searchalueDef)"
+          v-model="etudiant.searchalueDef"
           type="search"
           class="pl-3 pr-3 ml-5 mt-3 block rounded-sm border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
         />
