@@ -15,7 +15,8 @@
           <h1>{{ etablissement.etablissement.nom_etab }}</h1>
           <p>email : {{ etablissement.etablissement.email_etab }}</p>
           <p>
-            BP.O {{ etablissement.etablissement.codePostal_etab }} - {{ etablissement.etablissement.ville_etab }} -
+            BP.O {{ etablissement.etablissement.codePostal_etab }} -
+            {{ etablissement.etablissement.ville_etab }} -
             {{ etablissement.etablissement.pays_etab }}
           </p>
         </div>
@@ -42,11 +43,15 @@
           </div>
         </div>
       </div>
-      <p class="mt-5 sousTitre">Arrêtée la présente liste à ({{ etudiant.listdefinitive.length }}) étudiants</p>
-      <p class="mt-2 sousTitre">Fait à {{ etablissement.etablissement.ville_etab }}, {{ formattedDate }}</p>
+      <p class="mt-5 sousTitre">
+        Arrêtée la présente liste à ({{ etudiant.listdefinitive.length }}) étudiants
+      </p>
+      <p class="mt-2 sousTitre">
+        Fait à {{ etablissement.etablissement.ville_etab }}, {{ formattedDate }}
+      </p>
       <p class="mt-2 sousTitre">Le Directeur de l'{{ etablissement.etablissement.abr_etab }}</p>
 
-      <p class="mt-20 sousTitre">Docteur ANDRIANARISON Steeve</p>
+      <p class="mt-20 sousTitre">{{ directeur.grade_dir }} {{ directeur.nomComplet_dir }}</p>
     </div>
   </div>
 </template>
@@ -60,6 +65,7 @@ import { useMention } from '@/stores/Mention'
 import { useParcour } from '@/stores/Parcour'
 import { useEtablissement } from '@/stores/Etablissement'
 import { useEtudiant } from '@/stores/Etudiant'
+import { useDirecteur } from '@/stores/Directeur'
 import { useUrl } from '@/stores/url'
 
 const elementToPrint = ref(null)
@@ -72,6 +78,7 @@ const mention = useMention()
 const URL = useUrl().url
 const parcour = useParcour()
 const etablissement = useEtablissement()
+const directeur = useDirecteur()
 
 onMounted(() => {
   const date = new Date(Date.now())

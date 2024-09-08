@@ -91,10 +91,16 @@ import DeleteParcours from './components/delete/DeleteParcours.vue'
 import ListeEtudiantPdf from './components/ListeEtudiantPdf.vue'
 
 import Overlay from './components/Overlay.vue'
-
+import { onBeforeMount } from 'vue'
 import { useShow } from '@/stores/Show'
+import { useEtablissement } from '@/stores/Etablissement'
 
 const show = useShow()
+const etablissement = useEtablissement()
+
+onBeforeMount(() => {
+  etablissement.getEtab()
+})
 </script>
 
 <style scoped src="./styles/App.css"></style>

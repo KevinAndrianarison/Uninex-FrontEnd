@@ -45,7 +45,7 @@ export const useEtablissement = defineStore('Etablissement', () => {
       email_etab: email_etab.value,
       codePostal_etab: codePostal_etab.value,
       ville_etab: ville_etab.value,
-      mdpAppGmail_etab : mdpAppGmail_etab.value,
+      mdpAppGmail_etab: mdpAppGmail_etab.value,
       pays_etab: pays_etab.value,
       logo_etab: logo_etab.value,
       dateCreation_etab: dateCreation_etab.value.split('-').reverse().join('-')
@@ -97,7 +97,6 @@ export const useEtablissement = defineStore('Etablissement', () => {
             })
         }
         if (responseSecond.data) {
-          console.log(responseSecond.data)
           show.showSpinner = true
           const formDataDir = {
             nomComplet_dir: directeur.nomComplet_dir,
@@ -129,7 +128,7 @@ export const useEtablissement = defineStore('Etablissement', () => {
         ville_etab.value = ''
         codePostal_etab.value = null
         email_etab.value = ''
-        mdpAppGmail_etab.value = ""
+        mdpAppGmail_etab.value = ''
         logo_etab.value = null
         dateCreation_etab.value = ''
         user.email = ''
@@ -150,6 +149,26 @@ export const useEtablissement = defineStore('Etablissement', () => {
     axios
       .get(`${URL}/api/etablissement/${etablissement_id.value}`)
       .then((response) => {
+        const userString = localStorage.getItem('user')
+        const auth_token = localStorage.getItem('auth_token')
+        const user = JSON.parse(userString)
+        if (userString) {
+          if (user.user.status_user === 'Directeur') {
+            show.showNavBarDir = true
+          }
+          if (user.user.status_user === 'AS') {
+            show.showNavBarAS = true
+          }
+        }
+        if (auth_token) {
+          show.showLogin = false
+          show.showAdmin = true
+        }
+        if (!auth_token) {
+          show.showAdmin = false
+          show.showLogin = true
+        }
+
         etablissement.nom_etab = response.data.nom_etab
         etablissement.slogan_etab = response.data.slogan_etab
         mdpAppGmail_etab.value = response.data.mdpAppGmail_etab
@@ -165,6 +184,7 @@ export const useEtablissement = defineStore('Etablissement', () => {
       })
       .catch((err) => {
         console.error(err)
+        show.showHome = true
         show.showSpinner = false
       })
   }

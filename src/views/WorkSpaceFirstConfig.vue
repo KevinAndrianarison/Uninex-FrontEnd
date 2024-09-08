@@ -126,7 +126,6 @@
                   class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
                 />
               </div>
-              <p class="err" v-if="show.showMessageErrorEmailDir">Adresse email invalide</p>
             </div>
 
             <div class="sm:col-span-3">

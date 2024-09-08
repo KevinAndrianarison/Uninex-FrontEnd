@@ -60,6 +60,59 @@ export const useUser = defineStore('User', () => {
     user_id.value = null
   }
 
+  function login() {
+    let formData = {
+      email: email.value,
+      password: password.value
+    }
+    show.showSpinner = true
+    axios
+      .post(`${URL}/api/user/login`, formData)
+      .then((response) => {
+        if (response.data.user.status_user === 'Directeur') {
+          localStorage.setItem('auth_token', response.data.access_token)
+          axios
+            .get(`${URL}/api/directeur/getById/${response.data.user.id}`)
+            .then((response) => {
+              localStorage.setItem('user', JSON.stringify(response.data[0]))
+              show.showLogin = false
+              email.value = ''
+              password.value = ''
+              show.showNavBarDir = true
+              show.showAdmin = true
+            })
+            .catch((err) => {
+              console.error(err)
+            })
+        }
+        if (response.data.user.status_user === 'AS') {
+          localStorage.setItem('auth_token', response.data.access_token)
+          axios
+            .get(`${URL}/api/agentscolarite/getById/${response.data.user.id}`)
+            .then((response) => {
+              localStorage.setItem('user', JSON.stringify(response.data[0]))
+              show.showLogin = false
+              email.value = ''
+              password.value = ''
+              show.showNavBarAS = true
+              show.showAdmin = true
+            })
+            .catch((err) => {
+              console.error(err)
+            })
+        }
+        show.showSpinner = false
+      })
+      .catch((err) => {
+        show.showSpinner = false
+        messages.messageError = 'Email ou mot de passe incorrect !'
+        setTimeout(() => {
+          messages.messageError = ''
+        }, 3000)
+        console.error(err)
+      })
+  }
+
   return {
     status_user,
     email,
@@ -69,6 +122,7 @@ export const useUser = defineStore('User', () => {
     user_id,
     user_status,
     verifierPasword,
-    supprUser
+    supprUser,
+    login
   }
 })

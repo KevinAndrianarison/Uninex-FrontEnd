@@ -13,12 +13,17 @@
       <h1>{{ etablissement.etablissement.abr_etab }}</h1>
     </div>
     <div>
-      <h1 class="dir"><AtSymbolIcon class="h-7 w-7 mr-2" /> Agent de la scolarité</h1>
+      <h1 class="dir"><AtSymbolIcon class="h-7 w-7 mr-2" /> {{ status }}</h1>
     </div>
     <div class="right">
       <div class="profil">
-        <div class="image"></div>
-        <p>ANDRIANARISON Steeve Kevin</p>
+        <div
+          :style="{
+            'background-image': `url(${URL}/storage/users/${photo})`
+          }"
+          class="image"
+        ></div>
+        <p class=" nom">{{ nom }}</p>
       </div>
       <Button @click="downloadImage" class="btn">Publier</Button>
       <div class="w-50">
@@ -59,7 +64,11 @@
                       class="spanAU"
                       :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']"
                       >{{ AU.annee_debut }} - {{ AU.annee_fin }}
-                      <TrashIcon v-if="show.showNavBarDir" class="delete h-6 w-5 ml-3 pb-1" @click="showDeleteAU()" />
+                      <TrashIcon
+                        v-if="show.showNavBarDir"
+                        class="delete h-6 w-5 ml-3 pb-1"
+                        @click="showDeleteAU()"
+                      />
                     </span>
                     <span
                       v-if="selected"
@@ -74,15 +83,15 @@
         </Listbox>
       </div>
       <Tooltip content="Nouvelle AU ">
-      <button class="ml-1" v-if="show.showNavBarDir">
-        <font-awesome-icon
-          @click="createAU()"
-          class="iconadd h-7 w-5"
-          :icon="['fas', 'square-pen']"
-        />
-      </button>
-    </Tooltip>
-    <Switch
+        <button class="ml-1" v-if="show.showNavBarDir">
+          <font-awesome-icon
+            @click="createAU()"
+            class="iconadd h-7 w-5"
+            :icon="['fas', 'square-pen']"
+          />
+        </button>
+      </Tooltip>
+      <Switch
         v-model="enabled"
         :class="enabled ? 'bg-gray-800' : 'bg-gray-400'"
         class="relative inline-flex h-[24px] w-[48px] shrink-0 cursor-pointer ml-4 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75"
@@ -110,11 +119,14 @@ import { useShow } from '@/stores/Show'
 import { useEtablissement } from '@/stores/Etablissement'
 import Tooltip from './Tooltip.vue'
 
-
 const au = useAu()
 const show = useShow()
 const URL = useUrl().url
 const etablissement = useEtablissement()
+
+const status = ref('')
+const nom = ref('')
+const photo = ref('')
 
 const downloadImage = () => {
   const filename = 'Steeve FH.pptx'
@@ -131,9 +143,20 @@ const downloadImage = () => {
 const enabled = ref(false)
 
 onBeforeMount(() => {
-  etablissement.getEtab()
-  au.getallAU()
+  const userString = localStorage.getItem('user')
+  const user = JSON.parse(userString)
+  if (user.user.status_user === 'Directeur') {
+    status.value = user.user.status_user
+    nom.value = user.nomComplet_dir
+    photo.value = user.user.photo_name
+  }
+  if (user.user.status_user === 'AS') {
+    status.value = "Agent de la scolarité"
+    nom.value = user.nomComplet_scol
+    photo.value = user.user.photo_name
+  }
 
+  au.getallAU()
 })
 
 function createAU() {

@@ -3,6 +3,8 @@ import { ref } from 'vue'
 import html2pdf from 'html2pdf.js'
 import { useParcour } from '@/stores/Parcour'
 import { useAu } from '@/stores/Au'
+// import html2canvas from 'html2canvas'
+// import jsPDF from 'jspdf'
 
 export const useHtml2pdf = defineStore('Html2pdf', () => {
   const elementToPrint = ref(null)
@@ -29,6 +31,6 @@ export const useHtml2pdf = defineStore('Html2pdf', () => {
   return {
     elementToPrint,
     setElement,
-    downloadPDF
+    downloadPDF,
   }
 })

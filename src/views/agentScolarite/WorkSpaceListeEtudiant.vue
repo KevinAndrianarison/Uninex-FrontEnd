@@ -250,6 +250,7 @@ import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headless
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import { useNiveau } from '@/stores/Niveau'
 import { useEtudiant } from '@/stores/Etudiant'
+import { useDirecteur } from '@/stores/Directeur'
 import { useShow } from '@/stores/Show'
 import Tooltip from '../../components/Tooltip.vue'
 import {
@@ -264,17 +265,14 @@ const semestre = useSemestre()
 const show = useShow()
 const parcour = useParcour()
 const etudiant = useEtudiant()
+const directeur = useDirecteur()
 
 function setIdParcours(id) {
   parcour.parcours_id = id
 }
 
 function exportPdfListeEtud() {
-  show.showListeEtudiantPdf = true
-
-  setTimeout(() => {
-    show.showListeEtudiantPdf = false
-  }, 3000)
+  directeur.getFirst()
 }
 
 function setSemestreId(id) {

@@ -5,13 +5,18 @@
     margin-right: 15px;
 }
 
+.nom{
+    width: 130px;
+    text-align: left;
+    padding-left: 10px;
+}
+
 .image {
-    width: 40%;
+    width: 50px;
     height: 45px;
     border-radius: 100%;
     background-repeat: no-repeat;
     background-size: cover;
-    background-color: rgba(255, 0, 0, 0.326);
 }
 
 h1 {
