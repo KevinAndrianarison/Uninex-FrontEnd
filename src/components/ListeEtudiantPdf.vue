@@ -3,12 +3,6 @@
     <div class="element" ref="elementToPrint">
       <div class="head">
         <div
-          :style="{
-            'background-image':
-              'url(' +
-              `${URL}/storage/etablissement/${etablissement.etablissement.nomlogo_etab}` +
-              ')'
-          }"
           class="logoEtab"
         ></div>
         <div class="content">

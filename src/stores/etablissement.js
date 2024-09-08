@@ -5,6 +5,8 @@ import { useDirecteur } from '@/stores/Directeur'
 import { useAu } from '@/stores/Au'
 import { useUser } from '@/stores/User'
 import axios from 'axios'
+import { useMessages } from '@/stores/messages'
+
 import { reactive, ref } from 'vue'
 
 export const useEtablissement = defineStore('Etablissement', () => {
@@ -13,6 +15,7 @@ export const useEtablissement = defineStore('Etablissement', () => {
   const directeur = useDirecteur()
   const au = useAu()
   const show = useShow()
+  const messages = useMessages()
 
   const nom_etab = ref('')
   const slogan_etab = ref('')
@@ -26,14 +29,7 @@ export const useEtablissement = defineStore('Etablissement', () => {
   const etablissement_id = ref(1)
   const codePostal_etab = ref(null)
   const email_etab = ref('')
-  const etablissement = reactive({
-    nom_etab: '',
-    slogan_etab: '',
-    descri_etab: '',
-    abr_etab: '',
-    nomlogo_etab: '',
-    dateCreation_etab: ''
-  })
+  const etablissement = reactive({})
 
   function createfirstConfig() {
     show.showSpinner = true
@@ -48,7 +44,7 @@ export const useEtablissement = defineStore('Etablissement', () => {
       mdpAppGmail_etab: mdpAppGmail_etab.value,
       pays_etab: pays_etab.value,
       logo_etab: logo_etab.value,
-      dateCreation_etab: dateCreation_etab.value.split('-').reverse().join('-')
+      dateCreation_etab: dateCreation_etab.value
     }
 
     const formDataUserDir = {
@@ -144,6 +140,38 @@ export const useEtablissement = defineStore('Etablissement', () => {
       })
   }
 
+  function modifierEtabissement() {
+    show.showSpinner = true
+    let formData = {
+      nom_etab: etablissement.nom_etab,
+      slogan_etab: etablissement.slogan_etab,
+      descri_etab: etablissement.descri_etab,
+      abr_etab: etablissement.abr_etab,
+      email_etab: etablissement.email_etab,
+      codePostal_etab: etablissement.codePostal_etab,
+      ville_etab: etablissement.ville_etab,
+      mdpAppGmail_etab: etablissement.mdpAppGmail_etab,
+      pays_etab: etablissement.pays_etab,
+      logo_etab: logo_etab.value,
+      dateCreation_etab: etablissement.dateCreation_etab
+    }
+
+    axios
+      .put(`${URL}/api/etablissement/${etablissement_id.value}`, formData)
+      .then((response) => {
+        messages.messageSucces = 'Modification réussi !'
+        show.showSpinner = false
+        getEtab()
+        setTimeout(() => {
+          messages.messageSucces = ''
+        }, 3000)
+      })
+      .catch((err) => {
+        show.showSpinner = false
+        console.error(err)
+      })
+  }
+
   function getEtab() {
     show.showSpinner = true
     axios
@@ -178,6 +206,7 @@ export const useEtablissement = defineStore('Etablissement', () => {
         etablissement.email_etab = response.data.email_etab
         etablissement.codePostal_etab = response.data.codePostal_etab
         etablissement.ville_etab = response.data.ville_etab
+        etablissement.mdpAppGmail_etab = response.data.mdpAppGmail_etab
         etablissement.pays_etab = response.data.pays_etab
         etablissement.nomlogo_etab = response.data.logo_name
         show.showSpinner = false
@@ -204,6 +233,7 @@ export const useEtablissement = defineStore('Etablissement', () => {
     mdpAppGmail_etab,
     email_etab,
     createfirstConfig,
-    getEtab
+    getEtab,
+    modifierEtabissement
   }
 })

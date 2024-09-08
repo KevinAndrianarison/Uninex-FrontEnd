@@ -67,6 +67,7 @@ const etablissement = useEtablissement()
 const user = useUser()
 const URL = useUrl().url
 
+
 onBeforeMount(() => {
   etablissement.getEtab()
 })

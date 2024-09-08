@@ -8,6 +8,7 @@ import WorkSpaceListeEtudiant from '../views/agentScolarite/WorkSpaceListeEtudia
 import WorkSpaceGestionNotes from '../views/agentScolarite/WorkSpaceGestionNotes.vue'
 import WorkSpaceGestionRole from '../views/directeur/WorkSpaceGestionRole.vue'
 import WorkSpaceDiscussion from '../views/WorkSpaceDiscussion.vue'
+import WorkSpaceConfiguration from '../views/WorkSpaceConfiguration.vue'
 import WorkSpaceAnnonces from '../views/WorkSpaceAnnonces.vue'
 
 
@@ -58,6 +59,11 @@ const router = createRouter({
       path: '/Discussion',
       name: 'Discussion',
       component: WorkSpaceDiscussion
+    },
+    {
+      path: '/Configuration',
+      name: 'Configuration',
+      component: WorkSpaceConfiguration
     },
     {
       path: '/',

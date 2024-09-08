@@ -57,6 +57,7 @@ button {
   margin-left: 10%;
   background-size: cover;
   background-repeat: no-repeat;
+  background-image: url("../assets//logo_espa-removebg-preview.png");
 }
 
 .contents {

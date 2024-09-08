@@ -91,6 +91,16 @@
   margin-right: 15px;
 }
 
+.btns {
+  background-color: var(--color-secondary);
+  padding: 5px 20px 5px 20px;
+  border: 2px var(--color-secondary) solid;
+  border-radius: 5px;
+  transition: all 0.2s ease-in-out;
+  margin-right: 15px;
+  color: white;
+}
+
 .btn:hover {
   font-weight: bolder;
 }
@@ -106,6 +116,14 @@
   margin-top: 5px;
   border-radius: 10px;
   border: 2px solid rgba(128, 128, 128, 0.127);
+}
+
+.configContent {
+  margin-top: 5px;
+  border-radius: 10px;
+  border: 2px solid rgba(128, 128, 128, 0.127);
+  height: 76vh;
+  background-color: white;
 }
 
 .create {
@@ -131,6 +149,11 @@
   margin-top: 5px;
 }
 
+.valider {
+  padding-top: 25px;
+
+}
+
 .titre {
   font-size: 26px;
   font-family: 'Montserrat', 'sans-serif';
@@ -140,7 +163,14 @@
 
 .formInput {
   display: flex;
+  border-bottom: 2px solid rgba(128, 128, 128, 0.162);
   flex-wrap: wrap
+}
+
+.CONTENT {
+  height: 93%;
+  overflow-y: scroll;
+  margin-top: 20px;
 }
 
 .btnModif {

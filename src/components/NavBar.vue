@@ -6,14 +6,17 @@
       </RouterLink>
 
       <NavBarDir v-if="show.showNavBarDir" />
-      <NavBarAS v-if="show.showNavBarAS"/>
+      <NavBarAS v-if="show.showNavBarAS" />
 
       <RouterLink to="/Discussion">
         <li><ChatBubbleLeftRightIcon class="h-5 w-5 mr-2" /> Discussions</li>
       </RouterLink>
     </ul>
     <ul class="ulbottom">
-      <li class="bottom"><Cog6ToothIcon class="h-6 w-6 mr-2" />Paramètres</li>
+      <RouterLink to="/Configuration">
+        <li class="bottom"><WrenchScrewdriverIcon class="h-6 w-6 mr-2" />Configurations</li>
+      </RouterLink>
+
       <li @click="showlogout()" class="bottom">
         <ArrowRightStartOnRectangleIcon class="h-6 w-6 mr-2" />Déconnexion
       </li>
@@ -23,10 +26,10 @@
 
 <script setup>
 import {
-  Cog6ToothIcon,
   ArrowRightStartOnRectangleIcon,
   ChatBubbleLeftRightIcon,
-  NewspaperIcon
+  NewspaperIcon,
+  WrenchScrewdriverIcon
 } from '@heroicons/vue/24/outline'
 import { useShow } from '@/stores/Show'
 import NavBarDir from './navbar/NavBarDir.vue'
