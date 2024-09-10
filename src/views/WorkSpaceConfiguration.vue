@@ -1,10 +1,10 @@
 <template>
   <div class="ens">
-    <h1 class="titre"><WrenchScrewdriverIcon class="h-7 w-7 mr-5" /> Configurations</h1>
+    <h1 class="titre"><WrenchScrewdriverIcon class="h-7 w-7 mr-5" /> Configurations et modifications</h1>
     <div class="configContent">
       <div class="CONTENT">
-        <h1 class="create pl-5 mt-2">Modifier les informations de votre établissement :</h1>
-        <div class="class formInput border-gray-900/10 pb-5 pl-5">
+        <h1 class="create pl-5 mt-2" v-if="show.showNavBarDir">Modifier les informations de votre établissement :</h1>
+        <div v-if="show.showNavBarDir" class="class formInput border-gray-900/10 pb-5 pl-5">
           <div class="sm:col-span-3 mt-2 mr-4">
             <label class="block text-sm font-medium leading-6 text-gray-900"
               >Nom de l'établissement</label
@@ -43,7 +43,7 @@
               <textarea
                 type="text"
                 v-model="etablissement.etablissement.descri_etab"
-                class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
+                class="pl-3 pr-3 h-8 min-h-8 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
               ></textarea>
             </div>
           </div>
@@ -140,7 +140,7 @@
           </div>
         </div>
 
-        <h1 class="create pl-5 mt-2">Modifier les informations de votre compte :</h1>
+        <h1 class="create pl-5 mt-2">Modifier vos informations personnelles :</h1>
         <div class="class formInput border-gray-900/10 pb-5 pl-5">
           <div class="sm:col-span-3 mt-2 mr-4">
             <label class="block text-sm font-medium leading-6 text-gray-900">Nom complet</label>

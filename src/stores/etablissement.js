@@ -142,22 +142,27 @@ export const useEtablissement = defineStore('Etablissement', () => {
 
   function modifierEtabissement() {
     show.showSpinner = true
-    let formData = {
-      nom_etab: etablissement.nom_etab,
-      slogan_etab: etablissement.slogan_etab,
-      descri_etab: etablissement.descri_etab,
-      abr_etab: etablissement.abr_etab,
-      email_etab: etablissement.email_etab,
-      codePostal_etab: etablissement.codePostal_etab,
-      ville_etab: etablissement.ville_etab,
-      mdpAppGmail_etab: etablissement.mdpAppGmail_etab,
-      pays_etab: etablissement.pays_etab,
-      logo_etab: logo_etab.value,
-      dateCreation_etab: etablissement.dateCreation_etab
-    }
+    let formData = new FormData()
+
+    formData.append('nom_etab', etablissement.nom_etab || '')
+    formData.append('slogan_etab', etablissement.slogan_etab || '')
+    formData.append('descri_etab', etablissement.descri_etab || '')
+    formData.append('abr_etab', etablissement.abr_etab || '')
+    formData.append('email_etab', etablissement.email_etab || '')
+    formData.append('codePostal_etab', etablissement.codePostal_etab || '')
+    formData.append('ville_etab', etablissement.ville_etab || '')
+    formData.append('mdpAppGmail_etab', etablissement.mdpAppGmail_etab || '')
+    formData.append('pays_etab', etablissement.pays_etab || '')
+    formData.append('dateCreation_etab', etablissement.dateCreation_etab || '')
+    formData.append('logo_etab', logo_etab.value || '')
+    formData.append('_method', 'PUT')
 
     axios
-      .put(`${URL}/api/etablissement/${etablissement_id.value}`, formData)
+      .post(`${URL}/api/etablissement/${etablissement_id.value}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
       .then((response) => {
         messages.messageSucces = 'Modification réussi !'
         show.showSpinner = false
