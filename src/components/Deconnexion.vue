@@ -1,26 +1,28 @@
 <script setup>
 import { useShow } from '@/stores/Show'
+import { useUser } from '@/stores/User'
 import { useRouter } from 'vue-router'
 
 const show = useShow()
-const router = useRouter();
-
+const user = useUser()
+const router = useRouter()
 
 function Canceldeconnexion() {
   show.showDeconnexion = false
 }
 
 function deconnexion() {
+  user.email = ''
   localStorage.removeItem('auth_token')
   const userString = localStorage.getItem('user')
   Canceldeconnexion()
   show.showAdmin = false
-  const user = JSON.parse(userString)
-  if (user.user.status_user === 'Directeur') {
+  const users = JSON.parse(userString)
+  if (users.user.status_user === 'Directeur') {
     show.showNavBarDir = false
     localStorage.removeItem('user')
   }
-  if (user.user.status_user === 'AS') {
+  if (users.user.status_user === 'AS') {
     show.showNavBarAS = false
     localStorage.removeItem('user')
   }

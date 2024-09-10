@@ -7,6 +7,7 @@ import { useEtudiant } from '@/stores/Etudiant'
 import { ref } from 'vue'
 import axios from 'axios'
 import { useMessages } from '@/stores/messages'
+import { useInfosheader } from '@/stores/Infosheader'
 
 export const useUser = defineStore('User', () => {
   const show = useShow()
@@ -15,6 +16,7 @@ export const useUser = defineStore('User', () => {
   const enseignant = useEnseignant()
   const URL = useUrl().url
   const messages = useMessages()
+  const infosheader = useInfosheader()
 
   const email = ref('')
   const status_user = ref('')
@@ -69,6 +71,8 @@ export const useUser = defineStore('User', () => {
     axios
       .post(`${URL}/api/user/login`, formData)
       .then((response) => {
+        show.showMessageErrorEmail = false
+        show.showMessageErrorEmailDir = false
         if (response.data.user.status_user === 'Directeur') {
           localStorage.setItem('auth_token', response.data.access_token)
           axios
@@ -113,6 +117,40 @@ export const useUser = defineStore('User', () => {
       })
   }
 
+  function setUsers() {
+    show.showSpinner = true
+    let formData = new FormData()
+    formData.append('email', email.value)
+    formData.append('photo', photo.value || '')
+    formData.append('_method', 'PUT')
+
+    axios
+      .post(`${URL}/api/user/setuser/${user_id.value}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      .then((response) => {
+        let user = localStorage.getItem('user')
+        user = JSON.parse(user)
+        infosheader.photo = response.data[0].photo_name
+        user.user.photo_name = response.data[0].photo_name
+        user.user.email = response.data[0].email
+        email.value = response.data[0].email
+        let updatedUser = JSON.stringify(user)
+        localStorage.setItem('user', updatedUser)
+        messages.messageSucces = 'Modification réussi !'
+        show.showSpinner = false
+        setTimeout(() => {
+          messages.messageSucces = ''
+        }, 3000)
+      })
+      .catch((err) => {
+        show.showSpinner = false
+        console.error(err)
+      })
+  }
+
   return {
     status_user,
     email,
@@ -123,6 +161,7 @@ export const useUser = defineStore('User', () => {
     user_status,
     verifierPasword,
     supprUser,
-    login
+    login,
+    setUsers
   }
 })

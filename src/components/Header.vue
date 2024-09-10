@@ -13,17 +13,17 @@
       <h1>{{ etablissement.etablissement.abr_etab }}</h1>
     </div>
     <div>
-      <h1 class="dir"><AtSymbolIcon class="h-7 w-7 mr-2" /> {{ status }}</h1>
+      <h1 class="dir"><AtSymbolIcon class="h-7 w-7 mr-2" /> {{ infosheader.status }}</h1>
     </div>
     <div class="right">
       <div class="profil">
         <div
           :style="{
-            'background-image': `url(${URL}/storage/users/${photo})`
+            'background-image': `url(${URL}/storage/users/${infosheader.photo})`
           }"
           class="image"
         ></div>
-        <p class=" nom">{{ nom }}</p>
+        <p class="nom">{{ infosheader.nom }}</p>
       </div>
       <Button @click="downloadImage" class="btn">Publier</Button>
       <div class="w-50">
@@ -116,17 +116,15 @@ import { ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import { useAu } from '@/stores/Au'
 import { useUrl } from '@/stores/url'
 import { useShow } from '@/stores/Show'
+import { useInfosheader } from '@/stores/Infosheader'
 import { useEtablissement } from '@/stores/Etablissement'
 import Tooltip from './Tooltip.vue'
 
 const au = useAu()
 const show = useShow()
+const infosheader = useInfosheader()
 const URL = useUrl().url
 const etablissement = useEtablissement()
-
-const status = ref('')
-const nom = ref('')
-const photo = ref('')
 
 const downloadImage = () => {
   const filename = 'Steeve FH.pptx'
@@ -146,14 +144,14 @@ onBeforeMount(() => {
   const userString = localStorage.getItem('user')
   const user = JSON.parse(userString)
   if (user.user.status_user === 'Directeur') {
-    status.value = user.user.status_user
-    nom.value = user.nomComplet_dir
-    photo.value = user.user.photo_name
+    infosheader.status = user.user.status_user
+    infosheader.nom = user.nomComplet_dir
+    infosheader.photo = user.user.photo_name
   }
   if (user.user.status_user === 'AS') {
-    status.value = "Agent de la scolarité"
-    nom.value = user.nomComplet_scol
-    photo.value = user.user.photo_name
+    infosheader.status = 'Agent de la scolarité'
+    infosheader.nom = user.nomComplet_scol
+    infosheader.photo = user.user.photo_name
   }
 
   au.getallAU()

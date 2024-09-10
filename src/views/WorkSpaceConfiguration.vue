@@ -1,10 +1,14 @@
 <template>
   <div class="ens">
-    <h1 class="titre"><WrenchScrewdriverIcon class="h-7 w-7 mr-5" /> Configurations et modifications</h1>
+    <h1 class="titre">
+      <WrenchScrewdriverIcon class="h-7 w-7 mr-5" /> Configurations et modifications
+    </h1>
     <div class="configContent">
       <div class="CONTENT">
-        <h1 class="create pl-5 mt-2" v-if="show.showNavBarDir">Modifier les informations de votre établissement :</h1>
-        <div v-if="show.showNavBarDir" class="class formInput border-gray-900/10 pb-5 pl-5">
+        <h1 class="create pl-5 mt-2" v-if="show.showNavBarDir">
+          Modifier les informations de votre établissement :
+        </h1>
+        <div v-if="show.showNavBarDir" class="class formInputs border-gray-900/10 pb-5 pl-5">
           <div class="sm:col-span-3 mt-2 mr-4">
             <label class="block text-sm font-medium leading-6 text-gray-900"
               >Nom de l'établissement</label
@@ -114,7 +118,6 @@
                 class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
               />
             </div>
-            <p class="err" v-if="show.showMessageErrorEmailDir">Adresse email invalide</p>
           </div>
 
           <div class="sm:col-span-3 mr-4 mt-2">
@@ -136,7 +139,7 @@
           </div>
 
           <div class="sm:col-span-3 mt-4 valider">
-            <Button class="btns" @click="etablissement.modifierEtabissement()"> Enregistrer</Button>
+            <Button :disabled="show.showMessageErrorEmailDir || !etablissement.etablissement.email_etab" class="btns" @click="etablissement.modifierEtabissement()"> Enregistrer</Button>
           </div>
         </div>
 
@@ -147,7 +150,7 @@
             <div class="mt-2">
               <input
                 type="text"
-                v-model="enseignant.nomComplet_ens"
+                v-model="directeur.nomComplet_dir"
                 class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
               />
             </div>
@@ -171,7 +174,7 @@
             <div class="mt-2">
               <input
                 type="number"
-                v-model="enseignant.telephone_ens"
+                v-model="directeur.telephone_dir"
                 class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
               />
             </div>
@@ -181,12 +184,12 @@
               >Titre académique</label
             >
             <div class="w-60">
-              <Listbox v-model="enseignant.grade_ens">
+              <Listbox v-model="directeur.grade_dir">
                 <div class="relative mt-2">
                   <ListboxButton
                     class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
                   >
-                    <span class="block truncate">{{ enseignant.grade_ens }}</span>
+                    <span class="block truncate">{{ directeur.grade_dir }}</span>
                     <span
                       class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
                     >
@@ -200,7 +203,7 @@
                     leave-to-class="opacity-0"
                   >
                     <ListboxOptions
-                      class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+                      class="z-10 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                     >
                       <ListboxOption
                         v-slot="{ active, selected }"
@@ -251,88 +254,8 @@
             </div>
           </div>
 
-          <div class="sm:col-span-3 mt-2 mr-4 ctgr">
-            <label class="block text-sm font-medium leading-6 text-gray-900">Catégorie</label>
-            <div class="w-60">
-              <Listbox v-model="enseignant.categorie_ens">
-                <div class="relative mt-2">
-                  <ListboxButton
-                    class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
-                  >
-                    <span class="block truncate">{{ enseignant.categorie_ens }}</span>
-                    <span
-                      class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
-                    >
-                      <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
-                    </span>
-                  </ListboxButton>
-
-                  <transition
-                    leave-active-class="transition duration-100 ease-in"
-                    leave-from-class="opacity-100"
-                    leave-to-class="opacity-0"
-                  >
-                    <ListboxOptions
-                      class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
-                    >
-                      <ListboxOption
-                        v-slot="{ active, selected }"
-                        v-for="categorie in categories"
-                        :key="categorie"
-                        :value="categorie"
-                        as="template"
-                      >
-                        <li
-                          :class="[
-                            active ? 'bg-amber-100 text-amber-900' : 'text-gray-900',
-                            'relative cursor-default select-none py-2 pl-10 pr-4'
-                          ]"
-                        >
-                          <span
-                            :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']"
-                            >{{ categorie }}</span
-                          >
-                          <span
-                            v-if="selected"
-                            class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
-                          >
-                            <CheckIcon class="h-5 w-5" aria-hidden="true" />
-                          </span>
-                        </li>
-                      </ListboxOption>
-                    </ListboxOptions>
-                  </transition>
-                </div>
-              </Listbox>
-            </div>
-          </div>
-          <div class="sm:col-span-3 mt-2 date">
-            <label class="block text-sm font-medium leading-6 text-gray-900"
-              >Date de recrutement</label
-            >
-            <div class="mt-2">
-              <input
-                type="date"
-                v-model="enseignant.date_recrutement_ens"
-                class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
-              />
-            </div>
-          </div>
-
-          <div class="divbtn sm:col-span-3 mt-3 ml-4">
-            <Button
-              :disabled="
-                !user.photo ||
-                !user.email ||
-                !enseignant.nomComplet_ens ||
-                !enseignant.categorie_ens ||
-                show.showMessageErrorEmail
-              "
-              @click="showMdp()"
-              class="btns mb-1"
-            >
-              Valider</Button
-            >
+          <div class="divbtn sm:col-span-3 mt-2">
+            <Button @click="modifier()" class="btns mb-1"> Enregistrer</Button>
           </div>
         </div>
       </div>
@@ -347,7 +270,7 @@ import { useEtablissement } from '@/stores/Etablissement'
 import { useUser } from '@/stores/User'
 import { useRegex } from '@/stores/Regex'
 import { useShow } from '@/stores/Show'
-import { usePassword } from '@/stores/Password'
+import { useDirecteur } from '@/stores/Directeur'
 import { onBeforeMount } from 'vue'
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
@@ -356,27 +279,41 @@ const user = useUser()
 const regex = useRegex()
 const show = useShow()
 const enseignant = useEnseignant()
-const password = usePassword()
 const etablissement = useEtablissement()
+const directeur = useDirecteur()
 
 const grades = ['Ingénieur', 'Docteur', 'Professeur']
-
-const categories = ['Permanent', 'Vacataire']
-
-function showMdp() {
-  password.generatePassword()
-  show.showMdpENS = true
-}
 
 function onFileLogoChange(event) {
   etablissement.logo_etab = event.target.files[0]
 }
 
 onBeforeMount(() => {
-  enseignant.grade_ens = grades[0]
-  enseignant.categorie_ens = categories[0]
+  const userString = localStorage.getItem('user')
+  const users = JSON.parse(userString)
+  user.email = users.user.email
+  user.user_id = users.user.id
+  directeur.nomComplet_dir = users.nomComplet_dir
+  directeur.telephone_dir = users.telephone_dir
+  directeur.id_dir = users.id
+  if (users.grade_dir) {
+    directeur.grade_dir = users.grade_dir
+  }
+  if (!users.grade_dir) {
+    directeur.grade_dir = grades[0]
+  }
+
   enseignant.getAllENS()
 })
+
+function modifier() {
+  if (directeur.nomComplet_dir || directeur.grade_dir || directeur.telephone_dir) {
+    directeur.setDirecteur()
+  }
+  if (user.email && !show.showMessageErrorEmail) {
+    user.setUsers()
+  }
+}
 
 function onPhotoFileChange(event) {
   user.photo = event.target.files[0]
