@@ -106,6 +106,22 @@ export const useUser = defineStore('User', () => {
               console.error(err)
             })
         }
+        if (response.data.user.status_user === 'Etudiant') {
+          localStorage.setItem('auth_token', response.data.access_token)
+          axios
+            .get(`${URL}/api/etudiant/getById/${response.data.user.id}`)
+            .then((response) => {
+              localStorage.setItem('user', JSON.stringify(response.data[0]))
+              show.showLogin = false
+              email.value = ''
+              password.value = ''
+              show.showNavBarEtud = true
+              show.showAdmin = true
+            })
+            .catch((err) => {
+              console.error(err)
+            })
+        }
         show.showSpinner = false
       })
       .catch((err) => {

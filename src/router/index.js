@@ -5,8 +5,13 @@ import WorkSpaceGestionMention from '../views/directeur/WorkSpaceGestionMention.
 import WorkSpaceGestionParcours from '../views/directeur/WorkSpaceGestionParcours.vue'
 import WorkSpaceGestionInscription from '../views/agentScolarite/WorkSpaceGestionInscription.vue'
 import WorkSpaceListeEtudiant from '../views/agentScolarite/WorkSpaceListeEtudiant.vue'
+import WorkSpaceGestionSalle from '../views/agentScolarite/WorkSpaceGestionSalle.vue'
+import WorkSpaceGestionEDP from '../views/agentScolarite/WorkSpaceGestionEDT.vue'
 import WorkSpaceGestionNotes from '../views/agentScolarite/WorkSpaceGestionNotes.vue'
 import WorkSpaceGestionRole from '../views/directeur/WorkSpaceGestionRole.vue'
+import WorkSpaceInscription from '../views/etudiant/WorkSpaceInscription.vue'
+import WorkSpaceCours from '../views/etudiant/WorkSpaceCours.vue'
+import WorkSpaceNotes from '../views/etudiant/WorkSpaceNotes.vue'
 import WorkSpaceDiscussion from '../views/WorkSpaceDiscussion.vue'
 import WorkSpaceConfiguration from '../views/WorkSpaceConfiguration.vue'
 import WorkSpaceAnnonces from '../views/WorkSpaceAnnonces.vue'
@@ -15,6 +20,31 @@ import WorkSpaceAnnonces from '../views/WorkSpaceAnnonces.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: '/etudiant/Notes',
+      name: 'Notes',
+      component: WorkSpaceNotes
+    },
+    {
+      path: '/etudiant/Cours',
+      name: 'Cours',
+      component: WorkSpaceCours
+    },
+    {
+      path: '/etudiant/Inscription',
+      name: 'Inscription',
+      component: WorkSpaceInscription
+    },
+    {
+      path: '/agentScolarite/GestionEDP',
+      name: 'GestionEDP',
+      component: WorkSpaceGestionEDP
+    },
+    {
+      path: '/agentScolarite/GestionSalle',
+      name: 'GestionSalle',
+      component: WorkSpaceGestionSalle
+    },
     {
       path: '/agentScolarite/GestionNotes',
       name: 'GestionNotes',

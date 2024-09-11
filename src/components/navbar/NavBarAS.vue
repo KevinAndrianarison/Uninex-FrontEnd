@@ -86,12 +86,17 @@
       </MenuItems>
     </transition>
   </Menu>
+  <RouterLink to="/agentScolarite/GestionSalle">
+    <li><HomeModernIcon class="h-5 w-5 mr-2" /> Salles</li>
+  </RouterLink>
+  <RouterLink to="/agentScolarite/GestionEDP">
+    <li><RectangleGroupIcon class="h-5 w-5 mr-2" /> Emplois du temps</li>
+  </RouterLink>
 </template>
 
 <script setup>
-import { UserCircleIcon, BriefcaseIcon } from '@heroicons/vue/24/outline'
+import { HomeModernIcon, BriefcaseIcon, RectangleGroupIcon } from '@heroicons/vue/24/outline'
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
-
 </script>
 
 <style src="../../styles/Dashboard.css" scoped></style>

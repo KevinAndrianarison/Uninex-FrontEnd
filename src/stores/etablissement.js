@@ -192,6 +192,9 @@ export const useEtablissement = defineStore('Etablissement', () => {
           if (user.user.status_user === 'AS') {
             show.showNavBarAS = true
           }
+          if (user.user.status_user === 'Etudiant') {
+            show.showNavBarEtud = true
+          }
         }
         if (auth_token) {
           show.showLogin = false

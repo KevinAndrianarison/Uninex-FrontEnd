@@ -29,6 +29,7 @@ export const useShow = defineStore('Show', () => {
   const showCreateSemestre = ref(false)
   const showValiderInscription = ref(false)
   const showNavBarDir = ref(false)
+  const showNavBarEtud = ref(false)
   const showFormatExcel = ref(false)
   const showListeEtudiantPdf = ref(false)
   const showNavBarAS = ref(false)
@@ -76,6 +77,7 @@ export const useShow = defineStore('Show', () => {
     showValiderInscription,
     showListeEtudiantPdf,
     showMessageErrorEmailDir,
+    showNavBarEtud,
     toggleCreatePasswordVisibility,
     togglePasswordVisibility,
     toggleVerifyPasswordVisibility

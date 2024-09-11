@@ -306,7 +306,7 @@
               </button>
             </div>
             <p class="err" v-if="show.showMessageErrorMdp">
-              Majuscule, Chiffre, Caractère spécial et plus de 8 caractères
+              Majuscule, Chiffre, Caractère spécial [@$!%*?&] et plus de 8 caractères
             </p>
           </div>
 
@@ -362,6 +362,7 @@ import { useRegex } from '@/stores/Regex'
 import { useShow } from '@/stores/Show'
 import { useDirecteur } from '@/stores/Directeur'
 import { useAgentscolarite } from '@/stores/Agentscolarite'
+import { useEtudiant } from '@/stores/Etudiant'
 import { useInfossetup } from '@/stores/Infossetup'
 import { onBeforeMount } from 'vue'
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
@@ -371,6 +372,7 @@ const user = useUser()
 const regex = useRegex()
 const show = useShow()
 const etablissement = useEtablissement()
+const etudiant = useEtudiant()
 const infossetup = useInfossetup()
 const directeur = useDirecteur()
 const agentscolarite = useAgentscolarite()
@@ -402,6 +404,11 @@ onBeforeMount(() => {
     infossetup.nom = users.nomComplet_scol
     infossetup.telephone = users.telephone_scol
     agentscolarite.id_scol = users.id
+  }
+  if (users.user.status_user === 'Etudiant') {
+    infossetup.nom = users.nomComplet_etud
+    infossetup.telephone = users.telephone_etud
+    etudiant.id_etud = users.id
   }
 })
 

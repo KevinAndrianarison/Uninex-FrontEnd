@@ -325,7 +325,7 @@
                 </button>
               </div>
               <p class="err" v-if="show.showMessageErrorMdp">
-                Majuscule, Chiffre, Caractère spécial et plus de 8 caractères
+                Majuscule, Chiffre, Caractère spécial [@$!%*?&] et plus de 8 caractères
               </p>
             </div>
 

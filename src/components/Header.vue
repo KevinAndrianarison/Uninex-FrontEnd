@@ -153,6 +153,11 @@ onBeforeMount(() => {
     infosheader.nom = user.nomComplet_scol
     infosheader.photo = user.user.photo_name
   }
+  if (user.user.status_user === 'Etudiant') {
+    infosheader.status = user.user.status_user
+    infosheader.nom = user.nomComplet_etud
+    infosheader.photo = user.user.photo_name
+  }
 
   au.getallAU()
 })

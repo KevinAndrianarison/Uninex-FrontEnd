@@ -17,8 +17,10 @@ export const useEtudiant = defineStore('Etudiant', () => {
   const password = usePassword()
 
   const nomComplet_etud = ref('')
+  const telephone_etud = ref('')
   const etudnomComplet = ref('')
   const etudID = ref(null)
+  const id_etud = ref(null)
   const ListeEtudiant = ref([])
   const ListeEtudiantTemp = ref([])
   const ListeEtudiantByExcel = ref([])
@@ -258,6 +260,8 @@ export const useEtudiant = defineStore('Etudiant', () => {
     etudID,
     listdefinitive,
     listdefinitiveTemp,
+    id_etud,
+    telephone_etud,
     createEtudiant,
     setValiditeInscriptionEtudiant,
     getAllEtudiantBysemestre,
