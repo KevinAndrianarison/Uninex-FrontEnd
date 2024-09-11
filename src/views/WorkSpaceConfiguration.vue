@@ -139,7 +139,13 @@
           </div>
 
           <div class="sm:col-span-3 mt-4 valider">
-            <Button :disabled="show.showMessageErrorEmailDir || !etablissement.etablissement.email_etab" class="btns" @click="etablissement.modifierEtabissement()"> Enregistrer</Button>
+            <Button
+              :disabled="show.showMessageErrorEmailDir || !etablissement.etablissement.email_etab"
+              class="btns"
+              @click="etablissement.modifierEtabissement()"
+            >
+              Enregistrer</Button
+            >
           </div>
         </div>
 
@@ -150,7 +156,7 @@
             <div class="mt-2">
               <input
                 type="text"
-                v-model="directeur.nomComplet_dir"
+                v-model="infossetup.nom"
                 class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
               />
             </div>
@@ -174,22 +180,22 @@
             <div class="mt-2">
               <input
                 type="number"
-                v-model="directeur.telephone_dir"
+                v-model="infossetup.telephone"
                 class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
               />
             </div>
           </div>
-          <div class="sm:col-span-3 mt-2 mr-4">
+          <div v-if="show.showNavBarDir" class="sm:col-span-3 mt-2 mr-4">
             <label class="block text-sm font-medium leading-6 text-gray-900"
               >Titre académique</label
             >
             <div class="w-60">
-              <Listbox v-model="directeur.grade_dir">
+              <Listbox v-model="infossetup.grade">
                 <div class="relative mt-2">
                   <ListboxButton
                     class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
                   >
-                    <span class="block truncate">{{ directeur.grade_dir }}</span>
+                    <span class="block truncate">{{ infossetup.grade }}</span>
                     <span
                       class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
                     >
@@ -265,22 +271,25 @@
 
 <script setup>
 import { WrenchScrewdriverIcon } from '@heroicons/vue/24/outline'
-import { useEnseignant } from '@/stores/Enseignant'
 import { useEtablissement } from '@/stores/Etablissement'
 import { useUser } from '@/stores/User'
 import { useRegex } from '@/stores/Regex'
 import { useShow } from '@/stores/Show'
 import { useDirecteur } from '@/stores/Directeur'
+import { useAgentscolarite } from '@/stores/Agentscolarite'
+import { useInfossetup } from '@/stores/Infossetup'
 import { onBeforeMount } from 'vue'
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
+import { ref } from 'vue'
 
 const user = useUser()
 const regex = useRegex()
 const show = useShow()
-const enseignant = useEnseignant()
 const etablissement = useEtablissement()
+const infossetup = useInfossetup()
 const directeur = useDirecteur()
+const agentscolarite = useAgentscolarite()
 
 const grades = ['Ingénieur', 'Docteur', 'Professeur']
 
@@ -293,22 +302,35 @@ onBeforeMount(() => {
   const users = JSON.parse(userString)
   user.email = users.user.email
   user.user_id = users.user.id
-  directeur.nomComplet_dir = users.nomComplet_dir
-  directeur.telephone_dir = users.telephone_dir
-  directeur.id_dir = users.id
-  if (users.grade_dir) {
-    directeur.grade_dir = users.grade_dir
-  }
-  if (!users.grade_dir) {
-    directeur.grade_dir = grades[0]
-  }
 
-  enseignant.getAllENS()
+  if (users.user.status_user === 'Directeur') {
+    infossetup.nom = users.nomComplet_dir
+    infossetup.telephone = users.telephone_dir
+    directeur.id_dir = users.id
+    if (users.grade_dir) {
+      infossetup.grade = users.grade_dir
+    }
+    if (!users.grade_dir) {
+      infossetup.grade = grades[0]
+    }
+  }
+  if (users.user.status_user === 'AS') {
+    infossetup.nom = users.nomComplet_scol
+    infossetup.telephone = users.telephone_scol
+    agentscolarite.id_scol = users.id
+  }
 })
 
 function modifier() {
-  if (directeur.nomComplet_dir || directeur.grade_dir || directeur.telephone_dir) {
-    directeur.setDirecteur()
+  const userString = localStorage.getItem('user')
+  const users = JSON.parse(userString)
+  if (infossetup.nom || infossetup.telephone || infossetup.grade) {
+    if (users.user.status_user === 'Directeur') {
+      directeur.setDirecteur()
+    }
+    if (users.user.status_user === 'AS') {
+      agentscolarite.setAS()
+    }
   }
   if (user.email && !show.showMessageErrorEmail) {
     user.setUsers()

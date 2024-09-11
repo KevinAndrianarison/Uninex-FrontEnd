@@ -40,10 +40,7 @@
             <EyeSlashIcon v-else class="h-5 w-5" />
           </button>
         </div>
-        <Button
-          class="btn mt-[8%]"
-          :disabled="!user.email || !user.password"
-          @click="user.login()"
+        <Button class="btn mt-[8%]" :disabled="!user.email || !user.password" @click="user.login()"
           >Connexion</Button
         >
       </div>
@@ -66,7 +63,6 @@ const show = useShow()
 const etablissement = useEtablissement()
 const user = useUser()
 const URL = useUrl().url
-
 
 onBeforeMount(() => {
   etablissement.getEtab()

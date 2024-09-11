@@ -2,10 +2,14 @@
 import { useShow } from '@/stores/Show'
 import { useUser } from '@/stores/User'
 import { useRouter } from 'vue-router'
+import { useInfossetup } from '@/stores/Infossetup'
+
 
 const show = useShow()
 const user = useUser()
 const router = useRouter()
+const infossetup = useInfossetup()
+
 
 function Canceldeconnexion() {
   show.showDeconnexion = false
@@ -13,6 +17,9 @@ function Canceldeconnexion() {
 
 function deconnexion() {
   user.email = ''
+  infossetup.nom = ''
+  infossetup.grade = ''
+  infossetup.telephone = null
   localStorage.removeItem('auth_token')
   const userString = localStorage.getItem('user')
   Canceldeconnexion()

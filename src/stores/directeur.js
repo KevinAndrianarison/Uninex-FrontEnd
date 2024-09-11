@@ -5,6 +5,7 @@ import { useUrl } from '@/stores/url'
 import { useShow } from '@/stores/Show'
 import { useMessages } from '@/stores/messages'
 import { useInfosheader } from '@/stores/Infosheader'
+import { useInfossetup } from '@/stores/Infossetup'
 
 export const useDirecteur = defineStore('Directeur', () => {
   const nomComplet_dir = ref('')
@@ -15,6 +16,7 @@ export const useDirecteur = defineStore('Directeur', () => {
   const show = useShow()
   const messages = useMessages()
   const infosheader = useInfosheader()
+  const infossetup = useInfossetup()
 
   function getFirst() {
     axios
@@ -35,9 +37,9 @@ export const useDirecteur = defineStore('Directeur', () => {
   function setDirecteur() {
     show.showSpinner = true
     let formData = {
-      nomComplet_dir: nomComplet_dir.value,
-      grade_dir: grade_dir.value,
-      telephone_dir: telephone_dir.value
+      nomComplet_dir: infossetup.nom,
+      grade_dir: infossetup.grade,
+      telephone_dir: infossetup.telephone
     }
 
     axios
@@ -47,6 +49,9 @@ export const useDirecteur = defineStore('Directeur', () => {
         user = JSON.parse(user)
         if (user.user.status_user === 'Directeur') {
           infosheader.nom = response.data.nomComplet_dir
+          infossetup.nom = response.data.nomComplet_dir
+          infossetup.grade = response.data.grade_dir
+          infossetup.telephone_dir = response.data.telephone_dir
           user.nomComplet_dir = response.data.nomComplet_dir
           user.grade_dir = response.data.grade_dir
           user.telephone_dir = response.data.telephone_dir

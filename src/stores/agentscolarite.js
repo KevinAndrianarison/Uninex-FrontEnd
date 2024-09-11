@@ -6,6 +6,8 @@ import { usePassword } from '@/stores/Password'
 import { useUrl } from '@/stores/url'
 import { useShow } from '@/stores/Show'
 import { useMessages } from '@/stores/messages'
+import { useInfosheader } from '@/stores/Infosheader'
+import { useInfossetup } from '@/stores/Infossetup'
 
 export const useAgentscolarite = defineStore('Agentscolarite', () => {
   const URL = useUrl().url
@@ -13,6 +15,8 @@ export const useAgentscolarite = defineStore('Agentscolarite', () => {
   const show = useShow()
   const password = usePassword()
   const messages = useMessages()
+  const infosheader = useInfosheader()
+  const infossetup = useInfossetup()
 
   const ListeAS = ref([])
   const ListeASTemp = ref([])
@@ -21,6 +25,7 @@ export const useAgentscolarite = defineStore('Agentscolarite', () => {
   const categorie_scol = ref('')
   const searchalue = ref('')
   const telephone_scol = ref(null)
+  const id_scol = ref('')
 
   function createScolarite() {
     show.showSpinner = true
@@ -103,6 +108,39 @@ export const useAgentscolarite = defineStore('Agentscolarite', () => {
     }
   }
 
+  function setAS() {
+    show.showSpinner = true
+    let formData = {
+      nomComplet_scol: infossetup.nom,
+      telephone_scol: infossetup.telephone
+    }
+
+    axios
+      .put(`${URL}/api/agentscolarite/${id_scol.value}`, formData)
+      .then((response) => {
+        let user = localStorage.getItem('user')
+        user = JSON.parse(user)
+        if (user.user.status_user === 'AS') {
+          infosheader.nom = response.data.nomComplet_scol
+          infossetup.nom = response.data.nomComplet_scol
+          infossetup.telephone = response.data.telephone_scol
+          user.nomComplet_scol = response.data.nomComplet_scol
+          user.telephone_scol = response.data.telephone_scol
+        }
+        let updatedUser = JSON.stringify(user)
+        localStorage.setItem('user', updatedUser)
+        messages.messageSucces = 'Modification réussi !'
+        show.showSpinner = false
+        setTimeout(() => {
+          messages.messageSucces = ''
+        }, 3000)
+      })
+      .catch((err) => {
+        console.error(err)
+        show.showSpinner = false
+      })
+  }
+
   return {
     nomComplet_scol,
     date_recrutement_scol,
@@ -110,6 +148,8 @@ export const useAgentscolarite = defineStore('Agentscolarite', () => {
     ListeAS,
     searchalue,
     categorie_scol,
+    id_scol,
+    setAS,
     createScolarite,
     getAllAS,
     search
