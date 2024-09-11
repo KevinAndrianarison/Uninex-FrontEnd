@@ -21,6 +21,7 @@ export const useUser = defineStore('User', () => {
   const email = ref('')
   const status_user = ref('')
   const password = ref('')
+  const oldpassword = ref('')
   const passwordVerifier = ref('')
   const photo = ref(null)
   const user_id = ref(null)
@@ -151,6 +152,35 @@ export const useUser = defineStore('User', () => {
       })
   }
 
+  function setMdp() {
+    show.showSpinner = true
+    let formData = {
+      email: email.value,
+      password: oldpassword.value,
+      Newpassword: passwordVerifier.value
+    }
+    axios
+      .put(`${URL}/api/user/changemdp/${user_id.value}`, formData)
+      .then((response) => {
+        messages.messageSucces = 'Modification réussi !'
+        oldpassword.value = ''
+        passwordVerifier.value = ''
+        password.value = ''
+        show.showSpinner = false
+        setTimeout(() => {
+          messages.messageSucces = ''
+        }, 3000)
+      })
+      .catch((err) => {
+        messages.messageError = 'Mot de passe actuel incorrect !'
+        show.showSpinner = false
+        setTimeout(() => {
+          messages.messageError = ''
+        }, 3000)
+        console.error(err)
+      })
+  }
+
   return {
     status_user,
     email,
@@ -159,9 +189,11 @@ export const useUser = defineStore('User', () => {
     passwordVerifier,
     user_id,
     user_status,
+    oldpassword,
     verifierPasword,
     supprUser,
     login,
+    setMdp,
     setUsers
   }
 })

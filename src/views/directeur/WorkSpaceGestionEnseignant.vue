@@ -101,6 +101,8 @@
                 @change="onPhotoFileChange"
                 class="absolute inset-0 opacity-0 cursor-pointer"
                 type="file"
+                accept="image/jpeg, image/png"
+
               />
               <div
                 class="file-label bg-green-100 text-green-800 py-2 px-1 rounded-md border border-green-300"
@@ -260,6 +262,7 @@ function showdelete(id) {
 }
 
 onBeforeMount(() => {
+  user.email = ''
   enseignant.grade_ens = grades[0]
   enseignant.categorie_ens = categories[0]
   enseignant.getAllENS()

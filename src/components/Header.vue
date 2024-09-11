@@ -149,7 +149,7 @@ onBeforeMount(() => {
     infosheader.photo = user.user.photo_name
   }
   if (user.user.status_user === 'AS') {
-    infosheader.status = 'Agent de la scolarité'
+    infosheader.status = 'Agent de scolarité'
     infosheader.nom = user.nomComplet_scol
     infosheader.photo = user.user.photo_name
   }

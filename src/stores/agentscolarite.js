@@ -25,17 +25,26 @@ export const useAgentscolarite = defineStore('Agentscolarite', () => {
   const categorie_scol = ref('')
   const searchalue = ref('')
   const telephone_scol = ref(null)
+  const status = ref('')
   const id_scol = ref('')
 
   function createScolarite() {
     show.showSpinner = true
+    let Status
+    if (status.value === 'Agent de scolarité') {
+      Status = 'AS'
+    }
+    if (status.value === 'Sécrétaire principale') {
+      Status = 'SECPAL'
+    }
     const formDataUserAS = {
-      status_user: 'AS',
+      status_user: Status,
       validiter_compte: true,
       email: user.email,
       password: password.password,
       photo: user.photo
     }
+
     axios
       .post(`${URL}/api/user/register`, formDataUserAS, {
         headers: {
@@ -87,6 +96,7 @@ export const useAgentscolarite = defineStore('Agentscolarite', () => {
     axios
       .get(`${URL}/api/agentscolarite`)
       .then((response) => {
+        
         ListeAS.value = response.data
         ListeASTemp.value = response.data
         show.showSpinner = false
@@ -143,6 +153,7 @@ export const useAgentscolarite = defineStore('Agentscolarite', () => {
 
   return {
     nomComplet_scol,
+    status,
     date_recrutement_scol,
     telephone_scol,
     ListeAS,

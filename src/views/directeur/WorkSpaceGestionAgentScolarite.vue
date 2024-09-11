@@ -1,8 +1,8 @@
 <template>
   <div class="scol">
     <h1 class="titre">
-      <font-awesome-icon class="h-7 w-7 mr-5" :icon="['fas', 'person-chalkboard']" /> Agents de la
-      scolarité
+      <font-awesome-icon class="h-7 w-7 mr-5" :icon="['fas', 'person-chalkboard']" /> Personnel de
+      la scolarité
     </h1>
     <div class="createScol">
       <h1 class="create pl-5 mt-2">Ajouter un nouveau Agent de la scolarité :</h1>
@@ -108,6 +108,63 @@
             />
           </div>
         </div>
+
+        <div class="sm:col-span-3 mt-2 ctgr mr-4">
+          <label class="block text-sm font-medium leading-6 text-gray-900">Statut</label>
+          <div class="w-60">
+            <Listbox v-model="agentscolarite.status">
+              <div class="relative mt-2">
+                <ListboxButton
+                  class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+                >
+                  <span class="block truncate">{{ agentscolarite.status }}</span>
+                  <span
+                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
+                  >
+                    <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+                  </span>
+                </ListboxButton>
+
+                <transition
+                  leave-active-class="transition duration-100 ease-in"
+                  leave-from-class="opacity-100"
+                  leave-to-class="opacity-0"
+                >
+                  <ListboxOptions
+                    class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+                  >
+                    <ListboxOption
+                      v-slot="{ active, selected }"
+                      v-for="Status in status"
+                      :key="Status"
+                      :value="Status"
+                      as="template"
+                    >
+                      <li
+                        :class="[
+                          active ? 'bg-amber-100 text-amber-900' : 'text-gray-900',
+                          'relative cursor-default select-none py-2 pl-10 pr-4'
+                        ]"
+                      >
+                        <span
+                          :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']"
+                          >{{ Status }}</span
+                        >
+                        <span
+                          v-if="selected"
+                          class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
+                        >
+                          <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                        </span>
+                      </li>
+                    </ListboxOption>
+                  </ListboxOptions>
+                </transition>
+              </div>
+            </Listbox>
+          </div>
+        </div>
+
         <div class="sm:col-span-3 mt-2 mr-4">
           <label class="block text-sm font-medium leading-6 text-gray-900">Photo</label>
           <div class="mt-1">
@@ -116,6 +173,7 @@
                 @change="onPhotoFileChange"
                 class="absolute inset-0 opacity-0 cursor-pointer"
                 type="file"
+                accept="image/jpeg, image/png"
               />
               <div
                 class="file-label bg-green-100 text-green-800 py-2 px-1 rounded-md border border-green-300"
@@ -155,14 +213,22 @@
           <li class="widthnom">Nom complet</li>
           <li class="widthemail">Adresse email</li>
           <li class="width">Numéro téléphone</li>
-          <li class="width">Catégorie</li>
+          <li class="width">Statut</li>
           <li class="h-5 w-5"></li>
         </div>
         <div class="body" :key="index" v-for="(as, index) in agentscolarite.ListeAS">
           <li class="widthvaluenom">{{ as.nomComplet_scol }}</li>
           <li class="widthvalueemail">{{ as.user.email }}</li>
           <li class="widthvalue">{{ as.telephone_scol }}</li>
-          <li class="widthvalue">{{ as.categorie_scol }}</li>
+          <li class="widthvalue">
+            {{
+              as.user.status_user === 'AS'
+                ? 'Agent de scolarité'
+                : as.user.status_user === 'SECPAL'
+                ? 'Secrétaire principal'
+                : as.user.status_user
+            }}
+          </li>
           <TrashIcon @click="showdelete(as.user_id)" class="delete h-5 w-5" />
         </div>
         <div class="Empty" v-if="agentscolarite.ListeAS.length === 0">
@@ -192,6 +258,8 @@ const password = usePassword()
 
 const categories = ['Permanent', 'Vacataire']
 
+const status = ['Agent de scolarité', 'Sécrétaire principale']
+
 function showMdp() {
   password.generatePassword()
   show.showMdpAS = true
@@ -205,6 +273,8 @@ function showdelete(id) {
 
 onBeforeMount(() => {
   agentscolarite.categorie_scol = categories[0]
+  agentscolarite.status = status[0]
+  user.email = ''
   agentscolarite.getAllAS()
 })
 

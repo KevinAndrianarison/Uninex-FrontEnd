@@ -38,7 +38,7 @@
                   aria-hidden="true"
                 />
                 <font-awesome-icon class="h-5 w-5 mr-2" :icon="['fas', 'person-chalkboard']" />
-                Agents scolarité
+                Scolarité
               </button>
             </RouterLink>
           </MenuItem>

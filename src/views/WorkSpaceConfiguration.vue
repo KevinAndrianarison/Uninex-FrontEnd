@@ -51,7 +51,7 @@
               ></textarea>
             </div>
           </div>
-          <div class="sm:col-span-3 mt-2 mr-4 file">
+          <div class="w-52 sm:col-span-3 mt-2 mr-4 file">
             <label class="block text-sm font-medium leading-6 text-gray-900"
               >Date de création</label
             >
@@ -107,7 +107,7 @@
             <p class="err" v-if="show.showMessageErrorEmailDir">Adresse email invalide</p>
           </div>
 
-          <div class="sm:col-span-3 mt-2 mr-4">
+          <div class="w-52 sm:col-span-3 mt-2 mr-4">
             <label class="block text-sm font-medium leading-6 text-gray-900"
               >Mot de passe application Gmail</label
             >
@@ -128,6 +128,7 @@
                   @change="onFileLogoChange"
                   class="absolute inset-0 opacity-0 cursor-pointer"
                   type="file"
+                  accept="image/jpeg, image/png"
                 />
                 <div
                   class="file-label bg-green-100 text-green-800 py-2 px-4 rounded-md border border-green-300"
@@ -144,13 +145,13 @@
               class="btns"
               @click="etablissement.modifierEtabissement()"
             >
-              Enregistrer</Button
+              Modifier</Button
             >
           </div>
         </div>
 
         <h1 class="create pl-5 mt-2">Modifier vos informations personnelles :</h1>
-        <div class="class formInput border-gray-900/10 pb-5 pl-5">
+        <div class="class formInputs border-gray-900/10 pb-5 pl-5">
           <div class="sm:col-span-3 mt-2 mr-4">
             <label class="block text-sm font-medium leading-6 text-gray-900">Nom complet</label>
             <div class="mt-2">
@@ -250,6 +251,8 @@
                   @change="onPhotoFileChange"
                   class="absolute inset-0 opacity-0 cursor-pointer"
                   type="file"
+                  accept="image/jpeg, image/png"
+
                 />
                 <div
                   class="file-label bg-green-100 text-green-800 py-2 px-1 rounded-md border border-green-300"
@@ -260,8 +263,90 @@
             </div>
           </div>
 
+          <div class="sm:col-span-3 mt-4">
+            <label class="block text-sm font-medium leading-6 text-gray-900">&nbsp;</label>
+            <Button @click="modifier()" class="btns mb-1"> Modifier</Button>
+          </div>
+        </div>
+
+        <h1 class="create pl-5 mt-2">Changer de mot de passe :</h1>
+        <div class="class formInput border-gray-900/10 pb-5 pl-5">
+          <div class="sm:col-span-3 mt-2 mr-4">
+            <label class="block text-sm font-medium leading-6 text-gray-900"
+              >Ancien mot de passe</label
+            >
+            <div class="mt-2">
+              <input
+                type="text"
+                v-model="user.oldpassword"
+                class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
+              />
+            </div>
+          </div>
+
+          <div class="w-52 sm:col-span-3 mr-4 mt-2">
+            <label class="block text-sm font-medium leading-6 text-gray-900"
+              >Créer un mot de passe</label
+            >
+            <div class="mt-2 relative">
+              <input
+                @input="regex.RegexPassword(user.password)"
+                :type="show.showCreatePassword ? 'text' : 'password'"
+                @copy="handleCopy"
+                v-model="user.password"
+                class="pl-3 pr-10 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
+              />
+              <button
+                type="button"
+                @click="show.toggleCreatePasswordVisibility()"
+                class="absolute inset-y-0 right-3 pl-3 flex items-center text-gray-600"
+              >
+                <EyeIcon v-if="!show.showCreatePassword" class="h-5 w-5" />
+                <EyeSlashIcon v-else class="h-5 w-5" />
+              </button>
+            </div>
+            <p class="err" v-if="show.showMessageErrorMdp">
+              Majuscule, Chiffre, Caractère spécial et plus de 8 caractères
+            </p>
+          </div>
+
+          <div class="w-52 sm:col-span-3 mt-2 mr-4">
+            <label class="block text-sm font-medium leading-6 text-gray-900"
+              >Confirmer votre mot de passe</label
+            >
+            <div class="mt-2 relative">
+              <input
+                @input="user.verifierPasword()"
+                :type="show.showVerifyPassword ? 'text' : 'password'"
+                v-model="user.passwordVerifier"
+                class="pl-3 pr-10 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
+              />
+              <button
+                type="button"
+                @click="show.toggleVerifyPasswordVisibility()"
+                class="absolute inset-y-0 right-3 pl-3 flex items-center text-gray-600"
+              >
+                <EyeIcon v-if="!show.showVerifyPassword" class="h-5 w-5" />
+                <EyeSlashIcon v-else class="h-5 w-5" />
+              </button>
+            </div>
+            <p class="err" v-if="show.showMessageErrorConfirmMdp">Vérifier votre mot de passe</p>
+          </div>
+
           <div class="divbtn sm:col-span-3 mt-2">
-            <Button @click="modifier()" class="btns mb-1"> Enregistrer</Button>
+            <Button
+              @click="user.setMdp()"
+              :disabled="
+                !user.password ||
+                !user.oldpassword ||
+                !user.passwordVerifier ||
+                show.showMessageErrorMdp ||
+                show.showMessageErrorConfirmMdp
+              "
+              class="btns mb-1"
+            >
+              Modifier</Button
+            >
           </div>
         </div>
       </div>
@@ -270,7 +355,7 @@
 </template>
 
 <script setup>
-import { WrenchScrewdriverIcon } from '@heroicons/vue/24/outline'
+import { WrenchScrewdriverIcon, EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/outline'
 import { useEtablissement } from '@/stores/Etablissement'
 import { useUser } from '@/stores/User'
 import { useRegex } from '@/stores/Regex'
@@ -281,7 +366,6 @@ import { useInfossetup } from '@/stores/Infossetup'
 import { onBeforeMount } from 'vue'
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
-import { ref } from 'vue'
 
 const user = useUser()
 const regex = useRegex()
@@ -335,6 +419,11 @@ function modifier() {
   if (user.email && !show.showMessageErrorEmail) {
     user.setUsers()
   }
+}
+
+function handleCopy(event) {
+  event.preventDefault()
+  event.clipboardData.setData('text/plain', '')
 }
 
 function onPhotoFileChange(event) {
