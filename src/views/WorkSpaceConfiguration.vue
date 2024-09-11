@@ -422,6 +422,9 @@ function modifier() {
     if (users.user.status_user === 'AS') {
       agentscolarite.setAS()
     }
+    if (users.user.status_user === 'Etudiant') {
+      etudiant.setEtudiant()
+    }
   }
   if (user.email && !show.showMessageErrorEmail) {
     user.setUsers()
@@ -438,4 +441,4 @@ function onPhotoFileChange(event) {
 }
 </script>
 
-<style scoped src="../styles/GestionEnseignant.css"></style>
+<style scoped src="../styles/Configuration.css"></style>

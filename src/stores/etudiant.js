@@ -7,6 +7,8 @@ import { useUrl } from '@/stores/url'
 import axios from 'axios'
 import { useMessages } from '@/stores/messages'
 import { usePassword } from '@/stores/Password'
+import { useInfosheader } from '@/stores/Infosheader'
+import { useInfossetup } from '@/stores/Infossetup'
 
 export const useEtudiant = defineStore('Etudiant', () => {
   const user = useUser()
@@ -15,9 +17,24 @@ export const useEtudiant = defineStore('Etudiant', () => {
   const URL = useUrl().url
   const messages = useMessages()
   const password = usePassword()
+  const infosheader = useInfosheader()
+  const infossetup = useInfossetup()
 
   const nomComplet_etud = ref('')
-  const telephone_etud = ref('')
+  const date_naissance_etud = ref('')
+  const lieux_naissance_etud = ref('')
+  const nationalite_etud = ref('')
+  const nom_pere_etud = ref('')
+  const nom_mere_etud = ref('')
+  const nom_tuteur = ref('')
+  const adresse_etud = ref('')
+  const serieBAC_etud = ref('')
+  const sexe_etud = ref('')
+  const etabOrigin_etud = ref('')
+  const CIN_etud = ref(null)
+  const anneeBAC_etud = ref(null)
+  const telephone_etud = ref(null)
+  const photoBordereaux = ref(null)
   const etudnomComplet = ref('')
   const etudID = ref(null)
   const id_etud = ref(null)
@@ -28,7 +45,6 @@ export const useEtudiant = defineStore('Etudiant', () => {
   const listdefinitive = ref([])
   const searchalue = ref('')
   const searchalueDef = ref('')
-
 
   function bigPostEtudiant() {
     ListeEtudiantByExcel.value.forEach((etud) => {
@@ -192,6 +208,32 @@ export const useEtudiant = defineStore('Etudiant', () => {
     }
   }
 
+  function getEtudiantById() {
+    show.showSpinner = true
+    axios
+      .get(`${URL}/api/etudiant/${id_etud.value}`)
+      .then((response) => {
+        CIN_etud.value = response.data.CIN_etud
+        adresse_etud.value = response.data.adresse_etud
+        anneeBAC_etud.value = response.data.anneeBAC_etud
+        date_naissance_etud.value = response.data.date_naissance_etud
+        etabOrigin_etud.value = response.data.etabOrigin_etud
+        lieux_naissance_etud.value = response.data.lieux_naissance_etud
+        nationalite_etud.value = response.data.nationalite_etud
+        nomComplet_etud.value = response.data.nomComplet_etud
+        nom_mere_etud.value = response.data.nom_mere_etud
+        nom_pere_etud.value = response.data.nom_pere_etud
+        nom_tuteur.value = response.data.nom_tuteur
+        serieBAC_etud.value = response.data.serieBAC_etud
+        telephone_etud.value = response.data.telephone_etud
+        show.showSpinner = false
+      })
+      .catch((err) => {
+        console.error(err)
+        show.showSpinner = false
+      })
+  }
+
   function searchDefinitive(valeur) {
     if (!valeur) {
       getAllEtudiantBysemestre()
@@ -249,6 +291,78 @@ export const useEtudiant = defineStore('Etudiant', () => {
       })
   }
 
+  function setEtudiant() {
+    show.showSpinner = true
+    let formData = {
+      nomComplet_etud: infossetup.nom,
+      telephone_etud: infossetup.telephone
+    }
+
+    axios
+      .put(`${URL}/api/etudiant/${id_etud.value}`, formData)
+      .then((response) => {
+        let user = localStorage.getItem('user')
+        user = JSON.parse(user)
+        if (user.user.status_user === 'Etudiant') {
+          infosheader.nom = response.data.nomComplet_etud
+          infossetup.nom = response.data.nomComplet_etud
+          infossetup.telephone = response.data.telephone_etud
+          user.nomComplet_etud = response.data.nomComplet_etud
+          user.telephone_etud = response.data.telephone_etud
+        }
+        let updatedUser = JSON.stringify(user)
+        localStorage.setItem('user', updatedUser)
+        messages.messageSucces = 'Modification réussi !'
+        show.showSpinner = false
+        setTimeout(() => {
+          messages.messageSucces = ''
+        }, 3000)
+      })
+      .catch((err) => {
+        console.error(err)
+        show.showSpinner = false
+      })
+  }
+
+  function inscription() {
+    show.showSpinner = true
+    let formData = new FormData()
+    formData.append('nomComplet_etud', nomComplet_etud.value || '')
+    formData.append('date_naissance_etud', date_naissance_etud.value || '')
+    formData.append('lieux_naissance_etud', lieux_naissance_etud.value || '')
+    formData.append('nationalite_etud', nationalite_etud.value || '')
+    formData.append('nom_pere_etud', nom_pere_etud.value || '')
+    formData.append('nom_mere_etud', nom_mere_etud.value || '')
+    formData.append('nom_tuteur', nom_tuteur.value || '')
+    formData.append('adresse_etud', adresse_etud.value || '')
+    formData.append('serieBAC_etud', serieBAC_etud.value || '')
+    formData.append('sexe_etud', sexe_etud.value || '')
+    formData.append('etabOrigin_etud', etabOrigin_etud.value || '')
+    formData.append('CIN_etud', CIN_etud.value || '')
+    formData.append('anneeBAC_etud', anneeBAC_etud.value || '')
+    formData.append('telephone_etud', telephone_etud.value || '')
+    formData.append('photoBordereaux', photoBordereaux.value || '')
+    formData.append('_method', 'PUT')
+    axios
+      .post(`${URL}/api/etudiant/${id_etud.value}`, formData)
+      .then((response) => {
+        messages.messageSucces = 'Inscriprion réussi !'
+        show.showSpinner = false
+        setTimeout(() => {
+          messages.messageSucces = ''
+        }, 3000)
+        getEtudiantById()
+      })
+      .catch((err) => {
+        console.error(err)
+        messages.messageSucces = 'Inscriprion échoué !'
+        show.showSpinner = false
+        setTimeout(() => {
+          messages.messageSucces = ''
+        }, 3000)
+      })
+  }
+
   return {
     nomComplet_etud,
     ListeEtudiant,
@@ -262,12 +376,28 @@ export const useEtudiant = defineStore('Etudiant', () => {
     listdefinitiveTemp,
     id_etud,
     telephone_etud,
+    date_naissance_etud,
+    lieux_naissance_etud,
+    nationalite_etud,
+    sexe_etud,
+    CIN_etud,
+    nom_pere_etud,
+    nom_mere_etud,
+    nom_tuteur,
+    adresse_etud,
+    serieBAC_etud,
+    anneeBAC_etud,
+    etabOrigin_etud,
+    photoBordereaux,
     createEtudiant,
     setValiditeInscriptionEtudiant,
     getAllEtudiantBysemestre,
+    setEtudiant,
     bigPostEtudiant,
     search,
     searchDefinitive,
-    setMdpEtudiant
+    setMdpEtudiant,
+    inscription,
+    getEtudiantById
   }
 })

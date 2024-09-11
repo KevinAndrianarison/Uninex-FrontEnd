@@ -1,0 +1,56 @@
+.inscr {
+    height: 83vh;
+    font-weight: bold;
+    color: var(--color-text-main);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+.titre {
+    font-size: 26px;
+    font-family: 'Montserrat', 'sans-serif';
+    display: flex;
+    align-items: center;
+}
+
+.InscrContent {
+    margin-top: 5px;
+    border-radius: 10px;
+    border: 2px solid rgba(128, 128, 128, 0.127);
+    height: 65vh;
+    background-color: white;
+}
+
+.CONTENT {
+    height: 93%;
+    overflow-y: scroll;
+    margin-top: 20px;
+}
+
+.create {
+    font-weight: bold;
+}
+
+.formInput {
+    display: flex;
+    flex-wrap: wrap
+}
+
+.divbtn {
+    display: flex;
+    align-items: end;
+    height: 40px;
+    position: relative;
+    top: 30px;
+}
+
+.Btns {
+    background-color: var(--color-third);
+    padding: 5px 20px 5px 20px;
+    border: 2px var(--color-third) solid;
+    border-radius: 5px;
+    transition: all 0.2s ease-in-out;
+    margin-right: 15px;
+}
