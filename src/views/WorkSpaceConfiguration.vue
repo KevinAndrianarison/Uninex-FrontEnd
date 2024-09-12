@@ -363,6 +363,7 @@ import { useShow } from '@/stores/Show'
 import { useDirecteur } from '@/stores/Directeur'
 import { useAgentscolarite } from '@/stores/Agentscolarite'
 import { useEtudiant } from '@/stores/Etudiant'
+import { useEnseignant } from '@/stores/Enseignant'
 import { useInfossetup } from '@/stores/Infossetup'
 import { onBeforeMount } from 'vue'
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
@@ -372,6 +373,7 @@ const user = useUser()
 const regex = useRegex()
 const show = useShow()
 const etablissement = useEtablissement()
+const enseignant = useEnseignant()
 const etudiant = useEtudiant()
 const infossetup = useInfossetup()
 const directeur = useDirecteur()
@@ -410,6 +412,11 @@ onBeforeMount(() => {
     infossetup.telephone = users.telephone_etud
     etudiant.id_etud = users.id
   }
+  if (users.user.status_user === 'ENS') {
+    infossetup.nom = users.nomComplet_ens
+    infossetup.telephone = users.telephone_ens
+    enseignant.id_ens = users.id
+  }
 })
 
 function modifier() {
@@ -424,6 +431,9 @@ function modifier() {
     }
     if (users.user.status_user === 'Etudiant') {
       etudiant.setEtudiant()
+    }
+    if (users.user.status_user === 'ENS') {
+      enseignant.setEnseignant()
     }
   }
   if (user.email && !show.showMessageErrorEmail) {

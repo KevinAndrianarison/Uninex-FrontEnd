@@ -37,6 +37,10 @@ function deconnexion() {
     show.showNavBarEtud = false
     localStorage.removeItem('user')
   }
+  if (users.chefMention_status === '1') {
+    show.showNavBarRespMention = false
+    localStorage.removeItem('user')
+  }
   router.push('/')
   show.showLogin = true
 }

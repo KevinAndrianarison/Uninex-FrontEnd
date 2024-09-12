@@ -6,6 +6,8 @@ import { usePassword } from '@/stores/Password'
 import { useUrl } from '@/stores/url'
 import { useShow } from '@/stores/Show'
 import { useMessages } from '@/stores/messages'
+import { useInfosheader } from '@/stores/Infosheader'
+import { useInfossetup } from '@/stores/Infossetup'
 
 export const useEnseignant = defineStore('Enseignant', () => {
   const URL = useUrl().url
@@ -13,12 +15,15 @@ export const useEnseignant = defineStore('Enseignant', () => {
   const show = useShow()
   const password = usePassword()
   const messages = useMessages()
+  const infosheader = useInfosheader()
+  const infossetup = useInfossetup()
 
   const ListeENS = ref([])
   const ListeENSTemp = ref([])
   const nomComplet_ens = ref('')
   const nom_ens = ref('')
   const idTop = ref(null)
+  const id_ens = ref(null)
   const idBottom = ref(null)
   const name = ref('')
   const date_recrutement_ens = ref('')
@@ -105,6 +110,40 @@ export const useEnseignant = defineStore('Enseignant', () => {
       })
   }
 
+  function setEnseignant() {
+    show.showSpinner = true
+    let formData = {
+      nomComplet_ens: infossetup.nom,
+      telephone_ens: infossetup.telephone
+    }
+
+
+    axios
+      .put(`${URL}/api/enseignant/${id_ens.value}`, formData)
+      .then((response) => {
+        let user = localStorage.getItem('user')
+        user = JSON.parse(user)
+        if (user.user.status_user === 'ENS') {
+          infosheader.nom = response.data.nomComplet_ens
+          infossetup.nom = response.data.nomComplet_ens
+          infossetup.telephone = response.data.telephone_ens
+          user.nomComplet_ens = response.data.nomComplet_ens
+          user.telephone_ens = response.data.telephone_ens
+        }
+        let updatedUser = JSON.stringify(user)
+        localStorage.setItem('user', updatedUser)
+        messages.messageSucces = 'Modification réussi !'
+        show.showSpinner = false
+        setTimeout(() => {
+          messages.messageSucces = ''
+        }, 3000)
+      })
+      .catch((err) => {
+        console.error(err)
+        show.showSpinner = false
+      })
+  }
+
   function search(valeur) {
     if (!valeur) {
       getAllENS()
@@ -127,8 +166,10 @@ export const useEnseignant = defineStore('Enseignant', () => {
     nom_ens,
     name,
     idTop,
+    id_ens,
     idBottom,
     createEnseignant,
+    setEnseignant,
     getAllENS,
     search
   }

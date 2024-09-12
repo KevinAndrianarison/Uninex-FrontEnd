@@ -158,6 +158,11 @@ onBeforeMount(() => {
     infosheader.nom = user.nomComplet_etud
     infosheader.photo = user.user.photo_name
   }
+  if (user.chefMention_status === '1') {
+    infosheader.status = "Chef de mention"
+    infosheader.nom = user.nomComplet_ens
+    infosheader.photo = user.user.photo_name
+  }
 
   au.getallAU()
 })

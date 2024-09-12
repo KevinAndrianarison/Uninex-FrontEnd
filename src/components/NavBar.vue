@@ -8,6 +8,7 @@
       <NavBarDir v-if="show.showNavBarDir" />
       <NavBarAS v-if="show.showNavBarAS" />
       <NavBarEtud v-if="show.showNavBarEtud" />
+      <NavBarRespMention v-if="show.showNavBarRespMention"/>
 
       <RouterLink to="/Discussion">
         <li><ChatBubbleLeftRightIcon class="h-5 w-5 mr-2" /> Discussions</li>
@@ -36,6 +37,8 @@ import { useShow } from '@/stores/Show'
 import NavBarDir from './navbar/NavBarDir.vue'
 import NavBarAS from './navbar/NavBarAS.vue'
 import NavBarEtud from './navbar/NavBarEtud.vue'
+import NavBarRespMention from './navbar/NavBarRespMention.vue'
+
 
 
 const show = useShow()

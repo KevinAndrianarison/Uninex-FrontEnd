@@ -27,7 +27,7 @@ export const useEtudiant = defineStore('Etudiant', () => {
   const nom_pere_etud = ref('')
   const nom_mere_etud = ref('')
   const nom_tuteur = ref('')
-  const photoBordereaux_name = ref("")
+  const photoBordereaux_name = ref('')
   const adresse_etud = ref('')
   const serieBAC_etud = ref('')
   const sexe_etud = ref('')
@@ -181,7 +181,6 @@ export const useEtudiant = defineStore('Etudiant', () => {
     axios
       .get(`${URL}/api/semestres/${semestre.semestreId}/etudiants`)
       .then((response) => {
-        
         let listeAlphabetique = response.data.sort((a, b) =>
           a.nomComplet_etud.localeCompare(b.nomComplet_etud, 'fr', { sensitivity: 'base' })
         )
@@ -215,7 +214,6 @@ export const useEtudiant = defineStore('Etudiant', () => {
     axios
       .get(`${URL}/api/etudiant/${id_etud.value}`)
       .then((response) => {
-        console.log(response.data);
         CIN_etud.value = response.data.CIN_etud
         adresse_etud.value = response.data.adresse_etud
         anneeBAC_etud.value = response.data.anneeBAC_etud
@@ -230,6 +228,8 @@ export const useEtudiant = defineStore('Etudiant', () => {
         serieBAC_etud.value = response.data.serieBAC_etud
         telephone_etud.value = response.data.telephone_etud
         photoBordereaux_name.value = response.data.photoBordereaux_name
+        sexe_etud.value = response.data.sexe_etud
+
         show.showSpinner = false
       })
       .catch((err) => {
@@ -305,7 +305,6 @@ export const useEtudiant = defineStore('Etudiant', () => {
     axios
       .put(`${URL}/api/etudiant/${id_etud.value}`, formData)
       .then((response) => {
-        
         let user = localStorage.getItem('user')
         user = JSON.parse(user)
         if (user.user.status_user === 'Etudiant') {

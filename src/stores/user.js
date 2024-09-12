@@ -122,6 +122,24 @@ export const useUser = defineStore('User', () => {
               console.error(err)
             })
         }
+        if (response.data.user.status_user === 'ENS') {
+          localStorage.setItem('auth_token', response.data.access_token)
+          axios
+            .get(`${URL}/api/enseignant/getById/${response.data.user.id}`)
+            .then((response) => {
+              localStorage.setItem('user', JSON.stringify(response.data[0]))
+              show.showLogin = false
+              email.value = ''
+              password.value = ''
+              if (response.data[0].chefMention_status === '1') {
+                show.showNavBarRespMention = true
+                show.showAdmin = true
+              }
+            })
+            .catch((err) => {
+              console.error(err)
+            })
+        }
         show.showSpinner = false
       })
       .catch((err) => {
