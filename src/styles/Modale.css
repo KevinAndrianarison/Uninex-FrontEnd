@@ -16,6 +16,12 @@
     background: rgba(43, 38, 38, 0.53);
 }
 
+.valueinfos{
+    font-weight: bold;
+    color: var(--color-secondary);
+    text-decoration: underline;
+}
+
 
 .formInputs{
     background-color: red;
@@ -25,6 +31,15 @@
     background-size: cover;
 }
 
+.formInput{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+.grids{
+    background: blue;
+}
 .formModales {
     width: 370px;
     margin: 50px auto;
@@ -59,6 +74,11 @@
     z-index: 12;
 }
 
+.info{
+    display: flex;
+    flex-direction: row;
+}
+
 .formMod {
     width: 370px;
     margin: 50px auto;
@@ -74,6 +94,17 @@
     width: 370px;
     margin: 50px auto;
     background: rgb(255, 255, 255);
+    padding: 35px;
+    margin-top: 10%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    z-index: 12;
+}
+
+.formModalsInfosEtud {
+    width: 1000px;
+    margin: 50px auto;
+    background: white;
     padding: 35px;
     margin-top: 10%;
     border-radius: 10px;

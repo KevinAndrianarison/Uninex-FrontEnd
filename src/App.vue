@@ -65,6 +65,9 @@
   <Teleport to="body">
     <ValiderInscription />
   </Teleport>
+  <Teleport to="body">
+    <ShowEtudiantInfos />
+  </Teleport>
 </template>
 
 <script setup>
@@ -79,6 +82,7 @@ import CreateNiveau from './components/CreateNiveau.vue'
 import CreateSemestre from './components/CreateSemestre.vue'
 import Alert from './components/Alert.vue'
 import ShowMdpAS from './components/ShowMdpAS.vue'
+import ShowEtudiantInfos from './components/ShowEtudiantInfos.vue'
 import ShowMdpENS from './components/ShowMdpENS.vue'
 import ShowMdpEtudiant from './components/ShowMdpEtudiant.vue'
 import ValiderInscription from './components/ValiderInscription.vue'

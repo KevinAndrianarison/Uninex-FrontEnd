@@ -279,7 +279,9 @@
             /></Tooltip>
             <p class="already ml-3" v-if="etd.user.validiter_compte === 'true'">Déjà créé</p>
           </li>
-          <li class="widthvalue"><InformationCircleIcon class="info h-6 w-6" /></li>
+          <li class="widthvalue">
+            <InformationCircleIcon @click="showInfosEtudiant(etd.id)" class="info h-6 w-6" />
+          </li>
           <li class="widthvalue">
             <Tooltip content="Envoyer à la liste définitive"
               ><CheckBadgeIcon
@@ -342,6 +344,12 @@ function showDelete(id) {
   show.showDeleteusers = true
   user.user_id = id
   user.user_status = 'Etudiant'
+}
+
+function showInfosEtudiant(id) {
+  etudiant.id_etud = id
+  etudiant.getEtudiantById()
+  show.showEtudiantInfos = true
 }
 
 function showImportExcel() {
