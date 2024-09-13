@@ -1,11 +1,11 @@
 <template>
-    <RouterLink to="/etudiant/Inscription">
+    <RouterLink to="/chefDeMention/GestionUE">
       <li><PlusCircleIcon class="h-5 w-5 mr-2" /> Gestion UE</li>
     </RouterLink>
-    <RouterLink to="/etudiant/Cours">
+    <RouterLink to="/chefDeMention/GestionEC">
       <li><PlusCircleIcon class="h-5 w-5 mr-2" /> Gestion EC</li>
     </RouterLink>
-    <RouterLink to="/etudiant/Notes">
+    <RouterLink to="/ListeEtudiant">
       <li><RectangleStackIcon class="h-5 w-5 mr-2" /> Liste des étudiants</li>
     </RouterLink>
   </template>

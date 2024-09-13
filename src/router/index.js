@@ -11,6 +11,8 @@ import WorkSpaceGestionNotes from '../views/agentScolarite/WorkSpaceGestionNotes
 import WorkSpaceGestionRole from '../views/directeur/WorkSpaceGestionRole.vue'
 import WorkSpaceInscription from '../views/etudiant/WorkSpaceInscription.vue'
 import WorkSpaceCours from '../views/etudiant/WorkSpaceCours.vue'
+import WorkSpaceGestionUE from '../views/chefDeMention/WorkSpaceGestionUE.vue'
+import WorkSpaceGestionEC from '../views/chefDeMention/WorkSpaceGestionEC.vue'
 import WorkSpaceNotes from '../views/etudiant/WorkSpaceNotes.vue'
 import WorkSpaceDiscussion from '../views/WorkSpaceDiscussion.vue'
 import WorkSpaceConfiguration from '../views/WorkSpaceConfiguration.vue'
@@ -20,6 +22,16 @@ import WorkSpaceAnnonces from '../views/WorkSpaceAnnonces.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: '/chefDeMention/GestionEC',
+      name: 'GestionEC',
+      component: WorkSpaceGestionEC
+    },
+    {
+      path: '/chefDeMention/GestionUE',
+      name: 'GestionUE',
+      component: WorkSpaceGestionUE
+    },
     {
       path: '/etudiant/Notes',
       name: 'Notes',
@@ -51,7 +63,7 @@ const router = createRouter({
       component: WorkSpaceGestionNotes
     },
     {
-      path: '/agentScolarite/ListeEtudiant',
+      path: '/ListeEtudiant',
       name: 'ListeEtudiant',
       component: WorkSpaceListeEtudiant
     },

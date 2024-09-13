@@ -139,7 +139,7 @@
             </div>
           </div>
 
-          <div class="sm:col-span-3 mt-4 valider">
+          <div class="sm:col-span-3 mt-2 divbtn">
             <Button
               :disabled="show.showMessageErrorEmailDir || !etablissement.etablissement.email_etab"
               class="btns"

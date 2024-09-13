@@ -1,8 +1,7 @@
 <template>
   <div class="list">
     <h1 class="titre">
-      <font-awesome-icon class="h-7 w-7 mr-5" :icon="['fas', 'list-ul']" /> Listes <h1 v-if="show.showNavBarAS">&nbsp;et cartes&nbsp;</h1> des
-      étudiants
+      <PlusCircleIcon class="h-8 w-8 mr-5" /> Gestion des unités d'enseignement (UE)
     </h1>
     <div class="chooseSemestre">
       <div class="radio px-4 mt-2 pb-2 ml-2">
@@ -191,50 +190,50 @@
             </Listbox>
           </div>
         </div>
+        <div class="w-52 sm:col-span-3 mr-4 mt-2">
+          <label class="block text-sm font-medium leading-6 text-gray-900">Nom de l'UE</label>
+          <div class="mt-2 relative">
+            <input
+              type="text"
+              class="pl-3 pr-10 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
+            />
+            <button
+              type="button"
+              class="absolute inset-y-0 right-3 pl-3 flex items-center text-gray-600"
+            ></button>
+          </div>
+        </div>
+        <div class="w-40 sm:col-span-3 mr-4 mt-2">
+          <label class="block text-sm font-medium leading-6 text-gray-900">Crédit</label>
+          <div class="mt-2 relative">
+            <input
+              type="number"
+              class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
+            />
+            <button
+              type="button"
+              class="absolute inset-y-0 right-3 pl-3 flex items-center text-gray-600"
+            ></button>
+          </div>
+        </div>
+        <div class="divbtn sm:col-span-3 mt-2">
+          <Button class="btn"> Valider</Button>
+        </div>
       </div>
     </div>
     <div class="listEtud" v-if="niveau.NiveauCheck.length !== 0">
       <div class="header">
-        <input
-          placeholder="🔎 Recherche par nom"
-          @input="etudiant.searchDefinitive(etudiant.searchalueDef)"
-          v-model="etudiant.searchalueDef"
-          type="search"
-          class="pl-3 pr-3 ml-5 mt-3 block rounded-sm border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
-        />
-        <div
-          class="sm:col-span-3 mt-2 ml-4"
-          v-if="etudiant.ListeEtudiant.length !== 0"
-          @click="exportPdfListeEtud()"
-        >
-          <div class="file-label bg-blue-300 py-1 px-2 rounded-md border border-blue-300">
-            Exporter en PDF
-            <font-awesome-icon class="h-4 w-4 ml-1 mt-1" :icon="['fas', 'print']" />
-          </div>
-        </div>
+        <h1 class="create pl-5 mt-4" v-if="parcour.parcours_nom">Liste des UE de ce semestre :</h1>
       </div>
       <div class="listEtudValue">
         <div class="head">
-          <li class="widthnom">Nom complet</li>
-          <li class="widthemail">Adresse email</li>
-          <li class="widthemails">Téléphone</li>
+          <li class="widthnom">Nom UE</li>
+          <li class="widthemail">Crédit</li>
+          <li class="widthemails">Delete</li>
           <li v-if="show.showNavBarAS" class="width">Carte d'étudiant</li>
         </div>
-        <div :key="index" v-for="(etd, index) in etudiant.listdefinitive">
-          <div class="body">
-            <li class="widthvaluenom">{{ etd.nomComplet_etud }}</li>
-            <li class="widthvalueemail">{{ etd.user.email }}</li>
-            <li class="widthvalueemails">
-              <p>{{ etd.telephone_etud }}</p>
-            </li>
-            <li v-if="show.showNavBarAS" class="widthvalue">
-              <Tooltip content="Générer une carte d'étudiant"
-                ><SparklesIcon class="generates h-6 w-6"
-              /></Tooltip>
-            </li>
-          </div>
-        </div>
-        <div class="Empty" v-if="etudiant.listdefinitive.length === 0">
+
+        <div class="Empty">
           <div class="gif"></div>
         </div>
       </div>
@@ -243,7 +242,7 @@
 </template>
 
 <script setup>
-import { SparklesIcon } from '@heroicons/vue/24/outline'
+import { SparklesIcon, PlusCircleIcon } from '@heroicons/vue/24/outline'
 import { useParcour } from '@/stores/Parcour'
 import { useSemestre } from '@/stores/Semestre'
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
@@ -252,7 +251,6 @@ import { useNiveau } from '@/stores/Niveau'
 import { useEtudiant } from '@/stores/Etudiant'
 import { useDirecteur } from '@/stores/Directeur'
 import { useShow } from '@/stores/Show'
-import Tooltip from '../../components/Tooltip.vue'
 import {
   RadioGroup,
   RadioGroupLabel,

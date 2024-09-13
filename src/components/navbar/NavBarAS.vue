@@ -43,7 +43,7 @@
             </RouterLink>
           </MenuItem>
           <MenuItem v-slot="{ active }">
-            <RouterLink to="/agentScolarite/ListeEtudiant">
+            <RouterLink to="/ListeEtudiant">
               <button
                 class="btndrop"
                 :class="[

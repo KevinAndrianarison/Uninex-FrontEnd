@@ -37,8 +37,9 @@ function deconnexion() {
     show.showNavBarEtud = false
     localStorage.removeItem('user')
   }
-  if (users.chefMention_status === '1') {
+  if (users.user.status_user === 'ENS') {
     show.showNavBarRespMention = false
+    show.showNavBarRespParcours = false
     localStorage.removeItem('user')
   }
   router.push('/')

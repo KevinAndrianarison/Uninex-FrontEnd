@@ -133,8 +133,11 @@ export const useUser = defineStore('User', () => {
               password.value = ''
               if (response.data[0].chefMention_status === '1') {
                 show.showNavBarRespMention = true
-                show.showAdmin = true
               }
+              if (response.data[0].chefParcours_status === '1') {
+                show.showNavBarRespParcours = true
+              }
+              show.showAdmin = true
             })
             .catch((err) => {
               console.error(err)

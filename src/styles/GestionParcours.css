@@ -58,6 +58,16 @@
     font-weight: 600;
 }
 
+.red{
+    color: rgba(255, 0, 0, 0.67);
+}
+
+.widthe{
+    width: 10%;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+}
 
 .widthvaluenom {
     width: 50%;

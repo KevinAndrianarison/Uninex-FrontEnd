@@ -27,7 +27,8 @@ import {
   faFolderOpen,
   faFileExcel,
   faListUl,
-  faPrint
+  faPrint,
+  faPersonCircleXmark
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -46,7 +47,8 @@ library.add(
   faFolderOpen,
   faFileExcel,
   faListUl,
-  faPrint
+  faPrint,
+  faPersonCircleXmark
 )
 
 import App from './App.vue'

@@ -118,20 +118,59 @@ export const useParcour = defineStore('Parcour', () => {
         let formDatasetEns = {
           chefParcours_status: true
         }
-        axios
-          .put(`${URL}/api/enseignant/${enseignant.idBottom}`, formDatasetEns)
-          .then((response) => {
-            messages.messageSucces = 'Chef de parcours ajouté !'
-            setTimeout(() => {
-              messages.messageSucces = ''
-            }, 3000)
-            show.showSpinner = false
-            getByNiveauId()
-          })
-          .catch((err) => {
-            console.error(err)
-            show.showSpinner = false
-          })
+        if (response.data.message === 'Un enseignant est déjà associé à ce parcours !') {
+          messages.messageError = response.data.message
+          show.showSpinner = false
+          setTimeout(() => {
+            messages.messageError = ''
+          }, 3000)
+        } else {
+          axios
+            .put(`${URL}/api/enseignant/${enseignant.idBottom}`, formDatasetEns)
+            .then((response) => {
+              messages.messageSucces = 'Chef de parcours ajouté !'
+              setTimeout(() => {
+                messages.messageSucces = ''
+              }, 3000)
+              show.showSpinner = false
+              getByNiveauId()
+            })
+            .catch((err) => {
+              console.error(err)
+              show.showSpinner = false
+            })
+        }
+      })
+      .catch((err) => {
+        console.error(err)
+        show.showSpinner = false
+      })
+  }
+
+  function clearEnseignantId() {
+    show.showSpinner = true
+    axios
+      .put(`${URL}/api/parcours/${parcours_id.value}/clearEnseignant`)
+      .then((response) => {
+        if (response.data.message === "L'enseignant a été dissocié avec succès !") {
+          let formDatasetEns = {
+            chefParcours_status: false
+          }
+          axios
+            .put(`${URL}/api/enseignant/${enseignant.idBottom}`, formDatasetEns)
+            .then((response) => {
+              messages.messageSucces = "L'enseignant a été dissocié avec succès !"
+              show.showSpinner = false
+              setTimeout(() => {
+                messages.messageSucces = ''
+              }, 3000)
+              getByNiveauId()
+            })
+            .catch((err) => {
+              console.error(err)
+              show.showSpinner = false
+            })
+        }
       })
       .catch((err) => {
         console.error(err)
@@ -148,6 +187,7 @@ export const useParcour = defineStore('Parcour', () => {
     parcours_abr,
     parcours_nom,
     postParcour,
+    clearEnseignantId,
     getByNiveauId,
     addRespParcours,
     deleteParcours

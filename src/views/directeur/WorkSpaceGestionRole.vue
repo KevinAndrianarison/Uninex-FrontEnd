@@ -346,14 +346,20 @@
         <div class="head pb-2">
           <li class="widthnom">Mentions et Parcours</li>
           <li class="widthemails">Responsables</li>
+          <li class="widthe">Retirer</li>
+
         </div>
         <div class="body" :key="index" v-for="(mnt, index) in mention.ListMention">
           <li class="widthvaluenom">{{ mnt.nom_mention }} / {{ mnt.abr_mention }}</li>
           <li class="widthvalueemails" v-if="mnt.enseignant !== null" >{{ mnt.enseignant.nomComplet_ens }}</li>
+          <li class="widthe"><font-awesome-icon v-if="mnt.enseignant !== null" @click="mention.clearEnseignantId()"  class="h-6 w-6 red" :icon="['fas', 'person-circle-xmark']" /></li>
+
         </div>
         <div class="body" :key="index" v-for="(prc, index) in parcour.ListParcours">
           <li class="widthvaluenom">{{ prc.nom_parcours }} / {{ prc.abr_parcours }}</li>
           <li class="widthvalueemails" v-if="prc.enseignant !== null">{{ prc.enseignant.nomComplet_ens }}</li>
+          <li class="widthe"><font-awesome-icon  v-if="prc.enseignant !== null" @click="parcour.clearEnseignantId()" class="h-6 w-6 red" :icon="['fas', 'person-circle-xmark']" /></li>
+
         </div>
       </div>
     </div>

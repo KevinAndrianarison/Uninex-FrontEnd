@@ -115,20 +115,61 @@ export const useMention = defineStore('Mention', () => {
         let formDatasetEns = {
           chefMention_status: true
         }
-        axios
-          .put(`${URL}/api/enseignant/${enseignant.idTop}`, formDatasetEns)
-          .then((response) => {
-            messages.messageSucces = 'Chef de mention ajouté !'
-            setTimeout(() => {
-              messages.messageSucces = ''
-            }, 3000)
-            show.showSpinner = false
-            getByAuId()
-          })
-          .catch((err) => {
-            console.error(err)
-            show.showSpinner = false
-          })
+        if (response.data.message === 'Un enseignant est déjà associé à cette mention !') {
+          messages.messageError = response.data.message
+          show.showSpinner = false
+          setTimeout(() => {
+            messages.messageError = ''
+          }, 3000)
+        } else {
+          axios
+            .put(`${URL}/api/enseignant/${enseignant.idTop}`, formDatasetEns)
+            .then((response) => {
+              messages.messageSucces = 'Chef de mention ajouté !'
+              setTimeout(() => {
+                messages.messageSucces = ''
+              }, 3000)
+              show.showSpinner = false
+              getByAuId()
+            })
+            .catch((err) => {
+              console.error(err)
+              show.showSpinner = false
+            })
+        }
+      })
+      .catch((err) => {
+        console.error(err)
+        show.showSpinner = false
+      })
+  }
+
+  function clearEnseignantId() {
+    show.showSpinner = true
+
+    axios
+      .put(`${URL}/api/mentions/${mentionParcours.id}/clearEnseignant`)
+      .then((response) => {
+        if (response.data.message === "L'enseignant a été dissocié avec succès !") {
+          let formDatasetEns = {
+            chefMention_status: false
+          }
+          axios
+            .put(`${URL}/api/enseignant/${enseignant.idTop}`, formDatasetEns)
+            .then((response) => {
+              messages.messageSucces = "L'enseignant a été dissocié avec succès !"
+              show.showSpinner = false
+
+              setTimeout(() => {
+                messages.messageSucces = ''
+              }, 3000)
+              getByAuId()
+            })
+            .catch((err) => {
+              console.error(err)
+              show.showSpinner = false
+            })
+        }
       })
       .catch((err) => {
         console.error(err)
@@ -143,6 +184,7 @@ export const useMention = defineStore('Mention', () => {
     mention,
     mentionParcours,
     postMentionByNiveau,
+    clearEnseignantId,
     getByAuId,
     deleteMention,
     addRespMention
