@@ -24,15 +24,15 @@
 
 .alert-icon {
     margin-right: 10px;
-    font-size: 1.5rem; 
+    font-size: 1.5rem;
 }
 
 .success {
-    background-color: #1abc9c; 
+    background-color: #1abc9c;
 }
 
 .danger {
-    background-color: #e74c3c; 
+    background-color: #e74c3c;
 }
 
 .slide-fade-enter-active {
@@ -47,6 +47,7 @@
     0% {
         transform: translateX(-100%);
     }
+
     100% {
         transform: translateX(0);
     }
@@ -56,6 +57,7 @@
     0% {
         transform: translateX(0);
     }
+
     100% {
         transform: translateX(-100%);
     }
@@ -65,6 +67,7 @@
     0% {
         opacity: 0;
     }
+
     100% {
         opacity: 1;
     }
@@ -74,6 +77,7 @@
     0% {
         opacity: 1;
     }
+
     100% {
         opacity: 0;
     }

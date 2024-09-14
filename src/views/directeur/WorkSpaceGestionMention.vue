@@ -31,7 +31,12 @@
         <div class="check mr-4" :key="index" v-for="(niv, index) in niveau.ListNiveau">
           <div>
             <label class="text-sm font-bold leading-6 text-gray-900">{{ niv.nom_niveau }}</label>
-            <input :value="{id : niv.id, abr: niv.abr_niveau}" v-model="niveau.NiveauChecked" class="ml-1" type="checkbox" />
+            <input
+              :value="{ id: niv.id, abr: niv.abr_niveau }"
+              v-model="niveau.NiveauChecked"
+              class="ml-1"
+              type="checkbox"
+            />
           </div>
         </div>
 
@@ -98,7 +103,7 @@ const activeDisclosure = ref(null)
 const tooltipTarget = ref(null)
 
 onMounted(() => {
-  mention.nom_mention = ""
+  mention.nom_mention = ''
   if (tooltipTarget.value) {
     tippy(tooltipTarget.value, {
       content: 'Je suis un tooltip !',

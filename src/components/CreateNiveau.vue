@@ -19,9 +19,8 @@ function deleteNiveau(nom, id) {
 
 function closeCreateNiveau() {
   show.showCreateNiveau = false
-  niveau.nom_niveau = ""
-  niveau.abr_niveau = ""
-
+  niveau.nom_niveau = ''
+  niveau.abr_niveau = ''
 }
 </script>
 
@@ -71,7 +70,7 @@ function closeCreateNiveau() {
           </button>
         </div>
         <div class="w-full mt-3" v-if="niveau.ListNiveau.length !== 0">
-          <Disclosure v-slot="{ open  }">
+          <Disclosure v-slot="{ open }">
             <DisclosureButton
               class="flex w-full justify-between rounded-lg bg-yellow-100 px-4 py-2 text-left text-lm font-black text-black hover:bg-yellow-200 focus:outline-none focus-visible:ring focus-visible:ring-yellow-500/75"
             >

@@ -1,8 +1,9 @@
 <template>
   <div class="list">
     <h1 class="titre">
-      <font-awesome-icon class="h-7 w-7 mr-5" :icon="['fas', 'list-ul']" /> Listes <h1 v-if="show.showNavBarAS">&nbsp;et cartes&nbsp;</h1> des
-      étudiants
+      <font-awesome-icon class="h-7 w-7 mr-5" :icon="['fas', 'list-ul']" /> Listes
+      <h1 v-if="show.showNavBarAS">&nbsp;et cartes&nbsp;</h1>
+      des étudiants
     </h1>
     <div class="chooseSemestre">
       <div class="radio px-4 mt-2 pb-2 ml-2">

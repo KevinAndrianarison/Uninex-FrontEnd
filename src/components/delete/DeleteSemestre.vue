@@ -2,10 +2,8 @@
 import { useShow } from '@/stores/Show'
 import { useSemestre } from '@/stores/Semestre'
 
-
 const show = useShow()
 const semestre = useSemestre()
-
 
 function closeModaleDelSemestre() {
   show.showDeleteSemestre = false

@@ -9,8 +9,6 @@ import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import { TrashIcon } from '@heroicons/vue/24/outline'
 import { ChevronUpIcon } from '@heroicons/vue/20/solid'
 
-
-
 import {
   RadioGroup,
   RadioGroupLabel,
@@ -28,7 +26,7 @@ const niveau = useNiveau()
 const parcour = useParcour()
 const semestre = useSemestre()
 
-function delSemestre(nom, id){
+function delSemestre(nom, id) {
   semestre.semestre.nom = nom
   semestre.semestre.id = id
   show.showDeleteSemestre = true
@@ -121,7 +119,7 @@ function closeCreateSemestre() {
               <label class="block text-sm font-medium leading-6 text-gray-900"
                 >Choisissez un parcours :</label
               >
-              <div class="mt-1">
+              <div class="mt-1 semsetre">
                 <Listbox v-model="parcour.parcours_nom">
                   <div class="relative">
                     <ListboxButton
@@ -165,7 +163,7 @@ function closeCreateSemestre() {
                                   : 'font-normal',
                                 'block truncate'
                               ]"
-                              >{{ prc.abr_parcours }}</span
+                              >{{ prc.nom_parcours }} / {{ prc.abr_parcours }}</span
                             >
                             <span
                               v-if="parcour.parcours_nom === prc.nom_parcours"
@@ -196,10 +194,16 @@ function closeCreateSemestre() {
         </div>
 
         <div class="valide" v-if="parcour.parcours_nom">
-          <button type="submit" @click="semestre.postSemestre()" class="Modifie btn btn-primary mt-4">Valider</button>
+          <button
+            type="submit"
+            @click="semestre.postSemestre()"
+            class="Modifie btn btn-primary mt-4"
+          >
+            Valider
+          </button>
         </div>
         <div class="w-full mt-3" v-if="semestre.ListeSemestre.length !== 0">
-          <Disclosure v-slot="{ open  }">
+          <Disclosure v-slot="{ open }">
             <DisclosureButton
               class="flex w-full justify-between rounded-lg bg-yellow-100 px-4 py-2 text-left text-lm font-black text-black hover:bg-yellow-200 focus:outline-none focus-visible:ring focus-visible:ring-yellow-500/75"
             >
@@ -213,15 +217,14 @@ function closeCreateSemestre() {
               <div class="listNiv" :key="index" v-for="(sm, index) in semestre.ListeSemestre">
                 {{ sm.nom_semestre }}
                 <TrashIcon
-                  class="deletes h-6 w-5 ml-3 pb-1" @click="delSemestre(sm.nom_semestre, sm.id)"
+                  class="deletes h-6 w-5 ml-3 pb-1"
+                  @click="delSemestre(sm.nom_semestre, sm.id)"
                 />
               </div>
             </DisclosurePanel>
           </Disclosure>
         </div>
       </div>
-
-
     </div>
   </Transition>
 </template>

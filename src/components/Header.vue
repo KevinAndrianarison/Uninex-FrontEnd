@@ -159,12 +159,12 @@ onBeforeMount(() => {
     infosheader.photo = user.user.photo_name
   }
   if (user.chefMention_status === '1') {
-    infosheader.status = "Chef de mention"
+    infosheader.status = 'Chef de mention'
     infosheader.nom = user.nomComplet_ens
     infosheader.photo = user.user.photo_name
   }
   if (user.chefParcours_status === '1') {
-    infosheader.status = "Chef de parcours"
+    infosheader.status = 'Chef de parcours'
     infosheader.nom = user.nomComplet_ens
     infosheader.photo = user.user.photo_name
   }

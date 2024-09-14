@@ -232,9 +232,7 @@
           <div class="divbtn sm:col-span-3 mt-2">
             <Button
               class="Btns mb-1"
-              :disabled="
-                !etudiant.photoBordereaux
-              "
+              :disabled="!etudiant.photoBordereaux"
               @click="etudiant.inscription()"
             >
               S'inscrire</Button

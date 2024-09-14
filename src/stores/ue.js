@@ -69,7 +69,7 @@ export const useUe = defineStore('Ue', () => {
     show.showSpinner = true
     axios
       .delete(`${URL}/api/ue/${id.value}`)
-      .then((response) => {        
+      .then((response) => {
         getUeByIdsemstre()
         show.showSpinner = false
       })

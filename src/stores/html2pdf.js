@@ -31,6 +31,6 @@ export const useHtml2pdf = defineStore('Html2pdf', () => {
   return {
     elementToPrint,
     setElement,
-    downloadPDF,
+    downloadPDF
   }
 })

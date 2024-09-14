@@ -13,13 +13,13 @@
   flex-direction: row;
 }
 
-.Empty{
+.Empty {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.gif{
+.gif {
   height: 150px;
   width: 150px;
   background-image: url("../assets/icon-404.gif");

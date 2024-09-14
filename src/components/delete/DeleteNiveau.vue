@@ -2,10 +2,8 @@
 import { useShow } from '@/stores/Show'
 import { useNiveau } from '@/stores/Niveau'
 
-
 const show = useShow()
 const niveau = useNiveau()
-
 
 function closeModaleDelNiveau() {
   show.showDeleteNiveau = false
@@ -24,7 +22,11 @@ function closeModaleDelNiveau() {
           <button type="button" class="delete btn btn-primary mt-5" @click="niveau.deleteNiveau()">
             OUI
           </button>
-          <button type="button" class="Annuller btn btn-primary mt-5" @click="closeModaleDelNiveau()">
+          <button
+            type="button"
+            class="Annuller btn btn-primary mt-5"
+            @click="closeModaleDelNiveau()"
+          >
             NON
           </button>
         </div>

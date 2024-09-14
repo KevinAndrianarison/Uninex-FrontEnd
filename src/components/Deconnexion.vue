@@ -4,12 +4,10 @@ import { useUser } from '@/stores/User'
 import { useRouter } from 'vue-router'
 import { useInfossetup } from '@/stores/Infossetup'
 
-
 const show = useShow()
 const user = useUser()
 const router = useRouter()
 const infossetup = useInfossetup()
-
 
 function Canceldeconnexion() {
   show.showDeconnexion = false

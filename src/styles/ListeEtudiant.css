@@ -11,6 +11,7 @@
     margin: 0 auto;
     width: 1000px;
 }
+
 .Empty {
     display: flex;
     justify-content: center;
@@ -48,7 +49,7 @@
     cursor: pointer;
 }
 
-.delete{
+.delete {
     color: red;
     cursor: pointer;
 }
@@ -61,13 +62,7 @@
     margin-top: 5px;
 }
 
-.listUE {
-    height: 42vh;
-    background-color: white;
-    border-radius: 10px;
-    border: 2px solid rgba(128, 128, 128, 0.127);
-    margin-top: 5px;
-}
+
 
 
 .listEtudValue {
@@ -87,10 +82,7 @@
 }
 
 
-.widthUEnom {
-    width: 10%;
-    font-weight: 600;
-}
+
 .width {
     width: 15%;
     font-weight: 600;
@@ -134,18 +126,12 @@ li {
     width: 30%;
 }
 
-.widthvalueUE {
-    width: 50%;
-}
 
 .widthvalueemail {
     width: 30%;
 }
 
-.widthvaluecredit {
-    width: 10%;
-    text-align: center;
-}
+
 
 
 .body {
@@ -163,22 +149,13 @@ li {
     flex-wrap: wrap
 }
 
-.widtUE {
-    width: 50%;
-    font-weight: 600;
-}
+
 
 .widthnom {
     width: 30%;
     font-weight: 600;
 }
 
-.widthcredit {
-    width: 10%;
-    font-weight: 600;
-    text-align: center;
-
-}
 
 
 .widthemail {

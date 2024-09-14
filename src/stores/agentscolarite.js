@@ -96,7 +96,6 @@ export const useAgentscolarite = defineStore('Agentscolarite', () => {
     axios
       .get(`${URL}/api/agentscolarite`)
       .then((response) => {
-        
         ListeAS.value = response.data
         ListeASTemp.value = response.data
         show.showSpinner = false

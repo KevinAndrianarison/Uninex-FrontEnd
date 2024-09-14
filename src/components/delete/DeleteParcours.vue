@@ -2,10 +2,8 @@
 import { useShow } from '@/stores/Show'
 import { useParcour } from '@/stores/Parcour'
 
-
 const show = useShow()
 const parcour = useParcour()
-
 
 function closeModaleDelParcour() {
   show.showDeleteParcour = false

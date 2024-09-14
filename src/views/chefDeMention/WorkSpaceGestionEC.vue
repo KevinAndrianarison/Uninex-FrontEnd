@@ -1,10 +1,442 @@
 <template>
-    <div>
-      <p>This is the Gestion EC Page</p>
-    </div>
-  </template>
-  
-  <script setup></script>
-  
-  <style scoped></style>
-  
+  <div class="w-full px-2 sm:px-0">
+    <TabGroup>
+      <TabList class="flex space-x-1 rounded-sm bg-yellow-500/20 p-1">
+        <Tab as="template" v-slot="{ selected }">
+          <button
+            :class="[
+              'w-full rounded-sm py-2.5 text-sm font-bold leading-5',
+              'ring-white/60 ring-offset-2 ring-offset-yellow-400 focus:outline-none focus:ring-2',
+              selected
+                ? 'bg-white text-black shadow'
+                : 'text-black hover:bg-white/[0.12] hover:text-black'
+            ]"
+          >
+            CRÉATION D'UN ÉLÉMENT CONSTITUTIF (EC)
+          </button>
+        </Tab>
+        <Tab as="template" v-slot="{ selected }">
+          <button
+            :class="[
+              'w-full rounded-sm py-2.5 text-sm font-bold leading-5',
+              'ring-white/60 ring-offset-2 ring-offset-yellow-400 focus:outline-none focus:ring-2',
+              selected
+                ? 'bg-white text-black shadow'
+                : 'text-black hover:bg-white/[0.12] hover:text-black'
+            ]"
+          >
+            RESPONSABLE D'UN ÉLÉMENT CONSTITUTIF (EC)
+          </button>
+        </Tab>
+      </TabList>
+
+      <TabPanels class="mt-2">
+        <TabPanel :class="['rounded-xl bg-white p-3']">
+          <div>
+            <div class="chooseSemestre">
+              <h1 class="create pl-5 mt-2" v-if="mention.nom_mention">Sélectionnez un UE :</h1>
+              <div v-if="mention.nom_mention" class="class formInput border-gray-900/10 pb-5 pl-5">
+                <div class="sm:col-span-3 mt-2 ctgr mr-4">
+                  <label class="block text-sm font-medium leading-6 text-gray-900">Mentions</label>
+                  <div class="w-52 mt-1 mr-4">
+                    <Listbox v-model="mention.nom_mention">
+                      <div class="relative">
+                        <ListboxButton
+                          class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+                        >
+                          <span class="block truncate">{{ mention.nom_mention }}</span>
+                          <span
+                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
+                          >
+                            <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+                          </span>
+                        </ListboxButton>
+
+                        <transition
+                          leave-active-class="transition duration-100 ease-in"
+                          leave-from-class="opacity-100"
+                          leave-to-class="opacity-0"
+                        >
+                          <ListboxOptions
+                            class="z-20 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+                          >
+                            <ListboxOption
+                              :key="index"
+                              v-for="(mnt, index) in mention.ListMentionByEns"
+                              :value="mnt.nom_mention"
+                              @click="setIdmention(mnt.id)"
+                            >
+                              <li
+                                :class="[
+                                  mention.nom_mention === mnt.nom_mention
+                                    ? 'bg-amber-100 text-amber-900'
+                                    : 'text-gray-900',
+                                  'relative cursor-default select-none py-2 pl-10 pr-4'
+                                ]"
+                              >
+                                <span
+                                  :class="[
+                                    mention.nom_mention === mnt.nom_mention
+                                      ? 'font-medium'
+                                      : 'font-normal',
+                                    'block truncate'
+                                  ]"
+                                  >{{ mnt.nom_mention }}</span
+                                >
+                                <span
+                                  v-if="mention.nom_mention === mnt.nom_mention"
+                                  class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
+                                >
+                                  <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                                </span>
+                              </li>
+                            </ListboxOption>
+                          </ListboxOptions>
+                        </transition>
+                      </div>
+                    </Listbox>
+                  </div>
+                </div>
+                <div class="sm:col-span-3 mt-2 ctgr mr-4" v-if="parcour.parcours_nom">
+                  <label class="block text-sm font-medium leading-6 text-gray-900">Parcours</label>
+                  <div class="w-52 mt-1 mr-4">
+                    <Listbox v-model="parcour.parcours_nom">
+                      <div class="relative">
+                        <ListboxButton
+                          class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+                        >
+                          <span class="block truncate">{{ parcour.parcours_nom }}</span>
+                          <span
+                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
+                          >
+                            <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+                          </span>
+                        </ListboxButton>
+
+                        <transition
+                          leave-active-class="transition duration-100 ease-in"
+                          leave-from-class="opacity-100"
+                          leave-to-class="opacity-0"
+                        >
+                          <ListboxOptions
+                            class="z-20 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+                          >
+                            <ListboxOption
+                              :key="index"
+                              v-for="(prc, index) in parcour.ListParcoursByMention"
+                              :value="prc.nom_parcours"
+                              @click="setIdParcours(prc.id)"
+                            >
+                              <li
+                                :class="[
+                                  parcour.parcours_nom === prc.nom_parcours
+                                    ? 'bg-amber-100 text-amber-900'
+                                    : 'text-gray-900',
+                                  'relative cursor-default select-none py-2 pl-10 pr-4'
+                                ]"
+                              >
+                                <span
+                                  :class="[
+                                    parcour.parcours_nom === prc.nom_parcours
+                                      ? 'font-medium'
+                                      : 'font-normal',
+                                    'block truncate'
+                                  ]"
+                                  >{{ prc.abr_parcours }}</span
+                                >
+                                <span
+                                  v-if="parcour.parcours_nom === prc.nom_parcours"
+                                  class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
+                                >
+                                  <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                                </span>
+                              </li>
+                            </ListboxOption>
+                          </ListboxOptions>
+                        </transition>
+                      </div>
+                    </Listbox>
+                  </div>
+                </div>
+                <div class="sm:col-span-3 mt-2 ctgr mr-4" v-if="semestre.semestreNom">
+                  <label class="block text-sm font-medium leading-6 text-gray-900">Semestre</label>
+                  <div class="w-52 mt-1 mr-4">
+                    <Listbox v-model="semestre.semestreNom">
+                      <div class="relative">
+                        <ListboxButton
+                          class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+                        >
+                          <span class="block truncate">{{ semestre.semestreNom }}</span>
+                          <span
+                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
+                          >
+                            <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+                          </span>
+                        </ListboxButton>
+
+                        <transition
+                          leave-active-class="transition duration-100 ease-in"
+                          leave-from-class="opacity-100"
+                          leave-to-class="opacity-0"
+                        >
+                          <ListboxOptions
+                            class="z-20 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+                          >
+                            <ListboxOption
+                              :key="index"
+                              v-for="(sm, index) in semestre.ListeSemestre"
+                              :value="sm.nom_semestre"
+                              @click="setSemestreId(sm.id)"
+                            >
+                              <li
+                                :class="[
+                                  semestre.semestreNom === sm.nom_semestre
+                                    ? 'bg-amber-100 text-amber-900'
+                                    : 'text-gray-900',
+                                  'relative cursor-default select-none py-2 pl-10 pr-4'
+                                ]"
+                              >
+                                <span
+                                  :class="[
+                                    semestre.semestreNom === sm.nom_semestre
+                                      ? 'font-medium'
+                                      : 'font-normal',
+                                    'block truncate'
+                                  ]"
+                                  >{{ sm.nom_semestre }}</span
+                                >
+                                <span
+                                  v-if="semestre.semestreNom === sm.nom_semestre"
+                                  class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
+                                >
+                                  <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                                </span>
+                              </li>
+                            </ListboxOption>
+                          </ListboxOptions>
+                        </transition>
+                      </div>
+                    </Listbox>
+                  </div>
+                </div>
+
+                <div class="sm:col-span-3 mt-2 ctgr mr-4" v-if="semestre.semestreNom">
+                  <label class="block text-sm font-medium leading-6 text-gray-900"
+                    >Unités d'enseignement</label
+                  >
+                  <div class="w-52 mt-1 mr-4">
+                    <Listbox v-model="semestre.semestreNom">
+                      <div class="relative">
+                        <ListboxButton
+                          class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+                        >
+                          <span class="block truncate">{{ semestre.semestreNom }}</span>
+                          <span
+                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
+                          >
+                            <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+                          </span>
+                        </ListboxButton>
+
+                        <transition
+                          leave-active-class="transition duration-100 ease-in"
+                          leave-from-class="opacity-100"
+                          leave-to-class="opacity-0"
+                        >
+                          <ListboxOptions
+                            class="z-20 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+                          >
+                            <ListboxOption
+                              :key="index"
+                              v-for="(sm, index) in semestre.ListeSemestre"
+                              :value="sm.nom_semestre"
+                              @click="setSemestreId(sm.id)"
+                            >
+                              <li
+                                :class="[
+                                  semestre.semestreNom === sm.nom_semestre
+                                    ? 'bg-amber-100 text-amber-900'
+                                    : 'text-gray-900',
+                                  'relative cursor-default select-none py-2 pl-10 pr-4'
+                                ]"
+                              >
+                                <span
+                                  :class="[
+                                    semestre.semestreNom === sm.nom_semestre
+                                      ? 'font-medium'
+                                      : 'font-normal',
+                                    'block truncate'
+                                  ]"
+                                  >{{ sm.nom_semestre }}</span
+                                >
+                                <span
+                                  v-if="semestre.semestreNom === sm.nom_semestre"
+                                  class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
+                                >
+                                  <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                                </span>
+                              </li>
+                            </ListboxOption>
+                          </ListboxOptions>
+                        </transition>
+                      </div>
+                    </Listbox>
+                  </div>
+                </div>
+                <div class="w-40 sm:col-span-3 mr-4 mt-2">
+                  <label class="block text-sm font-medium leading-6 text-gray-900"
+                    >Nom de l'EC</label
+                  >
+                  <div class="mt-2 relative">
+                    <input
+                      type="text"
+                      class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
+                    />
+                    <button
+                      type="button"
+                      class="absolute inset-y-0 right-3 pl-3 flex items-center text-gray-600"
+                    ></button>
+                  </div>
+                </div>
+                <div class="w-40 sm:col-span-3 mr-4 mt-2">
+                  <label class="block text-sm font-medium leading-6 text-gray-900"
+                    >Volume horaire (ET)</label
+                  >
+                  <div class="mt-2 relative">
+                    <input
+                      type="number"
+                      v-model="ue.credit_ue"
+                      @input="limitvolumeHLength"
+                      class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
+                    />
+                    <button
+                      type="button"
+                      class="absolute inset-y-0 right-3 pl-3 flex items-center text-gray-600"
+                    ></button>
+                  </div>
+                </div>
+                <div class="w-40 sm:col-span-3 mr-4 mt-2">
+                  <label class="block text-sm font-medium leading-6 text-gray-900"
+                    >Volume horaire (ED)</label
+                  >
+                  <div class="mt-2 relative">
+                    <input
+                      type="number"
+                      v-model="ue.credit_ue"
+                      @input="limitvolumeHLength"
+                      class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
+                    />
+                    <button
+                      type="button"
+                      class="absolute inset-y-0 right-3 pl-3 flex items-center text-gray-600"
+                    ></button>
+                  </div>
+                </div>
+                <div class="w-40 sm:col-span-3 mr-4 mt-2">
+                  <label class="block text-sm font-medium leading-6 text-gray-900"
+                    >Volume horaire (TP)</label
+                  >
+                  <div class="mt-2 relative">
+                    <input
+                      type="number"
+                      v-model="ue.credit_ue"
+                      @input="limitvolumeHLength"
+                      class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
+                    />
+                    <button
+                      type="button"
+                      class="absolute inset-y-0 right-3 pl-3 flex items-center text-gray-600"
+                    ></button>
+                  </div>
+                </div>
+                <div class="divbtn sm:col-span-3 mt-2">
+                  <Button
+                    class="btn"
+                    @click="ue.createUE()"
+                    :disabled="!ue.nom_ue || !ue.credit_ue"
+                  >
+                    Valider</Button
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="listUE">
+              <div class="header">
+                <h1 class="create pl-5 mt-4" v-if="parcour.parcours_nom">
+                  Liste des EC de cette unité d'enseignement :
+                </h1>
+              </div>
+              <div class="listEtudValue">
+                <div class="head">
+                  <li class="widtUE">Nom de l'EC</li>
+                  <li class="widthcredit">Crédit</li>
+                  <li class="widthUEnom"></li>
+                </div>
+                <div :key="index" v-for="(UE, index) in ue.ListeueBysemestre">
+                  <div class="body">
+                    <li class="widthvalueUE">{{ UE.nom_ue }}</li>
+                    <li class="widthvaluecredit">{{ UE.credit_ue }}</li>
+                    <li class="widthvalueTrash">
+                      <TrashIcon @click="showdeleteUE(UE.nom_ue, UE.id)" class="delete h-5 w-5" />
+                    </li>
+                  </div>
+                </div>
+                <div class="Empty" v-if="ue.ListeueBysemestre.length === 0">
+                  <div class="gif"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </TabPanel>
+        <TabPanel :class="['rounded-xl bg-white p-3']"> BBBB </TabPanel>
+      </TabPanels>
+    </TabGroup>
+  </div>
+</template>
+
+<script setup>
+import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
+import { TrashIcon } from '@heroicons/vue/24/outline'
+import { useParcour } from '@/stores/Parcour'
+import { useSemestre } from '@/stores/Semestre'
+import { useUe } from '@/stores/Ue'
+import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
+import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
+import { useShow } from '@/stores/Show'
+import { useMention } from '@/stores/Mention'
+import { onBeforeMount } from 'vue'
+
+const semestre = useSemestre()
+const ue = useUe()
+const parcour = useParcour()
+const show = useShow()
+const mention = useMention()
+
+function showdeleteUE(nom, id) {
+  ue.nomUE = nom
+  ue.id = id
+  show.showDeleteUE = true
+}
+
+function setIdParcours(id) {
+  parcour.parcours_id = id
+}
+
+onBeforeMount(() => {
+  mention.getMentionByRespId()
+})
+
+function limitvolumeHLength(event) {
+  const value = event.target.value
+  if (value.length > 3) {
+    event.target.value = value.slice(0, 3)
+    ue.credit_ue = event.target.value
+  }
+}
+
+function setSemestreId(id) {
+  semestre.semestreId = id
+}
+</script>
+
+<style scoped src="../../styles/Ue.css"></style>

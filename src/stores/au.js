@@ -5,6 +5,7 @@ import { useUrl } from '@/stores/url'
 import { useEtablissement } from '@/stores/Etablissement'
 import { useNiveau } from '@/stores/Niveau'
 import { useMessages } from '@/stores/messages'
+import { useMention } from '@/stores/Mention'
 
 import axios from 'axios'
 
@@ -14,6 +15,7 @@ export const useAu = defineStore('Au', () => {
   const messages = useMessages()
   const etablissement = useEtablissement()
   const niveau = useNiveau()
+  const mention = useMention()
 
   const annee_debut = ref(null)
   const annee_fin = ref(null)
@@ -41,6 +43,7 @@ export const useAu = defineStore('Au', () => {
     if (newValue) {
       ShowIdAU()
       niveau.getByAuId()
+      mention.getMentionByRespId()
       niveau.NiveauChecked = []
     }
   })

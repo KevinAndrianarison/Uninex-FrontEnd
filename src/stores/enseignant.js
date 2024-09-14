@@ -117,7 +117,6 @@ export const useEnseignant = defineStore('Enseignant', () => {
       telephone_ens: infossetup.telephone
     }
 
-
     axios
       .put(`${URL}/api/enseignant/${id_ens.value}`, formData)
       .then((response) => {

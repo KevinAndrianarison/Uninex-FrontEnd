@@ -3,7 +3,6 @@ import { useShow } from '@/stores/Show'
 import { useAu } from '@/stores/Au'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
 
-
 const show = useShow()
 const au = useAu()
 

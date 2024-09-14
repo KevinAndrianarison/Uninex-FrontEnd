@@ -1,11 +1,14 @@
 import { defineStore } from 'pinia'
-import { ref, reactive } from 'vue'
+import { ref, reactive, watch } from 'vue'
 import { useNiveau } from '@/stores/Niveau'
 import { useShow } from '@/stores/Show'
 import { useUrl } from '@/stores/url'
 import axios from 'axios'
 import { useMessages } from '@/stores/messages'
 import { useEnseignant } from '@/stores/Enseignant'
+import { useParcour } from '@/stores/Parcour'
+import { useSemestre } from '@/stores/Semestre'
+import { useAu } from '@/stores/Au'
 
 export const useMention = defineStore('Mention', () => {
   const niveau = useNiveau()
@@ -13,18 +16,33 @@ export const useMention = defineStore('Mention', () => {
   const URL = useUrl().url
   const messages = useMessages()
   const enseignant = useEnseignant()
+  const parcour = useParcour()
+  const semestre = useSemestre()
+  const au = useAu()
 
   const nom_mention = ref('')
+  const mention_id = ref(null)
   const mentionParcours = reactive({
     nom: '',
     id: null
   })
   const abr_mention = ref('')
   const ListMention = ref('')
+  const ListMentionByEns = ref('')
   const mention = reactive({
     nom_mention: '',
     abr_mention: '',
     id_mention: null
+  })
+
+  watch(mention_id, (newValue, oldValue) => {
+    if (newValue) {
+      semestre.semestreNom = ''
+      parcour.parcours_nom = ''
+      semestre.ListeSemestre = []
+      parcour.ListParcours = []
+      parcour.getByMentionId()
+    }
   })
 
   function postMentionByNiveau() {
@@ -32,6 +50,7 @@ export const useMention = defineStore('Mention', () => {
     const formDataMention = {
       nom_mention: nom_mention.value,
       abr_mention: abr_mention.value,
+      au_id: au.idAU,
       niveau_ids: niveau.NiveauChecked
     }
 
@@ -177,15 +196,39 @@ export const useMention = defineStore('Mention', () => {
       })
   }
 
+  function getMentionByRespId() {
+    mention_id.value = null
+    const userString = localStorage.getItem('user')
+    const users = JSON.parse(userString)
+    axios
+      .get(`${URL}/api/mention/getByEnsId/${users.id}/${au.idAU}`)
+      .then((response) => {
+        ListMentionByEns.value = response.data
+        nom_mention.value = response.data[0].nom_mention
+        mention_id.value = response.data[0].id
+        semestre.semestreNom = ''
+        parcour.parcours_nom = ''
+        semestre.ListeSemestre = []
+        parcour.ListParcours = []
+        parcour.getByMentionId()
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  }
+
   return {
     nom_mention,
     abr_mention,
     ListMention,
     mention,
     mentionParcours,
+    mention_id,
+    ListMentionByEns,
     postMentionByNiveau,
     clearEnseignantId,
     getByAuId,
+    getMentionByRespId,
     deleteMention,
     addRespMention
   }

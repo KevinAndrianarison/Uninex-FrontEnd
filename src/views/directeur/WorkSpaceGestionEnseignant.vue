@@ -102,7 +102,6 @@
                 class="absolute inset-0 opacity-0 cursor-pointer"
                 type="file"
                 accept="image/jpeg, image/png"
-
               />
               <div
                 class="file-label bg-green-100 text-green-800 py-2 px-1 rounded-md border border-green-300"

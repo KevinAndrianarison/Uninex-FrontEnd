@@ -45,7 +45,7 @@
     flex-wrap: wrap
 }
 
-.Btns{
+.Btns {
     background-color: var(--color-third);
     padding: 5px 20px 5px 20px;
     border: 2px var(--color-third) solid;
@@ -61,9 +61,9 @@
     height: 40px;
     position: relative;
     top: 30px;
-  }
+}
 
-  .btns {
+.btns {
     background-color: var(--color-secondary);
     padding: 5px 20px 5px 20px;
     border: 2px var(--color-secondary) solid;
@@ -71,4 +71,4 @@
     transition: all 0.2s ease-in-out;
     margin-right: 15px;
     color: white;
-  }
+}

@@ -2,9 +2,7 @@
   <div class="body">
     <div class="element" ref="elementToPrint">
       <div class="head">
-        <div
-          class="logoEtab"
-        ></div>
+        <div class="logoEtab"></div>
         <div class="content">
           <h1>{{ etablissement.etablissement.nom_etab }}</h1>
           <p>email : {{ etablissement.etablissement.email_etab }}</p>

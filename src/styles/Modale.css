@@ -16,14 +16,14 @@
     background: rgba(43, 38, 38, 0.53);
 }
 
-.valueinfos{
+.valueinfos {
     font-weight: bold;
     color: var(--color-secondary);
     text-decoration: underline;
 }
 
 
-.formInputs{
+.formInputs {
     background-color: red;
     height: 200px;
     background-image: url("../assets/excel.PNG");
@@ -31,15 +31,20 @@
     background-size: cover;
 }
 
-.formInput{
+.semsetre {
+    width: 300px;
+}
+
+.formInput {
     display: flex;
     flex-wrap: wrap;
 }
 
 
-.grids{
+.grids {
     background: blue;
 }
+
 .formModales {
     width: 370px;
     margin: 50px auto;
@@ -74,7 +79,7 @@
     z-index: 12;
 }
 
-.info{
+.info {
     display: flex;
     flex-direction: row;
 }
@@ -263,7 +268,7 @@ h6 {
     opacity: 0;
 }
 
-.listNiv{
+.listNiv {
     padding: 5px 5px 5px 15px;
     border-radius: 2px;
     border: 1px solid rgba(128, 128, 128, 0.311);
@@ -273,13 +278,13 @@ h6 {
 
 }
 
-.DisclosurePanel{
+.DisclosurePanel {
     max-height: 125px;
     overflow-y: scroll;
 
 }
 
-.DisclosurePanels{
+.DisclosurePanels {
     max-height: 75px;
     overflow-y: scroll;
 
