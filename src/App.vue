@@ -68,6 +68,9 @@
   <Teleport to="body">
     <ShowEtudiantInfos />
   </Teleport>
+  <Teleport to="body">
+    <DeleteUE />
+  </Teleport>
 </template>
 
 <script setup>
@@ -92,6 +95,7 @@ import DeleteNiveau from './components/delete/DeleteNiveau.vue'
 import DeleteMention from './components/delete/DeleteMention.vue'
 import DeleteSemestre from './components/delete/DeleteSemestre.vue'
 import DeleteParcours from './components/delete/DeleteParcours.vue'
+import DeleteUE from './components/delete/DeleteUE.vue'
 import ListeEtudiantPdf from './components/ListeEtudiantPdf.vue'
 
 import Overlay from './components/Overlay.vue'

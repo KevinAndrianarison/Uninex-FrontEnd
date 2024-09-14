@@ -1,5 +1,5 @@
 <template>
-  <div class="list">
+  <div class="lists">
     <h1 class="titre">
       <PlusCircleIcon class="h-8 w-8 mr-5" /> Gestion des unités d'enseignement (UE)
     </h1>
@@ -195,6 +195,7 @@
           <div class="mt-2 relative">
             <input
               type="text"
+              v-model="ue.nom_ue"
               class="pl-3 pr-10 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
             />
             <button
@@ -208,6 +209,8 @@
           <div class="mt-2 relative">
             <input
               type="number"
+              v-model="ue.credit_ue"
+              @input="limitcreditLength"
               class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
             />
             <button
@@ -217,23 +220,32 @@
           </div>
         </div>
         <div class="divbtn sm:col-span-3 mt-2">
-          <Button class="btn"> Valider</Button>
+          <Button class="btn" @click="ue.createUE()" :disabled="!ue.nom_ue || !ue.credit_ue">
+            Valider</Button
+          >
         </div>
       </div>
     </div>
-    <div class="listEtud" v-if="niveau.NiveauCheck.length !== 0">
+    <div class="listUE" v-if="niveau.NiveauCheck.length !== 0">
       <div class="header">
         <h1 class="create pl-5 mt-4" v-if="parcour.parcours_nom">Liste des UE de ce semestre :</h1>
       </div>
       <div class="listEtudValue">
         <div class="head">
-          <li class="widthnom">Nom UE</li>
-          <li class="widthemail">Crédit</li>
-          <li class="widthemails">Delete</li>
-          <li v-if="show.showNavBarAS" class="width">Carte d'étudiant</li>
+          <li class="widtUE">Nom UE</li>
+          <li class="widthcredit">Crédit</li>
+          <li class="widthUEnom"></li>
         </div>
-
-        <div class="Empty">
+        <div :key="index" v-for="(UE, index) in ue.ListeueBysemestre">
+          <div class="body">
+            <li class="widthvalueUE">{{ UE.nom_ue }}</li>
+            <li class="widthvaluecredit">{{ UE.credit_ue }}</li>
+            <li class="widthvalueTrash">
+              <TrashIcon @click="showdeleteUE(UE.nom_ue, UE.id)" class="delete h-5 w-5" />
+            </li>
+          </div>
+        </div>
+        <div class="Empty" v-if="ue.ListeueBysemestre.length === 0">
           <div class="gif"></div>
         </div>
       </div>
@@ -242,14 +254,13 @@
 </template>
 
 <script setup>
-import { SparklesIcon, PlusCircleIcon } from '@heroicons/vue/24/outline'
+import { PlusCircleIcon, TrashIcon } from '@heroicons/vue/24/outline'
 import { useParcour } from '@/stores/Parcour'
 import { useSemestre } from '@/stores/Semestre'
+import { useUe } from '@/stores/Ue'
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import { useNiveau } from '@/stores/Niveau'
-import { useEtudiant } from '@/stores/Etudiant'
-import { useDirecteur } from '@/stores/Directeur'
 import { useShow } from '@/stores/Show'
 import {
   RadioGroup,
@@ -260,17 +271,27 @@ import {
 
 const niveau = useNiveau()
 const semestre = useSemestre()
-const show = useShow()
+const ue = useUe()
 const parcour = useParcour()
-const etudiant = useEtudiant()
-const directeur = useDirecteur()
+const show = useShow()
+
+
+function showdeleteUE(nom, id) {
+  ue.nomUE = nom
+  ue.id = id
+  show.showDeleteUE = true
+}
 
 function setIdParcours(id) {
   parcour.parcours_id = id
 }
 
-function exportPdfListeEtud() {
-  directeur.getFirst()
+function limitcreditLength(event) {
+  const value = event.target.value
+  if (value.length > 1) {
+    event.target.value = value.slice(0, 1)
+    ue.credit_ue = event.target.value
+  }
 }
 
 function setSemestreId(id) {
