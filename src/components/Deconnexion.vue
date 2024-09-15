@@ -1,5 +1,7 @@
 <script setup>
 import { useShow } from '@/stores/Show'
+import { useMention } from '@/stores/Mention'
+import { useParcour } from '@/stores/Parcour'
 import { useUser } from '@/stores/User'
 import { useRouter } from 'vue-router'
 import { useInfossetup } from '@/stores/Infossetup'
@@ -7,6 +9,8 @@ import { useInfossetup } from '@/stores/Infossetup'
 const show = useShow()
 const user = useUser()
 const router = useRouter()
+const parcour = useParcour()
+const mention = useMention()
 const infossetup = useInfossetup()
 
 function Canceldeconnexion() {

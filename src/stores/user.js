@@ -80,7 +80,6 @@ export const useUser = defineStore('User', () => {
             .get(`${URL}/api/directeur/getById/${response.data.user.id}`)
             .then((response) => {
               localStorage.setItem('user', JSON.stringify(response.data[0]))
-              show.showLogin = false
               email.value = ''
               password.value = ''
               show.showNavBarDir = true
@@ -143,6 +142,7 @@ export const useUser = defineStore('User', () => {
               console.error(err)
             })
         }
+        show.showLogin = false
         show.showSpinner = false
       })
       .catch((err) => {

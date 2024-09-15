@@ -9,8 +9,8 @@
           votre établissement universitaire.
         </p>
         <p class="fonctionnalite">
-          ✅ Inscriptions en Ligne, Gestion Pédagogique, Planification des Cours, Gestion des
-          Examens et des Notes, Gestion Financière, Gestion des Ressources Humaines et Communication
+          ✅ Inscriptions en Ligne, Gestion Pédagogique, Planification des Cours, Gestion
+          des Notes, Gestion Financière, Gestion des Ressources Humaines et Communication
           Interne.
         </p>
       </div>

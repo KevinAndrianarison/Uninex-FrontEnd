@@ -82,17 +82,14 @@ export const useNiveau = defineStore('Niveau', () => {
 
   function getByAuId() {
     NiveauCheck.value = []
-    show.showSpinner = true
     axios
       .get(`${URL}/api/niveau/getById/${au.idAU}`)
       .then((response) => {
         ListNiveau.value = response.data
         NiveauCheck.value = ListNiveau.value[0]
-        show.showSpinner = false
       })
       .catch((error) => {
         console.error('Erreur du GET BY ID Niveau : ', error)
-        show.showSpinner = false
       })
   }
 

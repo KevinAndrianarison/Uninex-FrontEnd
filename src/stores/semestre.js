@@ -73,7 +73,6 @@ export const useSemestre = defineStore('Semestre', () => {
   function getSemestreByParcour() {
     semestreId.value = null
     semestreNom.value = ''
-    show.showSpinner = true
     axios
       .get(`${URL}/api/semestre/getById/${parcour.parcours_id}`)
       .then((response) => {
@@ -83,11 +82,9 @@ export const useSemestre = defineStore('Semestre', () => {
         })
         semestreNom.value = ListeSemestre.value[0].nom_semestre
         semestreId.value = ListeSemestre.value[0].id
-        show.showSpinner = false
       })
       .catch((error) => {
         console.error('Erreur du GET BY ID Parcours : ', error)
-        show.showSpinner = false
       })
   }
 

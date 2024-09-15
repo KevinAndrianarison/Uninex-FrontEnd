@@ -25,17 +25,14 @@ export const useAu = defineStore('Au', () => {
 
   function getallAU() {
     // oneAU.value = '' //Choix 1 mandeha tsara
-    show.showSpinner = true
     axios
       .get(`${URL}/api/au`)
       .then((response) => {
         listeAU.value = response.data
         oneAU.value = listeAU.value[0].annee_debut + '-' + listeAU.value[0].annee_fin
-        show.showSpinner = false
       })
       .catch((err) => {
         console.error(err)
-        show.showSpinner = false
       })
   }
 
@@ -43,7 +40,12 @@ export const useAu = defineStore('Au', () => {
     if (newValue) {
       ShowIdAU()
       niveau.getByAuId()
-      mention.getMentionByRespId()
+      const userString = localStorage.getItem('user')
+      const users = JSON.parse(userString)
+      if (users.chefMention_status === '0') {
+        mention.getMentionByRespId()
+      }
+
       niveau.NiveauChecked = []
     }
   })

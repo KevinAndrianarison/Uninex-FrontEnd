@@ -12,7 +12,7 @@
                 : 'text-black hover:bg-white/[0.12] hover:text-black'
             ]"
           >
-            CRÉATION D'UN ÉLÉMENT CONSTITUTIF (EC)
+            Création d'un EC
           </button>
         </Tab>
         <Tab as="template" v-slot="{ selected }">
@@ -25,7 +25,7 @@
                 : 'text-black hover:bg-white/[0.12] hover:text-black'
             ]"
           >
-            RESPONSABLE D'UN ÉLÉMENT CONSTITUTIF (EC)
+            Responsable d'un EC
           </button>
         </Tab>
       </TabList>
@@ -33,9 +33,9 @@
       <TabPanels class="mt-2">
         <TabPanel :class="['rounded-xl bg-white p-3']">
           <div>
-            <div class="chooseSemestre">
-              <h1 class="create pl-5 mt-2" v-if="mention.nom_mention">Sélectionnez un UE :</h1>
-              <div v-if="mention.nom_mention" class="class formInput border-gray-900/10 pb-5 pl-5">
+            <div class="chooseSemestre" v-if="mention.nom_mention">
+              <h1 class="create pl-5 mt-2"  >Sélectionnez un UE :</h1>
+              <div class="class formInput border-gray-900/10 pb-5 pl-5">
                 <div class="sm:col-span-3 mt-2 ctgr mr-4">
                   <label class="block text-sm font-medium leading-6 text-gray-900">Mentions</label>
                   <div class="w-52 mt-1 mr-4">
@@ -362,7 +362,7 @@
             </div>
             <div class="listUE">
               <div class="header">
-                <h1 class="create pl-5 mt-4" v-if="parcour.parcours_nom">
+                <h1 class="create pl-5 mt-4">
                   Liste des EC de cette unité d'enseignement :
                 </h1>
               </div>

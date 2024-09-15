@@ -9,6 +9,7 @@ import { useEnseignant } from '@/stores/Enseignant'
 import { useParcour } from '@/stores/Parcour'
 import { useSemestre } from '@/stores/Semestre'
 import { useAu } from '@/stores/Au'
+import { useUe } from '@/stores/Ue'
 
 export const useMention = defineStore('Mention', () => {
   const niveau = useNiveau()
@@ -19,6 +20,7 @@ export const useMention = defineStore('Mention', () => {
   const parcour = useParcour()
   const semestre = useSemestre()
   const au = useAu()
+  const ue = useUe()
 
   const nom_mention = ref('')
   const mention_id = ref(null)
@@ -39,6 +41,7 @@ export const useMention = defineStore('Mention', () => {
     if (newValue) {
       semestre.semestreNom = ''
       parcour.parcours_nom = ''
+      ue.ListeueBysemestre = []
       semestre.ListeSemestre = []
       parcour.ListParcours = []
       parcour.getByMentionId()
@@ -89,18 +92,15 @@ export const useMention = defineStore('Mention', () => {
   function getByAuId() {
     mentionParcours.nom = ''
     mentionParcours.id = null
-    show.showSpinner = true
     axios
       .get(`${URL}/api/mention/getById/${niveau.niveau.id_niveau}`)
       .then((response) => {
         ListMention.value = response.data
         mentionParcours.nom = ListMention.value[0].nom_mention
         mentionParcours.id = ListMention.value[0].id
-        show.showSpinner = false
       })
       .catch((error) => {
         console.error('Erreur du GET BY ID Mention : ', error)
-        show.showSpinner = false
       })
   }
 
@@ -116,6 +116,7 @@ export const useMention = defineStore('Mention', () => {
         show.showDeleteMention = false
         show.showSpinner = false
         getByAuId()
+        parcour.getByNiveauId()
       })
       .catch((err) => {
         console.error(err)
@@ -198,6 +199,9 @@ export const useMention = defineStore('Mention', () => {
 
   function getMentionByRespId() {
     mention_id.value = null
+    nom_mention.value = ""
+    parcour.parcours_nom = ""
+    semestre.semestreNom = ""
     const userString = localStorage.getItem('user')
     const users = JSON.parse(userString)
     axios
@@ -225,6 +229,7 @@ export const useMention = defineStore('Mention', () => {
     mentionParcours,
     mention_id,
     ListMentionByEns,
+    abr_mention,
     postMentionByNiveau,
     clearEnseignantId,
     getByAuId,

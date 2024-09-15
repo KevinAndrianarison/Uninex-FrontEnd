@@ -52,7 +52,6 @@ export const useUe = defineStore('Ue', () => {
   }
 
   function getUeByIdsemstre() {
-    show.showSpinner = true
     axios
       .get(`${URL}/api/ue/getById/${semestre.semestreId}`)
       .then((response) => {
@@ -61,7 +60,6 @@ export const useUe = defineStore('Ue', () => {
       })
       .catch((err) => {
         console.error(err)
-        show.showSpinner = false
       })
   }
 

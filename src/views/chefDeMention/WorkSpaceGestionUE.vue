@@ -3,8 +3,8 @@
     <h1 class="titre">
       <PlusCircleIcon class="h-8 w-8 mr-5" /> Gestion des unités d'enseignement (UE)
     </h1>
-    <div class="chooseSemestre">
-      <h1 class="create pl-5 mt-2" v-if="mention.nom_mention">Sélectionnez un semestre :</h1>
+    <div class="chooseSemestre" v-if="mention.nom_mention">
+      <h1 class="create pl-5 mt-2" >Sélectionnez un semestre :</h1>
 
       <div v-if="mention.nom_mention" class="class formInput border-gray-900/10 pb-5 pl-5">
         <div class="sm:col-span-3 mt-2 ctgr mr-4">
@@ -50,7 +50,7 @@
                             mention.nom_mention === mnt.nom_mention ? 'font-medium' : 'font-normal',
                             'block truncate'
                           ]"
-                          >{{ mnt.nom_mention }}</span
+                          >{{ mnt.abr_mention }}</span
                         >
                         <span
                           v-if="mention.nom_mention === mnt.nom_mention"

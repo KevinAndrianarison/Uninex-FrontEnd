@@ -73,7 +73,6 @@ export const useParcour = defineStore('Parcour', () => {
   function getByNiveauId() {
     parcours_nom.value = ''
     parcours_id.value = null
-    show.showSpinner = true
     axios
       .get(`${URL}/api/parcours/getById/${niveau.niveau.id_niveau}`)
       .then((response) => {
@@ -81,18 +80,14 @@ export const useParcour = defineStore('Parcour', () => {
         parcours_nom.value = ListParcours.value[0].nom_parcours
         parcours_id.value = ListParcours.value[0].id
         parcours_abr.value = ListParcours.value[0].abr_parcours
-        show.showSpinner = false
       })
       .catch((error) => {
         console.error('Erreur du GET BY ID Parcours : ', error)
-        show.showSpinner = false
       })
   }
 
   function getByMentionId() {
     parcours_nom.value = ''
-    parcours_id.value = null
-    show.showSpinner = true
     axios
       .get(`${URL}/api/parcours/getByMentionId/${mention.mention_id}`)
       .then((response) => {
@@ -100,11 +95,9 @@ export const useParcour = defineStore('Parcour', () => {
         parcours_nom.value = ListParcoursByMention.value[0].nom_parcours
         parcours_id.value = ListParcoursByMention.value[0].id
         parcours_abr.value = ListParcoursByMention.value[0].abr_parcours
-        show.showSpinner = false
       })
       .catch((error) => {
         console.error('Erreur du GET BY ID Parcours : ', error)
-        show.showSpinner = false
       })
   }
 
