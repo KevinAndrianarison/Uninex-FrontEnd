@@ -355,7 +355,7 @@
           <li class="widthe">
             <font-awesome-icon
               v-if="mnt.enseignant !== null"
-              @click="mention.clearEnseignantId()"
+              @click="mention.clearEnseignantId(mnt.id, mnt.enseignant.id)"
               class="h-6 w-6 red"
               :icon="['fas', 'person-circle-xmark']"
             />
@@ -369,7 +369,7 @@
           <li class="widthe">
             <font-awesome-icon
               v-if="prc.enseignant !== null"
-              @click="parcour.clearEnseignantId()"
+              @click="parcour.clearEnseignantId(prc.id, prc.enseignant.id)"
               class="h-6 w-6 red"
               :icon="['fas', 'person-circle-xmark']"
             />

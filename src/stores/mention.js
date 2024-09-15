@@ -40,12 +40,9 @@ export const useMention = defineStore('Mention', () => {
 
   watch(mention_id, (newValue, oldValue) => {
     if (newValue) {
-      semestre.semestreNom = ''
-      parcour.parcours_nom = ''
-      ue.nomUE = ''
-      ue.ListeueBysemestre = []
-      semestre.ListeSemestre = []
-      parcour.ListParcours = []
+      parcour.nom = ""
+      semestre.semestreNom = ""
+      parcour.ListParcoursByMention = []
       parcour.getByMentionId()
     }
   })
@@ -92,8 +89,6 @@ export const useMention = defineStore('Mention', () => {
   }
 
   function getByAuId() {
-    mentionParcours.nom = ''
-    mentionParcours.id = null
     axios
       .get(`${URL}/api/mention/getById/${niveau.niveau.id_niveau}`)
       .then((response) => {
@@ -166,18 +161,18 @@ export const useMention = defineStore('Mention', () => {
       })
   }
 
-  function clearEnseignantId() {
+  function clearEnseignantId(id, endId) {
     show.showSpinner = true
 
     axios
-      .put(`${URL}/api/mentions/${mentionParcours.id}/clearEnseignant`)
+      .put(`${URL}/api/mentions/${id}/clearEnseignant`)
       .then((response) => {
         if (response.data.message === "L'enseignant a été dissocié avec succès !") {
           let formDatasetEns = {
             chefMention_status: false
           }
           axios
-            .put(`${URL}/api/enseignant/${enseignant.idTop}`, formDatasetEns)
+            .put(`${URL}/api/enseignant/${endId}`, formDatasetEns)
             .then((response) => {
               messages.messageSucces = "L'enseignant a été dissocié avec succès !"
               show.showSpinner = false
@@ -200,11 +195,6 @@ export const useMention = defineStore('Mention', () => {
   }
 
   function getMentionByRespId() {
-    nom_mention.value = ''
-    parcour.parcours_nom = ''
-    ue.nomUE = ''
-    semestre.semestreNom = ''
-    abreviation.value = ''
     const userString = localStorage.getItem('user')
     const users = JSON.parse(userString)
     axios
@@ -214,10 +204,7 @@ export const useMention = defineStore('Mention', () => {
         nom_mention.value = response.data[0].nom_mention
         mention_id.value = response.data[0].id
         abreviation.value = response.data[0].abr_mention
-        semestre.semestreNom = ''
-        parcour.parcours_nom = ''
-        semestre.ListeSemestre = []
-        parcour.ListParcours = []
+        parcour.ListParcoursByMention = []
         parcour.getByMentionId()
       })
       .catch((err) => {

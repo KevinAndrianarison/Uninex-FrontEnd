@@ -39,6 +39,7 @@ export const useNiveau = defineStore('Niveau', () => {
       semestre.ListeSemestre = []
       etudiant.ListeEtudiant = []
       etudiant.listdefinitive = []
+      parcour.parcours_nom = ""
       semestre.semestreNom = ''
       semestre.idsemestre = null
       show.ShowListEtudiantEmpty = true

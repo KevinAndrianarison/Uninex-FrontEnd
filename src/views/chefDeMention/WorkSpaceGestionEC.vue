@@ -286,7 +286,7 @@
                     </Listbox>
                   </div>
                 </div>
-                <div class="w-40 sm:col-span-3 mr-4 mt-2" v-if="ue.nomUE">
+                <div class="w-52 sm:col-span-3 mr-4 mt-2 " v-if="ue.nomUE">
                   <label class="block text-sm font-medium leading-6 text-gray-900"
                     >Nom de l'EC</label
                   >
@@ -301,7 +301,7 @@
                     ></button>
                   </div>
                 </div>
-                <div class="w-40 sm:col-span-3 mr-4 mt-2" v-if="ue.nomUE">
+                <div class="w-52 sm:col-span-3 mr-4 mt-2" v-if="ue.nomUE">
                   <label class="block text-sm font-medium leading-6 text-gray-900"
                     >Volume horaire (ET)</label
                   >
@@ -318,7 +318,7 @@
                     ></button>
                   </div>
                 </div>
-                <div class="w-40 sm:col-span-3 mr-4 mt-2" v-if="ue.nomUE">
+                <div class="w-52 sm:col-span-3 mr-4 mt-2 pl-5" v-if="ue.nomUE">
                   <label class="block text-sm font-medium leading-6 text-gray-900"
                     >Volume horaire (ED)</label
                   >
@@ -335,7 +335,7 @@
                     ></button>
                   </div>
                 </div>
-                <div class="w-40 sm:col-span-3 mr-4 mt-2"  v-if="ue.nomUE">
+                <div class="w-52 sm:col-span-3 mr-4 mt-2 pl-5"  v-if="ue.nomUE">
                   <label class="block text-sm font-medium leading-6 text-gray-900"
                     >Volume horaire (TP)</label
                   >
@@ -352,7 +352,7 @@
                     ></button>
                   </div>
                 </div>
-                <div class="divbtn sm:col-span-3 mt-2" v-if="ue.nomUE">
+                <div class="divbtn sm:col-span-3 mt-2 pl-5" v-if="ue.nomUE">
                   <Button
                     class="btn"
                   >
@@ -416,8 +416,9 @@ function showdeleteUE(nom, id) {
   show.showDeleteUE = true
 }
 
-function setIdParcours(id) {
+function setIdParcours(id, abr) {
   parcour.parcours_id = id
+  parcour.abreviation = abr
 }
 
 function setIdmention(id, abr) {

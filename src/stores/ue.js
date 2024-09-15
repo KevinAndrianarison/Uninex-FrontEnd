@@ -52,6 +52,7 @@ export const useUe = defineStore('Ue', () => {
   }
 
   function getUeByIdsemstre() {
+    nomUE.value = ""
     axios
       .get(`${URL}/api/ue/getById/${semestre.semestreId}`)
       .then((response) => {

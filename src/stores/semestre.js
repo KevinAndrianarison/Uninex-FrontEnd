@@ -11,6 +11,7 @@ import { useUe } from '@/stores/Ue'
 export const useSemestre = defineStore('Semestre', () => {
   const nom_semestre = ref('')
   const semestreNom = ref('')
+  const nom = ref('')
   const semestreId = ref('')
   const semestreIds = ref([])
   const ListeSemestre = ref([])
@@ -28,8 +29,6 @@ export const useSemestre = defineStore('Semestre', () => {
 
   watch(semestreNom, (newValue, oldValue) => {
     if (newValue) {
-      ue.nom_ue = ''
-      ue.credit_ue = null
       etudiant.getAllEtudiantBysemestre()
       ue.getUeByIdsemstre()
     }
@@ -71,7 +70,6 @@ export const useSemestre = defineStore('Semestre', () => {
   }
 
   function getSemestreByParcour() {
-    semestreNom.value = ''
     axios
       .get(`${URL}/api/semestre/getById/${parcour.parcours_id}`)
       .then((response) => {
@@ -80,6 +78,7 @@ export const useSemestre = defineStore('Semestre', () => {
           return val.id
         })
         semestreNom.value = ListeSemestre.value[0].nom_semestre
+        //nom.value = ListeSemestre.value[0].nom_semestre
         semestreId.value = ListeSemestre.value[0].id
       })
       .catch((error) => {

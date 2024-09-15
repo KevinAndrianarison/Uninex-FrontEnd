@@ -31,6 +31,15 @@ export const useParcour = defineStore('Parcour', () => {
 
   watch(nom, (newValue, oldValue) => {
     if (newValue) {
+      semestre.semestreNom = ''
+      semestre.getSemestreByParcour()
+    }
+  })
+
+  watch(parcours_nom, (newValue, oldValue) => {
+    if (newValue) {
+      semestre.semestreNom = ''
+      semestre.ListeSemestre = []
       semestre.getSemestreByParcour()
     }
   })
@@ -73,8 +82,6 @@ export const useParcour = defineStore('Parcour', () => {
   }
 
   function getByNiveauId() {
-    parcours_nom.value = ''
-    parcours_id.value = null
     axios
       .get(`${URL}/api/parcours/getById/${niveau.niveau.id_niveau}`)
       .then((response) => {
@@ -89,11 +96,9 @@ export const useParcour = defineStore('Parcour', () => {
   }
 
   function getByMentionId() {
-    nom.value = ''
-    abreviation.value = ''
     axios
       .get(`${URL}/api/parcours/getByMentionId/${mention.mention_id}`)
-      .then((response) => {        
+      .then((response) => {
         ListParcoursByMention.value = response.data
         nom.value = ListParcoursByMention.value[0].nom_parcours
         abreviation.value = ListParcoursByMention.value[0].abr_parcours
@@ -163,17 +168,17 @@ export const useParcour = defineStore('Parcour', () => {
       })
   }
 
-  function clearEnseignantId() {
+  function clearEnseignantId(id, ensId) {
     show.showSpinner = true
     axios
-      .put(`${URL}/api/parcours/${parcours_id.value}/clearEnseignant`)
+      .put(`${URL}/api/parcours/${id}/clearEnseignant`)
       .then((response) => {
         if (response.data.message === "L'enseignant a été dissocié avec succès !") {
           let formDatasetEns = {
             chefParcours_status: false
           }
           axios
-            .put(`${URL}/api/enseignant/${enseignant.idBottom}`, formDatasetEns)
+            .put(`${URL}/api/enseignant/${ensId}`, formDatasetEns)
             .then((response) => {
               messages.messageSucces = "L'enseignant a été dissocié avec succès !"
               show.showSpinner = false

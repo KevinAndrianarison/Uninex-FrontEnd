@@ -6,8 +6,6 @@ import { useEtablissement } from '@/stores/Etablissement'
 import { useNiveau } from '@/stores/Niveau'
 import { useMessages } from '@/stores/messages'
 import { useMention } from '@/stores/Mention'
-import { useSemestre } from '@/stores/Semestre'
-
 import axios from 'axios'
 
 export const useAu = defineStore('Au', () => {
@@ -17,7 +15,6 @@ export const useAu = defineStore('Au', () => {
   const etablissement = useEtablissement()
   const niveau = useNiveau()
   const mention = useMention()
-  const semestre = useSemestre()
 
   const annee_debut = ref(null)
   const annee_fin = ref(null)
@@ -26,7 +23,6 @@ export const useAu = defineStore('Au', () => {
   const listeAU = ref([])
 
   function getallAU() {
-    // oneAU.value = '' //Choix 1 mandeha tsara
     axios
       .get(`${URL}/api/au`)
       .then((response) => {
@@ -45,6 +41,8 @@ export const useAu = defineStore('Au', () => {
       const userString = localStorage.getItem('user')
       const users = JSON.parse(userString)
       if (users.chefMention_status === '1') {
+        mention.ListMentionByEns = []
+        mention.nom_mention = ""
         mention.getMentionByRespId()
       }
 
@@ -100,8 +98,7 @@ export const useAu = defineStore('Au', () => {
     axios
       .delete(`${URL}/api/au/${idAU.value}`)
       .then((response) => {
-        // niveau.getByAuId() //Choix 1 mandeha tsara
-        window.location.reload() //Choix 2
+        window.location.reload()
         messages.messageSucces = 'AU supprimé !'
         setTimeout(() => {
           messages.messageSucces = ''
