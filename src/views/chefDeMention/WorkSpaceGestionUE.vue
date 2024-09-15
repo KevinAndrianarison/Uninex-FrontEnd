@@ -4,7 +4,7 @@
       <PlusCircleIcon class="h-8 w-8 mr-5" /> Gestion des unités d'enseignement (UE)
     </h1>
     <div class="chooseSemestre" v-if="mention.nom_mention">
-      <h1 class="create pl-5 mt-2" >Sélectionnez un semestre :</h1>
+      <h1 class="create pl-5 mt-2">Sélectionnez un semestre :</h1>
 
       <div v-if="mention.nom_mention" class="class formInput border-gray-900/10 pb-5 pl-5">
         <div class="sm:col-span-3 mt-2 ctgr mr-4">
@@ -15,7 +15,9 @@
                 <ListboxButton
                   class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
                 >
-                  <span class="block truncate">{{ mention.nom_mention }}</span>
+                  <span class="block truncate"
+                    >{{ mention.nom_mention }} / {{ mention.abreviation }}</span
+                  >
                   <span
                     class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
                   >
@@ -35,11 +37,11 @@
                       :key="index"
                       v-for="(mnt, index) in mention.ListMentionByEns"
                       :value="mnt.nom_mention"
-                      @click="setIdmention(mnt.id)"
+                      @click="setIdmention(mnt.id, mnt.abr_mention)"
                     >
                       <li
                         :class="[
-                          mention.nom_mention === mnt.nom_mention
+                          mention.abreviation === mnt.abr_mention
                             ? 'bg-amber-100 text-amber-900'
                             : 'text-gray-900',
                           'relative cursor-default select-none py-2 pl-10 pr-4'
@@ -47,13 +49,13 @@
                       >
                         <span
                           :class="[
-                            mention.nom_mention === mnt.nom_mention ? 'font-medium' : 'font-normal',
+                            mention.abreviation === mnt.abr_mention ? 'font-medium' : 'font-normal',
                             'block truncate'
                           ]"
-                          >{{ mnt.abr_mention }}</span
+                          >{{ mnt.nom_mention }} / {{ mnt.abr_mention }}</span
                         >
                         <span
-                          v-if="mention.nom_mention === mnt.nom_mention"
+                          v-if="mention.abreviation === mnt.abr_mention"
                           class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
                         >
                           <CheckIcon class="h-5 w-5" aria-hidden="true" />
@@ -66,15 +68,15 @@
             </Listbox>
           </div>
         </div>
-        <div class="sm:col-span-3 mt-2 ctgr mr-4" v-if="parcour.parcours_nom">
+        <div class="sm:col-span-3 mt-2 ctgr mr-4" v-if="parcour.nom">
           <label class="block text-sm font-medium leading-6 text-gray-900">Parcours</label>
           <div class="w-52 mt-1 mr-4">
-            <Listbox v-model="parcour.parcours_nom">
+            <Listbox v-model="parcour.nom">
               <div class="relative">
                 <ListboxButton
                   class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
                 >
-                  <span class="block truncate">{{ parcour.parcours_nom }}</span>
+                  <span class="block truncate">{{ parcour.nom }} / {{ parcour.abreviation }}</span>
                   <span
                     class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
                   >
@@ -94,11 +96,11 @@
                       :key="index"
                       v-for="(prc, index) in parcour.ListParcoursByMention"
                       :value="prc.nom_parcours"
-                      @click="setIdParcours(prc.id)"
+                      @click="setIdParcours(prc.id, prc.abr_parcours)"
                     >
                       <li
                         :class="[
-                          parcour.parcours_nom === prc.nom_parcours
+                          parcour.abreviation === prc.abr_parcours
                             ? 'bg-amber-100 text-amber-900'
                             : 'text-gray-900',
                           'relative cursor-default select-none py-2 pl-10 pr-4'
@@ -106,15 +108,15 @@
                       >
                         <span
                           :class="[
-                            parcour.parcours_nom === prc.nom_parcours
+                            parcour.abreviation === prc.abr_parcours
                               ? 'font-medium'
                               : 'font-normal',
                             'block truncate'
                           ]"
-                          >{{ prc.abr_parcours }}</span
+                          >{{ prc.nom_parcours }} / {{ prc.abr_parcours }}</span
                         >
                         <span
-                          v-if="parcour.parcours_nom === prc.nom_parcours"
+                          v-if="parcour.abreviation === prc.abr_parcours"
                           class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
                         >
                           <CheckIcon class="h-5 w-5" aria-hidden="true" />
@@ -261,13 +263,14 @@ import { useUe } from '@/stores/Ue'
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import { useShow } from '@/stores/Show'
-import { onBeforeMount } from 'vue'
+import { useAu } from '@/stores/Au'
 
 const semestre = useSemestre()
 const ue = useUe()
 const parcour = useParcour()
 const show = useShow()
 const mention = useMention()
+const au = useAu()
 
 function showdeleteUE(nom, id) {
   ue.nomUE = nom
@@ -275,17 +278,15 @@ function showdeleteUE(nom, id) {
   show.showDeleteUE = true
 }
 
-function setIdmention(id) {
+function setIdmention(id, abr) {
   mention.mention_id = id
+  mention.abreviation = abr
 }
 
-function setIdParcours(id) {
+function setIdParcours(id, abr) {
   parcour.parcours_id = id
+  parcour.abreviation = abr
 }
-
-onBeforeMount(() => {
-  mention.getMentionByRespId()
-})
 
 function limitcreditLength(event) {
   const value = event.target.value

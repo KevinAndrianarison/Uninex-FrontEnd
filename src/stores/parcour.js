@@ -11,6 +11,8 @@ import { useEnseignant } from '@/stores/Enseignant'
 
 export const useParcour = defineStore('Parcour', () => {
   const nom_parcours = ref('')
+  const abreviation = ref('')
+  const nom = ref('')
   const parcours_id = ref(null)
   const parcours_abr = ref('')
   const parcours_nom = ref('')
@@ -27,7 +29,7 @@ export const useParcour = defineStore('Parcour', () => {
   const messages = useMessages()
   const enseignant = useEnseignant()
 
-  watch(parcours_nom, (newValue, oldValue) => {
+  watch(nom, (newValue, oldValue) => {
     if (newValue) {
       semestre.getSemestreByParcour()
     }
@@ -82,22 +84,23 @@ export const useParcour = defineStore('Parcour', () => {
         parcours_abr.value = ListParcours.value[0].abr_parcours
       })
       .catch((error) => {
-        console.error('Erreur du GET BY ID Parcours : ', error)
+        console.error(error)
       })
   }
 
   function getByMentionId() {
-    parcours_nom.value = ''
+    nom.value = ''
+    abreviation.value = ''
     axios
       .get(`${URL}/api/parcours/getByMentionId/${mention.mention_id}`)
-      .then((response) => {
+      .then((response) => {        
         ListParcoursByMention.value = response.data
-        parcours_nom.value = ListParcoursByMention.value[0].nom_parcours
+        nom.value = ListParcoursByMention.value[0].nom_parcours
+        abreviation.value = ListParcoursByMention.value[0].abr_parcours
         parcours_id.value = ListParcoursByMention.value[0].id
-        parcours_abr.value = ListParcoursByMention.value[0].abr_parcours
       })
       .catch((error) => {
-        console.error('Erreur du GET BY ID Parcours : ', error)
+        console.error(error)
       })
   }
 
@@ -200,6 +203,8 @@ export const useParcour = defineStore('Parcour', () => {
     parcours_abr,
     parcours_nom,
     ListParcoursByMention,
+    abreviation,
+    nom,
     postParcour,
     clearEnseignantId,
     getByNiveauId,

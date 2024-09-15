@@ -6,6 +6,7 @@ import { useEtablissement } from '@/stores/Etablissement'
 import { useNiveau } from '@/stores/Niveau'
 import { useMessages } from '@/stores/messages'
 import { useMention } from '@/stores/Mention'
+import { useSemestre } from '@/stores/Semestre'
 
 import axios from 'axios'
 
@@ -16,6 +17,7 @@ export const useAu = defineStore('Au', () => {
   const etablissement = useEtablissement()
   const niveau = useNiveau()
   const mention = useMention()
+  const semestre = useSemestre()
 
   const annee_debut = ref(null)
   const annee_fin = ref(null)
@@ -42,7 +44,7 @@ export const useAu = defineStore('Au', () => {
       niveau.getByAuId()
       const userString = localStorage.getItem('user')
       const users = JSON.parse(userString)
-      if (users.chefMention_status === '0') {
+      if (users.chefMention_status === '1') {
         mention.getMentionByRespId()
       }
 

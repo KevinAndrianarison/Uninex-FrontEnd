@@ -65,13 +65,12 @@ export const useSemestre = defineStore('Semestre', () => {
         show.showSpinner = false
       })
       .catch((error) => {
-        console.error('Erreur du POST Semestre : ', error)
+        console.error(error)
         show.showSpinner = false
       })
   }
 
   function getSemestreByParcour() {
-    semestreId.value = null
     semestreNom.value = ''
     axios
       .get(`${URL}/api/semestre/getById/${parcour.parcours_id}`)
@@ -84,7 +83,7 @@ export const useSemestre = defineStore('Semestre', () => {
         semestreId.value = ListeSemestre.value[0].id
       })
       .catch((error) => {
-        console.error('Erreur du GET BY ID Parcours : ', error)
+        console.error(error)
       })
   }
 

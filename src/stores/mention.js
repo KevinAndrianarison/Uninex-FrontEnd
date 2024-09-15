@@ -29,6 +29,7 @@ export const useMention = defineStore('Mention', () => {
     id: null
   })
   const abr_mention = ref('')
+  const abreviation = ref('')
   const ListMention = ref('')
   const ListMentionByEns = ref('')
   const mention = reactive({
@@ -41,6 +42,7 @@ export const useMention = defineStore('Mention', () => {
     if (newValue) {
       semestre.semestreNom = ''
       parcour.parcours_nom = ''
+      ue.nomUE = ''
       ue.ListeueBysemestre = []
       semestre.ListeSemestre = []
       parcour.ListParcours = []
@@ -84,7 +86,7 @@ export const useMention = defineStore('Mention', () => {
         show.showSpinner = false
       })
       .catch((error) => {
-        console.error('Erreur du POST Mention : ', error)
+        console.error(error)
         show.showSpinner = false
       })
   }
@@ -100,7 +102,7 @@ export const useMention = defineStore('Mention', () => {
         mentionParcours.id = ListMention.value[0].id
       })
       .catch((error) => {
-        console.error('Erreur du GET BY ID Mention : ', error)
+        console.error(error)
       })
   }
 
@@ -198,10 +200,11 @@ export const useMention = defineStore('Mention', () => {
   }
 
   function getMentionByRespId() {
-    mention_id.value = null
-    nom_mention.value = ""
-    parcour.parcours_nom = ""
-    semestre.semestreNom = ""
+    nom_mention.value = ''
+    parcour.parcours_nom = ''
+    ue.nomUE = ''
+    semestre.semestreNom = ''
+    abreviation.value = ''
     const userString = localStorage.getItem('user')
     const users = JSON.parse(userString)
     axios
@@ -210,6 +213,7 @@ export const useMention = defineStore('Mention', () => {
         ListMentionByEns.value = response.data
         nom_mention.value = response.data[0].nom_mention
         mention_id.value = response.data[0].id
+        abreviation.value = response.data[0].abr_mention
         semestre.semestreNom = ''
         parcour.parcours_nom = ''
         semestre.ListeSemestre = []
@@ -230,6 +234,7 @@ export const useMention = defineStore('Mention', () => {
     mention_id,
     ListMentionByEns,
     abr_mention,
+    abreviation,
     postMentionByNiveau,
     clearEnseignantId,
     getByAuId,

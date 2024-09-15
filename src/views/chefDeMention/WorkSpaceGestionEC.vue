@@ -1,11 +1,11 @@
 <template>
   <div class="w-full px-2 sm:px-0">
     <TabGroup>
-      <TabList class="flex space-x-1 rounded-sm bg-yellow-500/20 p-1">
+      <TabList class="flex space-x-1 rounded-xl bg-yellow-500/20 p-1">
         <Tab as="template" v-slot="{ selected }">
           <button
             :class="[
-              'w-full rounded-sm py-2.5 text-sm font-bold leading-5',
+              'w-full rounded-lg py-2.5 text-sm font-bold leading-5',
               'ring-white/60 ring-offset-2 ring-offset-yellow-400 focus:outline-none focus:ring-2',
               selected
                 ? 'bg-white text-black shadow'
@@ -18,7 +18,7 @@
         <Tab as="template" v-slot="{ selected }">
           <button
             :class="[
-              'w-full rounded-sm py-2.5 text-sm font-bold leading-5',
+              'w-full rounded-lg py-2.5 text-sm font-bold leading-5',
               'ring-white/60 ring-offset-2 ring-offset-yellow-400 focus:outline-none focus:ring-2',
               selected
                 ? 'bg-white text-black shadow'
@@ -30,11 +30,11 @@
         </Tab>
       </TabList>
 
-      <TabPanels class="mt-2">
-        <TabPanel :class="['rounded-xl bg-white p-3']">
+      <TabPanels>
+        <TabPanel :class="['rounded-sm']">
           <div>
             <div class="chooseSemestre" v-if="mention.nom_mention">
-              <h1 class="create pl-5 mt-2"  >Sélectionnez un UE :</h1>
+              <h1 class="create pl-5 mt-2">Sélectionnez un UE :</h1>
               <div class="class formInput border-gray-900/10 pb-5 pl-5">
                 <div class="sm:col-span-3 mt-2 ctgr mr-4">
                   <label class="block text-sm font-medium leading-6 text-gray-900">Mentions</label>
@@ -44,7 +44,9 @@
                         <ListboxButton
                           class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
                         >
-                          <span class="block truncate">{{ mention.nom_mention }}</span>
+                          <span class="block truncate"
+                            >{{ mention.nom_mention }} / {{ mention.abreviation }}</span
+                          >
                           <span
                             class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
                           >
@@ -64,11 +66,11 @@
                               :key="index"
                               v-for="(mnt, index) in mention.ListMentionByEns"
                               :value="mnt.nom_mention"
-                              @click="setIdmention(mnt.id)"
+                              @click="setIdmention(mnt.id, mnt.abr_mention)"
                             >
                               <li
                                 :class="[
-                                  mention.nom_mention === mnt.nom_mention
+                                  mention.abreviation === mnt.abr_mention
                                     ? 'bg-amber-100 text-amber-900'
                                     : 'text-gray-900',
                                   'relative cursor-default select-none py-2 pl-10 pr-4'
@@ -76,15 +78,15 @@
                               >
                                 <span
                                   :class="[
-                                    mention.nom_mention === mnt.nom_mention
+                                    mention.abreviation === mnt.abr_mention
                                       ? 'font-medium'
                                       : 'font-normal',
                                     'block truncate'
                                   ]"
-                                  >{{ mnt.nom_mention }}</span
+                                  >{{ mnt.nom_mention }} / {{ mnt.abr_mention }}</span
                                 >
                                 <span
-                                  v-if="mention.nom_mention === mnt.nom_mention"
+                                  v-if="mention.abreviation === mnt.abr_mention"
                                   class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
                                 >
                                   <CheckIcon class="h-5 w-5" aria-hidden="true" />
@@ -97,15 +99,17 @@
                     </Listbox>
                   </div>
                 </div>
-                <div class="sm:col-span-3 mt-2 ctgr mr-4" v-if="parcour.parcours_nom">
+                <div class="sm:col-span-3 mt-2 ctgr mr-4" v-if="parcour.nom">
                   <label class="block text-sm font-medium leading-6 text-gray-900">Parcours</label>
                   <div class="w-52 mt-1 mr-4">
-                    <Listbox v-model="parcour.parcours_nom">
+                    <Listbox v-model="parcour.nom">
                       <div class="relative">
                         <ListboxButton
                           class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
                         >
-                          <span class="block truncate">{{ parcour.parcours_nom }}</span>
+                          <span class="block truncate"
+                            >{{ parcour.nom }} / {{ parcour.abreviation }}</span
+                          >
                           <span
                             class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
                           >
@@ -125,11 +129,11 @@
                               :key="index"
                               v-for="(prc, index) in parcour.ListParcoursByMention"
                               :value="prc.nom_parcours"
-                              @click="setIdParcours(prc.id)"
+                              @click="setIdParcours(prc.id, prc.abr_parcours)"
                             >
                               <li
                                 :class="[
-                                  parcour.parcours_nom === prc.nom_parcours
+                                  parcour.abreviation === prc.abr_parcours
                                     ? 'bg-amber-100 text-amber-900'
                                     : 'text-gray-900',
                                   'relative cursor-default select-none py-2 pl-10 pr-4'
@@ -137,15 +141,15 @@
                               >
                                 <span
                                   :class="[
-                                    parcour.parcours_nom === prc.nom_parcours
+                                    parcour.abreviation === prc.abr_parcours
                                       ? 'font-medium'
                                       : 'font-normal',
                                     'block truncate'
                                   ]"
-                                  >{{ prc.abr_parcours }}</span
+                                  >{{ prc.nom_parcours }} / {{ prc.abr_parcours }}</span
                                 >
                                 <span
-                                  v-if="parcour.parcours_nom === prc.nom_parcours"
+                                  v-if="parcour.abreviation === prc.abr_parcours"
                                   class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
                                 >
                                   <CheckIcon class="h-5 w-5" aria-hidden="true" />
@@ -220,17 +224,17 @@
                   </div>
                 </div>
 
-                <div class="sm:col-span-3 mt-2 ctgr mr-4" v-if="semestre.semestreNom">
+                <div class="sm:col-span-3 mt-2 ctgr mr-4" v-if="ue.nomUE">
                   <label class="block text-sm font-medium leading-6 text-gray-900"
                     >Unités d'enseignement</label
                   >
                   <div class="w-52 mt-1 mr-4">
-                    <Listbox v-model="semestre.semestreNom">
+                    <Listbox v-model="ue.nomUE">
                       <div class="relative">
                         <ListboxButton
                           class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
                         >
-                          <span class="block truncate">{{ semestre.semestreNom }}</span>
+                          <span class="block truncate">{{ ue.nomUE }}</span>
                           <span
                             class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
                           >
@@ -248,13 +252,12 @@
                           >
                             <ListboxOption
                               :key="index"
-                              v-for="(sm, index) in semestre.ListeSemestre"
-                              :value="sm.nom_semestre"
-                              @click="setSemestreId(sm.id)"
+                              v-for="(UE, index) in ue.ListeueBysemestre"
+                              :value="UE.nom_ue"
                             >
                               <li
                                 :class="[
-                                  semestre.semestreNom === sm.nom_semestre
+                                  ue.nomUE === UE.nom_ue
                                     ? 'bg-amber-100 text-amber-900'
                                     : 'text-gray-900',
                                   'relative cursor-default select-none py-2 pl-10 pr-4'
@@ -262,15 +265,15 @@
                               >
                                 <span
                                   :class="[
-                                    semestre.semestreNom === sm.nom_semestre
+                                    ue.nomUE === UE.nom_ue
                                       ? 'font-medium'
                                       : 'font-normal',
                                     'block truncate'
                                   ]"
-                                  >{{ sm.nom_semestre }}</span
+                                  >{{ UE.nom_ue }}</span
                                 >
                                 <span
-                                  v-if="semestre.semestreNom === sm.nom_semestre"
+                                  v-if="ue.nomUE === UE.nom_ue"
                                   class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
                                 >
                                   <CheckIcon class="h-5 w-5" aria-hidden="true" />
@@ -283,7 +286,7 @@
                     </Listbox>
                   </div>
                 </div>
-                <div class="w-40 sm:col-span-3 mr-4 mt-2">
+                <div class="w-40 sm:col-span-3 mr-4 mt-2" v-if="ue.nomUE">
                   <label class="block text-sm font-medium leading-6 text-gray-900"
                     >Nom de l'EC</label
                   >
@@ -298,7 +301,7 @@
                     ></button>
                   </div>
                 </div>
-                <div class="w-40 sm:col-span-3 mr-4 mt-2">
+                <div class="w-40 sm:col-span-3 mr-4 mt-2" v-if="ue.nomUE">
                   <label class="block text-sm font-medium leading-6 text-gray-900"
                     >Volume horaire (ET)</label
                   >
@@ -315,11 +318,11 @@
                     ></button>
                   </div>
                 </div>
-                <div class="w-40 sm:col-span-3 mr-4 mt-2">
+                <div class="w-40 sm:col-span-3 mr-4 mt-2" v-if="ue.nomUE">
                   <label class="block text-sm font-medium leading-6 text-gray-900"
                     >Volume horaire (ED)</label
                   >
-                  <div class="mt-2 relative">
+                  <div class="mt-2 relative"  >
                     <input
                       type="number"
                       v-model="ue.credit_ue"
@@ -332,7 +335,7 @@
                     ></button>
                   </div>
                 </div>
-                <div class="w-40 sm:col-span-3 mr-4 mt-2">
+                <div class="w-40 sm:col-span-3 mr-4 mt-2"  v-if="ue.nomUE">
                   <label class="block text-sm font-medium leading-6 text-gray-900"
                     >Volume horaire (TP)</label
                   >
@@ -349,11 +352,9 @@
                     ></button>
                   </div>
                 </div>
-                <div class="divbtn sm:col-span-3 mt-2">
+                <div class="divbtn sm:col-span-3 mt-2" v-if="ue.nomUE">
                   <Button
                     class="btn"
-                    @click="ue.createUE()"
-                    :disabled="!ue.nom_ue || !ue.credit_ue"
                   >
                     Valider</Button
                   >
@@ -362,9 +363,7 @@
             </div>
             <div class="listUE">
               <div class="header">
-                <h1 class="create pl-5 mt-4">
-                  Liste des EC de cette unité d'enseignement :
-                </h1>
+                <h1 class="create pl-5 mt-4">Liste des EC de cette unité d'enseignement :</h1>
               </div>
               <div class="listEtudValue">
                 <div class="head">
@@ -388,7 +387,7 @@
             </div>
           </div>
         </TabPanel>
-        <TabPanel :class="['rounded-xl bg-white p-3']"> BBBB </TabPanel>
+        <TabPanel :class="['rounded-lg bg-white mt-2 p-3']"> BBBB </TabPanel>
       </TabPanels>
     </TabGroup>
   </div>
@@ -404,7 +403,6 @@ import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headless
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import { useShow } from '@/stores/Show'
 import { useMention } from '@/stores/Mention'
-import { onBeforeMount } from 'vue'
 
 const semestre = useSemestre()
 const ue = useUe()
@@ -422,9 +420,10 @@ function setIdParcours(id) {
   parcour.parcours_id = id
 }
 
-onBeforeMount(() => {
-  mention.getMentionByRespId()
-})
+function setIdmention(id, abr) {
+  mention.mention_id = id
+  mention.abreviation = abr
+}
 
 function limitvolumeHLength(event) {
   const value = event.target.value

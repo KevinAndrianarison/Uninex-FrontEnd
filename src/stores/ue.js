@@ -56,6 +56,7 @@ export const useUe = defineStore('Ue', () => {
       .get(`${URL}/api/ue/getById/${semestre.semestreId}`)
       .then((response) => {
         ListeueBysemestre.value = response.data
+        nomUE.value = response.data[0].nom_ue
         show.showSpinner = false
       })
       .catch((err) => {
