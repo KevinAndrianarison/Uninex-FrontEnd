@@ -1,31 +1,35 @@
 <template>
-  <div class="w-full px-2 sm:px-0">
+  <div class="listeParcourContent px-2 sm:px-0">
     <TabGroup>
-      <TabList class="flex space-x-1 rounded-xl bg-yellow-500/20 p-1">
+      <TabList class="flex space-x-1 rounded-sm bg-yellow-500/20 p-1">
         <Tab as="template" v-slot="{ selected }">
           <button
             :class="[
-              'w-full rounded-lg py-2.5 text-sm font-bold leading-5',
+              'w-full rounded-sm py-2.5 text-sm font-bold leading-5',
               'ring-white/60 ring-offset-2 ring-offset-yellow-400 focus:outline-none focus:ring-2',
               selected
                 ? 'bg-white text-black shadow'
                 : 'text-black hover:bg-white/[0.12] hover:text-black'
             ]"
+            class="square"
           >
-            Création d'un EC
+            <font-awesome-icon class="h-5 w-5 mr-2" :icon="['fas', 'square-plus']" /> Création d'un
+            EC
           </button>
         </Tab>
         <Tab as="template" v-slot="{ selected }">
           <button
             :class="[
-              'w-full rounded-lg py-2.5 text-sm font-bold leading-5',
+              'w-full rounded-sm py-2.5 text-sm font-bold leading-5',
               'ring-white/60 ring-offset-2 ring-offset-yellow-400 focus:outline-none focus:ring-2',
               selected
                 ? 'bg-white text-black shadow'
                 : 'text-black hover:bg-white/[0.12] hover:text-black'
             ]"
+            class="square"
           >
-            Responsable d'un EC
+            <font-awesome-icon class="h-5 w-5 mr-2" :icon="['fas', 'circle-check']" /> Responsable
+            d'un EC
           </button>
         </Tab>
       </TabList>
@@ -265,9 +269,7 @@
                               >
                                 <span
                                   :class="[
-                                    ue.nomUE === UE.nom_ue
-                                      ? 'font-medium'
-                                      : 'font-normal',
+                                    ue.nomUE === UE.nom_ue ? 'font-medium' : 'font-normal',
                                     'block truncate'
                                   ]"
                                   >{{ UE.nom_ue }}</span
@@ -286,7 +288,7 @@
                     </Listbox>
                   </div>
                 </div>
-                <div class="w-52 sm:col-span-3 mr-4 mt-2 " v-if="ue.nomUE">
+                <div class="w-52 sm:col-span-3 mr-4 mt-2" v-if="ue.nomUE">
                   <label class="block text-sm font-medium leading-6 text-gray-900"
                     >Nom de l'EC</label
                   >
@@ -322,7 +324,7 @@
                   <label class="block text-sm font-medium leading-6 text-gray-900"
                     >Volume horaire (ED)</label
                   >
-                  <div class="mt-2 relative"  >
+                  <div class="mt-2 relative">
                     <input
                       type="number"
                       v-model="ue.credit_ue"
@@ -335,7 +337,7 @@
                     ></button>
                   </div>
                 </div>
-                <div class="w-52 sm:col-span-3 mr-4 mt-2 pl-5"  v-if="ue.nomUE">
+                <div class="w-52 sm:col-span-3 mr-4 mt-2 pl-5" v-if="ue.nomUE">
                   <label class="block text-sm font-medium leading-6 text-gray-900"
                     >Volume horaire (TP)</label
                   >
@@ -353,11 +355,7 @@
                   </div>
                 </div>
                 <div class="divbtn sm:col-span-3 mt-2 pl-5" v-if="ue.nomUE">
-                  <Button
-                    class="btn"
-                  >
-                    Valider</Button
-                  >
+                  <Button class="btn"> Valider</Button>
                 </div>
               </div>
             </div>

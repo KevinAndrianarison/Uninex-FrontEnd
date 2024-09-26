@@ -28,7 +28,9 @@ import {
   faFileExcel,
   faListUl,
   faPrint,
-  faPersonCircleXmark
+  faPersonCircleXmark,
+  faSquarePlus,
+  faCircleCheck
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -48,7 +50,9 @@ library.add(
   faFileExcel,
   faListUl,
   faPrint,
-  faPersonCircleXmark
+  faPersonCircleXmark,
+  faSquarePlus,
+  faCircleCheck
 )
 
 import App from './App.vue'

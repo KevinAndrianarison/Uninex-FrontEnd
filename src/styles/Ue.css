@@ -3,7 +3,13 @@
     font-weight: bold;
     color: var(--color-text-main);
     margin: 0 auto;
-    width: 1000px;
+    width: 80vw;
+}
+
+.square{
+display: flex;
+justify-content: center;
+align-items: center;
 }
 
 .titre {
@@ -30,6 +36,10 @@
     border-radius: 10px;
     border: 2px solid rgba(128, 128, 128, 0.127);
     margin-top: 5px;
+}
+.listeParcourContent{
+    width: 80vw;
+    margin: 0 auto;
 }
 
 .header {
