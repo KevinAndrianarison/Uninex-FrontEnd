@@ -258,6 +258,7 @@
                               :key="index"
                               v-for="(UE, index) in ue.ListeueBysemestre"
                               :value="UE.nom_ue"
+                              @click="setUEId(UE.id)"
                             >
                               <li
                                 :class="[
@@ -295,6 +296,7 @@
                   <div class="mt-2 relative">
                     <input
                       type="text"
+                      v-model="ec.nom_ec"
                       class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
                     />
                     <button
@@ -310,7 +312,7 @@
                   <div class="mt-2 relative">
                     <input
                       type="number"
-                      v-model="ue.credit_ue"
+                      v-model="ec.volume_et"
                       @input="limitvolumeHLength"
                       class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
                     />
@@ -327,7 +329,7 @@
                   <div class="mt-2 relative">
                     <input
                       type="number"
-                      v-model="ue.credit_ue"
+                      v-model="ec.volume_ed"
                       @input="limitvolumeHLength"
                       class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
                     />
@@ -344,7 +346,7 @@
                   <div class="mt-2 relative">
                     <input
                       type="number"
-                      v-model="ue.credit_ue"
+                      v-model="ec.volume_tp"
                       @input="limitvolumeHLength"
                       class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
                     />
@@ -355,7 +357,7 @@
                   </div>
                 </div>
                 <div class="divbtn sm:col-span-3 mt-2 pl-5" v-if="ue.nomUE">
-                  <Button class="btn"> Valider</Button>
+                  <Button class="btn" @click="ec.createEC()"> Valider</Button>
                 </div>
               </div>
             </div>
@@ -366,19 +368,24 @@
               <div class="listEtudValue">
                 <div class="head">
                   <li class="widtUE">Nom de l'EC</li>
-                  <li class="widthcredit">Crédit</li>
+                  <li class="widthcredit">Volume ET</li>
+                  <li class="widthcredit">Volume ED</li>
+                  <li class="widthcredit">Volume TP</li>
                   <li class="widthUEnom"></li>
                 </div>
-                <div :key="index" v-for="(UE, index) in ue.ListeueBysemestre">
+                <div :key="index" v-for="(EC, index) in ec.ListeEC">
                   <div class="body">
-                    <li class="widthvalueUE">{{ UE.nom_ue }}</li>
-                    <li class="widthvaluecredit">{{ UE.credit_ue }}</li>
+                    <li class="widthvalueUE">{{ EC.nom_ec }}</li>
+                    <li class="widthvaluecredit">{{ EC.volume_et }}</li>
+                    <li class="widthvaluecredit">{{ EC.volume_ed }}</li>
+                    <li class="widthvaluecredit">{{ EC.volume_tp }}</li>
+
                     <li class="widthvalueTrash">
-                      <TrashIcon @click="showdeleteUE(UE.nom_ue, UE.id)" class="delete h-5 w-5" />
+                      <TrashIcon class="delete h-5 w-5" />
                     </li>
                   </div>
                 </div>
-                <div class="Empty" v-if="ue.ListeueBysemestre.length === 0">
+                <div class="Empty" v-if="ec.ListeEC.length === 0">
                   <div class="gif"></div>
                 </div>
               </div>
@@ -397,6 +404,7 @@ import { TrashIcon } from '@heroicons/vue/24/outline'
 import { useParcour } from '@/stores/Parcour'
 import { useSemestre } from '@/stores/Semestre'
 import { useUe } from '@/stores/Ue'
+import { useEc } from '@/stores/Ec'
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import { useShow } from '@/stores/Show'
@@ -404,6 +412,7 @@ import { useMention } from '@/stores/Mention'
 
 const semestre = useSemestre()
 const ue = useUe()
+const ec = useEc()
 const parcour = useParcour()
 const show = useShow()
 const mention = useMention()
@@ -432,8 +441,8 @@ function limitvolumeHLength(event) {
   }
 }
 
-function setSemestreId(id) {
-  semestre.semestreId = id
+function setUEId(id) {
+  ue.id = id
 }
 </script>
 

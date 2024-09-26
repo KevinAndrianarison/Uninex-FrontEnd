@@ -263,7 +263,6 @@ import { useUe } from '@/stores/Ue'
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import { useShow } from '@/stores/Show'
-import { useAu } from '@/stores/Au'
 import { onBeforeMount } from 'vue'
 
 const semestre = useSemestre()
@@ -271,7 +270,6 @@ const ue = useUe()
 const parcour = useParcour()
 const show = useShow()
 const mention = useMention()
-const au = useAu()
 
 
 function showdeleteUE(nom, id) {
@@ -281,7 +279,6 @@ function showdeleteUE(nom, id) {
 }
 
 onBeforeMount(() => {
-  console.log('2')
   mention.getMentionByRespId()
 })
 

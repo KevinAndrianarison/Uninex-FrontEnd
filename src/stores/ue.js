@@ -1,22 +1,30 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useSemestre } from '@/stores/Semestre'
 import { useMessages } from '@/stores/messages'
 import { useShow } from '@/stores/Show'
 import { useUrl } from '@/stores/url'
+import { useEc } from '@/stores/Ec'
 import axios from 'axios'
 
 export const useUe = defineStore('Ue', () => {
   const nom_ue = ref('')
   const credit_ue = ref(null)
-  const id = ref('')
+  const id = ref(null)
   const ListeueBysemestre = ref([])
   const nomUE = ref('')
 
   const semestre = useSemestre()
   const messages = useMessages()
   const show = useShow()
+  const ec = useEc()
   const URL = useUrl().url
+
+  watch(nomUE, (newValue, oldValue) => {
+    if (newValue) {
+      ec.getAllECBySemestre()
+    }
+  })
 
   function createUE() {
     let formData = {
@@ -52,12 +60,14 @@ export const useUe = defineStore('Ue', () => {
   }
 
   function getUeByIdsemstre() {
-    nomUE.value = ""
+    nomUE.value = ''
     axios
       .get(`${URL}/api/ue/getById/${semestre.semestreId}`)
       .then((response) => {
+        id.value = response.data[0].id
         ListeueBysemestre.value = response.data
         nomUE.value = response.data[0].nom_ue
+        ec.getAllECBySemestre()
         show.showSpinner = false
       })
       .catch((err) => {
