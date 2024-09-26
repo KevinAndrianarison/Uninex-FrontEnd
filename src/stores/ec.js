@@ -13,6 +13,8 @@ export const useEc = defineStore('Ec', () => {
   const URL = useUrl().url
 
   const nom_ec = ref('')
+  const nomEC = ref('')
+  const id = ref(null)
   const volume_et = ref(null)
   const volume_ed = ref(null)
   const volume_tp = ref(null)
@@ -29,6 +31,24 @@ export const useEc = defineStore('Ec', () => {
       })
   }
 
+  function deleteEC() {
+    show.showSpinner = true
+    axios
+      .delete(`${URL}/api/ec/${id.value}`)
+      .then((response) => {
+        getAllECBySemestre()
+        messages.messageSucces = 'EC supprimé !'
+        show.showSpinner = false
+        setTimeout(() => {
+          messages.messageSucces = ''
+        }, 3000)
+      })
+      .catch((err) => {
+        console.error(err)
+        show.showSpinner = false
+      })
+  }
+
   function createEC() {
     show.showSpinner = true
     let formData = {
@@ -41,7 +61,6 @@ export const useEc = defineStore('Ec', () => {
     axios
       .post(`${URL}/api/ec`, formData)
       .then((response) => {
-        console.log(response.data)
         if (response.data.message === 'EC déjà existante !') {
           messages.messageError = response.data.message
           show.showSpinner = false
@@ -54,6 +73,7 @@ export const useEc = defineStore('Ec', () => {
           volume_et.value = null
           volume_tp.value = null
           messages.messageSucces = 'EC créé  !'
+          getAllECBySemestre()
           show.showSpinner = false
           setTimeout(() => {
             messages.messageSucces = ''
@@ -71,8 +91,11 @@ export const useEc = defineStore('Ec', () => {
     volume_ed,
     nom_ec,
     volume_tp,
-    ListeEC, 
+    ListeEC,
+    nomEC,
+    id,
     createEC,
-    getAllECBySemestre
+    getAllECBySemestre,
+    deleteEC
   }
 })

@@ -26,7 +26,6 @@ export const useAu = defineStore('Au', () => {
     axios
       .get(`${URL}/api/au`)
       .then((response) => {
-        console.log('3', response.data[0].id)
         idAU.value = response.data[0].id
         listeAU.value = response.data
         oneAU.value = listeAU.value[0].annee_debut + '-' + listeAU.value[0].annee_fin
@@ -43,7 +42,6 @@ export const useAu = defineStore('Au', () => {
       const userString = localStorage.getItem('user')
       const users = JSON.parse(userString)
       if (users.chefMention_status === '1') {
-        console.log('1')
         mention.ListMentionByEns = []
         mention.nom_mention = ''
         mention.getMentionByRespId()

@@ -71,6 +71,9 @@
   <Teleport to="body">
     <DeleteUE />
   </Teleport>
+  <Teleport to="body">
+    <DeleteEC />
+  </Teleport>
 </template>
 
 <script setup>
@@ -93,6 +96,7 @@ import DeletetUser from './components/delete/DeleteUser.vue'
 import DeleteAU from './components/delete/DeleteAU.vue'
 import DeleteNiveau from './components/delete/DeleteNiveau.vue'
 import DeleteMention from './components/delete/DeleteMention.vue'
+import DeleteEC from './components/delete/DeleteEC.vue'
 import DeleteSemestre from './components/delete/DeleteSemestre.vue'
 import DeleteParcours from './components/delete/DeleteParcours.vue'
 import DeleteUE from './components/delete/DeleteUE.vue'

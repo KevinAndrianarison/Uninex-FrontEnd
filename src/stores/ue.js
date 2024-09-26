@@ -22,6 +22,7 @@ export const useUe = defineStore('Ue', () => {
 
   watch(nomUE, (newValue, oldValue) => {
     if (newValue) {
+      ec.ListeEC = []
       ec.getAllECBySemestre()
     }
   })
@@ -61,12 +62,13 @@ export const useUe = defineStore('Ue', () => {
 
   function getUeByIdsemstre() {
     nomUE.value = ''
+    ec.ListeEC = []
     axios
       .get(`${URL}/api/ue/getById/${semestre.semestreId}`)
       .then((response) => {
-        id.value = response.data[0].id
         ListeueBysemestre.value = response.data
         nomUE.value = response.data[0].nom_ue
+        id.value = response.data[0].id
         ec.getAllECBySemestre()
         show.showSpinner = false
       })
@@ -81,7 +83,11 @@ export const useUe = defineStore('Ue', () => {
       .delete(`${URL}/api/ue/${id.value}`)
       .then((response) => {
         getUeByIdsemstre()
+        messages.messageSucces = 'UE supprimé  !'
         show.showSpinner = false
+        setTimeout(() => {
+          messages.messageSucces = ''
+        }, 3000)
       })
       .catch((err) => {
         console.error(err)

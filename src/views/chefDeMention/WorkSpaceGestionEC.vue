@@ -194,7 +194,7 @@
                               :key="index"
                               v-for="(sm, index) in semestre.ListeSemestre"
                               :value="sm.nom_semestre"
-                              @click="setSemestreId(sm.id)"
+                              @click="setSemestreId(sm.id, sm.nom_semestre)"
                             >
                               <li
                                 :class="[
@@ -381,7 +381,7 @@
                     <li class="widthvaluecredit">{{ EC.volume_tp }}</li>
 
                     <li class="widthvalueTrash">
-                      <TrashIcon class="delete h-5 w-5" />
+                      <TrashIcon class="delete h-5 w-5" @click="deleteEC(EC.nom_ec, EC.id)" />
                     </li>
                   </div>
                 </div>
@@ -417,10 +417,10 @@ const parcour = useParcour()
 const show = useShow()
 const mention = useMention()
 
-function showdeleteUE(nom, id) {
-  ue.nomUE = nom
-  ue.id = id
-  show.showDeleteUE = true
+function deleteEC(nom, id) {
+  ec.nomEC = nom
+  ec.id = id
+  show.showDeletEC = true
 }
 
 function setIdParcours(id, abr) {
@@ -431,6 +431,11 @@ function setIdParcours(id, abr) {
 function setIdmention(id, abr) {
   mention.mention_id = id
   mention.abreviation = abr
+}
+
+function setSemestreId(id, nom) {
+  semestre.semestreNom = nom
+  semestre.semestreId = id
 }
 
 function limitvolumeHLength(event) {
