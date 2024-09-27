@@ -5,7 +5,7 @@
       <div class="CONTENT">
         <h1 class="create pl-5 mt-2">Remplissez tous les champs :</h1>
         <div class="class formInput border-gray-900/10 pb-5 pl-5">
-          <div class="sm:col-span-3 mt-2 mr-4">
+          <div class="w-52 sm:col-span-3 mt-2 mr-4">
             <label class="block text-sm font-medium leading-6 text-gray-900">Nom complet</label>
             <div class="mt-2">
               <input
@@ -29,7 +29,7 @@
             </div>
           </div>
 
-          <div class="sm:col-span-3 mt-2 mr-4">
+          <div class="w-52 sm:col-span-3 mt-2 mr-4">
             <label class="block text-sm font-medium leading-6 text-gray-900"
               >Lieu de naissance
             </label>
@@ -42,7 +42,7 @@
             </div>
           </div>
 
-          <div class="sm:col-span-3 mt-2 mr-4">
+          <div class="w-52 sm:col-span-3 mt-2 mr-4">
             <label class="block text-sm font-medium leading-6 text-gray-900">Nationalité </label>
             <div class="mt-2">
               <input
@@ -109,7 +109,7 @@
             </div>
           </div>
 
-          <div class="sm:col-span-3 mt-2 mr-4">
+          <div class="w-52 sm:col-span-3 mt-2 mr-4">
             <label class="block text-sm font-medium leading-6 text-gray-900">Numéro CIN </label>
             <div class="mt-2">
               <input
@@ -120,7 +120,7 @@
             </div>
           </div>
 
-          <div class="sm:col-span-3 mt-2 mr-4">
+          <div class="w-52 sm:col-span-3 mt-2 mr-4">
             <label class="block text-sm font-medium leading-6 text-gray-900">Téléphone </label>
             <div class="mt-2">
               <input
@@ -131,7 +131,7 @@
             </div>
           </div>
 
-          <div class="sm:col-span-3 mt-2 mr-4">
+          <div class="w-52 sm:col-span-3 mt-2 mr-4">
             <label class="block text-sm font-medium leading-6 text-gray-900">Nom du père </label>
             <div class="mt-2">
               <input
@@ -142,7 +142,7 @@
             </div>
           </div>
 
-          <div class="sm:col-span-3 mt-2 mr-4">
+          <div class="w-52 sm:col-span-3 mt-2 mr-4">
             <label class="block text-sm font-medium leading-6 text-gray-900">Nom du mère </label>
             <div class="mt-2">
               <input
@@ -152,7 +152,7 @@
               />
             </div>
           </div>
-          <div class="sm:col-span-3 mt-2 mr-4">
+          <div class="w-52 sm:col-span-3 mt-2 mr-4">
             <label class="block text-sm font-medium leading-6 text-gray-900">Tuteur/Tutrice </label>
             <div class="mt-2">
               <input
@@ -163,7 +163,7 @@
             </div>
           </div>
 
-          <div class="sm:col-span-3 mt-2 mr-4">
+          <div class="w-52 sm:col-span-3 mt-2 mr-4">
             <label class="block text-sm font-medium leading-6 text-gray-900">Adresse </label>
             <div class="mt-2">
               <input
@@ -173,7 +173,7 @@
               />
             </div>
           </div>
-          <div class="sm:col-span-3 mt-2 mr-4">
+          <div class="w-52 sm:col-span-3 mt-2 mr-4">
             <label class="block text-sm font-medium leading-6 text-gray-900">Série BAC </label>
             <div class="mt-2">
               <input
@@ -184,7 +184,7 @@
             </div>
           </div>
 
-          <div class="sm:col-span-3 mt-2 mr-4">
+          <div class="w-52 sm:col-span-3 mt-2 mr-4">
             <label class="block text-sm font-medium leading-6 text-gray-900"
               >Année d'obtention du BAC
             </label>
@@ -197,7 +197,7 @@
             </div>
           </div>
 
-          <div class="w-56 sm:col-span-3 mt-2 mr-4">
+          <div class="w-52 sm:col-span-3 mt-2 mr-4">
             <label class="block text-sm font-medium leading-6 text-gray-900"
               >Etablissement d'origine
             </label>

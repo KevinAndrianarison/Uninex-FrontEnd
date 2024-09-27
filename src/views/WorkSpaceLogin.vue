@@ -2,7 +2,7 @@
   <div class="login">
     <div class="form">
       <div class="head">
-        <div class="header">
+        <div class="header mt-5">
           <div
             class="logo"
             :style="{
@@ -13,10 +13,10 @@
             }"
           ></div>
         </div>
-        <div class="textgetStarted">Bienvenue ! Connectez-vous !</div>
+        <div class="textgetStarted mt-5">Bienvenue ! Connectez-vous !</div>
       </div>
       <div class="inputButton">
-        <div class="mt-[20%]">
+        <div class="mt-10">
           <input
             type="text"
             v-model="user.email"
@@ -43,9 +43,7 @@
         <Button class="btn mt-[8%]" :disabled="!user.email || !user.password" @click="user.login()"
           >Connexion</Button
         >
-      </div>
-      <div class="text">
-        <p class="textbtn">Mot de passe oublié ?</p>
+        <p class="text mt-5">Mot de passe oublié ?</p>
       </div>
     </div>
   </div>

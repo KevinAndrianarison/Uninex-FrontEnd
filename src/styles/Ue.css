@@ -20,10 +20,23 @@
   margin: 0 auto;
 }
 
+.responsableEC {
+  width: 90%;
+  margin: 0 auto;
+}
+
 .chooseSemestre {
   background-color: white;
   margin-top: 5px;
   border-radius: 10px;
+  border: 2px solid rgba(128, 128, 128, 0.127);
+  width: 90%;
+  margin: 0 auto;
+}
+
+.chooseSemestreEC {
+  background-color: white;
+  margin-top: 5px;
   border: 2px solid rgba(128, 128, 128, 0.127);
   width: 90%;
   margin: 0 auto;
@@ -41,6 +54,15 @@
   height: 42vh;
   background-color: white;
   border-radius: 10px;
+  border: 2px solid rgba(128, 128, 128, 0.127);
+  margin-top: 5px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.listEC {
+  height: 42vh;
+  background-color: white;
   border: 2px solid rgba(128, 128, 128, 0.127);
   margin-top: 5px;
   width: 90%;

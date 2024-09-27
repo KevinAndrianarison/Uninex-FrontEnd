@@ -107,34 +107,26 @@ h1 {
 
 .header {
     grid-area: header;
-    padding: 1rem;
+    padding: 0.5rem;
     text-align: center;
     display: flex;
     align-items: center;
     justify-content: space-between;
     background-color: var(--color-primary);
-    border-bottom: 2px rgba(128, 128, 128, 0.147) solid;
 }
 
 .sidebar {
     grid-area: sidebar;
     background-color: white;
-    padding: 1rem;
+    padding: 0.5rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding-left: 15px;
     color: var(--color-text-main);
+    border-right: 2px solid rgba(128, 128, 128, 0.158);
 }
 
-.sidebar:hover {
-    box-shadow:
-        0 4px 8px 0 rgba(0, 0, 0, 0.2),
-        0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    transition: all 0.2s ease-in-out;
-    margin-left: 8px;
-    margin-right: -8px;
-}
 
 .sidebar ul {
     list-style: none;

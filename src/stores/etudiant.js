@@ -228,7 +228,9 @@ export const useEtudiant = defineStore('Etudiant', () => {
         serieBAC_etud.value = response.data.serieBAC_etud
         telephone_etud.value = response.data.telephone_etud
         photoBordereaux_name.value = response.data.photoBordereaux_name
-        sexe_etud.value = response.data.sexe_etud
+        if (response.data.sexe_etud) {
+          sexe_etud.value = response.data.sexe_etud
+        }
 
         show.showSpinner = false
       })

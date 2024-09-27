@@ -71,7 +71,7 @@
       <div v-if="parcour.parcours_nom" class="class formInput border-gray-900/10 pb-5 pl-5">
         <div class="sm:col-span-3 mt-2 ctgr mr-4">
           <label class="block text-sm font-medium leading-6 text-gray-900">Parcours</label>
-          <div class="w-52 mt-1 mr-4">
+          <div class="w-52 mt-1">
             <Listbox v-model="parcour.parcours_nom">
               <div class="relative">
                 <ListboxButton
@@ -133,7 +133,7 @@
 
         <div class="sm:col-span-3 mt-2 ctgr mr-4" v-if="semestre.semestreNom">
           <label class="block text-sm font-medium leading-6 text-gray-900">Semestre</label>
-          <div class="w-52 mt-1 mr-4">
+          <div class="w-52 mt-1">
             <Listbox v-model="semestre.semestreNom">
               <div class="relative">
                 <ListboxButton

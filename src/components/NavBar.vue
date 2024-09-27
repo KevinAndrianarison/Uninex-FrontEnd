@@ -1,6 +1,6 @@
 <template>
   <nav class="sidebar">
-    <ul>
+    <ul class="mt-5">
       <RouterLink to="/">
         <li><NewspaperIcon class="h-5 w-5 mr-2" /> Annonces</li>
       </RouterLink>

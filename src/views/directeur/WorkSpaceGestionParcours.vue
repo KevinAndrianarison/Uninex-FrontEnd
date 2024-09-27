@@ -163,7 +163,7 @@
             />
           </div>
         </div>
-        <div class="divbtn sm:col-span-3 mt-1">
+        <div class="divbtn sm:col-span-3 mt-2">
           <Button
             class="btn"
             @click="parcour.postParcour()"

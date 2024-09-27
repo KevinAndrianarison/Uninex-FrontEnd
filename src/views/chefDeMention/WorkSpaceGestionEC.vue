@@ -37,12 +37,12 @@
       <TabPanels>
         <TabPanel :class="['rounded-sm']">
           <div>
-            <div class="chooseSemestre" v-if="mention.nom_mention">
+            <div class="chooseSemestreEC" v-if="mention.nom_mention">
               <h1 class="create pl-5 mt-2">Sélectionnez un UE :</h1>
               <div class="class formInput border-gray-900/10 pb-5 pl-5">
                 <div class="sm:col-span-3 mt-2 ctgr mr-4">
                   <label class="block text-sm font-medium leading-6 text-gray-900">Mentions</label>
-                  <div class="w-52 mt-1 mr-4">
+                  <div class="w-52 mt-1">
                     <Listbox v-model="mention.nom_mention">
                       <div class="relative">
                         <ListboxButton
@@ -105,7 +105,7 @@
                 </div>
                 <div class="sm:col-span-3 mt-2 ctgr mr-4" v-if="parcour.nom">
                   <label class="block text-sm font-medium leading-6 text-gray-900">Parcours</label>
-                  <div class="w-52 mt-1 mr-4">
+                  <div class="w-52 mt-1">
                     <Listbox v-model="parcour.nom">
                       <div class="relative">
                         <ListboxButton
@@ -168,7 +168,7 @@
                 </div>
                 <div class="sm:col-span-3 mt-2 ctgr mr-4" v-if="semestre.semestreNom">
                   <label class="block text-sm font-medium leading-6 text-gray-900">Semestre</label>
-                  <div class="w-52 mt-1 mr-4">
+                  <div class="w-52 mt-1">
                     <Listbox v-model="semestre.semestreNom">
                       <div class="relative">
                         <ListboxButton
@@ -232,7 +232,7 @@
                   <label class="block text-sm font-medium leading-6 text-gray-900"
                     >Unités d'enseignement</label
                   >
-                  <div class="w-52 mt-1 mr-4">
+                  <div class="w-52 mt-1">
                     <Listbox v-model="ue.nomUE">
                       <div class="relative">
                         <ListboxButton
@@ -289,7 +289,7 @@
                     </Listbox>
                   </div>
                 </div>
-                <div class="w-52 sm:col-span-3 mr-4 mt-2" v-if="ue.nomUE">
+                <div class="w-52 sm:col-span-3 mr-4 mt-1" v-if="ue.nomUE">
                   <label class="block text-sm font-medium leading-6 text-gray-900"
                     >Nom de l'EC</label
                   >
@@ -305,7 +305,7 @@
                     ></button>
                   </div>
                 </div>
-                <div class="w-52 sm:col-span-3 mr-4 mt-2" v-if="ue.nomUE">
+                <div class="w-52 sm:col-span-3 mr-4 mt-1" v-if="ue.nomUE">
                   <label class="block text-sm font-medium leading-6 text-gray-900"
                     >Volume horaire (ET)</label
                   >
@@ -322,7 +322,7 @@
                     ></button>
                   </div>
                 </div>
-                <div class="w-52 sm:col-span-3 mr-4 mt-2" v-if="ue.nomUE">
+                <div class="w-52 sm:col-span-3 mr-4 mt-1" v-if="ue.nomUE">
                   <label class="block text-sm font-medium leading-6 text-gray-900"
                     >Volume horaire (ED)</label
                   >
@@ -339,7 +339,7 @@
                     ></button>
                   </div>
                 </div>
-                <div class="w-52 sm:col-span-3 mr-4 mt-2" v-if="ue.nomUE">
+                <div class="w-52 sm:col-span-3 mr-4 mt-1" v-if="ue.nomUE">
                   <label class="block text-sm font-medium leading-6 text-gray-900"
                     >Volume horaire (TP)</label
                   >
@@ -361,7 +361,7 @@
                 </div>
               </div>
             </div>
-            <div class="listUE">
+            <div class="listEC">
               <div class="header">
                 <h1 class="create pl-5 mt-4">Liste des EC de cette unité d'enseignement :</h1>
               </div>
@@ -392,7 +392,7 @@
             </div>
           </div>
         </TabPanel>
-        <TabPanel :class="['rounded-lg bg-white mt-2 p-3']"> BBBB </TabPanel>
+        <TabPanel :class="['responsableEC rounded-sm bg-white mt-2 p-3']"> BBBB </TabPanel>
       </TabPanels>
     </TabGroup>
   </div>

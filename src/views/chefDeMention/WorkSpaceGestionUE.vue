@@ -9,7 +9,7 @@
       <div v-if="mention.nom_mention" class="class formInput border-gray-900/10 pb-5 pl-5">
         <div class="sm:col-span-3 mt-2 ctgr mr-4">
           <label class="block text-sm font-medium leading-6 text-gray-900">Mentions</label>
-          <div class="w-52 mt-1 mr-4">
+          <div class="w-52 mt-1">
             <Listbox v-model="mention.nom_mention">
               <div class="relative">
                 <ListboxButton
@@ -70,7 +70,7 @@
         </div>
         <div class="sm:col-span-3 mt-2 ctgr mr-4" v-if="parcour.nom">
           <label class="block text-sm font-medium leading-6 text-gray-900">Parcours</label>
-          <div class="w-52 mt-1 mr-4">
+          <div class="w-52 mt-1">
             <Listbox v-model="parcour.nom">
               <div class="relative">
                 <ListboxButton
@@ -132,7 +132,7 @@
 
         <div class="sm:col-span-3 mt-2 ctgr mr-4" v-if="semestre.semestreNom">
           <label class="block text-sm font-medium leading-6 text-gray-900">Semestre</label>
-          <div class="w-52 mt-1 mr-4">
+          <div class="w-52 mt-1">
             <Listbox v-model="semestre.semestreNom">
               <div class="relative">
                 <ListboxButton
@@ -191,7 +191,7 @@
             </Listbox>
           </div>
         </div>
-        <div v-if="semestre.semestreNom" class="w-52 sm:col-span-3 mr-4 mt-2">
+        <div v-if="semestre.semestreNom" class="w-52 sm:col-span-3 mr-4 mt-1">
           <label class="block text-sm font-medium leading-6 text-gray-900">Nom de l'UE</label>
           <div class="mt-2 relative">
             <input
@@ -205,7 +205,7 @@
             ></button>
           </div>
         </div>
-        <div class="w-40 sm:col-span-3 mr-4 mt-2" v-if="semestre.semestreNom">
+        <div class="w-40 sm:col-span-3 mr-4 mt-1" v-if="semestre.semestreNom">
           <label class="block text-sm font-medium leading-6 text-gray-900">Crédit</label>
           <div class="mt-2 relative">
             <input
@@ -220,7 +220,7 @@
             ></button>
           </div>
         </div>
-        <div class="divbtn sm:col-span-3 mt-2" v-if="semestre.semestreNom">
+        <div class="divbtn sm:col-span-3 mt-1 " v-if="semestre.semestreNom">
           <Button class="btn" @click="ue.createUE()" :disabled="!ue.nom_ue || !ue.credit_ue">
             Valider</Button
           >

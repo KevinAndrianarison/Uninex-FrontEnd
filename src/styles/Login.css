@@ -1,14 +1,3 @@
-.textbtn {
-  font-size: 13px;
-  text-align: right;
-  margin-right: 15%;
-  margin-top: 5px;
-  color: var(--color-secondary);
-  cursor: pointer;
-}
-
-
-
 .btn {
   padding: 10px 50px 10px 50px;
   background-color: rgb(243, 162, 12);
@@ -24,7 +13,7 @@
 .textgetStarted {
   font-weight: 600;
   text-align: center;
-  font-size: 16px;
+  font-size: 20px;
 }
 
 h1 {
@@ -60,7 +49,10 @@ h1 {
 }
 
 .text {
-  height: 15%;
+  font-size: 13px;
+  text-align: right;
+  color: var(--color-secondary);
+  cursor: pointer;
 }
 
 .login {
@@ -74,7 +66,7 @@ h1 {
 }
 
 .form {
-  height: 50vh;
+  height: 45vh;
   width: 400px;
   background-color: var(--color-background-main);
   border-radius: 10px;
