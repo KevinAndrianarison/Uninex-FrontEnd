@@ -74,7 +74,7 @@ h1 {
 }
 
 .form {
-  height: 60vh;
+  height: 50vh;
   width: 400px;
   background-color: var(--color-background-main);
   border-radius: 10px;

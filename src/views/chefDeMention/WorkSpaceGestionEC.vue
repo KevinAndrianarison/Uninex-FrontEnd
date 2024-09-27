@@ -1,12 +1,12 @@
 <template>
   <div class="listeParcourContent px-2 sm:px-0">
-    <TabGroup>
-      <TabList class="flex space-x-1 rounded-sm bg-yellow-500/20 p-1">
+    <TabGroup >
+      <TabList class="onglet flex space-x-1 rounded-sm bg-green-500/20 p-1">
         <Tab as="template" v-slot="{ selected }">
           <button
             :class="[
               'w-full rounded-sm py-2.5 text-sm font-bold leading-5',
-              'ring-white/60 ring-offset-2 ring-offset-yellow-400 focus:outline-none focus:ring-2',
+              'ring-white/60 ring-offset-2 ring-offset-green-400 focus:outline-none focus:ring-2',
               selected
                 ? 'bg-white text-black shadow'
                 : 'text-black hover:bg-white/[0.12] hover:text-black'
@@ -21,7 +21,7 @@
           <button
             :class="[
               'w-full rounded-sm py-2.5 text-sm font-bold leading-5',
-              'ring-white/60 ring-offset-2 ring-offset-yellow-400 focus:outline-none focus:ring-2',
+              'ring-white/60 ring-offset-2 ring-offset-green-400 focus:outline-none focus:ring-2',
               selected
                 ? 'bg-white text-black shadow'
                 : 'text-black hover:bg-white/[0.12] hover:text-black'
@@ -322,7 +322,7 @@
                     ></button>
                   </div>
                 </div>
-                <div class="w-52 sm:col-span-3 mr-4 mt-2 pl-5" v-if="ue.nomUE">
+                <div class="w-52 sm:col-span-3 mr-4 mt-2" v-if="ue.nomUE">
                   <label class="block text-sm font-medium leading-6 text-gray-900"
                     >Volume horaire (ED)</label
                   >
@@ -339,7 +339,7 @@
                     ></button>
                   </div>
                 </div>
-                <div class="w-52 sm:col-span-3 mr-4 mt-2 pl-5" v-if="ue.nomUE">
+                <div class="w-52 sm:col-span-3 mr-4 mt-2" v-if="ue.nomUE">
                   <label class="block text-sm font-medium leading-6 text-gray-900"
                     >Volume horaire (TP)</label
                   >
@@ -356,7 +356,7 @@
                     ></button>
                   </div>
                 </div>
-                <div class="divbtn sm:col-span-3 mt-2 pl-5" v-if="ue.nomUE">
+                <div class="divbtn sm:col-span-3 mt-2" v-if="ue.nomUE">
                   <Button class="btn" @click="ec.createEC()"> Valider</Button>
                 </div>
               </div>

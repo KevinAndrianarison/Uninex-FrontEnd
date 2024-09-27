@@ -271,7 +271,6 @@ const parcour = useParcour()
 const show = useShow()
 const mention = useMention()
 
-
 function showdeleteUE(nom, id) {
   ue.nomUE = nom
   ue.id = id

@@ -65,7 +65,7 @@ h1 {
 .left {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     width: 50vw;
 }
 
@@ -113,6 +113,7 @@ h1 {
 
     .left {
         margin: 0 auto;
+        width: 90vw;
     }
 
     .logo {

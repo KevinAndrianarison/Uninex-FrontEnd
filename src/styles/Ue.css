@@ -1,158 +1,163 @@
 .lists {
-    height: 83vh;
-    font-weight: bold;
-    color: var(--color-text-main);
-    margin: 0 auto;
-    width: 80vw;
+  height: 83vh;
+  font-weight: bold;
+  color: var(--color-text-main);
+  margin: 0 auto;
 }
 
-.square{
-display: flex;
-justify-content: center;
-align-items: center;
+.square {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .titre {
-    font-size: 26px;
-    font-family: 'Montserrat', 'sans-serif';
-    display: flex;
-    align-items: center;
+  font-size: 26px;
+  font-family: 'Montserrat', 'sans-serif';
+  display: flex;
+  align-items: center;
+  width: 90%;
+  margin: 0 auto;
 }
 
 .chooseSemestre {
-    background-color: white;
-    margin-top: 5px;
-    border-radius: 10px;
-    border: 2px solid rgba(128, 128, 128, 0.127);
+  background-color: white;
+  margin-top: 5px;
+  border-radius: 10px;
+  border: 2px solid rgba(128, 128, 128, 0.127);
+  width: 90%;
+  margin: 0 auto;
 }
 
 .create {
-    font-weight: bold;
+  font-weight: bold;
+}
+.onglet {
+  width: 90%;
+  margin: 0 auto;
 }
 
 .listUE {
-    height: 42vh;
-    background-color: white;
-    border-radius: 10px;
-    border: 2px solid rgba(128, 128, 128, 0.127);
-    margin-top: 5px;
+  height: 42vh;
+  background-color: white;
+  border-radius: 10px;
+  border: 2px solid rgba(128, 128, 128, 0.127);
+  margin-top: 5px;
+  width: 90%;
+  margin: 0 auto;
 }
-.listeParcourContent{
-    width: 80vw;
-    margin: 0 auto;
+.listeParcourContent {
+  margin: 0 auto;
 }
 
 .header {
-    display: flex;
-    align-items: end;
+  display: flex;
+  align-items: end;
 }
 
 .create {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .listEtudValue {
-    margin-top: 10px;
-    height: 75%;
-    overflow-y: scroll;
+  margin-top: 10px;
+  height: 75%;
+  overflow-y: scroll;
 }
 
 .head {
-    padding-left: 20px;
-    padding-right: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 40px;
-    border-bottom: 2px solid rgba(128, 128, 128, 0.127);
-    border-top: 2px solid rgba(128, 128, 128, 0.127);
+  padding-left: 20px;
+  padding-right: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+  border-bottom: 2px solid rgba(128, 128, 128, 0.127);
+  border-top: 2px solid rgba(128, 128, 128, 0.127);
 }
 
 .widtUE {
-    width: 50%;
-    font-weight: 600;
+  width: 50%;
+  font-weight: 600;
 }
 
-
 .widthcredit {
-    width: 10%;
-    font-weight: 600;
-    text-align: center;
-
+  width: 10%;
+  font-weight: 600;
+  text-align: center;
 }
 
 .widthUEnom {
-    width: 10%;
-    font-weight: 600;
+  width: 10%;
+  font-weight: 600;
 }
 
 .body {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 40px;
-    padding-left: 20px;
-    padding-right: 20px;
-    border-bottom: 2px solid rgba(128, 128, 128, 0.127);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-bottom: 2px solid rgba(128, 128, 128, 0.127);
 }
 
 .widthvalueUE {
-    width: 50%;
+  width: 50%;
 }
 
 .widthvaluecredit {
-    width: 10%;
-    text-align: center;
+  width: 10%;
+  text-align: center;
 }
 
 .widthvalueTrash {
-    width: 10%;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    display: flex;
-    justify-content: center;
+  width: 10%;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
 .delete {
-    color: red;
-    cursor: pointer;
+  color: red;
+  cursor: pointer;
 }
 
 .formInput {
-    display: flex;
-    flex-wrap: wrap
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .divbtn {
-    display: flex;
-    align-items: end;
+  display: flex;
+  align-items: end;
 }
 
 .btn {
-    background-color: var(--color-third);
-    padding: 5px 20px 5px 20px;
-    border: 2px var(--color-third) solid;
-    border-radius: 5px;
-    transition: all 0.2s ease-in-out;
-    margin-right: 15px;
+  background-color: var(--color-third);
+  padding: 5px 20px 5px 20px;
+  border: 2px var(--color-third) solid;
+  border-radius: 5px;
+  transition: all 0.2s ease-in-out;
+  margin-right: 15px;
 }
 
 .Empty {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-
 .gif {
-    height: 150px;
-    width: 150px;
-    background-image: url("../assets/icon-404.gif");
-    background-size: cover;
-    background-repeat: no-repeat;
+  height: 150px;
+  width: 150px;
+  background-image: url('../assets/icon-404.gif');
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 li {
-    list-style: none;
+  list-style: none;
 }

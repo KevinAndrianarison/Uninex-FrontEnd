@@ -100,12 +100,15 @@
 
 @media (max-width: 650px) {
   .content {
-    width: 350px;
+    width: 300px;
     margin: 0 auto;
   }
 
   .form {
     margin-top: 20px;
+  }
+  .infos{
+    padding-left: 15px;
   }
 
   .btn {
