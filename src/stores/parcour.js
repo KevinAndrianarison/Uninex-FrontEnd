@@ -7,6 +7,8 @@ import axios from 'axios'
 import { useMessages } from '@/stores/messages'
 import { useShow } from '@/stores/Show'
 import { useSemestre } from '@/stores/Semestre'
+import { useUe } from '@/stores/Ue'
+import { useEc } from '@/stores/Ec'
 import { useEnseignant } from '@/stores/Enseignant'
 
 export const useParcour = defineStore('Parcour', () => {
@@ -28,9 +30,15 @@ export const useParcour = defineStore('Parcour', () => {
   const URL = useUrl().url
   const messages = useMessages()
   const enseignant = useEnseignant()
+  const ue = useUe()
+  const ec = useEc()
 
   watch(nom, (newValue, oldValue) => {
     if (newValue) {
+      ue.ListeueBysemestre = []
+      ue.nomUE = ''
+      ec.ListeEC = []
+      ec.ecNom = ''
       semestre.semestreNom = ''
       semestre.getSemestreByParcour()
     }
@@ -96,6 +104,7 @@ export const useParcour = defineStore('Parcour', () => {
   }
 
   function getByMentionId() {
+    ec.ListeEC = []
     axios
       .get(`${URL}/api/parcours/getByMentionId/${mention.mention_id}`)
       .then((response) => {

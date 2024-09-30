@@ -7,11 +7,11 @@ import axios from 'axios'
 import { useMessages } from '@/stores/messages'
 import { useEtudiant } from '@/stores/Etudiant'
 import { useUe } from '@/stores/Ue'
+import { useEc } from '@/stores/Ec'
 
 export const useSemestre = defineStore('Semestre', () => {
   const nom_semestre = ref('')
   const semestreNom = ref('')
-  const nom = ref('')
   const semestreId = ref('')
   const semestreIds = ref([])
   const ListeSemestre = ref([])
@@ -22,6 +22,7 @@ export const useSemestre = defineStore('Semestre', () => {
 
   const etudiant = useEtudiant()
   const ue = useUe()
+  const ec = useEc()
   const parcour = useParcour()
   const show = useShow()
   const URL = useUrl().url
@@ -29,6 +30,10 @@ export const useSemestre = defineStore('Semestre', () => {
 
   watch(semestreNom, (newValue, oldValue) => {
     if (newValue) {
+      ue.ListeueBysemestre = []
+      ue.nomUE = ''
+      ec.ListeEC = []
+      ec.ecNom = ''
       etudiant.getAllEtudiantBysemestre()
       ue.getUeByIdsemstre()
     }

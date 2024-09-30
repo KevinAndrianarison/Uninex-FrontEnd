@@ -66,11 +66,12 @@ h1 {
 }
 
 .form {
-  height: 400px;
+  height: 450px;
   width: 400px;
   background-color: var(--color-background-main);
   border-radius: 10px;
 }
+
 
 @media (max-width: 550px) {
   .form {

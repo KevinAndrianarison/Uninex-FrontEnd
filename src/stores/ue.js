@@ -22,6 +22,7 @@ export const useUe = defineStore('Ue', () => {
 
   watch(nomUE, (newValue, oldValue) => {
     if (newValue) {
+      ec.ecNom = ''
       ec.ListeEC = []
       ec.getAllECBySemestre()
     }
@@ -61,8 +62,6 @@ export const useUe = defineStore('Ue', () => {
   }
 
   function getUeByIdsemstre() {
-    nomUE.value = ''
-    ec.ListeEC = []
     axios
       .get(`${URL}/api/ue/getById/${semestre.semestreId}`)
       .then((response) => {
