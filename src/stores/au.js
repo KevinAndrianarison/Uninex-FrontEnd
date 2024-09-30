@@ -37,6 +37,7 @@ export const useAu = defineStore('Au', () => {
 
   watch(oneAU, (newValue, oldValue) => {
     if (newValue) {
+      mention.mentionParcours.nom = ""
       ShowIdAU()
       niveau.getByAuId()
       const userString = localStorage.getItem('user')

@@ -10,6 +10,7 @@ import { useParcour } from '@/stores/Parcour'
 import { useSemestre } from '@/stores/Semestre'
 import { useAu } from '@/stores/Au'
 import { useUe } from '@/stores/Ue'
+import { useEc } from '@/stores/Ec'
 
 export const useMention = defineStore('Mention', () => {
   const niveau = useNiveau()
@@ -21,6 +22,7 @@ export const useMention = defineStore('Mention', () => {
   const semestre = useSemestre()
   const au = useAu()
   const ue = useUe()
+  const ec = useUe()
 
   const nom_mention = ref('')
   const mention_id = ref(null)
@@ -40,9 +42,12 @@ export const useMention = defineStore('Mention', () => {
 
   watch(mention_id, (newValue, oldValue) => {
     if (newValue) {
-      parcour.nom = ""
-      semestre.semestreNom = ""
-      parcour.ListParcoursByMention = []
+      parcour.nom = ''
+      semestre.semestreNom = ''
+      ue.ListeueBysemestre = []
+      ue.nomUE = ''
+      ec.ListeEC = []
+      ec.ecNom = ''
       parcour.getByMentionId()
     }
   })
