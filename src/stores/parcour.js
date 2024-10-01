@@ -90,6 +90,7 @@ export const useParcour = defineStore('Parcour', () => {
   }
 
   function getByNiveauId() {
+    parcours_nom.value = ''
     axios
       .get(`${URL}/api/parcours/getById/${niveau.niveau.id_niveau}`)
       .then((response) => {
@@ -105,6 +106,7 @@ export const useParcour = defineStore('Parcour', () => {
 
   function getByMentionId() {
     ec.ListeEC = []
+    ec.ecNom = ''
     axios
       .get(`${URL}/api/parcours/getByMentionId/${mention.mention_id}`)
       .then((response) => {
