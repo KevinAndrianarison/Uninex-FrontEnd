@@ -17,10 +17,26 @@ import WorkSpaceNotes from '../views/etudiant/WorkSpaceNotes.vue'
 import WorkSpaceDiscussion from '../views/WorkSpaceDiscussion.vue'
 import WorkSpaceConfiguration from '../views/WorkSpaceConfiguration.vue'
 import WorkSpaceAnnonces from '../views/WorkSpaceAnnonces.vue'
+import WorkSpacePublierCours from '../views/enseignant/WorkSpacePublierCours.vue'
+import WorkSpaceTrascrireNotes from '../views/enseignant/WorkSpaceTrascrireNotes.vue'
+
+
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+
+    {
+      path: '/enseignant/TrascrireNotes',
+      name: 'TrascrireNotes',
+      component: WorkSpaceTrascrireNotes
+    },
+    {
+      path: '/enseignant/PublierCours',
+      name: 'PublierCours',
+      component: WorkSpacePublierCours
+    },
     {
       path: '/chefDeMention/GestionEC',
       name: 'GestionEC',

@@ -31,7 +31,8 @@ import {
   faPersonCircleXmark,
   faSquarePlus,
   faCircleCheck,
-  faUserSlash
+  faUserSlash,
+  faAnglesDown
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -54,7 +55,8 @@ library.add(
   faPersonCircleXmark,
   faSquarePlus,
   faCircleCheck,
-  faUserSlash
+  faUserSlash,
+  faAnglesDown
 )
 
 import App from './App.vue'

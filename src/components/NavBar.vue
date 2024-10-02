@@ -10,6 +10,7 @@
       <NavBarEtud v-if="show.showNavBarEtud" />
       <NavBarRespMention v-if="show.showNavBarRespMention" />
       <NavBarRespParcours v-if="show.showNavBarRespParcours" />
+      <NavBarEns v-if="show.showNavBarEns" />
 
       <RouterLink to="/Discussion">
         <li><ChatBubbleLeftRightIcon class="h-5 w-5 mr-2" /> Discussions</li>
@@ -40,6 +41,7 @@ import NavBarAS from './navbar/NavBarAS.vue'
 import NavBarEtud from './navbar/NavBarEtud.vue'
 import NavBarRespMention from './navbar/NavBarRespMention.vue'
 import NavBarRespParcours from './navbar/NavBarRespParcours.vue'
+import NavBarEns from './navbar/NavBarEns.vue'
 
 const show = useShow()
 
