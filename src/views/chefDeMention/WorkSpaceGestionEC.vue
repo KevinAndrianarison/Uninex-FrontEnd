@@ -357,7 +357,7 @@
                   </div>
                 </div>
                 <div class="divbtn sm:col-span-3 mt-2" v-if="ue.nomUE">
-                  <Button class="btn" @click="ec.createEC()"> Valider</Button>
+                  <Button class="btn font-bold" @click="ec.createEC()"> Valider</Button>
                 </div>
               </div>
             </div>
@@ -773,7 +773,7 @@
                   </div>
                 </div>
                 <div class="divbtn sm:col-span-3 mt-2" v-if="enseignant.name && ec.ecNom">
-                  <Button class="btn" @click="ec.addRespEC()"> Valider</Button>
+                  <Button class="btn font-bold" @click="ec.addRespEC()"> Valider</Button>
                 </div>
               </div>
             </div>

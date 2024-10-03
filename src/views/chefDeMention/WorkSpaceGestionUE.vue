@@ -221,7 +221,7 @@
           </div>
         </div>
         <div class="divbtn sm:col-span-3 mt-1 " v-if="semestre.semestreNom">
-          <Button class="btn" @click="ue.createUE()" :disabled="!ue.nom_ue || !ue.credit_ue">
+          <Button class="btn font-bold" @click="ue.createUE()" :disabled="!ue.nom_ue || !ue.credit_ue">
             Valider</Button
           >
         </div>
