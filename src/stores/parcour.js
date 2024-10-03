@@ -105,6 +105,7 @@ export const useParcour = defineStore('Parcour', () => {
 
   function getByMentionId() {
     ec.ListeEC = []
+    ec.ecNom = ''
     axios
       .get(`${URL}/api/parcours/getByMentionId/${mention.mention_id}`)
       .then((response) => {
