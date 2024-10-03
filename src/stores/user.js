@@ -128,6 +128,7 @@ export const useUser = defineStore('User', () => {
             .then((response) => {
               localStorage.setItem('user', JSON.stringify(response.data[0]))
               show.showLogin = false
+              show.showNavBarEns = true
               email.value = ''
               password.value = ''
               if (response.data[0].chefMention_status === '1') {

@@ -94,6 +94,7 @@ export const useMention = defineStore('Mention', () => {
   }
 
   function getByAuId() {
+    mentionParcours.nom = ''
     axios
       .get(`${URL}/api/mention/getById/${niveau.niveau.id_niveau}`)
       .then((response) => {

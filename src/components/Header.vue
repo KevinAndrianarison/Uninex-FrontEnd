@@ -23,9 +23,9 @@
           }"
           class="image"
         ></div>
-        <p class="nom">{{ infosheader.nom }}</p>
+        <p class="nom font-bold">{{ infosheader.nom }}</p>
       </div>
-      <Button @click="downloadImage" class="btn">Publier</Button>
+      <Button @click="downloadImage" class="btn font-bold">Publier</Button>
       <div class="w-50">
         <Listbox v-model="au.oneAU">
           <div class="relative">
@@ -146,6 +146,11 @@ onBeforeMount(() => {
   if (user.user.status_user === 'Directeur') {
     infosheader.status = user.user.status_user
     infosheader.nom = user.nomComplet_dir
+    infosheader.photo = user.user.photo_name
+  }
+  if (user.user.status_user === 'ENS') {
+    infosheader.status = "Enseignant"
+    infosheader.nom = user.nomComplet_ens
     infosheader.photo = user.user.photo_name
   }
   if (user.user.status_user === 'AS') {

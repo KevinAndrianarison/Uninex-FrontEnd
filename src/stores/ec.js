@@ -1,15 +1,18 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useUe } from '@/stores/Ue'
 import { useShow } from '@/stores/Show'
 import { useMessages } from '@/stores/messages'
 import { useEnseignant } from '@/stores/Enseignant'
 import axios from 'axios'
 import { useUrl } from '@/stores/url'
+import { useCours } from '@/stores/Cours'
+
 
 export const useEc = defineStore('Ec', () => {
   const ue = useUe()
   const show = useShow()
+  const cours = useCours()
   const messages = useMessages()
   const enseignant = useEnseignant()
   const URL = useUrl().url
@@ -21,7 +24,15 @@ export const useEc = defineStore('Ec', () => {
   const volume_ed = ref(null)
   const volume_tp = ref(null)
   const ListeEC = ref([])
+  const ListeECByEns = ref([])
   const ecNom = ref('')
+  const ecNomByEns = ref('')
+
+  watch(ecNomByEns, (newValue, oldValue) => {
+    if (newValue) {
+      cours.getAllCours()
+    }
+  })
 
   function getAllECBySemestre() {
     ecNom.value = ''
@@ -30,6 +41,22 @@ export const useEc = defineStore('Ec', () => {
       .then((response) => {
         ListeEC.value = response.data
         ecNom.value = response.data[0].nom_ec
+        id.value = response.data[0].id
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  }
+
+  function getAllECByEns() {
+    const userString = localStorage.getItem('user')
+    const user = JSON.parse(userString)
+    ecNomByEns.value = ''
+    axios
+      .get(`${URL}/api/ec/getByEnsegnantId/${user.id}`)
+      .then((response) => {
+        ListeECByEns.value = response.data
+        ecNomByEns.value = response.data[0].nom_ec
         id.value = response.data[0].id
       })
       .catch((err) => {
@@ -150,10 +177,13 @@ export const useEc = defineStore('Ec', () => {
     nomEC,
     id,
     ecNom,
+    ListeECByEns,
+    ecNomByEns,
     createEC,
     getAllECBySemestre,
     deleteEC,
     addRespEC,
-    dissoscierResp
+    dissoscierResp,
+    getAllECByEns
   }
 })
