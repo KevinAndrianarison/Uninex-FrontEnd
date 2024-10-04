@@ -227,7 +227,7 @@
               show.showMessageErrorEmail
             "
             @click="etudiant.createEtudiant()"
-            class="btn"
+            class="btn font-bold"
           >
             Valider</Button
           >

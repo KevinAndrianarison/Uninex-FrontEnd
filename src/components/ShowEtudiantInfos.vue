@@ -155,7 +155,6 @@ function closeCreateNiveau() {
               <a
                 :href="`${URL}/storage/bordereaux/${etudiant.photoBordereaux_name}`"
                 target="_blank"
-                class=""
               >
                 &nbsp; {{ etudiant.photoBordereaux_name ? '🔗 Cliquez ici' : 'Vide' }}
               </a>
