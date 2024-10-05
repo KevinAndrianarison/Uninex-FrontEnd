@@ -96,7 +96,7 @@
 
         <div class="sm:col-span-3 mt-2 ctgr mr-4">
           <label class="block text-sm font-medium leading-6 text-gray-900">Parcours</label>
-          <div class="w-52 mt-1 ">
+          <div class="w-52 mt-1">
             <Listbox v-model="parcour.parcours_nom">
               <div class="relative">
                 <ListboxButton
@@ -158,7 +158,7 @@
 
         <div class="sm:col-span-3 mt-2 ctgr mr-4" v-if="semestre.semestreNom">
           <label class="block text-sm font-medium leading-6 text-gray-900">Semestre</label>
-          <div class="w-52 mt-1 ">
+          <div class="w-52 mt-1">
             <Listbox v-model="semestre.semestreNom">
               <div class="relative">
                 <ListboxButton
@@ -326,6 +326,7 @@ import {
   RadioGroupDescription,
   RadioGroupOption
 } from '@headlessui/vue'
+import { onBeforeMount } from 'vue'
 
 const niveau = useNiveau()
 const semestre = useSemestre()
@@ -339,6 +340,10 @@ const password = usePassword()
 function setIdParcours(id) {
   parcour.parcours_id = id
 }
+
+onBeforeMount(() => {
+  user.email = ''
+})
 
 function showDelete(id) {
   show.showDeleteusers = true

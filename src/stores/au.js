@@ -6,6 +6,9 @@ import { useEtablissement } from '@/stores/Etablissement'
 import { useNiveau } from '@/stores/Niveau'
 import { useMessages } from '@/stores/messages'
 import { useMention } from '@/stores/Mention'
+import { useUe } from '@/stores/Ue'
+import { useEc } from '@/stores/Ec'
+
 import axios from 'axios'
 
 export const useAu = defineStore('Au', () => {
@@ -15,6 +18,8 @@ export const useAu = defineStore('Au', () => {
   const etablissement = useEtablissement()
   const niveau = useNiveau()
   const mention = useMention()
+  const ue = useUe()
+  const ec = useEc()
 
   const annee_debut = ref(null)
   const annee_fin = ref(null)
@@ -37,15 +42,20 @@ export const useAu = defineStore('Au', () => {
 
   watch(oneAU, (newValue, oldValue) => {
     if (newValue) {
-      mention.mentionParcours.nom = ""
+      mention.mentionParcours.nom = ''
       ShowIdAU()
       niveau.getByAuId()
       const userString = localStorage.getItem('user')
       const users = JSON.parse(userString)
       if (users.chefMention_status === '1') {
+        ec.ListeEC = []
+        ue.ListeueBysemestre = []
         mention.ListMentionByEns = []
         mention.nom_mention = ''
         mention.getMentionByRespId()
+      }
+      if (users.user.status_user === 'ENS') {
+        ec.getAllECByEns()
       }
 
       niveau.NiveauChecked = []

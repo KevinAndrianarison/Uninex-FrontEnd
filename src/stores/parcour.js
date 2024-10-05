@@ -94,10 +94,12 @@ export const useParcour = defineStore('Parcour', () => {
     axios
       .get(`${URL}/api/parcours/getById/${niveau.niveau.id_niveau}`)
       .then((response) => {
-        ListParcours.value = response.data
-        parcours_nom.value = ListParcours.value[0].nom_parcours
-        parcours_id.value = ListParcours.value[0].id
-        parcours_abr.value = ListParcours.value[0].abr_parcours
+        if (response.data.length !== 0) {
+          ListParcours.value = response.data
+          parcours_nom.value = ListParcours.value[0].nom_parcours
+          parcours_id.value = ListParcours.value[0].id
+          parcours_abr.value = ListParcours.value[0].abr_parcours
+        }
       })
       .catch((error) => {
         console.error(error)
@@ -109,10 +111,12 @@ export const useParcour = defineStore('Parcour', () => {
     axios
       .get(`${URL}/api/parcours/getByMentionId/${mention.mention_id}`)
       .then((response) => {
-        ListParcoursByMention.value = response.data
-        nom.value = ListParcoursByMention.value[0].nom_parcours
-        abreviation.value = ListParcoursByMention.value[0].abr_parcours
-        parcours_id.value = ListParcoursByMention.value[0].id
+        if (response.data.length !== 0) {
+          ListParcoursByMention.value = response.data
+          nom.value = ListParcoursByMention.value[0].nom_parcours
+          abreviation.value = ListParcoursByMention.value[0].abr_parcours
+          parcours_id.value = ListParcoursByMention.value[0].id
+        }
       })
       .catch((error) => {
         console.error(error)

@@ -11,29 +11,25 @@
 .fade-leave-active,
 .v-enter-active,
 .v-leave-active {
-  transition: all 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
 }
 
 .fade-enter-from,
 .v-enter-from {
   opacity: 0;
-  transform: translateY(-20px) scale(0.9) rotate(-5deg);
 }
 
 .fade-enter-to,
 .v-enter-to {
   opacity: 1;
-  transform: translateY(0) scale(1) rotate(0);
 }
 
 .fade-leave-from,
 .v-leave-from {
   opacity: 1;
-  transform: translateY(0) scale(1) rotate(0);
 }
 
 .fade-leave-to,
 .v-leave-to {
   opacity: 0;
-  transform: translateY(-20px) scale(0.9) rotate(-5deg);
 }

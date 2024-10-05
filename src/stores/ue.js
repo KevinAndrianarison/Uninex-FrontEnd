@@ -65,11 +65,13 @@ export const useUe = defineStore('Ue', () => {
     axios
       .get(`${URL}/api/ue/getById/${semestre.semestreId}`)
       .then((response) => {
-        ListeueBysemestre.value = response.data
-        nomUE.value = response.data[0].nom_ue
-        id.value = response.data[0].id
-        ec.getAllECBySemestre()
-        show.showSpinner = false
+        if (response.data.length !== 0) {
+          ListeueBysemestre.value = response.data
+          nomUE.value = response.data[0].nom_ue
+          id.value = response.data[0].id
+          ec.getAllECBySemestre()
+          show.showSpinner = false
+        }
       })
       .catch((err) => {
         console.error(err)

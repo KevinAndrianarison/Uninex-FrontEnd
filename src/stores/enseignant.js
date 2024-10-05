@@ -96,12 +96,14 @@ export const useEnseignant = defineStore('Enseignant', () => {
     axios
       .get(`${URL}/api/enseignant`)
       .then((response) => {
-        ListeENS.value = response.data
-        nom_ens.value = ListeENS.value[0].nomComplet_ens
-        name.value = ListeENS.value[0].nomComplet_ens
-        idBottom.value = ListeENS.value[0].id
-        idTop.value = ListeENS.value[0].id
-        ListeENSTemp.value = response.data
+        if (response.data.length !== 0) {
+          ListeENS.value = response.data
+          nom_ens.value = ListeENS.value[0].nomComplet_ens
+          name.value = ListeENS.value[0].nomComplet_ens
+          idBottom.value = ListeENS.value[0].id
+          idTop.value = ListeENS.value[0].id
+          ListeENSTemp.value = response.data
+        }
         show.showSpinner = false
       })
       .catch((err) => {

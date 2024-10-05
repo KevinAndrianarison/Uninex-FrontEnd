@@ -272,6 +272,8 @@ function setIdParcours(id) {
   parcour.parcours_id = id
 }
 
+
+
 function exportPdfListeEtud() {
   directeur.getFirst()
 }

@@ -22,7 +22,7 @@ export const useMention = defineStore('Mention', () => {
   const semestre = useSemestre()
   const au = useAu()
   const ue = useUe()
-  const ec = useUe()
+  const ec = useEc()
 
   const nom_mention = ref('')
   const mention_id = ref(null)
@@ -98,9 +98,11 @@ export const useMention = defineStore('Mention', () => {
     axios
       .get(`${URL}/api/mention/getById/${niveau.niveau.id_niveau}`)
       .then((response) => {
-        ListMention.value = response.data
-        mentionParcours.nom = ListMention.value[0].nom_mention
-        mentionParcours.id = ListMention.value[0].id
+        if (response.data.length !== 0) {
+          ListMention.value = response.data
+          mentionParcours.nom = ListMention.value[0].nom_mention
+          mentionParcours.id = ListMention.value[0].id
+        }
       })
       .catch((error) => {
         console.error(error)
@@ -206,12 +208,14 @@ export const useMention = defineStore('Mention', () => {
     axios
       .get(`${URL}/api/mention/getByEnsId/${users.id}/${au.idAU}`)
       .then((response) => {
-        ListMentionByEns.value = response.data
-        nom_mention.value = response.data[0].nom_mention
-        mention_id.value = response.data[0].id
-        abreviation.value = response.data[0].abr_mention
-        parcour.ListParcoursByMention = []
-        parcour.getByMentionId()
+        if (response.data.length !== 0) {
+          ListMentionByEns.value = response.data
+          nom_mention.value = response.data[0].nom_mention
+          mention_id.value = response.data[0].id
+          abreviation.value = response.data[0].abr_mention
+          parcour.ListParcoursByMention = []
+          parcour.getByMentionId()
+        }
       })
       .catch((err) => {
         console.error(err)

@@ -7,11 +7,12 @@ import { useEnseignant } from '@/stores/Enseignant'
 import axios from 'axios'
 import { useUrl } from '@/stores/url'
 import { useCours } from '@/stores/Cours'
-
+import { useAu } from '@/stores/Au'
 
 export const useEc = defineStore('Ec', () => {
   const ue = useUe()
   const show = useShow()
+  const au = useAu()
   const cours = useCours()
   const messages = useMessages()
   const enseignant = useEnseignant()
@@ -39,9 +40,11 @@ export const useEc = defineStore('Ec', () => {
     axios
       .get(`${URL}/api/ec/getById/${ue.id}`)
       .then((response) => {
-        ListeEC.value = response.data
-        ecNom.value = response.data[0].nom_ec
-        id.value = response.data[0].id
+        if (response.data.length !== 0) {
+          ListeEC.value = response.data
+          ecNom.value = response.data[0].nom_ec
+          id.value = response.data[0].id
+        }
       })
       .catch((err) => {
         console.error(err)
@@ -52,12 +55,15 @@ export const useEc = defineStore('Ec', () => {
     const userString = localStorage.getItem('user')
     const user = JSON.parse(userString)
     ecNomByEns.value = ''
+    cours.ListeCours = []
     axios
-      .get(`${URL}/api/ec/getByEnsegnantId/${user.id}`)
+      .get(`${URL}/api/ec/getByEnsegnantIdAndAU/${user.id}/${au.idAU}`)
       .then((response) => {
-        ListeECByEns.value = response.data
-        ecNomByEns.value = response.data[0].nom_ec
-        id.value = response.data[0].id
+        if (response.data.length !== 0) {
+          ListeECByEns.value = response.data
+          ecNomByEns.value = response.data[0].nom_ec
+          id.value = response.data[0].id
+        }
       })
       .catch((err) => {
         console.error(err)
@@ -89,7 +95,8 @@ export const useEc = defineStore('Ec', () => {
       volume_ed: volume_ed.value,
       volume_et: volume_et.value,
       volume_tp: volume_tp.value,
-      ue_id: ue.id
+      ue_id: ue.id,
+      au_id: au.idAU
     }
     axios
       .post(`${URL}/api/ec`, formData)

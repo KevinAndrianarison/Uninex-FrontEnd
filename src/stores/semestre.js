@@ -78,13 +78,14 @@ export const useSemestre = defineStore('Semestre', () => {
     axios
       .get(`${URL}/api/semestre/getById/${parcour.parcours_id}`)
       .then((response) => {
-        ListeSemestre.value = response.data
-        semestreIds.value = response.data.map((val) => {
-          return val.id
-        })
-        semestreNom.value = ListeSemestre.value[0].nom_semestre
-        //nom.value = ListeSemestre.value[0].nom_semestre
-        semestreId.value = ListeSemestre.value[0].id
+        if (response.data.length !== 0) {
+          ListeSemestre.value = response.data
+          semestreIds.value = response.data.map((val) => {
+            return val.id
+          })
+          semestreNom.value = ListeSemestre.value[0].nom_semestre
+          semestreId.value = ListeSemestre.value[0].id
+        }
       })
       .catch((error) => {
         console.error(error)

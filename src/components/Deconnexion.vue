@@ -40,6 +40,7 @@ function deconnexion() {
     localStorage.removeItem('user')
   }
   if (users.user.status_user === 'ENS') {
+    show.showNavBarEns = false
     show.showNavBarRespMention = false
     show.showNavBarRespParcours = false
     localStorage.removeItem('user')
