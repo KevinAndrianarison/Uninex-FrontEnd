@@ -197,7 +197,7 @@
               </div>
 
               <div class="sm:col-span-3 mt-1">
-                <Button class="btn" @click="mention.addRespMention()"> Valider</Button>
+                <Button class="btn font-bold" @click="mention.addRespMention()"> Valider</Button>
               </div>
             </div>
           </div>
@@ -333,7 +333,7 @@
               </div>
 
               <div class="sm:col-span-3 mt-1">
-                <Button class="btn" @click="parcour.addRespParcours()"> Valider</Button>
+                <Button class="btn font-bold" @click="parcour.addRespParcours()"> Valider</Button>
               </div>
             </div>
           </div>

@@ -165,7 +165,7 @@
         </div>
         <div class="divbtn sm:col-span-3 mt-2">
           <Button
-            class="btn"
+            class="btn font-bold"
             @click="parcour.postParcour()"
             :disabled="!parcour.nom_parcours || !parcour.abr_parcours"
           >

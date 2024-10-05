@@ -44,7 +44,7 @@
           <Button
             @click="mention.postMentionByNiveau()"
             :disabled="!mention.nom_mention || !mention.abr_mention || !niveau.NiveauChecked.length"
-            class="btn"
+            class="btn font-bold"
           >
             Valider</Button
           >

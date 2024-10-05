@@ -231,7 +231,7 @@
 
           <div class="divbtn sm:col-span-3 mt-2">
             <Button
-              class="Btns mb-1"
+              class="Btns mb-1 font-bold"
               :disabled="!etudiant.photoBordereaux"
               @click="etudiant.inscription()"
             >

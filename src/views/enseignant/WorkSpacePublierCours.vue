@@ -1,8 +1,8 @@
 <template>
-  <div class="ens">
+  <div class="cours">
     <h1 class="titre"><ArrowDownOnSquareStackIcon class="h-7 w-7 mr-5" /> Publier des cours</h1>
-    <div class="createens">
-      <h1 class="create pl-5 mt-2">Ajouter un nouveau cours :</h1>
+    <div class="createcours">
+      <h1 class="create pl-5 mt-2 mb-2">Ajouter un nouveau cours :</h1>
       <div v-if="ec.ecNomByEns" class="class formInput border-gray-900/10 pb-5 pl-5">
         <div class="sm:col-span-3 mt-2 mr-4">
           <label class="block text-sm font-medium leading-6 text-gray-900"
@@ -171,11 +171,11 @@
         </div>
       </div>
     </div>
-    <div class="listens">
+    <div class="listcours">
       <div class="header">
         <h1 class="create pl-5 mt-4">Liste des cours de ce EC :</h1>
       </div>
-      <div class="listensValue">
+      <div class="listecoursValue">
         <div class="head">
           <li class="widthnom">Nom du cours</li>
           <li class="widthemail">Description du cours</li>
@@ -188,10 +188,12 @@
           <li class="widthvalueemail">{{ crs.description_cours }}</li>
           <li class="widthvalue">{{ crs.categorie_cours }}</li>
           <Tooltip content="Télécharger ">
-            <ArrowDownTrayIcon class="h-5 w-5" />
+            <ArrowDownTrayIcon
+              @click="telechargerCours(crs.cours_name)"
+              class="cursor-pointer h-5 w-5"
+            />
           </Tooltip>
-
-          <TrashIcon class="delete h-5 w-5" />
+          <TrashIcon @click="cours.deleteCours(crs.id)" class="delete h-5 w-5" />
         </div>
         <div class="Empty" v-if="cours.ListeCours.length === 0">
           <div class="gif"></div>
@@ -214,12 +216,14 @@ import { useShow } from '@/stores/Show'
 import { onBeforeMount } from 'vue'
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
+import { useUrl } from '@/stores/url'
 
 const user = useUser()
 const ec = useEc()
 const show = useShow()
 const enseignant = useEnseignant()
 const cours = useCours()
+const URL = useUrl().url
 
 const categories = ['Enseignement Théorique', 'Enseignement Dirigé', 'Travaux Pratiques']
 
@@ -227,6 +231,17 @@ function showdelete(id) {
   show.showDeleteusers = true
   user.user_id = id
   user.user_status = 'ENS'
+}
+
+function telechargerCours(nom) {
+  const url = `${URL}/api/cours/file/${nom}`
+  const link = document.createElement('a')
+  link.href = url
+  link.download = nom
+  link.style.display = 'none'
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
 }
 
 function setECid(id) {
@@ -243,4 +258,4 @@ function onPhotoFileChange(event) {
 }
 </script>
 
-<style scoped src="../../styles/GestionEnseignant.css"></style>
+<style scoped src="../../styles/PublierCours.css"></style>

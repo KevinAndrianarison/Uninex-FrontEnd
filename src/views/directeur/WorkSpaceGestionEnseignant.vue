@@ -190,7 +190,7 @@
               show.showMessageErrorEmail
             "
             @click="showMdp()"
-            class="btn mb-1"
+            class="btn font-bold mb-1"
           >
             Valider</Button
           >
