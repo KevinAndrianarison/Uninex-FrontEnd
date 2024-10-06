@@ -35,6 +35,17 @@ export const useEc = defineStore('Ec', () => {
     }
   })
 
+  watch(ecNom, (newValue, oldValue) => {
+    if (newValue) {
+      const userString = localStorage.getItem('user')
+      const users = JSON.parse(userString)
+      if (users.user.status_user === 'ENS') {
+        cours.getAllCours()
+      }
+      cours.getAllCours()
+    }
+  })
+
   function getAllECBySemestre() {
     ecNom.value = ''
     axios

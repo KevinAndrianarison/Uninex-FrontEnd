@@ -26,7 +26,7 @@
         <p class="nom font-bold">{{ infosheader.nom }}</p>
       </div>
       <Button @click="downloadImage" class="btn font-bold">Publier</Button>
-      <div class="w-50">
+      <div class="w-50" v-if="!show.showNavBarEtud">
         <Listbox v-model="au.oneAU">
           <div class="relative">
             <ListboxButton

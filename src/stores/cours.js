@@ -45,7 +45,6 @@ export const useCours = defineStore('Cours', () => {
   }
 
   function getAllCours() {
-    
     axios
       .get(`${URL}/api/cours/getByIdEC/${ec.id}`)
       .then((response) => {

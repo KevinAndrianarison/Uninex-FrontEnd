@@ -205,33 +205,20 @@
 
 <script setup>
 import { TrashIcon, ArrowDownOnSquareStackIcon, ArrowDownTrayIcon } from '@heroicons/vue/24/outline'
-import tippy from 'tippy.js'
 import 'tippy.js/dist/tippy.css'
 import Tooltip from '../../components/Tooltip.vue'
-import { useEnseignant } from '@/stores/Enseignant'
-import { useUser } from '@/stores/User'
 import { useCours } from '@/stores/Cours'
 import { useEc } from '@/stores/Ec'
-import { useShow } from '@/stores/Show'
 import { onBeforeMount } from 'vue'
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import { useUrl } from '@/stores/url'
 
-const user = useUser()
 const ec = useEc()
-const show = useShow()
-const enseignant = useEnseignant()
 const cours = useCours()
 const URL = useUrl().url
 
 const categories = ['Enseignement Théorique', 'Enseignement Dirigé', 'Travaux Pratiques']
-
-function showdelete(id) {
-  show.showDeleteusers = true
-  user.user_id = id
-  user.user_status = 'ENS'
-}
 
 function telechargerCours(nom) {
   const url = `${URL}/api/cours/file/${nom}`

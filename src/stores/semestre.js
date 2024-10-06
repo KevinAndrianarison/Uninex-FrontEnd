@@ -111,6 +111,26 @@ export const useSemestre = defineStore('Semestre', () => {
       })
   }
 
+  function getSemestreByEtudiantId() {
+    const userString = localStorage.getItem('user')
+    const users = JSON.parse(userString)
+    axios
+      .get(`${URL}/api/semestre/getSemestreByEtudiantId/${users.id}`)
+      .then((response) => {
+        if (response.data.length !== 0) {
+          ListeSemestre.value = response.data
+          semestreIds.value = response.data.map((val) => {
+            return val.id
+          })
+          semestreNom.value = ListeSemestre.value[0].nom_semestre
+          semestreId.value = ListeSemestre.value[0].id
+        }
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
   return {
     nom_semestre,
     ListeSemestre,
@@ -120,6 +140,7 @@ export const useSemestre = defineStore('Semestre', () => {
     semestreId,
     postSemestre,
     getSemestreByParcour,
-    deleteSemestre
+    deleteSemestre,
+    getSemestreByEtudiantId
   }
 })

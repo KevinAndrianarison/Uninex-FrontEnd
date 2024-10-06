@@ -44,7 +44,9 @@ export const useAu = defineStore('Au', () => {
     if (newValue) {
       mention.mentionParcours.nom = ''
       ShowIdAU()
-      niveau.getByAuId()
+      if (show.showNavBarEtud === false) {
+        niveau.getByAuId()
+      }
       const userString = localStorage.getItem('user')
       const users = JSON.parse(userString)
       if (users.chefMention_status === '1') {

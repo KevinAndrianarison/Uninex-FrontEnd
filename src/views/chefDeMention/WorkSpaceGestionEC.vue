@@ -158,7 +158,7 @@
                                 >
                                   <CheckIcon class="h-5 w-5" aria-hidden="true" />
                                 </span>
-                              </li>
+                              </li> 
                             </ListboxOption>
                           </ListboxOptions>
                         </transition>
