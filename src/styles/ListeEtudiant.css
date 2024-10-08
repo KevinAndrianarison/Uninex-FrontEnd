@@ -26,6 +26,12 @@
     background-repeat: no-repeat;
 }
 
+.valider {
+    margin-left: 10px;
+    color: var(--color-primary);
+    cursor: pointer;
+}
+
 
 .titre {
     font-size: 26px;
@@ -129,6 +135,9 @@ li {
 
 .widthvalueemail {
     width: 30%;
+    display: flex;
+    align-content: center;
+
 }
 
 
