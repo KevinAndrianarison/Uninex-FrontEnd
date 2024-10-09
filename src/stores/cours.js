@@ -25,7 +25,7 @@ export const useCours = defineStore('Cours', () => {
     formData.append('nom_cours', nom_cours.value || '')
     formData.append('description_cours', description_cours.value || '')
     formData.append('categorie_cours', categorie_cours.value || '')
-    formData.append('ec_id', ec.id || '')
+    formData.append('ec_id', ec.idEC || '')
     axios
       .post(`${URL}/api/cours`, formData)
       .then((response) => {
@@ -45,8 +45,9 @@ export const useCours = defineStore('Cours', () => {
   }
 
   function getAllCours() {
+    ListeCours.value = []
     axios
-      .get(`${URL}/api/cours/getByIdEC/${ec.id}`)
+      .get(`${URL}/api/cours/getByIdEC/${ec.idEC}`)
       .then((response) => {
         ListeCours.value = response.data
       })

@@ -232,7 +232,7 @@ function telechargerCours(nom) {
 }
 
 function setECid(id) {
-  ec.id = id
+  ec.idEC = id
 }
 
 onBeforeMount(() => {

@@ -21,6 +21,7 @@ export const useEc = defineStore('Ec', () => {
   const nom_ec = ref('')
   const nomEC = ref('')
   const id = ref(null)
+  const idEC = ref(null)
   const volume_et = ref(null)
   const volume_ed = ref(null)
   const volume_tp = ref(null)
@@ -39,10 +40,11 @@ export const useEc = defineStore('Ec', () => {
     if (newValue) {
       const userString = localStorage.getItem('user')
       const users = JSON.parse(userString)
-      if (users.user.status_user === 'ENS') {
+      if (users.user.status_user === 'Etudiant') {
+        
+        idEC.value = id.value
         cours.getAllCours()
       }
-      cours.getAllCours()
     }
   })
 
@@ -53,8 +55,8 @@ export const useEc = defineStore('Ec', () => {
       .then((response) => {
         if (response.data.length !== 0) {
           ListeEC.value = response.data
-          ecNom.value = response.data[0].nom_ec
           id.value = response.data[0].id
+          ecNom.value = response.data[0].nom_ec
         }
       })
       .catch((err) => {
@@ -73,7 +75,7 @@ export const useEc = defineStore('Ec', () => {
         if (response.data.length !== 0) {
           ListeECByEns.value = response.data
           ecNomByEns.value = response.data[0].nom_ec
-          id.value = response.data[0].id
+          idEC.value = response.data[0].id
         }
       })
       .catch((err) => {
@@ -197,6 +199,7 @@ export const useEc = defineStore('Ec', () => {
     ecNom,
     ListeECByEns,
     ecNomByEns,
+    idEC,
     createEC,
     getAllECBySemestre,
     deleteEC,
