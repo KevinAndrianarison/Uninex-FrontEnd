@@ -88,6 +88,7 @@ export const useNiveau = defineStore('Niveau', () => {
       .then((response) => {
         ListNiveau.value = response.data
         NiveauCheck.value = ListNiveau.value[0]
+        
       })
       .catch((error) => {
         console.error('Erreur du GET BY ID Niveau : ', error)

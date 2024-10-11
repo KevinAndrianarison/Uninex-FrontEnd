@@ -312,7 +312,7 @@
         </div>
       </div>
     </div>
-    <div class="listEtud" v-if="niveau.NiveauCheck.length !== 0">
+    <div class="listEtud" v-if="niveau.ListNiveau.length !== 0">
       <div class="header">
         <input
           placeholder="🔎 Recherche par nom"

@@ -874,6 +874,7 @@ function setEnseignantBottom(id) {
 }
 
 onBeforeMount(() => {
+  mention.getMentionByRespId()
   enseignant.getAllENS()
 })
 
