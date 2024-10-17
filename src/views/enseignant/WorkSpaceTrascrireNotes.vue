@@ -346,6 +346,13 @@
             <li class="widthvalueemails">
               <input
                 type="number"
+                v-model="note.noteEC"
+                @input="
+                  (event) => {
+                    limitInputNoteLength(event)
+                    TranscrireNote(etd.id)
+                  }
+                "
                 class="w-28 pl-10 pr-3 block rounded-sm border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
                 placeholder="/20"
               />
@@ -374,6 +381,7 @@ import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import { useNiveau } from '@/stores/Niveau'
 import { useEtudiant } from '@/stores/Etudiant'
 import { useDirecteur } from '@/stores/Directeur'
+import { useNote } from '@/stores/Note'
 import { useShow } from '@/stores/Show'
 import Tooltip from '../../components/Tooltip.vue'
 import {
@@ -393,9 +401,14 @@ const etudiant = useEtudiant()
 const directeur = useDirecteur()
 const ue = useUe()
 const ec = useEc()
+const note = useNote()
 
 function setIdParcours(id) {
   parcour.parcours_id = id
+}
+
+function TranscrireNote(id) {
+  console.log('Etudiant : ', id, 'note :', note.noteEC, 'idEC : ', ec.id)
 }
 
 function setECId(id) {
@@ -412,6 +425,14 @@ function setUEId(id) {
 
 function setSemestreId(id) {
   semestre.semestreId = id
+}
+
+function limitInputNoteLength(event) {
+  const value = event.target.value
+  if (value.length > 2) {
+    event.target.value = value.slice(0, 2)
+    note.noteEC = event.target.value
+  }
 }
 </script>
 
