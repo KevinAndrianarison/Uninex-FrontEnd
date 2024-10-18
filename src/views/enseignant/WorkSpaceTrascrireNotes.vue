@@ -343,13 +343,14 @@
           <div class="body">
             <li class="widthvaluenom">{{ etd.nomComplet_etud }}</li>
             <li class="widthvalueemail"><CheckBadgeIcon class="valider h-5 w-5 mr-2" /> Validé</li>
-            <li class="widthvalueemails">
+            <li class="widthvalueemails" :key="index" v-for="(note, index) in etd.note">
               <input
                 type="number"
-                v-model="note.noteEC"
+                :value="note.note"
                 @input="
                   (event) => {
                     limitInputNoteLength(event)
+                    note.noteEC = note.note
                     TranscrireNote(etd.id)
                   }
                 "
@@ -392,6 +393,8 @@ import {
 } from '@headlessui/vue'
 import { useUe } from '@/stores/Ue'
 import { useEc } from '@/stores/Ec'
+import axios from 'axios'
+import { useUrl } from '@/stores/url'
 
 const niveau = useNiveau()
 const semestre = useSemestre()
@@ -402,13 +405,24 @@ const directeur = useDirecteur()
 const ue = useUe()
 const ec = useEc()
 const note = useNote()
+const URL = useUrl().url
 
 function setIdParcours(id) {
   parcour.parcours_id = id
 }
 
 function TranscrireNote(id) {
-  console.log('Etudiant : ', id, 'note :', note.noteEC, 'idEC : ', ec.id)
+  let formData = {
+    note: note.noteEC,
+    etudiant_id: id,
+    ec_id: ec.id
+  }
+  axios
+    .post(`${URL}/api/note`, formData)
+    .then((response) => {})
+    .catch((err) => {
+      console.error(err)
+    })
 }
 
 function setECId(id) {
