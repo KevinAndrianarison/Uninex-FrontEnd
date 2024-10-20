@@ -185,10 +185,11 @@ export const useEtudiant = defineStore('Etudiant', () => {
           a.nomComplet_etud.localeCompare(b.nomComplet_etud, 'fr', { sensitivity: 'base' })
         )
         listdefinitive.value = listeAlphabetique.filter((list) => list.validiter_inscri === 'true')
-        console.log('A', listdefinitive.value)
         listdefinitiveTemp.value = listeAlphabetique.filter(
           (list) => list.validiter_inscri === 'true'
         )
+        console.log(listdefinitiveTemp.value)
+
         ListeEtudiant.value = listeAlphabetique
         ListeEtudiantTemp.value = listeAlphabetique
 
