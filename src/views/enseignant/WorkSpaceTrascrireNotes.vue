@@ -336,39 +336,14 @@
         <div class="head">
           <li class="widthnom">Nom complet</li>
           <li class="widthemail pl-4">Statut</li>
-          <li class="widthemails pl-10">Note</li>
+          <li class="widthemails text-center">Note</li>
           <li v-if="show.showNavBarAS" class="width">Carte d'étudiant</li>
         </div>
         <div :key="index" v-for="(etd, index) in etudiant.listdefinitive">
           <div class="body">
             <li class="widthvaluenom">{{ etd.nomComplet_etud }}</li>
             <li class="widthvalueemail"><CheckBadgeIcon class="valider h-5 w-5 mr-2" /> Validé</li>
-            <li
-              class="widthvalueemails"
-              v-if="note.id"
-              :key="index"
-              v-for="(note, index) in etd.note"
-            >
-              <input
-                type="number"
-                :value="note.note"
-                @input="(event) => validateAndSubmitNote(event, note, etd.id)"
-                class="w-28 pl-10 pr-3 block rounded-sm border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
-                placeholder="/20"
-              />
-            </li>
-            <li
-              class="widthvalueemails"
-              v-if="note[0] === undefined"
-              :key="index"
-              v-for="(note, index) in etd.note"
-            >
-              <input
-                type="number"
-                class="w-28 pl-10 pr-3 block rounded-sm border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
-                placeholder="/20"
-              />
-            </li>
+            <li class="widthvalueemails flex justify-center">10</li>
             <li v-if="show.showNavBarAS" class="widthvalue">
               <Tooltip content="Générer une carte d'étudiant"
                 ><SparklesIcon class="generates h-6 w-6"

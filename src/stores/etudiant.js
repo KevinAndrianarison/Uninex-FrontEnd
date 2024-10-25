@@ -188,8 +188,6 @@ export const useEtudiant = defineStore('Etudiant', () => {
         listdefinitiveTemp.value = listeAlphabetique.filter(
           (list) => list.validiter_inscri === 'true'
         )
-        console.log(listdefinitiveTemp.value)
-
         ListeEtudiant.value = listeAlphabetique
         ListeEtudiantTemp.value = listeAlphabetique
 
