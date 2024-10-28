@@ -1,80 +1,87 @@
-<template>
-  <div class="body bg-white border rounded-lg min-h-[85vh]">
-    <div class="head flex justify-center mt-2">
-      <select class="mr-10 py-2 px-2 rounded border focus:outline-none">
-        <option value="A">Les plus recents</option>
-        <option value="A">Les plus aimés</option>
-        <option value="A">Les plus recents</option>
-      </select>
+<!-- <template>
+  <div class="body">
+    <div class="inProgress"></div>
+    <p>Page en cours de développement ! ⏳</p>
+  </div>
+</template>
 
-      <input
-        type="search"
-        class="py-2 px-2 rounded border focus:outline-none"
-        placeholder="Rechercher..."
-      />
-    </div>
-    <div class="flex justify-evenly mt-2">
-      <div class="w-[20%] max-h-[200px] overflow-auto">
-        <div class="flex text-blue-500">
-          <p class="font-bold mr-4">X</p>
-          Tags
-        </div>
-        <div class="flex">
-          <p class="font-bold mr-4">X</p>
-          Meta
-        </div>
+<script setup></script>
+
+<style scoped src="../styles/PageInProgress.css"></style> -->
+
+<template>
+  <div class="flex justify-between body min-h-[85vh] max-h-[85vh]">
+    <div class="bg-white border border-2 w-[30%] rounded-2xl p-4">
+      <div class="flex items-center justify-between px-2">
+        <h1 class="text-xl text-center font-bold">Discussions</h1>
+        <p class="font-bold">X</p>
       </div>
-      <div class="w-[45%] overflow-y-auto max-h-[80vh] rounded">
-        <div class="flex p-4 border-2">
-          <div class="image border">JO</div>
-          <div class="content w-[95%] pl-4">
-            <h1 class="font-bold">ANDRIANARISON Steeve</h1>
-            <p class="titre">Titre de l'annonce</p>
-            <p class="text-gray-500">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ratione nisi ipsum deserunt
-              voluptatum. Nostrum ducimus exercitationem alias. Quibusdam, inventore. Hic
-              repellendus consequuntur accusamus amet assumenda in perferendis beatae mollitia
-              repellat.
-            </p>
-            <div class="mt-2 flex">
-              <a href="" class="font-bold text-blue-500 underline">Nom du fichier.pdf </a>
-              <p class="font-bold ml-2 text-blue-500">X</p>
+      <input
+        type="text"
+        placeholder="Recherche"
+        class="bg-gray-100 w-full mt-2 py-1 px-5 rounded-3xl focus:outline-none"
+      />
+      <div class="flex justify-between px-1.5 bg-gray-800 w-[90%] m-auto mt-2 py-1 rounded-3xl">
+        <div class="text-white bg-gray-500 w-[45%] py-0.5 rounded-3xl text-center">Toutes</div>
+        <div class="text-white w-[45%] text-center">Groupes</div>
+        <div></div>
+      </div>
+      <div class="mt-5 max-h-[75%] overflow-y-auto">
+        <div class="bg-gray-100 w-full flex rounded-3xl">
+          <div class="logo w-[48px] h-[50px] bg-blue-200 rounded-3xl">LO</div>
+          <div class="px-3 w-[80%] flex flex-col justify-center">
+            <div class="flex justify-between items-center">
+              <p>Steeve</p>
+              <p class="text-gray-500 text-xs">15h35</p>
             </div>
-            <div class="flex mt-2 justify-between">
-              <div class="flex">
-                <p class="font-bold mr-4">X</p>
-                <p class="font-bold mr-4">X</p>
-                <p class="text-gray-500">3 hours ago</p>
-              </div>
-              <div class="flex">
-                <p class="font-bold mr-4">X</p>
-                <p class="font-bold">X</p>
-              </div>
+            <div class="text-gray-500 text-xs">Contenu du message</div>
+          </div>
+        </div>
+        <div class="mt-2 w-full flex">
+          <div class="logo w-[48px] h-[50px] bg-blue-200 rounded-3xl">LO</div>
+          <div class="px-3 w-[80%] flex flex-col justify-center">
+            <div class="flex justify-between items-center">
+              <p>Steeve</p>
+              <p class="text-gray-500 text-xs">15h35</p>
             </div>
+            <div class="text-gray-500 text-xs">Contenu du message</div>
           </div>
         </div>
       </div>
-      <div class="w-[30%] border-2 rounded p-2">
-        <h1 class="font-bold">Commentaires :</h1>
-        <textarea
-          placeholder="Ecrire ici..."
-          class="border w-full min-h-[50px] focus:outline-none p-1"
-        >
-        </textarea>
-        <div class="relative bottom-7 right-5 text-end"><p class="font-bold">X</p></div>
-        <div class="max-h-[350px] overflow-y-auto">
-          <di class="coms w-full flex">
-            <div class="image border mr-1">LO</div>
-            <div class="border w-[85%] p-1 rounded text-sm">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia libero ipsa ab quae,
-              tenetur, vel dolor animi reiciendis iure, repudiandae cumque est dignissimos quo
-              aspernatur totam magni et! Sed, amet!
-              <div class="flex justify-end">
-                <p class="font-bold mr-2">X</p>
-                <p class="font-bold mr-2">X</p>
-              </div>
-            </div>
-          </di>
+    </div>
+    <div class="bg-green-100 border-2 rounded-xs  w-[65%]">
+      <div class="divBlur bg-white border-b flex items-center pl-5 justify-between px-5 h-[8%]">
+        <p class="font-bold text-lg">Steeve Vevin</p>
+        <p class="font-bold">X</p>
+      </div>
+      <div class="h-[80%] max-h-[80%] overflow-y-auto bg-green-100 px-5">
+        <p class="text-black text-center py-1">Nouvelle discussion</p>
+        <div class="w-[50%] mt-2 flex items-end">
+          <div class="bg-blue-300 rounded-3xl logo w-[50px] h-[50px] mr-2">A</div>
+          <div class="w-[80%]">
+            <p class="borderRadius bg-white border p-3">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, odio a repellat
+              reiciendis praesentium atque, asperiores necessitatibus porro esse sapiente illo.
+              Saepe ut explicabo laudantium cumque impedit. Nostrum, rerum voluptates.
+            </p>
+          </div>
+        </div>
+        <div class="w-[full] mt-2 flex justify-end items-end">
+          <div class="w-[45%] mr-2">
+            <p class="borderRadiusReverse bg-white border p-3">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, odio a repellat
+              reiciendis praesentium atque, asperiores necessitatibus porro esse sapiente illo.
+              Saepe ut explicabo laudantium cumque impedit. Nostrum, rerum voluptates.
+            </p>
+          </div>
+          <div class="bg-blue-300 rounded-3xl logo w-[50px] h-[50px]">A</div>
+        </div>
+      </div>
+      <div class="h-[12%]  flex justify-between items-center px-5">
+        <input type="text" class="h-[75%] rounded-3xl px-5 w-[80%]" placeholder="Ecrire ici...">
+        <div class="justify-evenly flex w-[15%]">
+          <p class="font-bold">X</p>
+          <p class="font-bold">X</p>
         </div>
       </div>
     </div>
@@ -84,13 +91,11 @@
 <script setup></script>
 
 <style scoped>
-.image {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
+.borderRadius {
+  border-radius: 20px 20px 20px 0;
 }
 
-.titre {
-  font-size: 21px;
+.borderRadiusReverse {
+  border-radius: 20px 20px 0px 20px;
 }
 </style>
