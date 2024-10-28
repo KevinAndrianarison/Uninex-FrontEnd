@@ -25,7 +25,12 @@
         ></div>
         <p class="nom font-bold">{{ infosheader.nom }}</p>
       </div>
-      <Button @click="downloadImage" class="btn font-bold">Publier</Button>
+      <Button @click="downloadImage" class="btn font-bold"
+        ><font-awesome-icon
+          class=" mr-2"
+          :icon="['fas', 'circle-plus']"
+        />Publier</Button
+      >
       <div class="w-50" v-if="!show.showNavBarEtud">
         <Listbox v-model="au.oneAU">
           <div class="relative">
@@ -149,7 +154,7 @@ onBeforeMount(() => {
     infosheader.photo = user.user.photo_name
   }
   if (user.user.status_user === 'ENS') {
-    infosheader.status = "Enseignant"
+    infosheader.status = 'Enseignant'
     infosheader.nom = user.nomComplet_ens
     infosheader.photo = user.user.photo_name
   }

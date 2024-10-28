@@ -14,7 +14,12 @@
     <div class="bg-white border border-2 w-[30%] rounded-2xl p-4">
       <div class="flex items-center justify-between px-2">
         <h1 class="text-xl text-center font-bold">Discussions</h1>
-        <p class="font-bold">X</p>
+        <Tooltip content="Créer une groupe">
+          <font-awesome-icon
+            class="iconadd text-gray-800 cursor-pointer h-8 w-6"
+            :icon="['fas', 'square-plus']"
+          />
+        </Tooltip>
       </div>
       <input
         type="text"
@@ -26,7 +31,7 @@
         <div class="text-white w-[45%] text-center">Groupes</div>
         <div></div>
       </div>
-      <div class="mt-5 max-h-[75%] overflow-y-auto">
+      <div class="mt-5 max-h-[80%] overflow-y-auto">
         <div class="bg-gray-100 w-full flex rounded-3xl">
           <div class="logo w-[48px] h-[50px] bg-blue-200 rounded-3xl">LO</div>
           <div class="px-3 w-[80%] flex flex-col justify-center">
@@ -49,13 +54,22 @@
         </div>
       </div>
     </div>
-    <div class="bg-green-100 border-2 rounded-xs  w-[65%]">
-      <div class="divBlur bg-white border-b flex items-center pl-5 justify-between px-5 h-[8%]">
+    <div class="bg-gray-100 border-2 rounded-2xl w-[65%]">
+      <div
+        class="divBlur rounded-t-2xl bg-white border-b flex items-center pl-5 justify-between px-5 h-[8%]"
+      >
         <p class="font-bold text-lg">Steeve Vevin</p>
-        <p class="font-bold">X</p>
+        <Tooltip content="Options">
+          <font-awesome-icon
+            class="iconadd text-gray-800 cursor-pointer h-8 w-6"
+            :icon="['fas', 'bars-staggered']"
+          />
+        </Tooltip>
       </div>
-      <div class="h-[80%] max-h-[80%] overflow-y-auto bg-green-100 px-5">
-        <p class="text-black text-center py-1">Nouvelle discussion</p>
+      <div class="h-[80%] max-h-[80%] overflow-y-auto bg-gray-100 px-5">
+        <p class="text-gray-500 text-center py-1">
+          Nouvelle discussion, commencer à envoyer des messages ✨!
+        </p>
         <div class="w-[50%] mt-2 flex items-end">
           <div class="bg-blue-300 rounded-3xl logo w-[50px] h-[50px] mr-2">A</div>
           <div class="w-[80%]">
@@ -76,19 +90,45 @@
           </div>
           <div class="bg-blue-300 rounded-3xl logo w-[50px] h-[50px]">A</div>
         </div>
+        <div class="w-[50%] mt-2 flex items-end">
+          <div class="bg-blue-300 rounded-3xl logo w-[50px] h-[50px] mr-2">A</div>
+          <div class="w-[80%]">
+            <p class="borderRadius bg-white border p-3">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, odio a repellat
+              reiciendis praesentium atque, asperiores necessitatibus porro esse sapiente illo.
+              Saepe ut explicabo laudantium cumque impedit. Nostrum, rerum voluptates.
+            </p>
+          </div>
+        </div>
       </div>
-      <div class="h-[12%]  flex justify-between items-center px-5">
-        <input type="text" class="h-[75%] rounded-3xl px-5 w-[80%]" placeholder="Ecrire ici...">
+      <div class="h-[12%] flex justify-between items-center px-5">
+        <input
+          type="text"
+          class="h-[50%] rounded-3xl px-5 w-[80%] focus:outline-none"
+          placeholder="Ecrire ici..."
+        />
         <div class="justify-evenly flex w-[15%]">
-          <p class="font-bold">X</p>
-          <p class="font-bold">X</p>
+          <Tooltip content="Joindre un fichier">
+            <font-awesome-icon
+              class="iconadd text-gray-500 cursor-pointer h-8 w-6"
+              :icon="['fas', 'paperclip']"
+            />
+          </Tooltip>
+          <Tooltip content="Envoyer">
+            <font-awesome-icon
+              class="iconadd text-gray-500 cursor-pointer h-8 w-6"
+              :icon="['fas', 'paper-plane']"
+            />
+          </Tooltip>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import Tooltip from '../components/Tooltip.vue'
+</script>
 
 <style scoped>
 .borderRadius {

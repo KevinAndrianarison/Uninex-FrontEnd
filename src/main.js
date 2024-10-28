@@ -32,7 +32,14 @@ import {
   faSquarePlus,
   faCircleCheck,
   faUserSlash,
-  faAnglesDown
+  faAnglesDown,
+  faPaperPlane,
+  faBarsStaggered,
+  faCommentDots,
+  faTrashCan,
+  faHeart,
+  faCirclePlus,
+  faPen
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -56,7 +63,14 @@ library.add(
   faSquarePlus,
   faCircleCheck,
   faUserSlash,
-  faAnglesDown
+  faAnglesDown,
+  faPaperPlane,
+  faBarsStaggered,
+  faHeart,
+  faCommentDots,
+  faTrashCan,
+  faPen,
+  faCirclePlus
 )
 
 import App from './App.vue'

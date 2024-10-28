@@ -14,15 +14,9 @@
       />
     </div>
     <div class="flex justify-evenly mt-2">
-      <div class="w-[20%] max-h-[200px] overflow-auto">
-        <div class="flex text-blue-500">
-          <p class="font-bold mr-4">X</p>
-          Tags
-        </div>
-        <div class="flex">
-          <p class="font-bold mr-4">X</p>
-          Meta
-        </div>
+      <div class="w-[20%] max-h-[200px] overflow-auto cursor-pointer">
+        <div class="flex text-blue-500">📚 Education</div>
+        <div class="flex">🏀 Sport</div>
       </div>
       <div class="w-[45%] overflow-y-auto max-h-[80vh] rounded">
         <div class="flex p-4 border-2">
@@ -42,13 +36,37 @@
             </div>
             <div class="flex mt-2 justify-between">
               <div class="flex">
-                <p class="font-bold mr-4">X</p>
-                <p class="font-bold mr-4">X</p>
+                <p class="font-bold mr-4">
+                  <font-awesome-icon
+                    class="iconadd text-gray-500 cursor-pointer text-red-500"
+                    :icon="['fas', 'heart']"
+                  />
+                  100
+                </p>
+                <p class="font-bold mr-4">
+                  <Tooltip content="Commentaires">
+                  <font-awesome-icon
+                    class="iconadd text-gray-500 cursor-pointer text-gray-500 mr-1"
+                    :icon="['fas', 'comment-dots']"
+                  /></Tooltip>20
+                </p>
                 <p class="text-gray-500">3 hours ago</p>
               </div>
               <div class="flex">
-                <p class="font-bold mr-4">X</p>
-                <p class="font-bold">X</p>
+                <p class="font-bold mr-4">
+                  <Tooltip content="Modifier">
+                  <font-awesome-icon
+                    class="iconadd cursor-pointer text-yellow-500"
+                    :icon="['fas', 'pen']"
+                  /></Tooltip>
+                </p>
+                <p class="font-bold">
+                  <Tooltip content="Supprimer">
+                  <font-awesome-icon
+                    class="iconadd text-gray-500 cursor-pointer text-red-500"
+                    :icon="['fas', 'trash-can']"
+                  /></Tooltip>
+                </p>
               </div>
             </div>
           </div>
@@ -61,7 +79,14 @@
           class="border w-full min-h-[50px] focus:outline-none p-1"
         >
         </textarea>
-        <div class="relative bottom-7 right-5 text-end"><p class="font-bold">X</p></div>
+        <div class="relative bottom-7 right-5 text-end">
+          <Tooltip content="Envoyer">
+            <font-awesome-icon
+              class="iconadd text-gray-500 cursor-pointer"
+              :icon="['fas', 'paper-plane']"
+            />
+          </Tooltip>
+        </div>
         <div class="max-h-[350px] overflow-y-auto">
           <di class="coms w-full flex">
             <div class="image border mr-1">LO</div>
@@ -70,8 +95,20 @@
               tenetur, vel dolor animi reiciendis iure, repudiandae cumque est dignissimos quo
               aspernatur totam magni et! Sed, amet!
               <div class="flex justify-end">
-                <p class="font-bold mr-2">X</p>
-                <p class="font-bold mr-2">X</p>
+                <p class="font-bold mr-2">
+                  <Tooltip content="Modifier">
+                  <font-awesome-icon
+                    class="iconadd cursor-pointer text-yellow-500"
+                    :icon="['fas', 'pen']"
+                  /></Tooltip>
+                </p>
+                <p class="font-bold mr-2">
+                  <Tooltip content="Supprimer">
+                  <font-awesome-icon
+                    class="iconadd cursor-pointer text-red-500"
+                    :icon="['fas', 'trash-can']"
+                  /></Tooltip>
+                </p>
               </div>
             </div>
           </di>
@@ -81,7 +118,9 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import Tooltip from '../components/Tooltip.vue'
+</script>
 
 <style scoped>
 .image {
