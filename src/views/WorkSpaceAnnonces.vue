@@ -2,7 +2,7 @@
   <div class="body bg-white border rounded-lg min-h-[85vh]">
     <div class="head flex justify-center mt-2">
       <select class="mr-10 py-2 px-2 rounded border focus:outline-none">
-        <option value="A">Les plus important</option>
+        <option value="A">Toutes</option>
         <option value="A">Les plus recents</option>
         <option value="A">Les plus aimés</option>
       </select>
