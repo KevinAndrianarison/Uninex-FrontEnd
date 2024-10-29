@@ -25,11 +25,8 @@
         ></div>
         <p class="nom font-bold">{{ infosheader.nom }}</p>
       </div>
-      <Button @click="downloadImage" class="btn font-bold"
-        ><font-awesome-icon
-          class=" mr-2"
-          :icon="['fas', 'circle-plus']"
-        />Publier</Button
+      <Button @click="createPost()" class="btn font-bold"
+        ><font-awesome-icon class="mr-2" :icon="['fas', 'circle-plus']" />Publier</Button
       >
       <div class="w-50" v-if="!show.showNavBarEtud">
         <Listbox v-model="au.oneAU">
@@ -130,20 +127,12 @@ const show = useShow()
 const infosheader = useInfosheader()
 const URL = useUrl().url
 const etablissement = useEtablissement()
-
-const downloadImage = () => {
-  const filename = 'Steeve FH.pptx'
-  const url = `http://localhost:8000/api/etablissement/image/${filename}`
-  const link = document.createElement('a')
-  link.href = url
-  link.download = filename
-  link.style.display = 'none'
-  document.body.appendChild(link)
-  link.click()
-  document.body.removeChild(link)
-}
-
 const enabled = ref(false)
+
+
+function createPost() {
+  show.showCreatePost = true
+}
 
 onBeforeMount(() => {
   const userString = localStorage.getItem('user')

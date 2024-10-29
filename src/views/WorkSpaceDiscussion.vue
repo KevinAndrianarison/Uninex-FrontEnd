@@ -26,12 +26,12 @@
         placeholder="Recherche"
         class="bg-gray-100 w-full mt-2 py-1 px-5 rounded-3xl focus:outline-none"
       />
-      <div class="flex justify-between px-1.5 bg-gray-800 w-[90%] m-auto mt-2 py-1 rounded-3xl">
+      <div class="flex justify-between px-1.5 bg-gray-800 w-[90%] m-auto mt-2 py-1 rounded-3xl cursor-pointer">
         <div class="text-white bg-gray-500 w-[45%] py-0.5 rounded-3xl text-center">Toutes</div>
         <div class="text-white w-[45%] text-center">Groupes</div>
         <div></div>
       </div>
-      <div class="mt-5 max-h-[80%] overflow-y-auto">
+      <div class="mt-5 max-h-[80%] overflow-y-auto ">
         <div class="bg-gray-100 w-full flex rounded-3xl">
           <div class="logo w-[48px] h-[50px] bg-blue-200 rounded-3xl">LO</div>
           <div class="px-3 w-[80%] flex flex-col justify-center">
@@ -122,6 +122,7 @@
           </Tooltip>
         </div>
       </div>
+      <div class="absolute bg-white-500  bottom-10 right-52 flex"><p class="mr-2 text-yellow-500">Nom du fichier</p> <b>X</b></div>
     </div>
   </div>
 </template>

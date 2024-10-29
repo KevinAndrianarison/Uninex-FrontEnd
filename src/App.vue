@@ -74,6 +74,12 @@
   <Teleport to="body">
     <DeleteEC />
   </Teleport>
+  <Teleport to="body">
+    <DeletePost />
+  </Teleport>
+  <Teleport to="body">
+    <CreatePost />
+  </Teleport>
 </template>
 
 <script setup>
@@ -83,6 +89,7 @@ import WorkSpaceLogin from './views/WorkSpaceLogin.vue'
 import WorkSpaceDash from './views/WorkSpaceDash.vue'
 import Deconnexion from './components/Deconnexion.vue'
 import CreateAU from './components/CreateAU.vue'
+import CreatePost from './components/CreatePost.vue'
 import FormatExcel from './components/FormatExcel.vue'
 import CreateNiveau from './components/CreateNiveau.vue'
 import CreateSemestre from './components/CreateSemestre.vue'
@@ -98,6 +105,7 @@ import DeleteNiveau from './components/delete/DeleteNiveau.vue'
 import DeleteMention from './components/delete/DeleteMention.vue'
 import DeleteEC from './components/delete/DeleteEC.vue'
 import DeleteSemestre from './components/delete/DeleteSemestre.vue'
+import DeletePost from './components/delete/DeletePost.vue'
 import DeleteParcours from './components/delete/DeleteParcours.vue'
 import DeleteUE from './components/delete/DeleteUE.vue'
 import ListeEtudiantPdf from './components/ListeEtudiantPdf.vue'

@@ -2,9 +2,9 @@
   <div class="body bg-white border rounded-lg min-h-[85vh]">
     <div class="head flex justify-center mt-2">
       <select class="mr-10 py-2 px-2 rounded border focus:outline-none">
+        <option value="A">Les plus important</option>
         <option value="A">Les plus recents</option>
         <option value="A">Les plus aimés</option>
-        <option value="A">Les plus recents</option>
       </select>
 
       <input
@@ -45,26 +45,27 @@
                 </p>
                 <p class="font-bold mr-4">
                   <Tooltip content="Commentaires">
-                  <font-awesome-icon
-                    class="iconadd text-gray-500 cursor-pointer text-gray-500 mr-1"
-                    :icon="['fas', 'comment-dots']"
-                  /></Tooltip>20
+                    <font-awesome-icon
+                      class="iconadd text-gray-500 cursor-pointer text-gray-500 mr-1"
+                      :icon="['fas', 'comment-dots']" /></Tooltip
+                  >20
                 </p>
                 <p class="text-gray-500">3 hours ago</p>
               </div>
               <div class="flex">
                 <p class="font-bold mr-4">
                   <Tooltip content="Modifier">
-                  <font-awesome-icon
-                    class="iconadd cursor-pointer text-yellow-500"
-                    :icon="['fas', 'pen']"
+                    <font-awesome-icon
+                      class="iconadd cursor-pointer text-yellow-500"
+                      :icon="['fas', 'pen']"
                   /></Tooltip>
                 </p>
                 <p class="font-bold">
                   <Tooltip content="Supprimer">
-                  <font-awesome-icon
-                    class="iconadd text-gray-500 cursor-pointer text-red-500"
-                    :icon="['fas', 'trash-can']"
+                    <font-awesome-icon
+                      class="iconadd text-gray-500 cursor-pointer text-red-500"
+                      :icon="['fas', 'trash-can']"
+                      @click="showDeletePost()"
                   /></Tooltip>
                 </p>
               </div>
@@ -97,16 +98,16 @@
               <div class="flex justify-end">
                 <p class="font-bold mr-2">
                   <Tooltip content="Modifier">
-                  <font-awesome-icon
-                    class="iconadd cursor-pointer text-yellow-500"
-                    :icon="['fas', 'pen']"
+                    <font-awesome-icon
+                      class="iconadd cursor-pointer text-yellow-500"
+                      :icon="['fas', 'pen']"
                   /></Tooltip>
                 </p>
                 <p class="font-bold mr-2">
                   <Tooltip content="Supprimer">
-                  <font-awesome-icon
-                    class="iconadd cursor-pointer text-red-500"
-                    :icon="['fas', 'trash-can']"
+                    <font-awesome-icon
+                      class="iconadd cursor-pointer text-red-500"
+                      :icon="['fas', 'trash-can']"
                   /></Tooltip>
                 </p>
               </div>
@@ -120,6 +121,14 @@
 
 <script setup>
 import Tooltip from '../components/Tooltip.vue'
+import { useShow } from '@/stores/Show'
+
+const show = useShow()
+
+function showDeletePost() {
+  show.showDeletePost = true
+  
+}
 </script>
 
 <style scoped>
