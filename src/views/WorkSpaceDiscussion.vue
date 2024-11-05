@@ -18,6 +18,7 @@
           <font-awesome-icon
             class="iconadd text-gray-800 cursor-pointer h-8 w-6"
             :icon="['fas', 'square-plus']"
+            @click="createGroup()"
           />
         </Tooltip>
       </div>
@@ -33,22 +34,27 @@
         <div class="text-white w-[45%] text-center">Groupes</div>
         <div></div>
       </div>
-      <div class="mt-5 max-h-[80%] overflow-y-auto">
-        <div class="bg-gray-100 w-full flex rounded-3xl">
-          <div class="logo w-[48px] h-[50px] bg-blue-200 rounded-3xl">LO</div>
+      <div
+        class="mt-2 max-h-[80%] overflow-y-auto"
+        v-for="users in user.listUser"
+        :key="user.id"
+        @click="loadMessages(users.id)"
+      >
+        <div class="mt-2 w-full flex hover:bg-gray-100 hover:rounded-3xl">
+          <div
+            :style="{
+              'background-image': `url(${URL}/storage/users/${
+                users.photo_name ||
+                'depositphotos_35717211-stock-illustration-vector-user-icon-removebg-preview.png'
+              })`,
+              'background-size': 'cover',
+              'background-position': 'center'
+            }"
+            class="logo w-[48px] h-[50px] rounded-3xl"
+          ></div>
           <div class="px-3 w-[80%] flex flex-col justify-center">
             <div class="flex justify-between items-center">
-              <p>Steeve</p>
-              <p class="text-gray-500 text-xs">15h35</p>
-            </div>
-            <div class="text-gray-500 text-xs">Contenu du message</div>
-          </div>
-        </div>
-        <div class="mt-2 w-full flex">
-          <div class="logo w-[48px] h-[50px] bg-blue-200 rounded-3xl">LO</div>
-          <div class="px-3 w-[80%] flex flex-col justify-center">
-            <div class="flex justify-between items-center">
-              <p>Steeve</p>
+              <p>{{ users.email }}</p>
               <p class="text-gray-500 text-xs">15h35</p>
             </div>
             <div class="text-gray-500 text-xs">Contenu du message</div>
@@ -125,16 +131,42 @@
           </Tooltip>
         </div>
       </div>
-      <div class="absolute bg-white-500 bottom-10 right-52 flex">
-        <p class="mr-2 text-yellow-500">Nom du fichier</p>
-        <b>X</b>
-      </div>
     </div>
   </div>
 </template>
 
 <script setup>
 import Tooltip from '../components/Tooltip.vue'
+import { useUser } from '@/stores/User'
+import { onBeforeMount, ref } from 'vue'
+import { useUrl } from '@/stores/url'
+import axios from 'axios'
+const user = useUser()
+const URL = useUrl().url
+const selectedUserId = ref(null)
+const messages = ref([])
+const messagesToSend = ref("")
+
+
+onBeforeMount(() => {
+  user.getAlluser()
+})
+
+function createGroup() {
+  alert('Fonctionnalité de création de groupe à implémenter')
+}
+
+function loadMessages(userId) {
+  selectedUserId.value = userId
+  axios
+    .get(`${URL}/api/messages/${userId}`)
+    .then((response) => {
+      messages.value = response.data
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+}
 </script>
 
 <style scoped>

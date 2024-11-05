@@ -26,6 +26,7 @@ export const useUser = defineStore('User', () => {
   const photo = ref(null)
   const user_id = ref(null)
   const user_status = ref('')
+  const listUser = ref([])
 
   function verifierPasword() {
     show.showMessageErrorConfirmMdp = true
@@ -219,6 +220,18 @@ export const useUser = defineStore('User', () => {
       })
   }
 
+  function getAlluser() {
+    axios
+      .get(`${URL}/api/users`)
+      .then((response) => {
+        listUser.value = response.data
+        
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  }
+
   return {
     status_user,
     email,
@@ -228,10 +241,12 @@ export const useUser = defineStore('User', () => {
     user_id,
     user_status,
     oldpassword,
+    listUser,
     verifierPasword,
     supprUser,
     login,
     setMdp,
-    setUsers
+    setUsers,
+    getAlluser
   }
 })

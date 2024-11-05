@@ -8,6 +8,8 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import Echo from 'laravel-echo'
+import Pusher from 'pusher-js'
 
 import 'tippy.js/dist/tippy.css'
 
@@ -75,6 +77,15 @@ library.add(
 
 import App from './App.vue'
 import routes from './router/index'
+
+window.Pusher = Pusher
+
+window.Echo = new Echo({
+  broadcaster: 'pusher',
+  key: import.meta.env.VITE_PUSHER_APP_KEY, 
+  cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
+  encrypted: true
+})
 
 const app = createApp(App)
 app.component('font-awesome-icon', FontAwesomeIcon)
