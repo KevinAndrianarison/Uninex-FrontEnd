@@ -39,7 +39,10 @@ import {
   faTrashCan,
   faHeart,
   faCirclePlus,
-  faPen
+  faPen,
+  faXmark,
+  faArrowDown
+  ,
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -70,12 +73,13 @@ library.add(
   faCommentDots,
   faTrashCan,
   faPen,
-  faCirclePlus
+  faXmark,
+  faCirclePlus,
+  faArrowDown
 )
 
 import App from './App.vue'
 import routes from './router/index'
-
 
 const app = createApp(App)
 app.component('font-awesome-icon', FontAwesomeIcon)

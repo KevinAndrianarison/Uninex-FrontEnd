@@ -118,20 +118,22 @@ import { ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import { useAu } from '@/stores/Au'
 import { useUrl } from '@/stores/url'
 import { useShow } from '@/stores/Show'
+import { useCategory } from '@/stores/Category'
 import { useInfosheader } from '@/stores/Infosheader'
 import { useEtablissement } from '@/stores/Etablissement'
 import Tooltip from './Tooltip.vue'
 
 const au = useAu()
+const category = useCategory()
 const show = useShow()
 const infosheader = useInfosheader()
 const URL = useUrl().url
 const etablissement = useEtablissement()
 const enabled = ref(false)
 
-
 function createPost() {
   show.showCreatePost = true
+  category.getAllCategorie()
 }
 
 onBeforeMount(() => {
