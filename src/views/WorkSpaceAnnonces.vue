@@ -95,13 +95,22 @@
               <div class="flex">
                 <p class="font-bold mr-4 flex items-center " >
                   <font-awesome-icon
+                  v-if="ann.liked_by_user "
                   @click="toggleLike(ann)"
                     class="iconadd text-gray-500 cursor-pointer text-red-500 mr-1 "
                     :icon="['fas', 'heart']"
                   />
-                  <p class="mr-1">{{ ann.liked_by_user ? "Je n'aime plus" : "J'aime" }}</p> {{ ann.likes_count }} 
+                  <font-awesome-icon
+                  v-if="!ann.liked_by_user "
+
+                  @click="toggleLike(ann)"
+                    class="iconadd text-gray-500 cursor-pointer text-gray-500 mr-1 "
+                    :icon="['fas', 'heart']"
+                  />
+                  <p class="mr-2">{{ ann.likes_count }}</p>
+                  <p @click="toggleLike(ann)" :class="ann.liked_by_user ? 'mr-1 text-blue-500 cursor-pointer' : 'text-black mr-1 cursor-pointer'">{{ ann.liked_by_user ? "Je n'aime plus" : "J'aime" }}</p> 
                 </p>
-                <p class="font-bold mr-4">
+                <p class=" mr-4">
                   <Tooltip content="Commentaires">
                     <font-awesome-icon
                       @click="showComs(ann.id)"
