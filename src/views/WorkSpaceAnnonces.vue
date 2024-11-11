@@ -93,12 +93,13 @@
             </div>
             <div class="flex mt-2 justify-between">
               <div class="flex">
-                <p class="font-bold mr-4">
+                <p class="font-bold mr-4 flex items-center " >
                   <font-awesome-icon
-                    class="iconadd text-gray-500 cursor-pointer text-red-500"
+                  @click="toggleLike(ann)"
+                    class="iconadd text-gray-500 cursor-pointer text-red-500 mr-1 "
                     :icon="['fas', 'heart']"
                   />
-                  100
+                  <p class="mr-1">{{ ann.liked_by_user ? "Je n'aime plus" : "J'aime" }}</p> {{ ann.likes_count }} 
                 </p>
                 <p class="font-bold mr-4">
                   <Tooltip content="Commentaires">
@@ -106,7 +107,7 @@
                       @click="showComs(ann.id)"
                       class="iconadd text-gray-500 cursor-pointer text-gray-500 mr-1"
                       :icon="['fas', 'comment-dots']" /></Tooltip
-                  >20
+                  >{{ ann.com.length }}
                 </p>
                 <p class="text-gray-500">{{ ann.timeAgo }}</p>
               </div>
@@ -280,11 +281,25 @@ function deleteComs(id) {
     .then((response) => {
       show.showSpinner = false
       com.getAllComsByAnnonce(annonce.idAnnonce)
+      annonce.getAllAnnonce()
     })
     .catch((error) => {
       console.error(error)
       show.showSpinner = false
     })
+}
+
+function toggleLike(annonce) {
+  const userString = localStorage.getItem('user')
+  const user = JSON.parse(userString)
+  
+  axios.post(`${URL}/api/annonces/${annonce.id}/like`, { user_id: user.user.id })
+    .then((response) => {
+      annonce.getAllAnnonce()
+    })
+    .catch(error => {
+      console.error(error);
+    });
 }
 
 function setActiveCategory(id) {
@@ -315,8 +330,10 @@ function sendMsg() {
       }
     })
     .then((response) => {
+      coms.value = ''
       show.showSpinner = false
       com.getAllComsByAnnonce(Number(response.data.annonce_id))
+      annonce.getAllAnnonce()
     })
     .catch((error) => {
       console.error(error)
