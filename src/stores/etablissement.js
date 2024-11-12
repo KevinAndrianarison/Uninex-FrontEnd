@@ -208,7 +208,7 @@ export const useEtablissement = defineStore('Etablissement', () => {
         }
         if (auth_token) {
           show.showLogin = false
-          show.showAdmin = true
+          show.showAdmin = false
         }
         if (!auth_token) {
           show.showAdmin = false

@@ -27,10 +27,23 @@ export const useHtml2pdf = defineStore('Html2pdf', () => {
 
     html2pdf().from(element).set(options).save()
   }
+  function downloadCarte() {
+    const element = elementToPrint.value
+    const options = {
+      margin: 0,
+      filename: `Carte d'étudiant.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
+    }
+
+    html2pdf().from(element).set(options).save()
+  }
 
   return {
     elementToPrint,
     setElement,
-    downloadPDF
+    downloadPDF,
+    downloadCarte
   }
 })

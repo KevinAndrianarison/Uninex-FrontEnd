@@ -99,7 +99,7 @@
                     class="iconadd text-gray-500 cursor-pointer text-gray-500 mr-1 "
                     :icon="['fas', 'heart']"
                   />
-                  <p class="mr-2 cursor-pointer" @click="openLikesModal">{{ ann.likes_count }}</p>
+                  <p class="mr-2 cursor-pointer" @click="openLikesModal(ann.likes)">{{ ann.likes_count }}</p>
                   <p @click="toggleLike(ann)" :class="ann.liked_by_user ? 'mr-1 text-blue-500 cursor-pointer' : 'text-black mr-1 cursor-pointer'">{{ ann.liked_by_user ? "Je n'aime plus" : "J'aime" }}</p> 
                 </p>
                 <p class=" mr-4">
@@ -136,8 +136,8 @@
           <div class="bg-white p-5 rounded-lg w-1/3">
             <h2 class="text-md font-bold mb-3">❤️ Les réacteurs :</h2>
             <ul>
-              <li  :key="ann.id"
-                  v-for="(lk, index) in ann.likes" class="py-1">
+              <li  :key="lk.id"
+                  v-for="(lk, index) in listReacteur" class="py-1">
                <div class="flex items-center">
                <div
                 :style="{
@@ -258,6 +258,8 @@ const coms = ref(null)
 const isComs = ref(false)
 const editableComId = ref(null)
 const showLikesModal = ref(false);
+const listReacteur = ref([]);
+
 
 
 function toggleEditPost(ann) {
@@ -274,7 +276,8 @@ function toggleEditPost(ann) {
   }
 }
 
-function openLikesModal() {
+function openLikesModal(list) {
+  listReacteur.value = list
   showLikesModal.value = true;
 }
 function closeLikesModal() {
