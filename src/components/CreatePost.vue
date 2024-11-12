@@ -9,7 +9,6 @@ import { useMessages } from '@/stores/messages'
 import { useCategory } from '@/stores/Category'
 import { useAnnonce } from '@/stores/Annonce'
 
-
 const file = ref(null)
 const fileName = ref('')
 const titreAnnonce = ref('')
@@ -30,6 +29,10 @@ const userString = localStorage.getItem('user')
 const user = JSON.parse(userString)
 
 function closeCreatePost() {
+  titreAnnonce.value = ''
+  descriptionAnnonce.value = ''
+  file.value = null
+  fileName.value = null
   show.showCreatePost = false
 }
 
@@ -38,7 +41,7 @@ function postAnnonce() {
   let formData = new FormData()
   formData.append('titre', titreAnnonce.value || '')
   formData.append('description', descriptionAnnonce.value || '')
-  formData.append('fichier', file.value || "")
+  formData.append('fichier', file.value || '')
   formData.append('categori_id', Number(idCategorie.value) || null)
   formData.append('user_id', Number(user.user.id) || null)
 
@@ -72,6 +75,8 @@ function openListeCategory() {
 }
 
 function closeCreateCategory() {
+  newCategory.emoji = ''
+  newCategory.title = ''
   showCreateCategory.value = false
 }
 
@@ -84,8 +89,8 @@ function deleteCategory(id) {
     .delete(`${URL}/api/categoris/${id}`)
     .then((response) => {
       category.getAllCategorie()
-      messages.messageSucces = 'Catégorie supprimé avec succès !'
       show.showSpinner = false
+      messages.messageSucces = 'Catégorie supprimé avec succès !'
       setTimeout(() => {
         messages.messageSucces = ''
       }, 3000)
@@ -132,6 +137,7 @@ function submitCategory() {
     .post(`${URL}/api/categoris`, formData)
     .then((response) => {
       newCategory.title = ''
+      newCategory.emoji = ''
       messages.messageSucces = 'Catégorie crée avec succès !'
       show.showSpinner = false
       showCreateCategory.value = false
@@ -175,18 +181,32 @@ function onFileChange(event) {
           type="text"
           placeholder="Titre"
           v-model="titreAnnonce"
-          class="focus:outline-none border-2 rounded w-full px-3 mt-5 py-2"
+          class="focus:outline-none border-2 rounded w-full px-3 text-sm mt-5 py-2"
         />
-        <div class="mt-2 flex items-center">
-          <select
-            v-model="idCategorie"
-            class="mr-2 w-full py-2 px-2 rounded border-2 focus:outline-none"
-          >
-            <option class="bg-green-200 text-black" disabled>Catégories</option>
-            <option :key="ctg.id" v-for="(ctg, index) in category.listCategorie" :value="ctg.id">
-              {{ ctg.titre }}
-            </option>
-          </select>
+        <div class="mt-1 flex items-end justify-between">
+          <div class="flex items-left w-full flex-col">
+            <label class="text-xs">Choisissez une catégorie :</label>
+            <select
+              v-model="idCategorie"
+              class="mr-2 py-2 px-2 rounded border-2 focus:outline-none text-xs"
+            >
+              <option
+                class="text-sm"
+                :key="ctg.id"
+                v-for="(ctg, index) in category.listCategorie"
+                :value="ctg.id"
+              >
+                {{ ctg.titre }}
+              </option>
+              <option
+                disabled
+                class="text-xs text-gray-500"
+                v-if="category.listCategorie.length === 0"
+              >
+                Aucune catégorie trouvée...
+              </option>
+            </select>
+          </div>
           <div v-if="user.user.status_user === 'Directeur'" class="flex flex-col justify-center">
             <Tooltip content="Créer une nouvelle catégorie">
               <font-awesome-icon
@@ -205,7 +225,7 @@ function onFileChange(event) {
         <textarea
           placeholder="Description"
           v-model="descriptionAnnonce"
-          class="min-h-[100px] focus:outline-none border-2 rounded w-full px-3 mt-2 py-2"
+          class="text-sm min-h-[100px] focus:outline-none border-2 rounded w-full px-3 mt-2 py-2"
         ></textarea>
         <div class="relative flex items-center">
           <input
@@ -215,7 +235,7 @@ function onFileChange(event) {
             accept="*"
           />
           <div
-            class="w-full file-label bg-green-100 text-green-800 py-2 text-center rounded-md border border-green-300"
+            class="w-full file-label bg-green-100 text-green-800 py-2 text-center rounded-md border border-green-300 text-sm"
           >
             📂 Importer un fichier
           </div>
@@ -231,7 +251,7 @@ function onFileChange(event) {
         <button
           @click="postAnnonce()"
           :disabled="!titreAnnonce || !idCategorie || !file"
-          class="focus:outline-none bg-green-500 font-bold rounded w-full px-3 mt-2 py-2"
+          class="focus:outline-none bg-green-500 font-bold rounded w-full px-3 mt-2 py-2 text-sm cursor-pointer"
         >
           Publier
         </button>
@@ -246,22 +266,22 @@ function onFileChange(event) {
             <XMarkIcon class="h-6 w-6" />
           </button>
         </div>
-        <h1 class="font-bold text-lg">Créer une nouvelle catégorie :</h1>
+        <h1 class="font-bold text-sm">Créer une nouvelle catégorie :</h1>
         <input
           v-model="newCategory.emoji"
           type="text"
           placeholder="Emoji (e.g., 📚)"
-          class="focus:outline-none border-2 rounded w-full px-3 mt-5 py-2"
+          class="focus:outline-none border-2 text-xs rounded w-full px-3 mt-5 py-2"
         />
         <input
           v-model="newCategory.title"
           type="text"
           placeholder="Titre"
-          class="focus:outline-none border-2 rounded w-full px-3 mt-2 py-2"
+          class="focus:outline-none border-2 text-xs rounded w-full px-3 mt-2 py-2"
         />
         <button
           :disabled="!newCategory.title"
-          class="focus:outline-none bg-green-500 font-bold rounded w-full px-3 mt-5 py-2"
+          class="focus:outline-none text-xs bg-green-500 font-bold rounded w-full px-3 mt-5 py-2 cursor-pointer"
           @click="submitCategory"
         >
           Enregistrer
@@ -277,23 +297,26 @@ function onFileChange(event) {
             <XMarkIcon class="h-6 w-6" />
           </button>
         </div>
-        <h1 class="font-bold text-lg">Liste des catégories :</h1>
+        <h1 class="font-bold text-sm">Liste des catégories :</h1>
         <li
-          class="px-1 py-1 justify-between border flex"
+          class="px-1 py-1 justify-between border flex text-xs mt-1"
           :key="ctg.id"
           v-for="(ctg, index) in category.listCategorie"
         >
           <input class="w-60 focus:outline-none" type="text" v-model="ctg.titre" />
           <p>
-            <font-awesome-icon
-              class="cursor-pointer text-yellow-500 mr-2"
-              :icon="['fas', 'pen']"
-              @click="modifierCategorie(ctg.id, ctg.titre)"
-            /><font-awesome-icon
-              @click="deleteCategory(ctg.id)"
-              class="text-gray-500 cursor-pointer text-red-500"
-              :icon="['fas', 'trash-can']"
-            />
+            <Tooltip content="Enregister la modification">
+              <font-awesome-icon
+                class="cursor-pointer text-yellow-500 mr-2"
+                :icon="['fas', 'pen']"
+                @click="modifierCategorie(ctg.id, ctg.titre)"
+            /></Tooltip>
+            <Tooltip content="Supprimer">
+              <font-awesome-icon
+                @click="deleteCategory(ctg.id)"
+                class="text-gray-500 cursor-pointer text-red-500"
+                :icon="['fas', 'trash-can']"
+            /></Tooltip>
           </p>
         </li>
         <div v-if="category.listCategorie.length === 0" class="text-gray-500 text-xs mt-2">

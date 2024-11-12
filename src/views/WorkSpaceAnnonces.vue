@@ -1,17 +1,12 @@
 <template>
   <div class="body bg-white border pb-5 rounded-lg min-h-[80vh]">
     <div class="head flex justify-center mt-2">
-      <select class="mr-10 py-2 px-2 rounded border focus:outline-none">
-        <option value="A">Toutes</option>
-        <option value="A">Les plus aimés</option>
-      </select>
-
       <input
         type="search"
-        class="py-2 px-2 w-60 rounded border focus:outline-none"
+        class="py-2 px-2 w-80 rounded border focus:outline-none"
         placeholder="Recherche par titre"
-        @input="annonce.search(annonce.searchalue)"
-        v-model="annonce.searchalue"
+        @input="annonces.search(annonces.searchalue)"
+        v-model="annonces.searchalue"
       />
     </div>
     <div class="flex justify-evenly mt-2">
@@ -29,7 +24,7 @@
         <div
           class="flex p-4 border-2 mt-2"
           :key="ann.id"
-          v-for="(ann, index) in annonce.listAnnonce"
+          v-for="(ann, index) in annonces.listAnnonce"
         >
           <div
             :style="{
@@ -40,7 +35,7 @@
               'background-size': 'cover',
               'background-position': 'center'
             }"
-            class="image border"
+            class="image"
           ></div>
           <div class="content w-[95%] pl-4">
             <h1 class="font-bold">{{ ann.user.email }}</h1>
@@ -68,17 +63,15 @@
               {{ ann.description }}
             </p>
             <div class="mt-2 flex">
-              <div>
-                <div v-if="isImageFile(ann.fichier_nom)">
-                  <div
+              <div class="w-full">
+                  <div v-if="isImageFile(ann.fichier_nom)"
                     :style="{
                       'background-image': `url(${URL}/storage/annonce/${ann.fichier_nom})`,
                       'background-size': 'cover',
                       'background-position': 'center'
                     }"
-                    class="h-[45vh]"
+                    class="h-[50vh] border"
                   ></div>
-                </div>
                 <p class="font-bold text-blue-500 mr-2 underline text-xs">
                   {{ ann.fichier_nom }}
                   <Tooltip content="Télecharger">
@@ -106,7 +99,7 @@
                     class="iconadd text-gray-500 cursor-pointer text-gray-500 mr-1 "
                     :icon="['fas', 'heart']"
                   />
-                  <p class="mr-2">{{ ann.likes_count }}</p>
+                  <p class="mr-2 cursor-pointer" @click="openLikesModal">{{ ann.likes_count }}</p>
                   <p @click="toggleLike(ann)" :class="ann.liked_by_user ? 'mr-1 text-blue-500 cursor-pointer' : 'text-black mr-1 cursor-pointer'">{{ ann.liked_by_user ? "Je n'aime plus" : "J'aime" }}</p> 
                 </p>
                 <p class=" mr-4">
@@ -139,8 +132,29 @@
               </div>
             </div>
           </div>
+        <div v-if="showLikesModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center" @click.self="closeLikesModal">
+          <div class="bg-white p-5 rounded-lg w-1/3">
+            <h2 class="text-md font-bold mb-3">❤️ Les réacteurs :</h2>
+            <ul>
+              <li  :key="ann.id"
+                  v-for="(lk, index) in ann.likes" class="py-1">
+               <div class="flex items-center">
+               <div
+                :style="{
+                 'background-image': `url(${URL}/storage/users/${lk.user.photo_name})`,
+                'background-size': 'cover',
+                'background-position': 'center'
+              }"
+            class="w-10 h-10 rounded-full  mr-3"
+          ></div>
+          <p>{{ lk.user.email }}</p>
+          </div>
+          </li>
+         </ul>
         </div>
-        <div v-if="annonce.listAnnonce.length === 0" class="text-center mt-5 text-xs text-gray-500">
+        </div>
+        </div>
+        <div v-if="annonces.listAnnonce.length === 0" class="text-center mt-5 text-xs text-gray-500">
           Aucun poste trouvé....
         </div>
       </div>
@@ -162,7 +176,7 @@
           </Tooltip>
         </div>
         <div class="max-h-[350px] overflow-y-auto">
-          <di class="coms mt-2 w-full flex" :key="com.id" v-for="(coms, index) in com.listComs">
+          <di class="coms mt-2 w-full flex" :key="coms.id" v-for="(coms, index) in commmentaire.listComs">
             <div
               :style="{
                 'background-image': `url(${URL}/storage/users/${
@@ -209,8 +223,8 @@
               </div>
             </div>
           </di>
-          <p v-if="com.listComs.length === 0" class="mt-2 text-center text-xs text-gray-500">
-            Aucun commentaire
+          <p v-if="commmentaire.listComs.length === 0" class="mt-1 text-center text-xs text-gray-500">
+            Aucun commentaire...
           </p>
         </div>
       </div>
@@ -229,8 +243,8 @@ import { useUrl } from '@/stores/url'
 import axios from 'axios'
 
 const show = useShow()
-const com = useCom()
-const annonce = useAnnonce()
+const commmentaire = useCom()
+const annonces = useAnnonce()
 const category = useCategory()
 const URL = useUrl().url
 const userString = localStorage.getItem('user')
@@ -243,6 +257,8 @@ const isActive = ref(null)
 const coms = ref(null)
 const isComs = ref(false)
 const editableComId = ref(null)
+const showLikesModal = ref(false);
+
 
 function toggleEditPost(ann) {
   if (editableId.value === ann.id) {
@@ -256,6 +272,13 @@ function toggleEditPost(ann) {
     isEditingTitle.value = true
     isEditingDescription.value = true
   }
+}
+
+function openLikesModal() {
+  showLikesModal.value = true;
+}
+function closeLikesModal() {
+  showLikesModal.value = false;
 }
 
 function editComment(com) {
@@ -274,7 +297,7 @@ function saveCommentChanges(com) {
   axios
     .put(`${URL}/api/coms/${com.id}`, formData)
     .then((response) => {
-      com.getAllComsByAnnonce(response.data.annonce_id)
+      commmentaire.getAllComsByAnnonce(response.data.annonce_id)
     })
     .catch((err) => {
       console.error(err)
@@ -288,8 +311,8 @@ function deleteComs(id) {
     .delete(`${URL}/api/coms/${id}`)
     .then((response) => {
       show.showSpinner = false
-      com.getAllComsByAnnonce(annonce.idAnnonce)
-      annonce.getAllAnnonce()
+      commmentaire.getAllComsByAnnonce(annonces.idAnnonce)
+      annonces.getAllAnnonce()
     })
     .catch((error) => {
       console.error(error)
@@ -303,7 +326,9 @@ function toggleLike(annonce) {
   
   axios.post(`${URL}/api/annonces/${annonce.id}/like`, { user_id: user.user.id })
     .then((response) => {
-      annonce.getAllAnnonce()
+      if(response.data.message){
+        annonces.getAllAnnonce()
+      }
     })
     .catch(error => {
       console.error(error);
@@ -312,12 +337,12 @@ function toggleLike(annonce) {
 
 function setActiveCategory(id) {
   isActive.value = id
-  annonce.getAnnonceByIdCategorie(id)
+  annonces.getAnnonceByIdCategorie(id)
 }
 
 function showComs(id) {
-  annonce.idAnnonce = id
-  com.getAllComsByAnnonce(id)
+  annonces.idAnnonce = id
+  commmentaire.getAllComsByAnnonce(id)
   setInterval(updateTimeComs, 9000)
   updateTimeComs()
   isComs.value = true
@@ -327,7 +352,7 @@ function sendMsg() {
   show.showSpinner = true
   let formData = {
     contenu: coms.value,
-    annonce_id: annonce.idAnnonce,
+    annonce_id: annonces.idAnnonce,
     user_id: user.user.id
   }
   show.showSpinner = true
@@ -340,8 +365,8 @@ function sendMsg() {
     .then((response) => {
       coms.value = ''
       show.showSpinner = false
-      com.getAllComsByAnnonce(Number(response.data.annonce_id))
-      annonce.getAllAnnonce()
+      commmentaire.getAllComsByAnnonce(Number(response.data.annonce_id))
+      annonces.getAllAnnonce()
     })
     .catch((error) => {
       console.error(error)
@@ -377,7 +402,7 @@ function saveChanges(ann, field) {
       }
     })
     .then((response) => {
-      annonce.getAllAnnonce()
+      annonces.getAllAnnonce()
     })
     .catch((error) => {
       console.error(error)
@@ -386,7 +411,7 @@ function saveChanges(ann, field) {
 }
 
 function showDeletePost(id) {
-  annonce.idAnnonce = id
+  annonces.idAnnonce = id
   show.showDeletePost = true
 }
 
@@ -431,20 +456,21 @@ function timeAgo(date) {
 }
 
 function updateTime() {
-  annonce.listAnnonce.forEach((ann) => {
+  annonces.listAnnonce.forEach((ann) => {
     ann.timeAgo = timeAgo(new Date(ann.created_at))
   })
 }
 
+
 function updateTimeComs() {
-  com.listComs.forEach((coms) => {
+  commmentaire.listComs.forEach((coms) => {
     coms.timeAgo = timeAgo(new Date(coms.created_at))
   })
 }
 
 onBeforeMount(() => {
   category.getAllCategorie()
-  annonce.getAllAnnonce()
+  annonces.getAllAnnonce()
   updateTime()
 })
 </script>
