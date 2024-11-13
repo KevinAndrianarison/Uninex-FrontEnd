@@ -19,7 +19,6 @@ export const useAnnonce = defineStore('Annonce', () => {
     axios
       .get(`${URL}/api/annonce`, { params: { user_id: user.user.id } })
       .then((response) => {
-        console.log(response.data.reverse())
         listAnnonce.value = response.data.reverse()
         listAnnonceTemp.value = response.data
       })

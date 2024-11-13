@@ -230,7 +230,7 @@
             </li>
             <li v-if="show.showNavBarAS" class="widthvalue">
               <Tooltip content="Générer une carte d'étudiant"
-                ><SparklesIcon class="generates h-6 w-6"
+                ><SparklesIcon @click="getOneEtudiant(etd.id)" class="generates h-6 w-6"
               /></Tooltip>
             </li>
           </div>
@@ -272,7 +272,11 @@ function setIdParcours(id) {
   parcour.parcours_id = id
 }
 
-
+function getOneEtudiant(id) {
+  etudiant.isCarte = true
+  etudiant.id_etud = id
+  etudiant.getEtudiantById()
+}
 
 function exportPdfListeEtud() {
   directeur.getFirst()

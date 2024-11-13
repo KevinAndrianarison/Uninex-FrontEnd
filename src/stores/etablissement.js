@@ -185,7 +185,7 @@ export const useEtablissement = defineStore('Etablissement', () => {
         const userString = localStorage.getItem('user')
         const auth_token = localStorage.getItem('auth_token')
         const user = JSON.parse(userString)
-        
+
         if (userString) {
           if (user.user.status_user === 'Directeur') {
             show.showNavBarDir = true
@@ -208,7 +208,7 @@ export const useEtablissement = defineStore('Etablissement', () => {
         }
         if (auth_token) {
           show.showLogin = false
-          show.showAdmin = false
+          show.showAdmin = true
         }
         if (!auth_token) {
           show.showAdmin = false

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { useUser } from '@/stores/User'
 import { useSemestre } from '@/stores/Semestre'
 import { useShow } from '@/stores/Show'
@@ -38,6 +38,7 @@ export const useEtudiant = defineStore('Etudiant', () => {
   const photoBordereaux = ref(null)
   const etudnomComplet = ref('')
   const etudID = ref(null)
+  const isCarte = ref(false)
   const id_etud = ref(null)
   const ListeEtudiant = ref([])
   const ListeEtudiantTemp = ref([])
@@ -46,6 +47,10 @@ export const useEtudiant = defineStore('Etudiant', () => {
   const listdefinitive = ref([])
   const searchalue = ref('')
   const searchalueDef = ref('')
+  const objectEtud = reactive({
+    nom: '',
+    matricule: null
+  })
 
   function bigPostEtudiant() {
     ListeEtudiantByExcel.value.forEach((etud) => {
@@ -214,6 +219,8 @@ export const useEtudiant = defineStore('Etudiant', () => {
     axios
       .get(`${URL}/api/etudiant/${id_etud.value}`)
       .then((response) => {
+        objectEtud.nom = response.data.nomComplet_etud
+        objectEtud.matricule = response.data.matricule_etud
         CIN_etud.value = response.data.CIN_etud
         adresse_etud.value = response.data.adresse_etud
         anneeBAC_etud.value = response.data.anneeBAC_etud
@@ -230,6 +237,9 @@ export const useEtudiant = defineStore('Etudiant', () => {
         photoBordereaux_name.value = response.data.photoBordereaux_name
         if (response.data.sexe_etud) {
           sexe_etud.value = response.data.sexe_etud
+        }
+        if (isCarte.value) {
+          show.showCarteEtudiant = true
         }
 
         show.showSpinner = false
@@ -396,6 +406,8 @@ export const useEtudiant = defineStore('Etudiant', () => {
     etabOrigin_etud,
     photoBordereaux,
     photoBordereaux_name,
+    isCarte,
+    objectEtud,
     createEtudiant,
     setValiditeInscriptionEtudiant,
     getAllEtudiantBysemestre,

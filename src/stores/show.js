@@ -35,7 +35,7 @@ export const useShow = defineStore('Show', () => {
   const showNavBarEns = ref(false)
   const showFormatExcel = ref(false)
   const showListeEtudiantPdf = ref(false)
-  const showCarteEtudiant = ref(true)
+  const showCarteEtudiant = ref(false)
   const showNavBarAS = ref(false)
   const showNavBarRespMention = ref(false)
   const showNavBarRespParcours = ref(false)

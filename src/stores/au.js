@@ -34,6 +34,7 @@ export const useAu = defineStore('Au', () => {
         idAU.value = response.data[0].id
         listeAU.value = response.data
         oneAU.value = listeAU.value[0].annee_debut + '-' + listeAU.value[0].annee_fin
+        
       })
       .catch((err) => {
         console.error(err)
