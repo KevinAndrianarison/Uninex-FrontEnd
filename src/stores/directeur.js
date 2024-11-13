@@ -6,17 +6,20 @@ import { useShow } from '@/stores/Show'
 import { useMessages } from '@/stores/messages'
 import { useInfosheader } from '@/stores/Infosheader'
 import { useInfossetup } from '@/stores/Infossetup'
+import { useEtudiant } from '@/stores/Etudiant'
 
 export const useDirecteur = defineStore('Directeur', () => {
   const nomComplet_dir = ref('')
   const id_dir = ref('')
   const grade_dir = ref('')
   const telephone_dir = ref(null)
+  const isListeEtud = ref(false)
   const URL = useUrl().url
   const show = useShow()
   const messages = useMessages()
   const infosheader = useInfosheader()
   const infossetup = useInfossetup()
+  const etudiant = useEtudiant()
 
   function getFirst() {
     axios
@@ -24,7 +27,13 @@ export const useDirecteur = defineStore('Directeur', () => {
       .then((response) => {
         nomComplet_dir.value = response.data.nomComplet_dir
         grade_dir.value = response.data.grade_dir
-        show.showListeEtudiantPdf = true
+        if (isListeEtud.value) {
+          show.showListeEtudiantPdf = true
+        }
+        if (etudiant.isCarte) {
+          show.showCarteEtudiant = true
+        }
+
         setTimeout(() => {
           show.showListeEtudiantPdf = false
         }, 3000)
@@ -76,6 +85,7 @@ export const useDirecteur = defineStore('Directeur', () => {
     id_dir,
     nomComplet_dir,
     grade_dir,
-    telephone_dir
+    telephone_dir,
+    isListeEtud
   }
 })

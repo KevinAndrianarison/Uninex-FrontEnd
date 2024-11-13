@@ -95,6 +95,7 @@ export const useParcour = defineStore('Parcour', () => {
       .get(`${URL}/api/parcours/getById/${niveau.niveau.id_niveau}`)
       .then((response) => {
         if (response.data.length !== 0) {
+          
           ListParcours.value = response.data
           parcours_nom.value = ListParcours.value[0].nom_parcours
           parcours_id.value = ListParcours.value[0].id

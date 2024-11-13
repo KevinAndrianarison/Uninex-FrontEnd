@@ -279,6 +279,7 @@ function getOneEtudiant(id) {
 }
 
 function exportPdfListeEtud() {
+  directeur.isListeEtud = true
   directeur.getFirst()
 }
 

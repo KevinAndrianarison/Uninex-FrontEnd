@@ -9,18 +9,25 @@ import { useMessages } from '@/stores/messages'
 import { usePassword } from '@/stores/Password'
 import { useInfosheader } from '@/stores/Infosheader'
 import { useInfossetup } from '@/stores/Infossetup'
+import { useDirecteur } from '@/stores/Directeur'
+import { useAu } from '@/stores/Au'
+import { useParcour } from '@/stores/Parcour'
 
 export const useEtudiant = defineStore('Etudiant', () => {
   const user = useUser()
   const semestre = useSemestre()
   const show = useShow()
+  const parcour = useParcour()
+  const au = useAu()
   const URL = useUrl().url
   const messages = useMessages()
   const password = usePassword()
   const infosheader = useInfosheader()
   const infossetup = useInfossetup()
+  const directeur = useDirecteur()
 
   const nomComplet_etud = ref('')
+  const matricule_etud = ref('')
   const date_naissance_etud = ref('')
   const lieux_naissance_etud = ref('')
   const nationalite_etud = ref('')
@@ -47,10 +54,6 @@ export const useEtudiant = defineStore('Etudiant', () => {
   const listdefinitive = ref([])
   const searchalue = ref('')
   const searchalueDef = ref('')
-  const objectEtud = reactive({
-    nom: '',
-    matricule: null
-  })
 
   function bigPostEtudiant() {
     ListeEtudiantByExcel.value.forEach((etud) => {
@@ -219,8 +222,6 @@ export const useEtudiant = defineStore('Etudiant', () => {
     axios
       .get(`${URL}/api/etudiant/${id_etud.value}`)
       .then((response) => {
-        objectEtud.nom = response.data.nomComplet_etud
-        objectEtud.matricule = response.data.matricule_etud
         CIN_etud.value = response.data.CIN_etud
         adresse_etud.value = response.data.adresse_etud
         anneeBAC_etud.value = response.data.anneeBAC_etud
@@ -235,11 +236,12 @@ export const useEtudiant = defineStore('Etudiant', () => {
         serieBAC_etud.value = response.data.serieBAC_etud
         telephone_etud.value = response.data.telephone_etud
         photoBordereaux_name.value = response.data.photoBordereaux_name
+        matricule_etud.value = response.data.matricule_etud
         if (response.data.sexe_etud) {
           sexe_etud.value = response.data.sexe_etud
         }
         if (isCarte.value) {
-          show.showCarteEtudiant = true
+          directeur.getFirst()
         }
 
         show.showSpinner = false
@@ -287,9 +289,11 @@ export const useEtudiant = defineStore('Etudiant', () => {
   function setValiditeInscriptionEtudiant() {
     show.showSpinner = true
     let formData = {
-      validiter_inscri: 'true'
+      validiter_inscri: 'true',
+      matricule_etud: `${au.oneAU.split('-')[1]}/${etudID.value}/${parcour.parcours_abr
+        .split('-')
+        .join('')}`
     }
-
     axios
       .put(`${URL}/api/etudiant/${etudID.value}`, formData)
       .then((response) => {
@@ -407,7 +411,7 @@ export const useEtudiant = defineStore('Etudiant', () => {
     photoBordereaux,
     photoBordereaux_name,
     isCarte,
-    objectEtud,
+    matricule_etud,
     createEtudiant,
     setValiditeInscriptionEtudiant,
     getAllEtudiantBysemestre,
