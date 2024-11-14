@@ -1,9 +1,19 @@
 <template>
   <div class="body bg-white border pb-5 rounded-lg min-h-[80vh]">
-    <div class="head flex justify-center mt-2">
+    <div class="head flex justify-center items-center mt-2">
+      <div>
+        <select v-model="findBy" class="mr-2 w-40  p-1.5 px-2 rounded border-2 focus:outline-none text-xs"  >
+              <option value="Toutes" class="text-sm">
+                Toutes
+              </option>
+              <option value="Mes annonces" class="text-sm">
+                Mes annonces
+              </option>
+        </select>
+      </div>
       <input
         type="search"
-        class="py-2 px-2 w-80 rounded border focus:outline-none"
+        class="py-2 px-2 w-60 rounded border focus:outline-none text-xs"
         placeholder="Recherche par titre"
         @input="annonces.search(annonces.searchalue)"
         v-model="annonces.searchalue"
@@ -132,8 +142,8 @@
               </div>
             </div>
           </div>
-        <div v-if="showLikesModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center" @click.self="closeLikesModal">
-          <div class="bg-white p-5 rounded-lg w-1/3">
+        <div v-if="showLikesModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center " @click.self="closeLikesModal">
+          <div class="bg-white p-5 rounded-lg w-1/3 overflow-y-auto max-h-[80vh]">
             <h2 class="text-md font-bold mb-3">❤️ Les réacteurs :</h2>
             <ul>
               <li  :key="lk.id"
@@ -238,7 +248,7 @@ import { useShow } from '@/stores/Show'
 import { useCategory } from '@/stores/Category'
 import { useAnnonce } from '@/stores/Annonce'
 import { useCom } from '@/stores/Com'
-import { onBeforeMount, onMounted, ref } from 'vue'
+import { onBeforeMount, onMounted, ref, watch } from 'vue'
 import { useUrl } from '@/stores/url'
 import axios from 'axios'
 
@@ -251,6 +261,7 @@ const userString = localStorage.getItem('user')
 const user = JSON.parse(userString)
 
 const editableId = ref(null)
+const findBy = ref("Toutes")
 const isEditingTitle = ref(false)
 const isEditingDescription = ref(false)
 const isActive = ref(null)
@@ -261,6 +272,14 @@ const showLikesModal = ref(false);
 const listReacteur = ref([]);
 
 
+watch(findBy, (newValue, oldValue)=>{
+  if(newValue === "Toutes"){
+    annonces.getAllAnnonce()
+  }
+  if(newValue === "Mes annonces"){
+    annonces.getAnnonceByIdUser(user.user.id)
+  }
+})
 
 function toggleEditPost(ann) {
   if (editableId.value === ann.id) {

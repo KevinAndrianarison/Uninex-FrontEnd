@@ -18,6 +18,7 @@ function Canceldeconnexion() {
 }
 
 function deconnexion() {
+  show.showCarteEtudiant = false
   user.email = ''
   infossetup.nom = ''
   infossetup.grade = ''

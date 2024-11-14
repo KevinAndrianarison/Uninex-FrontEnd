@@ -44,6 +44,23 @@ export const useAnnonce = defineStore('Annonce', () => {
       })
   }
 
+  function getAnnonceByIdUser(id) {
+    const userString = localStorage.getItem('user')
+    const user = JSON.parse(userString)
+    show.showSpinner = true
+    axios
+      .get(`${URL}/api/annonces/user/${id}`, { params: { user_id: user.user.id } })
+      .then((response) => {
+        listAnnonce.value = response.data.reverse()
+        listAnnonceTemp.value = response.data
+        show.showSpinner = false
+      })
+      .catch((err) => {
+        console.error(err)
+        show.showSpinner = false
+      })
+  }
+
   function search(valeur) {
     if (!valeur) {
       getAllAnnonce()
@@ -60,6 +77,7 @@ export const useAnnonce = defineStore('Annonce', () => {
     idAnnonce,
     searchalue,
     getAllAnnonce,
+    getAnnonceByIdUser,
     getAnnonceByIdCategorie,
     search,
   }

@@ -36,6 +36,7 @@ export const useSemestre = defineStore('Semestre', () => {
       ec.ecNom = ''
       etudiant.getAllEtudiantBysemestre()
       ue.getUeByIdsemstre()
+      ec.getBySemestre()
     }
   })
 

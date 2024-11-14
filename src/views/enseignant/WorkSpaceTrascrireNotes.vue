@@ -284,6 +284,7 @@
                       @click="setECId(EC.id)"
                     >
                       <li
+                        v-if="EC.enseignant_id !== null && EC.enseignant.user.id === user.user.id"
                         :class="[
                           ec.ecNom === EC.nom_ec ? 'bg-amber-100 text-amber-900' : 'text-gray-900',
                           'relative cursor-default select-none py-2 pl-10 pr-4'
@@ -392,6 +393,9 @@ const ue = useUe()
 const ec = useEc()
 const note = useNote()
 const URL = useUrl().url
+
+const userString = localStorage.getItem('user')
+const user = JSON.parse(userString)
 
 function setIdParcours(id) {
   parcour.parcours_id = id

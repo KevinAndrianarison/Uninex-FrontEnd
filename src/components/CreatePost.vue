@@ -185,7 +185,7 @@ function onFileChange(event) {
         />
         <div class="mt-1 flex items-end justify-between">
           <div class="flex items-left w-full flex-col">
-            <label class="text-xs">Choisissez une catégorie :</label>
+            <label class="text-xs font-bold">Choisissez une catégorie :</label>
             <select
               v-model="idCategorie"
               class="mr-2 py-2 px-2 rounded border-2 focus:outline-none text-xs"
