@@ -55,7 +55,6 @@ export const useEc = defineStore('Ec', () => {
       .get(`${URL}/api/ec/getById/${ue.id}`)
       .then((response) => {
         if (response.data.length !== 0) {
-          console.log(response.data)
           ListeEC.value = response.data
           id.value = response.data[0].id
           ecNom.value = response.data[0].nom_ec
@@ -71,7 +70,7 @@ export const useEc = defineStore('Ec', () => {
       .get(`${URL}/api/ec/getBySemestre/${semestre.semestreId}`)
       .then((response) => {
         if (response.data.length !== 0) {
-          console.log(response.data, "BB")
+          console.log(response.data, "By Semestre")
         }
       })
       .catch((err) => {
