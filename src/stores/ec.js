@@ -9,12 +9,14 @@ import axios from 'axios'
 import { useUrl } from '@/stores/url'
 import { useCours } from '@/stores/Cours'
 import { useAu } from '@/stores/Au'
+import { useEtudiant } from '@/stores/Etudiant'
 
 export const useEc = defineStore('Ec', () => {
   const ue = useUe()
   const semestre = useSemestre()
   const show = useShow()
   const au = useAu()
+  const etudiant = useEtudiant()
   const cours = useCours()
   const messages = useMessages()
   const enseignant = useEnseignant()
@@ -22,14 +24,22 @@ export const useEc = defineStore('Ec', () => {
 
   const nom_ec = ref('')
   const nomEC = ref('')
+  const etudiantNom = ref('')
   const id = ref(null)
   const idEC = ref(null)
+  const isBtn = ref(false)
+  const isEmpty = ref(true)
   const volume_et = ref(null)
   const volume_ed = ref(null)
   const volume_tp = ref(null)
   const ListeEC = ref([])
+  const ListeECBySemestre = ref([])
   const ListeECByEns = ref([])
+  const ListeEtudByEC = ref('')
+  const ListeEtudByECTemp = ref('')
   const ecNom = ref('')
+  const ecNomBySemestre = ref('')
+  const idBySemestre = ref(null)
   const ecNomByEns = ref('')
 
   watch(ecNomByEns, (newValue, oldValue) => {
@@ -46,6 +56,12 @@ export const useEc = defineStore('Ec', () => {
         idEC.value = id.value
         cours.getAllCours()
       }
+    }
+  })
+
+  watch(ecNomBySemestre, (newValue, oldValue) => {
+    if (newValue) {
+      getOneEC()
     }
   })
 
@@ -66,11 +82,30 @@ export const useEc = defineStore('Ec', () => {
   }
 
   function getBySemestre() {
+    ListeECBySemestre.value = []
+    ListeEtudByEC.value = []
+    ecNomBySemestre.value = ''
+    idBySemestre.value = ''
+
+    const userString = localStorage.getItem('user')
+    const user = JSON.parse(userString)
     axios
       .get(`${URL}/api/ec/getBySemestre/${semestre.semestreId}`)
       .then((response) => {
         if (response.data.length !== 0) {
-          console.log(response.data, "By Semestre")
+          ListeECBySemestre.value = response.data.filter((list) => {
+            return list.enseignant && list.enseignant.user.id === user.user.id
+          })
+          if (ListeECBySemestre.value.length > 0) {
+            ecNomBySemestre.value = ListeECBySemestre.value[0].nom_ec
+            idBySemestre.value = ListeECBySemestre.value[0].id
+            getOneEC()
+          } else {
+            ecNomBySemestre.value = ''
+            idBySemestre.value = ''
+          }
+        }
+        if (response.data.length === 0) {
         }
       })
       .catch((err) => {
@@ -95,6 +130,39 @@ export const useEc = defineStore('Ec', () => {
       .catch((err) => {
         console.error(err)
       })
+  }
+
+  function getOneEC() {
+    axios
+      .get(`${URL}/api/ec/${idBySemestre.value}`)
+      .then((response) => {
+        if (response.data.length !== 0) {
+          ListeEtudByEC.value = response.data
+          if (ListeEtudByEC.value.etudiants.length !== 0) {
+            isEmpty.value = false
+            isBtn.value = true
+          }
+          ListeEtudByECTemp.value = response.data
+        }
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  }
+
+  function search(valeur) {
+    if (!valeur) {
+      getOneEC()
+    } else {
+      ListeEtudByEC.value.etudiants = ListeEtudByECTemp.value.etudiants
+      ListeEtudByEC.value.etudiants = ListeEtudByEC.value.etudiants.filter((list) => {
+        return list.nomComplet_etud.toLocaleLowerCase().match(valeur.toLocaleLowerCase())
+      })
+      if (ListeEtudByEC.value.etudiants.length === 0) {
+        isEmpty.value = true
+        isBtn.value = false
+      }
+    }
   }
 
   function deleteEC() {
@@ -123,7 +191,8 @@ export const useEc = defineStore('Ec', () => {
       volume_et: volume_et.value,
       volume_tp: volume_tp.value,
       ue_id: ue.id,
-      au_id: au.idAU
+      au_id: au.idAU,
+      etudiant: etudiant.listIdDefinitive
     }
     axios
       .post(`${URL}/api/ec`, formData)
@@ -214,12 +283,22 @@ export const useEc = defineStore('Ec', () => {
     ListeECByEns,
     ecNomByEns,
     idEC,
+    ListeECBySemestre,
+    ecNomBySemestre,
+    idBySemestre,
+    ListeEtudByEC,
+    ListeEtudByECTemp,
+    etudiantNom,
+    isBtn,
+    isEmpty,
+    search,
     createEC,
     getBySemestre,
     getAllECBySemestre,
     deleteEC,
     addRespEC,
     dissoscierResp,
-    getAllECByEns
+    getAllECByEns,
+    getOneEC
   }
 })

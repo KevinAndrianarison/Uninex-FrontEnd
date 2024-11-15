@@ -13,6 +13,7 @@
       <WorkSpaceDash v-if="show.showAdmin" />
     </Transition>
     <ListeEtudiantPdf v-if="show.showListeEtudiantPdf" />
+    <ListeNoteParEC v-if="show.showListeNoteEtudiantPdf" />
     <CarteEtudiant v-if="show.showCarteEtudiant" />
   </div>
   <Teleport to="body">
@@ -110,6 +111,7 @@ import DeletePost from './components/delete/DeletePost.vue'
 import DeleteParcours from './components/delete/DeleteParcours.vue'
 import DeleteUE from './components/delete/DeleteUE.vue'
 import ListeEtudiantPdf from './components/ListeEtudiantPdf.vue'
+import ListeNoteParEC from './components/ListeNoteParEC.vue'
 import CarteEtudiant from './components/CarteEtudiant.vue'
 
 import Overlay from './components/Overlay.vue'

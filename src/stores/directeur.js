@@ -14,6 +14,7 @@ export const useDirecteur = defineStore('Directeur', () => {
   const grade_dir = ref('')
   const telephone_dir = ref(null)
   const isListeEtud = ref(false)
+  const isListeNote = ref(false)
   const URL = useUrl().url
   const show = useShow()
   const messages = useMessages()
@@ -32,6 +33,9 @@ export const useDirecteur = defineStore('Directeur', () => {
         }
         if (etudiant.isCarte) {
           show.showCarteEtudiant = true
+        }
+        if (isListeNote.value) {
+          show.showListeNoteEtudiantPdf = true
         }
 
         setTimeout(() => {
@@ -84,6 +88,7 @@ export const useDirecteur = defineStore('Directeur', () => {
     setDirecteur,
     id_dir,
     nomComplet_dir,
+    isListeNote,
     grade_dir,
     telephone_dir,
     isListeEtud

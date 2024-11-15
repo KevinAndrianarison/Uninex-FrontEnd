@@ -52,6 +52,7 @@ export const useEtudiant = defineStore('Etudiant', () => {
   const ListeEtudiantByExcel = ref([])
   const listdefinitiveTemp = ref([])
   const listdefinitive = ref([])
+  const listIdDefinitive = ref([])
   const searchalue = ref('')
   const searchalueDef = ref('')
 
@@ -196,6 +197,9 @@ export const useEtudiant = defineStore('Etudiant', () => {
         listdefinitiveTemp.value = listeAlphabetique.filter(
           (list) => list.validiter_inscri === 'true'
         )
+        listIdDefinitive.value = response.data
+          .filter((etud) => etud.validiter_inscri === 'true')
+          .map((etud) => etud.id)
         ListeEtudiant.value = listeAlphabetique
         ListeEtudiantTemp.value = listeAlphabetique
 
@@ -412,6 +416,7 @@ export const useEtudiant = defineStore('Etudiant', () => {
     photoBordereaux_name,
     isCarte,
     matricule_etud,
+    listIdDefinitive,
     createEtudiant,
     setValiditeInscriptionEtudiant,
     getAllEtudiantBysemestre,
