@@ -41,8 +41,12 @@ import {
   faCirclePlus,
   faPen,
   faXmark,
-  faArrowDown
-  ,
+  faArrowDown,
+  faListCheck,
+  faEye,
+  faCircleXmark,
+  faSort,
+  faCalendarPlus
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -75,7 +79,12 @@ library.add(
   faPen,
   faXmark,
   faCirclePlus,
-  faArrowDown
+  faArrowDown,
+  faListCheck,
+  faEye,
+  faCircleXmark,
+  faSort,
+  faCalendarPlus
 )
 
 import App from './App.vue'

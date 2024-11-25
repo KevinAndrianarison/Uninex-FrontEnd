@@ -12,8 +12,11 @@ import { useEc } from '@/stores/Ec'
 export const useSemestre = defineStore('Semestre', () => {
   const nom_semestre = ref('')
   const semestreNom = ref('')
+  const semestreNomEDT = ref('')
   const semestreId = ref('')
+  const semestreIdEDT = ref('')
   const semestreIds = ref([])
+  const ListeSemestreEDT = ref([])
   const ListeSemestre = ref([])
   const semestre = reactive({
     nom: '',
@@ -93,6 +96,21 @@ export const useSemestre = defineStore('Semestre', () => {
       })
   }
 
+  function getSemestreByParcourEDT() {
+    axios
+      .get(`${URL}/api/semestre/getById/${parcour.parcours_id}`)
+      .then((response) => {
+        if (response.data.length !== 0) {
+          ListeSemestreEDT.value = response.data
+          semestreNomEDT.value = ListeSemestreEDT.value[0].nom_semestre
+          semestreIdEDT.value = ListeSemestreEDT.value[0].id
+        }
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
   function deleteSemestre() {
     show.showSpinner = true
     axios
@@ -139,9 +157,13 @@ export const useSemestre = defineStore('Semestre', () => {
     semestreNom,
     semestreIds,
     semestreId,
+    semestreIdEDT,
+    semestreNomEDT,
+    ListeSemestreEDT,
     postSemestre,
     getSemestreByParcour,
     deleteSemestre,
-    getSemestreByEtudiantId
+    getSemestreByEtudiantId,
+    getSemestreByParcourEDT
   }
 })

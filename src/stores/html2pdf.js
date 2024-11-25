@@ -58,8 +58,22 @@ export const useHtml2pdf = defineStore('Html2pdf', () => {
     html2pdf().from(element).set(options).save()
   }
 
+  function downloadReleve() {
+    const element = elementToPrint.value
+    const options = {
+      margin: 0,
+      filename: `Relevé de notes - ${etudiant.nomComplet_etud} - ${parcour.parcours_abr} - ${au.oneAU}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    }
+
+    html2pdf().from(element).set(options).save()
+  }
+
   return {
     elementToPrint,
+    downloadReleve,
     setElement,
     downloadNote,
     downloadPDF,

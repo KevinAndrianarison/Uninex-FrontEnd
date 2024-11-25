@@ -46,15 +46,22 @@ export const useEtudiant = defineStore('Etudiant', () => {
   const etudnomComplet = ref('')
   const etudID = ref(null)
   const isCarte = ref(false)
+  const isshowNotes = ref(false)
+  const isCompensation = ref(false)
+  const isElimination = ref(false)
   const id_etud = ref(null)
   const ListeEtudiant = ref([])
   const ListeEtudiantTemp = ref([])
   const ListeEtudiantByExcel = ref([])
   const listdefinitiveTemp = ref([])
   const listdefinitive = ref([])
+  const listNote = ref([])
+  const listNoteParSemestre = ref([])
   const listIdDefinitive = ref([])
   const searchalue = ref('')
   const searchalueDef = ref('')
+  const moyenneGen = ref('')
+  const noteElim = ref(5)
 
   function bigPostEtudiant() {
     ListeEtudiantByExcel.value.forEach((etud) => {
@@ -226,26 +233,45 @@ export const useEtudiant = defineStore('Etudiant', () => {
     axios
       .get(`${URL}/api/etudiant/${id_etud.value}`)
       .then((response) => {
-        CIN_etud.value = response.data.CIN_etud
-        adresse_etud.value = response.data.adresse_etud
-        anneeBAC_etud.value = response.data.anneeBAC_etud
-        date_naissance_etud.value = response.data.date_naissance_etud
-        etabOrigin_etud.value = response.data.etabOrigin_etud
-        lieux_naissance_etud.value = response.data.lieux_naissance_etud
-        nationalite_etud.value = response.data.nationalite_etud
-        nomComplet_etud.value = response.data.nomComplet_etud
-        nom_mere_etud.value = response.data.nom_mere_etud
-        nom_pere_etud.value = response.data.nom_pere_etud
-        nom_tuteur.value = response.data.nom_tuteur
-        serieBAC_etud.value = response.data.serieBAC_etud
-        telephone_etud.value = response.data.telephone_etud
-        photoBordereaux_name.value = response.data.photoBordereaux_name
-        matricule_etud.value = response.data.matricule_etud
-        if (response.data.sexe_etud) {
-          sexe_etud.value = response.data.sexe_etud
+        listNoteParSemestre.value = response.data.semestres
+        response.data.semestres.forEach((ues) => {
+          ues.ues.forEach((ue) => {
+            if (ue.moyenne_ue < 10) {
+              isCompensation.value = true
+            }
+            ue.ecs.forEach((ec) => {
+              if (ec.noteEc < noteElim.value) {
+                isElimination.value = true
+              }
+            })
+          })
+        })
+        id_etud.value = response.data.etudiant.id
+        moyenneGen.value = response.data.moyenne_generale
+        listNote.value = response.data.etudiant.ec
+        CIN_etud.value = response.data.etudiant.CIN_etud
+        adresse_etud.value = response.data.etudiant.adresse_etud
+        anneeBAC_etud.value = response.data.etudiant.anneeBAC_etud
+        date_naissance_etud.value = response.data.etudiant.date_naissance_etud
+        etabOrigin_etud.value = response.data.etudiant.etabOrigin_etud
+        lieux_naissance_etud.value = response.data.etudiant.lieux_naissance_etud
+        nationalite_etud.value = response.data.etudiant.nationalite_etud
+        nomComplet_etud.value = response.data.etudiant.nomComplet_etud
+        nom_mere_etud.value = response.data.etudiant.nom_mere_etud
+        nom_pere_etud.value = response.data.etudiant.nom_pere_etud
+        nom_tuteur.value = response.data.etudiant.nom_tuteur
+        serieBAC_etud.value = response.data.etudiant.serieBAC_etud
+        telephone_etud.value = response.data.etudiant.telephone_etud
+        photoBordereaux_name.value = response.data.etudiant.photoBordereaux_name
+        matricule_etud.value = response.data.etudiant.matricule_etud
+        if (response.data.etudiant.sexe_etud) {
+          sexe_etud.value = response.data.etudiant.sexe_etud
         }
         if (isCarte.value) {
           directeur.getFirst()
+        }
+        if (isshowNotes.value) {
+          show.showListeNotesEtudiant = true
         }
 
         show.showSpinner = false
@@ -417,6 +443,13 @@ export const useEtudiant = defineStore('Etudiant', () => {
     isCarte,
     matricule_etud,
     listIdDefinitive,
+    listNote,
+    listNoteParSemestre,
+    moyenneGen,
+    isCompensation,
+    isElimination,
+    noteElim,
+    isshowNotes,
     createEtudiant,
     setValiditeInscriptionEtudiant,
     getAllEtudiantBysemestre,

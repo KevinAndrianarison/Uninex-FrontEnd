@@ -55,7 +55,7 @@
 
           <div class="w-52 sm:col-span-3 mt-2 mr-4">
             <label class="block text-sm font-medium leading-6 text-gray-900">Sexe</label>
-            <div class="">
+            <div >
               <Listbox v-model="etudiant.sexe_etud">
                 <div class="relative mt-2">
                   <ListboxButton

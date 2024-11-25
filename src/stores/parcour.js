@@ -14,7 +14,9 @@ import { useEnseignant } from '@/stores/Enseignant'
 export const useParcour = defineStore('Parcour', () => {
   const nom_parcours = ref('')
   const abreviation = ref('')
+  const abreviationbyAll = ref('')
   const nom = ref('')
+  const nomByAll = ref('')
   const parcours_id = ref(null)
   const parcours_abr = ref('')
   const parcours_nom = ref('')
@@ -22,6 +24,7 @@ export const useParcour = defineStore('Parcour', () => {
   const mention_id = ref(null)
   const ListParcours = ref([])
   const ListParcoursByMention = ref([])
+  const ListAllParcours = ref([])
 
   const niveau = useNiveau()
   const mention = useMention()
@@ -49,6 +52,14 @@ export const useParcour = defineStore('Parcour', () => {
       semestre.semestreNom = ''
       semestre.ListeSemestre = []
       semestre.getSemestreByParcour()
+    }
+  })
+
+  watch(abreviationbyAll, (newValue, oldValue) => {
+    if (newValue) {
+      semestre.semestreNom = ''
+      semestre.ListeSemestre = []
+      semestre.getSemestreByParcourEDT()
     }
   })
 
@@ -95,7 +106,6 @@ export const useParcour = defineStore('Parcour', () => {
       .get(`${URL}/api/parcours/getById/${niveau.niveau.id_niveau}`)
       .then((response) => {
         if (response.data.length !== 0) {
-          
           ListParcours.value = response.data
           parcours_nom.value = ListParcours.value[0].nom_parcours
           parcours_id.value = ListParcours.value[0].id
@@ -183,6 +193,22 @@ export const useParcour = defineStore('Parcour', () => {
       })
   }
 
+  function getAllParcours() {
+    axios
+      .get(`${URL}/api/parcours`)
+      .then((response) => {
+        if (response.data.length !== 0) {
+          ListAllParcours.value = response.data
+          nomByAll.value = ListAllParcours.value[0].nom_parcours
+          abreviationbyAll.value = ListAllParcours.value[0].abr_parcours
+          parcours_id.value = ListAllParcours.value[0].id
+        }
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
   function clearEnseignantId(id, ensId) {
     show.showSpinner = true
     axios
@@ -225,11 +251,15 @@ export const useParcour = defineStore('Parcour', () => {
     ListParcoursByMention,
     abreviation,
     nom,
+    ListAllParcours,
+    nomByAll,
+    abreviationbyAll,
     postParcour,
     clearEnseignantId,
     getByNiveauId,
     getByMentionId,
     addRespParcours,
-    deleteParcours
+    deleteParcours,
+    getAllParcours
   }
 })

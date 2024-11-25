@@ -8,10 +8,12 @@ import { useShow } from '@/stores/Show'
 import { useMessages } from '@/stores/messages'
 import { useInfosheader } from '@/stores/Infosheader'
 import { useInfossetup } from '@/stores/Infossetup'
+import { useEc } from '@/stores/Ec'
 
 export const useEnseignant = defineStore('Enseignant', () => {
   const URL = useUrl().url
   const user = useUser()
+  const ec = useEc()
   const show = useShow()
   const password = usePassword()
   const messages = useMessages()
@@ -19,11 +21,14 @@ export const useEnseignant = defineStore('Enseignant', () => {
   const infossetup = useInfossetup()
 
   const ListeENS = ref([])
+  const ListeENSEDT = ref([])
   const ListeENSTemp = ref([])
   const nomComplet_ens = ref('')
   const nom_ens = ref('')
+  const nom_ensEDT = ref('')
   const idTop = ref(null)
   const id_ens = ref(null)
+  const id_ensEDT = ref(null)
   const idBottom = ref(null)
   const name = ref('')
   const date_recrutement_ens = ref('')
@@ -112,6 +117,22 @@ export const useEnseignant = defineStore('Enseignant', () => {
       })
   }
 
+  function getAllENSEDT() {
+    axios
+      .get(`${URL}/api/enseignant`)
+      .then((response) => {
+        if (response.data.length !== 0) {
+          ListeENSEDT.value = response.data
+          nom_ensEDT.value = response.data[0].nomComplet_ens
+          id_ensEDT.value = response.data[0].id
+          ec.getAllECByEnsEDT(id_ensEDT.value)
+        }
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  }
+
   function setEnseignant() {
     show.showSpinner = true
     let formData = {
@@ -169,6 +190,10 @@ export const useEnseignant = defineStore('Enseignant', () => {
     idTop,
     id_ens,
     idBottom,
+    ListeENSEDT,
+    nom_ensEDT,
+    id_ensEDT,
+    getAllENSEDT,
     createEnseignant,
     setEnseignant,
     getAllENS,

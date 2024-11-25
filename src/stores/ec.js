@@ -24,6 +24,7 @@ export const useEc = defineStore('Ec', () => {
 
   const nom_ec = ref('')
   const nomEC = ref('')
+  const nomECEDT = ref('')
   const etudiantNom = ref('')
   const id = ref(null)
   const idEC = ref(null)
@@ -35,6 +36,7 @@ export const useEc = defineStore('Ec', () => {
   const ListeEC = ref([])
   const ListeECBySemestre = ref([])
   const ListeECByEns = ref([])
+  const ListeECByEnsEDT = ref([])
   const ListeEtudByEC = ref('')
   const ListeEtudByECTemp = ref('')
   const ecNom = ref('')
@@ -125,6 +127,20 @@ export const useEc = defineStore('Ec', () => {
           ListeECByEns.value = response.data
           ecNomByEns.value = response.data[0].nom_ec
           idEC.value = response.data[0].id
+        }
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  }
+
+  function getAllECByEnsEDT(id) {
+    axios
+      .get(`${URL}/api/ec/getByEnsegnantIdAndAU/${id}/${au.idAU}`)
+      .then((response) => {
+        if (response.data.length !== 0) {
+          ListeECByEnsEDT.value = response.data
+          nomECEDT.value = response.data[0].nom_ec
         }
       })
       .catch((err) => {
@@ -291,7 +307,10 @@ export const useEc = defineStore('Ec', () => {
     etudiantNom,
     isBtn,
     isEmpty,
+    ListeECByEnsEDT,
+    nomECEDT,
     search,
+    getAllECByEnsEDT,
     createEC,
     getBySemestre,
     getAllECBySemestre,

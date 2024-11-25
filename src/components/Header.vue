@@ -123,6 +123,7 @@ import { useInfosheader } from '@/stores/Infosheader'
 import { useEtablissement } from '@/stores/Etablissement'
 import Tooltip from './Tooltip.vue'
 
+
 const au = useAu()
 const category = useCategory()
 const show = useShow()

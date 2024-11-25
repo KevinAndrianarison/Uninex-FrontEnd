@@ -86,9 +86,7 @@
       </MenuItems>
     </transition>
   </Menu>
-  <RouterLink to="/agentScolarite/GestionSalle">
-    <li><HomeModernIcon class="h-5 w-5 mr-2" /> Salles</li>
-  </RouterLink>
+  <li @click="showCreateSalle"><HomeModernIcon class="h-5 w-5 mr-2" /> Salles</li>
   <RouterLink to="/agentScolarite/GestionEDP">
     <li><RectangleGroupIcon class="h-5 w-5 mr-2" /> Emplois du temps</li>
   </RouterLink>
@@ -97,6 +95,16 @@
 <script setup>
 import { HomeModernIcon, BriefcaseIcon, RectangleGroupIcon } from '@heroicons/vue/24/outline'
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
+import { useShow } from '@/stores/Show'
+import { useSalle } from '@/stores/salle'
+
+const show = useShow()
+const salles = useSalle()
+
+function showCreateSalle() {
+  show.showCreateSalle = true
+  salles.getallSalle()
+}
 </script>
 
 <style src="../../styles/Dashboard.css" scoped></style>

@@ -371,7 +371,7 @@ function handleInputChange(note, id, idEC) {
 }
 
 function setECId(id) {
-  ec.id = id
+  ec.idBySemestre = id
 }
 
 function exportPdfNoteEtud() {
