@@ -507,7 +507,11 @@
         </div>
       </div>
       <div class="mt-2 flex justify-center">
-        <button class="px-5 py-2 bg-blue-500 text-white rounded text-xs">
+        <button
+          :disabled="ListeEDT.length === 0"
+          @click="postEDT()"
+          class="px-5 py-2 bg-blue-500 text-white rounded text-xs"
+        >
           Enregister les informations
         </button>
       </div>
@@ -563,11 +567,11 @@
         </div>
       </Listbox>
     </div>
-    <div class="bg-white border mt-1 max-h-[25vh] oerflow-y-auto">
-      <div class="list-none flex px-2 py-1 border">
-        <li class="font-bold w-[30%]">2020 - 2021</li>
-        <li class="w-[30%]">STIC-2</li>
-        <li class="w-[30%]">Semestre 2</li>
+    <div v-if="edt.listEDT.length !== 0" class="bg-white border mt-1 max-h-[25vh] oerflow-y-auto">
+      <div :key="EDT.id" v-for="EDT in edt.listEDT" class="list-none flex px-2 py-1 border">
+        <li class="font-bold w-[30%]">{{ EDT.au.annee_debut }} - {{ EDT.au.annee_fin }}</li>
+        <li class="w-[30%]">{{ EDT.parcour.abr_parcours }}</li>
+        <li class="w-[30%]">{{ EDT.semestre.nom_semestre }}</li>
         <li class="w-[5%]">
           <Tooltip content="Visualiser">
             <font-awesome-icon class="text-yellow-500 cursor-pointer" :icon="['fas', 'eye']" />
@@ -575,7 +579,11 @@
         </li>
         <li class="w-[5%]">
           <Tooltip content="Supprimer">
-            <font-awesome-icon class="text-red-500 cursor-pointer" :icon="['fas', 'trash-can']" />
+            <font-awesome-icon
+              @click="deleteEDT(EDT.id)"
+              class="text-red-500 cursor-pointer"
+              :icon="['fas', 'trash-can']"
+            />
           </Tooltip>
         </li>
       </div>
@@ -660,6 +668,11 @@ onBeforeMount(() => {
   enseignant.getAllENSEDT()
 })
 
+function deleteEDT(id) {
+  edt.idEDT = id
+  show.showDeletEDT = true
+}
+
 function setIdParcours(id, abr) {
   parcour.parcours_id = id
   parcour.abreviationbyAll = abr
@@ -723,6 +736,57 @@ function createHoraire() {
       setTimeout(() => {
         messages.messageError = ''
       }, 3000)
+      show.showSpinner = false
+    })
+}
+
+function postEDT() {
+  show.showSpinner = true
+  const formData = {
+    au_id: au.idAU,
+    parcour_id: parcour.parcours_id,
+    parcour_id: parcour.parcours_id,
+    semestre_id: semestre.semestreIdEDT
+  }
+  axios
+    .post(`${URL}/api/grpedt`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    .then((response) => {
+      messages.messageSucces = 'Emplois de temps créé !'
+      setTimeout(() => {
+        messages.messageSucces = ''
+      }, 3000)
+      let listValue = ListeEDT.value
+      ListeEDT.value = []
+      listValue.forEach((list) => {
+        let formdata = {
+          jour_id: list.jour.id,
+          heure_id: list.heures.id,
+          salle_id: list.salle.id,
+          ec_id: list.matiere.id,
+          enseignant_id: list.enseignant.id,
+          groupedt_id: response.data.id
+        }
+        axios
+          .post(`${URL}/api/edt`, formdata, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          })
+          .then((response) => {
+            show.showSpinner = false
+          })
+          .catch((err) => {
+            console.error(err)
+            show.showSpinner = false
+          })
+      })
+    })
+    .catch((error) => {
+      console.error(error)
       show.showSpinner = false
     })
 }

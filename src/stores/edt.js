@@ -2,9 +2,12 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import axios from 'axios'
 import { useUrl } from '@/stores/url'
+import { useAu } from '@/stores/Au'
 
 export const useEdt = defineStore('Edt', () => {
   const listJour = ref([])
+  const listEDT = ref([])
+  const idEDT = ref([])
   const listHeures = ref([])
   const jour = ref('')
   const idjour = ref(null)
@@ -12,6 +15,7 @@ export const useEdt = defineStore('Edt', () => {
   const idheures = ref(null)
 
   const URL = useUrl().url
+  const au = useAu()
 
   function getAllJours() {
     axios
@@ -41,6 +45,33 @@ export const useEdt = defineStore('Edt', () => {
       })
   }
 
+  function getByIdAU() {
+    axios
+      .get(`${URL}/api/grpedtGetByAU/${au.idAU}`)
+      .then((response) => {
+        if (response.data.length !== 0) {
+          listEDT.value = response.data
+          console.log(response.data)
+        }
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  }
+
+  function getAll() {
+    axios
+      .get(`${URL}/api/grpedt`)
+      .then((response) => {
+        if (response.data.length !== 0) {
+          console.log(response.data)
+        }
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  }
+
   return {
     listJour,
     listHeures,
@@ -48,7 +79,11 @@ export const useEdt = defineStore('Edt', () => {
     idjour,
     heures,
     idheures,
+    listEDT,
+    idEDT,
+    getAll,
     getAllJours,
+    getByIdAU,
     getAllHeures
   }
 })

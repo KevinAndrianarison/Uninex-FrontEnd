@@ -8,6 +8,7 @@ import { useMessages } from '@/stores/messages'
 import { useMention } from '@/stores/Mention'
 import { useUe } from '@/stores/Ue'
 import { useEc } from '@/stores/Ec'
+import { useEdt } from '@/stores/Edt'
 import axios from 'axios'
 
 export const useAu = defineStore('Au', () => {
@@ -19,6 +20,7 @@ export const useAu = defineStore('Au', () => {
   const mention = useMention()
   const ue = useUe()
   const ec = useEc()
+  const edt = useEdt()
 
   const annee_debut = ref(null)
   const annee_fin = ref(null)
@@ -37,12 +39,17 @@ export const useAu = defineStore('Au', () => {
         oneAU.value = listeAU.value[0].annee_debut + '-' + listeAU.value[0].annee_fin
         oneAUSelectEDT.value = listeAU.value[0].annee_debut + '-' + listeAU.value[0].annee_fin
         oneAUSelectFind.value = listeAU.value[0].annee_debut + '-' + listeAU.value[0].annee_fin
-        
       })
       .catch((err) => {
         console.error(err)
       })
   }
+
+  watch(oneAUSelectFind, (newValue, oldValue) => {
+    if (newValue) {
+      edt.getByIdAU()
+    }
+  })
 
   watch(oneAU, (newValue, oldValue) => {
     if (newValue) {

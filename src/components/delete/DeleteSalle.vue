@@ -10,7 +10,6 @@ const salles = useSalle()
 const URL = useUrl().url
 const messages = useMessages()
 
-
 function closeModaleDelSalle() {
   show.showDeletSalle = false
 }
@@ -25,7 +24,7 @@ function DelSalle() {
       }
     })
     .then((response) => {
-      salles.getallAU()
+      salles.getallSalle()
       messages.messageSucces = 'Salle supprimée !'
       show.showDeletSalle = false
       setTimeout(() => {

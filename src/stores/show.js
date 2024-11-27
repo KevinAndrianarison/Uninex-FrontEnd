@@ -44,6 +44,7 @@ export const useShow = defineStore('Show', () => {
   const showEtudiantInfos = ref(false)
   const showDeletEC = ref(false)
   const showDeletSalle= ref(false)
+  const showDeletEDT= ref(false)
   const showCreatePost = ref(false)
   const showCreateSalle = ref(false)
   const showListeNotesEtudiant = ref(false)
@@ -106,6 +107,7 @@ export const useShow = defineStore('Show', () => {
     showReleveNotePdf,
     showCreateSalle,
     showDeletSalle,
+    showDeletEDT,
     toggleCreatePasswordVisibility,
     togglePasswordVisibility,
     toggleVerifyPasswordVisibility

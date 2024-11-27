@@ -92,6 +92,9 @@
   <Teleport to="body">
     <DeleteSalle />
   </Teleport>
+  <Teleport to="body">
+    <DeleteEDT />
+  </Teleport>
 </template>
 
 <script setup>
@@ -121,6 +124,7 @@ import DeleteSemestre from './components/delete/DeleteSemestre.vue'
 import DeletePost from './components/delete/DeletePost.vue'
 import DeleteParcours from './components/delete/DeleteParcours.vue'
 import DeleteUE from './components/delete/DeleteUE.vue'
+import DeleteEDT from './components/delete/DeleteEDT.vue'
 import DeleteSalle from './components/delete/DeleteSalle.vue'
 import ListeEtudiantPdf from './components/ListeEtudiantPdf.vue'
 import ListeNoteParEC from './components/ListeNoteParEC.vue'

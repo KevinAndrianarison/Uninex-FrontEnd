@@ -41,7 +41,7 @@ function createSalle() {
     })
     .then((response) => {
       nomSalle.value = null
-      salles.getallAU()
+      salles.getallSalle()
       messages.messageSucces = 'Salle créé !'
       setTimeout(() => {
         messages.messageSucces = ''
@@ -88,7 +88,7 @@ function createSalle() {
             Valider
           </button>
         </div>
-        <div class="w-full mt-3" v-if="salles.listSalle !== 0">
+        <div class="w-full mt-3" v-if="salles.listSalle.length !== 0">
           <Disclosure v-slot="{ open }">
             <DisclosureButton
               class="flex w-full justify-between rounded-lg bg-yellow-100 px-4 py-2 text-left text-lm font-black text-black hover:bg-yellow-200 focus:outline-none focus-visible:ring focus-visible:ring-yellow-500/75"
