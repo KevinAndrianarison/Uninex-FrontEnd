@@ -33,7 +33,12 @@
                     v-for="(AU, index) in au.listeAU"
                     :key="AU.id"
                     :value="AU.annee_debut + '-' + AU.annee_fin"
-                    as="template"
+                    as="div"
+                    @click="
+                      () => {
+                        au.idAU = AU.id
+                      }
+                    "
                   >
                     <li
                       :class="[
@@ -143,7 +148,12 @@
                     v-for="(sm, index) in semestre.ListeSemestreEDT"
                     :key="sm.id"
                     :value="sm.nom_semestre"
-                    as="template"
+                    as="div"
+                    @click="
+                      () => {
+                        semestre.semestreIdEDT = sm.id
+                      }
+                    "
                   >
                     <li
                       :class="[
@@ -204,7 +214,12 @@
                     v-for="EDT in edt.listJour"
                     :key="EDT.id"
                     :value="EDT.nom"
-                    as="template"
+                    as="div"
+                    @click="
+                      () => {
+                        edt.idjour = EDT.id
+                      }
+                    "
                   >
                     <li
                       :class="[
@@ -263,7 +278,12 @@
                     v-for="hr in edt.listHeures"
                     :key="hr.id"
                     :value="hr.valeur"
-                    as="template"
+                    as="div"
+                    @click="
+                      () => {
+                        edt.idheures = hr.id
+                      }
+                    "
                   >
                     <li
                       :class="[
@@ -271,8 +291,16 @@
                         'relative cursor-default select-none py-2 pl-10 pr-4 text-xs'
                       ]"
                     >
-                      <span :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']">
+                      <span
+                        class="flex justify-between items-center"
+                        :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']"
+                      >
                         {{ hr.valeur }}
+                        <font-awesome-icon
+                          class="text-red-500 cursor-pointer"
+                          :icon="['fas', 'trash-can']"
+                          @click="deleteHeures(hr.id)"
+                        />
                       </span>
                       <span
                         v-if="selected"
@@ -313,7 +341,12 @@
                     v-for="sll in salle.listSalle"
                     :key="sll.id"
                     :value="sll.nom_salle"
-                    as="template"
+                    as="div"
+                    @click="
+                      () => {
+                        salle.idSalle = sll.id
+                      }
+                    "
                   >
                     <li
                       :class="[
@@ -364,7 +397,12 @@
                     :key="ens.id"
                     :value="ens.nomComplet_ens"
                     as="div"
-                    @click="ec.getAllECByEnsEDT(ens.id)"
+                    @click="
+                      () => {
+                        enseignant.id_ensEDT = ens.id
+                        ec.getAllECByEnsEDT(ens.id)
+                      }
+                    "
                   >
                     <li
                       :class="[
@@ -415,6 +453,11 @@
                     :key="EC.id"
                     :value="EC.nom_ec"
                     as="div"
+                    @click="
+                      () => {
+                        ec.idECDT = EC.id
+                      }
+                    "
                   >
                     <li
                       :class="[
@@ -438,27 +481,36 @@
             </div>
           </Listbox>
         </div>
-        <button class="px-5 py-1 mt-2 bg-yellow-500 font-bold text-xs rounded">Ajouter</button>
+        <button @click="addDays()" class="px-5 py-1 mt-2 bg-yellow-500 font-bold text-xs rounded">
+          Ajouter
+        </button>
       </div>
       <div class="mt-2 flex flex-wrap max-h-[75px] oerflow-y-auto">
         <div
+          v-for="(list, index) in ListeEDT"
+          :key="index"
           class="mr-2 border text-xs w-60 items-center bg-gray-300 rounded-xl flex justify-between px-3 py-1"
         >
           <div>
-            <p class="font-bold">Lundi</p>
-            <p>Steeve</p>
-            <p>Analyse</p>
+            <p class="font-bold">{{ list.jour.nom }}</p>
+            <p>{{ list.enseignant.nom }}</p>
+            <p>{{ list.matiere.nom }}</p>
           </div>
           <div class="flex">
-            <p class="mr-5">7h - 8h</p>
+            <p class="mr-5">{{ list.heures.nom }}</p>
             <font-awesome-icon
               class="text-red-500 cursor-pointer"
               :icon="['fas', 'circle-xmark']"
+              @click="removeList(index)"
             />
           </div>
         </div>
       </div>
-      <button class="px-5 py-1 mt-2 bg-green-500 font-bold rounded text-xs">Enregister</button>
+      <div class="mt-2 flex justify-center">
+        <button class="px-5 py-2 bg-blue-500 text-white rounded text-xs">
+          Enregister les informations
+        </button>
+      </div>
     </div>
 
     <div class="flex items-end mt-2">
@@ -598,6 +650,7 @@ const messages = useMessages()
 const isModalOpen = ref(false)
 const heureDebut = ref('')
 const heureFin = ref('')
+const ListeEDT = ref([])
 
 onBeforeMount(() => {
   parcour.getAllParcours()
@@ -610,6 +663,36 @@ onBeforeMount(() => {
 function setIdParcours(id, abr) {
   parcour.parcours_id = id
   parcour.abreviationbyAll = abr
+}
+
+function addDays() {
+  let day = {
+    jour: {
+      nom: edt.jour,
+      id: edt.idjour
+    },
+    heures: {
+      nom: edt.heures,
+      id: edt.idheures
+    },
+    salle: {
+      nom: salle.NomSalle,
+      id: salle.idSalle
+    },
+    enseignant: {
+      nom: enseignant.nom_ensEDT,
+      id: enseignant.id_ensEDT
+    },
+    matiere: {
+      nom: ec.nomECEDT,
+      id: ec.idECDT
+    }
+  }
+  ListeEDT.value.push(day)
+}
+
+function removeList(index) {
+  ListeEDT.value.splice(index, 1)
 }
 
 function createHoraire() {
@@ -644,16 +727,24 @@ function createHoraire() {
     })
 }
 
+function deleteHeures(id) {
+  axios
+    .delete(`${URL}/api/heure/${id}`, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    .then((response) => {
+      edt.getAllHeures()
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+}
+
 function formatHeure(heure) {
   return heure.replace(':', 'h')
 }
-
-const hours = [
-  { id: 1, name: '7h - 8h', unavailable: false },
-  { id: 2, name: '8h - 9h', unavailable: false },
-  { id: 3, name: '10h - 11h', unavailable: false }
-]
-const selectedhour = ref(hours[0])
 </script>
 
 <style scoped></style>

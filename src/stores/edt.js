@@ -7,7 +7,9 @@ export const useEdt = defineStore('Edt', () => {
   const listJour = ref([])
   const listHeures = ref([])
   const jour = ref('')
+  const idjour = ref(null)
   const heures = ref('')
+  const idheures = ref(null)
 
   const URL = useUrl().url
 
@@ -17,6 +19,7 @@ export const useEdt = defineStore('Edt', () => {
       .then((response) => {
         listJour.value = response.data
         jour.value = response.data[0].nom
+        idjour.value = response.data[0].id
       })
       .catch((err) => {
         console.error(err)
@@ -28,10 +31,9 @@ export const useEdt = defineStore('Edt', () => {
       .get(`${URL}/api/heure`)
       .then((response) => {
         if (response.data.length !== 0) {
-          console.log(response.data)
-
           listHeures.value = response.data
           heures.value = response.data[0].valeur
+          idheures.value = response.data[0].id
         }
       })
       .catch((err) => {
@@ -43,7 +45,9 @@ export const useEdt = defineStore('Edt', () => {
     listJour,
     listHeures,
     jour,
+    idjour,
     heures,
+    idheures,
     getAllJours,
     getAllHeures
   }

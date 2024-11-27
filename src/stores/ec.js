@@ -28,6 +28,7 @@ export const useEc = defineStore('Ec', () => {
   const etudiantNom = ref('')
   const id = ref(null)
   const idEC = ref(null)
+  const idECDT= ref(null)
   const isBtn = ref(false)
   const isEmpty = ref(true)
   const volume_et = ref(null)
@@ -141,6 +142,8 @@ export const useEc = defineStore('Ec', () => {
         if (response.data.length !== 0) {
           ListeECByEnsEDT.value = response.data
           nomECEDT.value = response.data[0].nom_ec
+          idECDT.value = response.data[0].id
+        
         }
       })
       .catch((err) => {
@@ -309,6 +312,7 @@ export const useEc = defineStore('Ec', () => {
     isEmpty,
     ListeECByEnsEDT,
     nomECEDT,
+    idECDT,
     search,
     getAllECByEnsEDT,
     createEC,
