@@ -129,7 +129,7 @@ export const useAgentscolarite = defineStore('Agentscolarite', () => {
       .then((response) => {
         let user = localStorage.getItem('user')
         user = JSON.parse(user)
-        if (user.user.status_user === 'AS') {
+        if (user.user.status_user === 'AS' || user.user.status_user === 'SECPAL') {
           infosheader.nom = response.data.nomComplet_scol
           infossetup.nom = response.data.nomComplet_scol
           infossetup.telephone = response.data.telephone_scol

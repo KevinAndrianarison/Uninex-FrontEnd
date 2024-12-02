@@ -10,9 +10,13 @@ export const useEdt = defineStore('Edt', () => {
   const idEDT = ref([])
   const listHeures = ref([])
   const jour = ref('')
+  const AUedt = ref('')
+  const SemestreEdt = ref('')
+  const parcoursEdt = ref('')
   const idjour = ref(null)
   const heures = ref('')
   const idheures = ref(null)
+  const oneEDT = ref([])
 
   const URL = useUrl().url
   const au = useAu()
@@ -47,12 +51,9 @@ export const useEdt = defineStore('Edt', () => {
 
   function getByIdAU() {
     axios
-      .get(`${URL}/api/grpedtGetByAU/${au.idAU}`)
+      .get(`${URL}/api/grpedtGetByAU/${au.idAUEDT}`)
       .then((response) => {
-        if (response.data.length !== 0) {
-          listEDT.value = response.data
-          console.log(response.data)
-        }
+        listEDT.value = response.data
       })
       .catch((err) => {
         console.error(err)
@@ -64,7 +65,6 @@ export const useEdt = defineStore('Edt', () => {
       .get(`${URL}/api/grpedt`)
       .then((response) => {
         if (response.data.length !== 0) {
-          console.log(response.data)
         }
       })
       .catch((err) => {
@@ -81,9 +81,13 @@ export const useEdt = defineStore('Edt', () => {
     idheures,
     listEDT,
     idEDT,
+    oneEDT,
+    AUedt,
+    parcoursEdt,
     getAll,
     getAllJours,
     getByIdAU,
-    getAllHeures
+    getAllHeures,
+    SemestreEdt
   }
 })

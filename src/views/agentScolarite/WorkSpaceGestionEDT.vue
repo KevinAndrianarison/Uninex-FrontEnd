@@ -481,7 +481,11 @@
             </div>
           </Listbox>
         </div>
-        <button @click="addDays()" class="px-5 py-1 mt-2 bg-yellow-500 font-bold text-xs rounded">
+        <button
+          :disabled="!ec.nomECEDT || !edt.heures"
+          @click="addDays()"
+          class="px-5 py-1 mt-2 bg-yellow-500 font-bold text-xs rounded"
+        >
           Ajouter
         </button>
       </div>
@@ -524,7 +528,7 @@
           <ListboxButton
             class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none sm:text-sm"
           >
-            <span class="block truncate text-xs">{{ au.oneAU }}</span>
+            <span class="block truncate text-xs">{{ au.oneAUSelectFind }}</span>
             <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
               <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
             </span>
@@ -543,7 +547,12 @@
                 v-for="(AU, index) in au.listeAU"
                 :key="AU.id"
                 :value="AU.annee_debut + '-' + AU.annee_fin"
-                as="template"
+                as="div"
+                @click="
+                  () => {
+                    au.idAUEDT = AU.id
+                  }
+                "
               >
                 <li
                   :class="[
@@ -574,7 +583,19 @@
         <li class="w-[30%]">{{ EDT.semestre.nom_semestre }}</li>
         <li class="w-[5%]">
           <Tooltip content="Visualiser">
-            <font-awesome-icon class="text-yellow-500 cursor-pointer" :icon="['fas', 'eye']" />
+            <font-awesome-icon
+              @click="
+                () => {
+                  edt.oneEDT = transformData(EDT.edt)
+                  edt.AUedt = `${EDT.au.annee_debut} - ${EDT.au.annee_fin}`
+                  edt.parcoursEdt = EDT.parcour.abr_parcours
+                  edt.SemestreEdt = EDT.semestre.nom_semestre
+                  show.showEDT = true
+                }
+              "
+              class="text-yellow-500 cursor-pointer"
+              :icon="['fas', 'eye']"
+            />
           </Tooltip>
         </li>
         <li class="w-[5%]">
@@ -604,7 +625,7 @@
           <input
             type="time"
             v-model="heureDebut"
-            class="w-full border border-gray-300 rounded p-2 text-sm"
+            class="w-full border border-gray-300 rounded p-2 text-sm focus:outline-none"
             required
           />
         </div>
@@ -613,7 +634,7 @@
           <input
             type="time"
             v-model="heureFin"
-            class="w-full border border-gray-300 rounded p-2 text-sm"
+            class="w-full border border-gray-300 rounded p-2 text-sm focus:outline-none"
             required
           />
         </div>
@@ -667,6 +688,34 @@ onBeforeMount(() => {
   salle.getallSalle()
   enseignant.getAllENSEDT()
 })
+
+function transformData(rawData) {
+  const order = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche']
+  const groupedByDay = {}
+
+  rawData.forEach((item) => {
+    const dayName = item.jour.nom
+    const horaire = item.heure.valeur
+    const seance = {
+      horaire: horaire,
+      matiere: `EC ${item.ec_id}`,
+      enseignant: item.enseignant.nomComplet_ens,
+      salle: item.salle.nom_salle
+    }
+    if (!groupedByDay[dayName]) {
+      groupedByDay[dayName] = {}
+    }
+    if (!groupedByDay[dayName][horaire]) {
+      groupedByDay[dayName][horaire] = seance
+    }
+  })
+  return Object.keys(groupedByDay)
+    .sort((a, b) => order.indexOf(a) - order.indexOf(b))
+    .map((dayName) => ({
+      jour: dayName,
+      seances: Object.values(groupedByDay[dayName])
+    }))
+}
 
 function deleteEDT(id) {
   edt.idEDT = id
@@ -723,7 +772,7 @@ function createHoraire() {
       heureDebut.value = ''
       heureFin.value = ''
       edt.getAllHeures()
-      messages.messageSucces = 'Horaire créé !'
+      messages.messageSucces = response.data.message
       isModalOpen.value = false
       setTimeout(() => {
         messages.messageSucces = ''
@@ -777,6 +826,7 @@ function postEDT() {
             }
           })
           .then((response) => {
+            edt.getByIdAU()
             show.showSpinner = false
           })
           .catch((err) => {

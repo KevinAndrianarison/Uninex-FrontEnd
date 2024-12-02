@@ -36,6 +36,11 @@ function deconnexion() {
     show.showNavBarAS = false
     localStorage.removeItem('user')
   }
+  if (users.user.status_user === 'SECPAL') {
+    show.showNavBarAS = false
+    show.showNavBarSECPAL = false
+    localStorage.removeItem('user')
+  }
   if (users.user.status_user === 'Etudiant') {
     show.showNavBarEtud = false
     localStorage.removeItem('user')

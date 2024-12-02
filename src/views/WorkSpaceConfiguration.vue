@@ -406,6 +406,11 @@ onBeforeMount(() => {
     infossetup.telephone = users.telephone_scol
     agentscolarite.id_scol = users.id
   }
+  if (users.user.status_user === 'SECPAL') {
+    infossetup.nom = users.nomComplet_scol
+    infossetup.telephone = users.telephone_scol
+    agentscolarite.id_scol = users.id
+  }
   if (users.user.status_user === 'Etudiant') {
     infossetup.nom = users.nomComplet_etud
     infossetup.telephone = users.telephone_etud
@@ -426,6 +431,9 @@ function modifier() {
       directeur.setDirecteur()
     }
     if (users.user.status_user === 'AS') {
+      agentscolarite.setAS()
+    }
+    if (users.user.status_user === 'SECPAL') {
       agentscolarite.setAS()
     }
     if (users.user.status_user === 'Etudiant') {

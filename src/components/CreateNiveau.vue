@@ -57,6 +57,17 @@ function closeCreateNiveau() {
               </div>
             </div>
           </div>
+          <div class="w-full mt-2">
+            <label class="block text-sm font-medium leading-6 text-gray-900"
+              >Frais de scolarité (<b>Ariary</b>)</label
+            >
+            <div class="mt-2">
+              <input
+                type="number"
+                class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
+              />
+            </div>
+          </div>
         </div>
 
         <div class="valide">

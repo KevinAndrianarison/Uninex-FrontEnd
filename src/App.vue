@@ -16,6 +16,7 @@
     <ListeNoteParEC v-if="show.showListeNoteEtudiantPdf" />
     <CarteEtudiant v-if="show.showCarteEtudiant" />
     <ReleveNotePdf v-if="show.showReleveNotePdf" />
+    <EDTpdf v-if="show.showEDTpdf" />
   </div>
   <Teleport to="body">
     <Overlay />
@@ -95,6 +96,9 @@
   <Teleport to="body">
     <DeleteEDT />
   </Teleport>
+  <Teleport to="body">
+    <EDT />
+  </Teleport>
 </template>
 
 <script setup>
@@ -129,6 +133,8 @@ import DeleteSalle from './components/delete/DeleteSalle.vue'
 import ListeEtudiantPdf from './components/ListeEtudiantPdf.vue'
 import ListeNoteParEC from './components/ListeNoteParEC.vue'
 import CarteEtudiant from './components/CarteEtudiant.vue'
+import EDTpdf from './components/EDTpdf.vue'
+import EDT from './components/EDT.vue'
 import ListeNotesEtudiant from './components/ListeNotesEtudiant.vue'
 import ReleveNotePdf from './components/ReleveNotePdf.vue'
 

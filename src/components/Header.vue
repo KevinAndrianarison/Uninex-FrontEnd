@@ -123,7 +123,6 @@ import { useInfosheader } from '@/stores/Infosheader'
 import { useEtablissement } from '@/stores/Etablissement'
 import Tooltip from './Tooltip.vue'
 
-
 const au = useAu()
 const category = useCategory()
 const show = useShow()
@@ -152,6 +151,11 @@ onBeforeMount(() => {
   }
   if (user.user.status_user === 'AS') {
     infosheader.status = 'Agent de scolarité'
+    infosheader.nom = user.nomComplet_scol
+    infosheader.photo = user.user.photo_name
+  }
+  if (user.user.status_user === 'SECPAL') {
+    infosheader.status = 'Sécrétaire principale'
     infosheader.nom = user.nomComplet_scol
     infosheader.photo = user.user.photo_name
   }

@@ -19,8 +19,8 @@ function DelEDT() {
   axios
     .delete(`${URL}/api/grpedt/${edt.idEDT}`)
     .then((response) => {
-      edt.getByIdAU()
       messages.messageSucces = 'Emplois du temps supprimé avec succès !'
+      edt.getByIdAU()
       show.showDeletEDT = false
       show.showSpinner = false
       setTimeout(() => {

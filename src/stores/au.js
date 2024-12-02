@@ -28,12 +28,14 @@ export const useAu = defineStore('Au', () => {
   const oneAUSelectEDT = ref('')
   const oneAUSelectFind = ref('')
   const idAU = ref(null)
+  const idAUEDT = ref(null)
   const listeAU = ref([])
 
   function getallAU() {
     axios
       .get(`${URL}/api/au`)
       .then((response) => {
+        idAUEDT.value = response.data[0].id
         idAU.value = response.data[0].id
         listeAU.value = response.data
         oneAU.value = listeAU.value[0].annee_debut + '-' + listeAU.value[0].annee_fin
@@ -145,6 +147,7 @@ export const useAu = defineStore('Au', () => {
     idAU,
     oneAUSelectEDT,
     oneAUSelectFind,
+    idAUEDT,
     createAU,
     getallAU,
     ShowIdAU,

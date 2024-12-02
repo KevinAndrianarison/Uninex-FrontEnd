@@ -207,7 +207,7 @@ function onFileChange(event) {
               </option>
             </select>
           </div>
-          <div v-if="user.user.status_user === 'Directeur'" class="flex flex-col justify-center">
+          <div v-if="show.showNavBarDir" class="flex flex-col justify-center">
             <Tooltip content="Créer une nouvelle catégorie">
               <font-awesome-icon
                 @click="openCreateCategory"

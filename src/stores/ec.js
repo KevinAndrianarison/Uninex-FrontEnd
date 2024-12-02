@@ -28,7 +28,7 @@ export const useEc = defineStore('Ec', () => {
   const etudiantNom = ref('')
   const id = ref(null)
   const idEC = ref(null)
-  const idECDT= ref(null)
+  const idECDT = ref(null)
   const isBtn = ref(false)
   const isEmpty = ref(true)
   const volume_et = ref(null)
@@ -139,11 +139,13 @@ export const useEc = defineStore('Ec', () => {
     axios
       .get(`${URL}/api/ec/getByEnsegnantIdAndAU/${id}/${au.idAU}`)
       .then((response) => {
+        ListeECByEnsEDT.value = response.data
         if (response.data.length !== 0) {
-          ListeECByEnsEDT.value = response.data
           nomECEDT.value = response.data[0].nom_ec
           idECDT.value = response.data[0].id
-        
+        } else {
+          nomECEDT.value = ''
+          idECDT.value = null
         }
       })
       .catch((err) => {

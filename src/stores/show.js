@@ -39,15 +39,18 @@ export const useShow = defineStore('Show', () => {
   const showReleveNotePdf = ref(false)
   const showCarteEtudiant = ref(false)
   const showNavBarAS = ref(false)
+  const showNavBarSECPAL = ref(false)
   const showNavBarRespMention = ref(false)
   const showNavBarRespParcours = ref(false)
   const showEtudiantInfos = ref(false)
   const showDeletEC = ref(false)
-  const showDeletSalle= ref(false)
-  const showDeletEDT= ref(false)
+  const showDeletSalle = ref(false)
+  const showDeletEDT = ref(false)
   const showCreatePost = ref(false)
   const showCreateSalle = ref(false)
   const showListeNotesEtudiant = ref(false)
+  const showEDT = ref(false)
+  const showEDTpdf = ref(false)
 
   function toggleCreatePasswordVisibility() {
     showCreatePassword.value = !showCreatePassword.value
@@ -63,6 +66,7 @@ export const useShow = defineStore('Show', () => {
 
   return {
     showHome,
+    showEDTpdf,
     showSpinner,
     showFirstConfig,
     showCreatePassword,
@@ -108,6 +112,8 @@ export const useShow = defineStore('Show', () => {
     showCreateSalle,
     showDeletSalle,
     showDeletEDT,
+    showEDT,
+    showNavBarSECPAL,
     toggleCreatePasswordVisibility,
     togglePasswordVisibility,
     toggleVerifyPasswordVisibility

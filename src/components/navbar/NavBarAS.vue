@@ -90,10 +90,20 @@
   <RouterLink to="/agentScolarite/GestionEDP">
     <li><RectangleGroupIcon class="h-5 w-5 mr-2" /> Emplois du temps</li>
   </RouterLink>
+  <RouterLink to="/agentScolarite/GestionFinanciere">
+    <li v-if="show.showNavBarSECPAL">
+      <PresentationChartLineIcon class="h-5 w-5 mr-2" /> Gestion financière
+    </li>
+  </RouterLink>
 </template>
 
 <script setup>
-import { HomeModernIcon, BriefcaseIcon, RectangleGroupIcon } from '@heroicons/vue/24/outline'
+import {
+  HomeModernIcon,
+  BriefcaseIcon,
+  RectangleGroupIcon,
+  PresentationChartLineIcon
+} from '@heroicons/vue/24/outline'
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { useShow } from '@/stores/Show'
 import { useSalle } from '@/stores/salle'
