@@ -64,6 +64,7 @@ function closeCreateNiveau() {
             <div class="mt-2">
               <input
                 type="number"
+                v-model="niveau.montant"
                 class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
               />
             </div>
@@ -73,7 +74,7 @@ function closeCreateNiveau() {
         <div class="valide">
           <button
             type="submit"
-            :disabled="!niveau.nom_niveau || !niveau.abr_niveau"
+            :disabled="!niveau.nom_niveau || !niveau.abr_niveau || !niveau.montant"
             @click="niveau.createNiveau()"
             class="Modifie btn btn-primary mt-4"
           >

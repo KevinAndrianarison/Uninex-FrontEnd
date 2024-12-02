@@ -22,6 +22,7 @@ export const useNiveau = defineStore('Niveau', () => {
 
   const abr_niveau = ref('')
   const nom_niveau = ref('')
+  const montant = ref('')
   const ListNiveau = ref([])
   const NiveauChecked = ref([])
   const NiveauCheck = ref([])
@@ -39,7 +40,7 @@ export const useNiveau = defineStore('Niveau', () => {
       semestre.ListeSemestre = []
       etudiant.ListeEtudiant = []
       etudiant.listdefinitive = []
-      parcour.parcours_nom = ""
+      parcour.parcours_nom = ''
       semestre.semestreNom = ''
       semestre.idsemestre = null
       show.ShowListEtudiantEmpty = true
@@ -53,6 +54,7 @@ export const useNiveau = defineStore('Niveau', () => {
     const formDataNiveau = {
       abr_niveau: abr_niveau.value,
       nom_niveau: nom_niveau.value,
+      montant_droit: montant.value,
       au_id: au.idAU
     }
     axios
@@ -68,6 +70,7 @@ export const useNiveau = defineStore('Niveau', () => {
         }, 3000)
         abr_niveau.value = ''
         nom_niveau.value = ''
+        montant.value = ''
         show.showSpinner = false
         getByAuId()
       })
@@ -88,7 +91,6 @@ export const useNiveau = defineStore('Niveau', () => {
       .then((response) => {
         ListNiveau.value = response.data
         NiveauCheck.value = ListNiveau.value[0]
-        
       })
       .catch((error) => {
         console.error('Erreur du GET BY ID Niveau : ', error)
@@ -122,6 +124,7 @@ export const useNiveau = defineStore('Niveau', () => {
     niveau,
     NiveauChecked,
     NiveauCheck,
+    montant,
     createNiveau,
     getByAuId,
     deleteNiveau

@@ -285,7 +285,11 @@
           <li class="widthvalue">
             <Tooltip content="Envoyer à la liste définitive"
               ><CheckBadgeIcon
-                @click="showValiderInscription(etd.id, etd.nomComplet_etud)"
+                @click="
+                  () => {
+                    showValiderInscription(etd.id, etd.nomComplet_etud)
+                  }
+                "
                 v-if="etd.validiter_inscri === 'false'"
                 class="valider h-6 w-6"
             /></Tooltip>

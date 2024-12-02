@@ -10,18 +10,23 @@
             class="h-[150px] w-[150px] border rounded-xl bg-gray-200 flex flex-col justify-center items-center"
           >
             <p class="text-xs font-bold">Ar 200 000</p>
-            <p class="text-3xl mt-2">X</p>
+            <p class="w-[50px] h-[50px] depense mt-2"></p>
             <p class="text-yellow-500 text-sm mt-2">Categorie 1</p>
           </div>
           <div
             class="h-[150px] w-[150px] border rounded-xl bg-gray-200 flex flex-col justify-center items-center"
           >
             <p class="text-xs font-bold">Ar 200 000</p>
-            <p class="text-3xl mt-2">X</p>
+            <p class="w-[50px] h-[50px] recette mt-2"></p>
             <p class="text-yellow-500 text-sm mt-2">Categorie 1</p>
           </div>
         </div>
-        <div class="mt-4 text-sm font-bold">Historique des transitions :</div>
+        <div class="mt-4 text-sm font-bold">
+          <font-awesome-icon
+            class="iconadd text-gray-800 cursor-pointer mr-2"
+            :icon="['fas', 'clock-rotate-left']"
+          />Historique des transitions :
+        </div>
         <p class="text-gray-400 text-xs">X ce mois</p>
         <div class="mt-5 max-h-[300px] overflow-y-auto">
           <div class="mt-2 text-sm flex items-center text-center">
@@ -41,7 +46,12 @@
             <div class="font-bold text-gray-500 w-[15%]">Completed</div>
           </div>
         </div>
-        <div class="mt-5 text-sm font-bold">Diagramme :</div>
+        <div class="mt-5 text-sm font-bold">
+          <font-awesome-icon
+            class="iconadd text-gray-800 cursor-pointer mr-2"
+            :icon="['fas', 'chart-simple']"
+          />Diagramme :
+        </div>
         <div class="mt-2 border bg-gray-200 h-[200px]"></div>
       </div>
     </div>
@@ -70,12 +80,12 @@
           </div>
           <div class="sm:col-span-3 mt-2 mx-4 ctgr">
             <label class="block text-sm font-medium leading-6 text-gray-900">Type :</label>
-            <Listbox v-model="categorieValue">
-              <div class="relative mt-2">
+            <Listbox v-model="typeValue">
+              <div class="relative z-10 mt-2">
                 <ListboxButton
                   class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
                 >
-                  <span class="block truncate">{{ categorieValue }}</span>
+                  <span class="block truncate">{{ typeValue }}</span>
                   <span
                     class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
                   >
@@ -93,20 +103,21 @@
                   >
                     <ListboxOption
                       v-slot="{ active, selected }"
-                      v-for="categorie in categories"
-                      :key="categorie"
-                      :value="categorie"
-                      as="template"
+                      v-for="type in types"
+                      :key="type"
+                      :value="type"
+                      as="div"
+                      @click="switchCateg"
                     >
                       <li
                         :class="[
-                          active ? 'bg-amber-100 text-amber-900' : 'text-gray-900',
+                          selected ? 'bg-amber-100 text-amber-900' : 'text-gray-900',
                           'relative cursor-default select-none py-2 pl-10 pr-4'
                         ]"
                       >
                         <span
                           :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']"
-                          >{{ categorie }}</span
+                          >{{ type }}</span
                         >
                         <span
                           v-if="selected"
@@ -153,7 +164,7 @@
                     >
                       <li
                         :class="[
-                          active ? 'bg-amber-100 text-amber-900' : 'text-gray-900',
+                          selected ? 'bg-amber-100 text-amber-900' : 'text-gray-900',
                           'relative cursor-default select-none py-2 pl-10 pr-4'
                         ]"
                       >
@@ -196,11 +207,61 @@ import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import { ref, onBeforeMount } from 'vue'
 
 let categorieValue = ref('')
-const categories = ['Permanent', 'Vacataire']
+let categories = ref([])
+
+const categoriesRecette = [
+  'Frais de scolarité',
+  'Subventions publiques',
+  'Dons',
+  'Revenus de recherche',
+  'Location des infrastructures',
+  'Services aux étudiants',
+  'Événements',
+  'Partenariats et collaborations',
+  'Autre'
+]
+const categoriesDepense = [
+  'Salaires',
+  'Entretien et maintenance',
+  'Frais de fonctionnement',
+  'Achat de matériel',
+  'Frais de voyage',
+  " Remboursement d'emprunts",
+  'Frais bancaires',
+  'Autre'
+]
+
+let typeValue = ref('')
+const types = ['Recette ', 'Dépense']
 
 onBeforeMount(() => {
-  categorieValue.value = categories[0]
+  categorieValue.value = categoriesRecette[0]
+  typeValue.value = types[0]
+  categories.value = categoriesRecette
 })
+
+function switchCateg() {
+  if (typeValue.value === 'Recette') {
+    categories.value = categoriesRecette
+    categorieValue.value = categoriesRecette[0]
+  }
+  if (typeValue.value === 'Dépense') {
+    categories.value = categoriesDepense
+    categorieValue.value = categoriesDepense[0]
+  }
+}
 </script>
 
-<style scoped></style>
+<style scoped>
+.depense {
+  background-image: url('../../assets/depenses.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.recette {
+  background-image: url('../../assets/revenu.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+</style>
