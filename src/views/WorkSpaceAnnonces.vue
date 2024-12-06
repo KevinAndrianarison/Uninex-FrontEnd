@@ -13,13 +13,13 @@
       </div>
       <input
         type="search"
-        class="py-2 px-2 w-60 rounded border focus:outline-none text-xs"
-        placeholder="Recherche par titre"
+        class="py-2 text-center px-1 w-60 rounded border focus:outline-none text-xs focus:border-green-500 border-2"
+        placeholder="🔍 Recherche par titre"
         @input="annonces.search(annonces.searchalue)"
         v-model="annonces.searchalue"
       />
     </div>
-    <div class="flex justify-evenly mt-2">
+    <div class="flex justify-evenly mt-2 ">
       <div class="w-[20%] max-h-[200px] overflow-auto cursor-pointer">
         <div
           :key="ctg.id"
@@ -32,7 +32,7 @@
       </div>
       <div class="w-[45%] overflow-y-auto max-h-[75vh] rounded">
         <div
-          class="flex p-4 border-2 mt-2"
+          class="flex p-4 border rounded mt-2"
           :key="ann.id"
           v-for="(ann, index) in annonces.listAnnonce"
         >
@@ -72,7 +72,7 @@
             <p class="text-gray-500" v-else>
               {{ ann.description }}
             </p>
-            <div class="mt-2 flex">
+            <div class="mt-1 flex">
               <div class="w-full">
                   <div v-if="isImageFile(ann.fichier_nom)"
                     :style="{
@@ -80,9 +80,9 @@
                       'background-size': 'cover',
                       'background-position': 'center'
                     }"
-                    class="h-[50vh] border"
+                    class="h-[50vh]"
                   ></div>
-                <p class="font-bold text-blue-500 mr-2 underline text-xs">
+                <p class="font-bold text-blue-500 mr-2 mt-1 underline text-xs">
                   {{ ann.fichier_nom }}
                   <Tooltip content="Télecharger">
                     <font-awesome-icon
@@ -151,7 +151,7 @@
                <div class="flex items-center">
                <div
                 :style="{
-                 'background-image': `url(${URL}/storage/users/${lk.user.photo_name})`,
+                'background-image': `url(${URL}/storage/users/${lk.user.photo_name})`,
                 'background-size': 'cover',
                 'background-position': 'center'
               }"
@@ -168,15 +168,15 @@
           Aucun poste trouvé....
         </div>
       </div>
-      <div v-if="isComs" class="w-[30%] h-[75vh] border-2 rounded p-2">
+      <div v-if="isComs" class="w-[30%] h-[75vh] border rounded p-2">
         <h1 class="font-bold">Commentaires :</h1>
         <textarea
           placeholder="Ecrire ici..."
           v-model="coms"
-          class="border w-full min-h-[50px] focus:outline-none p-1"
+          class="border-2 focus:border-yellow-500 rounded w-full min-h-[50px] focus:outline-none p-1"
         >
         </textarea>
-        <div class="relative bottom-7 right-5 text-end">
+        <div class="relative bottom-8 right-3 text-end">
           <Tooltip content="Envoyer">
             <font-awesome-icon
               @click="sendMsg()"
@@ -196,13 +196,13 @@
                 'background-size': 'cover',
                 'background-position': 'center'
               }"
-              class="image border mr-1"
+              class="image mr-1"
             ></div>
-            <div class="border w-[85%] p-1 rounded text-sm">
+            <div class="border w-[85%] p-1 px-2 rounded text-sm">
               <div v-if="editableComId === coms.id">
                 <textarea
                   v-model="coms.editableContenu"
-                  class="border w-full focus:outline-none p-1"
+                  class="border w-full focus:outline-none rounded min-h-[50px] p-1"
                   @blur="saveCommentChanges(coms)"
                   @keyup.enter="saveCommentChanges(coms)"
                   autofocus
@@ -214,14 +214,9 @@
                 <p class="text-gray-500 text-xs">{{ coms.timeAgo }}</p>
                 <div v-if="coms.user.id === user.user.id" class="flex justify-end">
                   <p class="font-bold mr-2">
-                    <Tooltip content="Modifier">
-                      <font-awesome-icon
-                        @click.stop="editComment(coms)"
-                        class="iconadd cursor-pointer text-yellow-500"
-                        :icon="['fas', 'pen']"
-                    /></Tooltip>
+                    <Tooltip content="Modifier"><font-awesome-icon @click.stop="editComment(coms)" class="iconadd cursor-pointer text-yellow-500 transition-transform duration-300 transform hover:scale-150" :icon="['fas', 'pen']"/></Tooltip>
                   </p>
-                  <p class="font-bold mr-2">
+                  <p class="font-bold">
                     <Tooltip content="Supprimer">
                       <font-awesome-icon
                         @click="deleteComs(coms.id)"
@@ -231,7 +226,7 @@
                   </p>
                 </div>
               </div>
-            </div>
+             </div>   
           </di>
           <p v-if="commmentaire.listComs.length === 0" class="mt-1 text-center text-xs text-gray-500">
             Aucun commentaire...

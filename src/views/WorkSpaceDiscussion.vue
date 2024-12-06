@@ -1,13 +1,11 @@
-
-
 <template>
   <div class="flex justify-between body min-h-[85vh] max-h-[85vh]">
-    <div class="bg-white border border-2 w-[30%] rounded-2xl p-4">
+    <div class="bg-white border border w-[30%] rounded-2xl p-4">
       <div class="flex items-center justify-between px-2">
         <h1 class="text-xl text-center font-bold">Discussions</h1>
         <Tooltip content="Créer un groupe">
           <font-awesome-icon
-            class="iconadd text-gray-800 cursor-pointer h-8 w-6"
+            class="iconadd text-yellow-500 cursor-pointer h-8 w-6"
             :icon="['fas', 'square-plus']"
             @click="createGroup()"
           />
@@ -52,7 +50,7 @@
         </div>
       </div>
     </div>
-    <div v-if="selectedUser" class="bg-gray-100 border-2 rounded-2xl w-[65%]">
+    <div v-if="selectedUser" class="bg-gray-100 border rounded-2xl w-[65%]">
       <div
         class="rounded-t-2xl bg-white border-b flex items-center pl-5 justify-between px-5 h-[8%]"
       >
@@ -70,7 +68,7 @@
         <p class="font-bold text-sm">{{ selectedUser.email }}</p>
         <Tooltip content="Options">
           <font-awesome-icon
-            class="iconadd text-gray-800 cursor-pointer h-6 w-4"
+            class="iconadd text-blue-500 cursor-pointer h-6 w-4"
             :icon="['fas', 'bars-staggered']"
           />
         </Tooltip>
@@ -128,20 +126,20 @@
         </div>
       </div>
       <div class="h-[12%] flex justify-between items-center px-5">
-        <input
+        <textarea
           v-model="newMessage"
-          class="h-[60%] border-2 rounded-3xl px-5 w-[90%] focus:outline-none"
+          class="min-h-[60%] border-2 border-yellow-500 rounded-xl p-2 w-[90%] focus:outline-none"
           placeholder="Écrire ici..."
-        />
+        ></textarea>
         <Tooltip content="Joindre un fichier">
           <font-awesome-icon
-            class="iconadd text-gray-500 cursor-pointer h-8 w-6"
-            :icon="['fas', 'paperclip']"
+            class="iconadd text-blue-500 hover:bg-gray-200 p-2 px-3 rounded-3xl cursor-pointer h-8 w-6"
+            :icon="['fas', 'images']"
           />
         </Tooltip>
         <Tooltip content="Envoyer">
           <font-awesome-icon
-            class="iconadd text-gray-500 cursor-pointer h-6 w-5"
+            class="iconadd text-blue-500 cursor-pointer hover:bg-gray-200 rounded-3xl p-2 px-3 h-6 w-5"
             :icon="['fas', 'paper-plane']"
             @click="sendMessage"
           />
@@ -266,7 +264,7 @@ onBeforeMount(() => {
   })
 
   const channel = pusher.subscribe(`chat.${localUserId.value}`)
-  
+
   channel.bind('MessageSent', (data) => {
     if (selectedUser.value && data.sender_id === selectedUser.value.id) {
       messages.value.push(data)

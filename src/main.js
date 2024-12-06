@@ -50,7 +50,8 @@ import {
   faClockRotateLeft,
   faChartSimple,
   faFilePdf,
-  faFileCirclePlus
+  faFileCirclePlus,
+  faImages
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -92,7 +93,8 @@ library.add(
   faClockRotateLeft,
   faChartSimple,
   faFilePdf,
-  faFileCirclePlus
+  faFileCirclePlus,
+  faImages
 )
 
 import App from './App.vue'

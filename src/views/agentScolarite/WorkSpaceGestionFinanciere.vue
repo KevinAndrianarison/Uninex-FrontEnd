@@ -1,7 +1,7 @@
 <template>
-  <div class="border bg-white flex h-[85vh]">
-    <div class="w-[65%] p-4 text-xl">
-      <div class="max-h-[99%] overflow-y-auto">
+  <div class="border rounded-lg bg-white flex h-[85vh]">
+    <div class="w-[65%] p-4 h-full overflow-y-auto text-xl">
+      <div class="">
         <div class="flex justify-between">
           <div class="flex items-center font-bold">
             <PresentationChartLineIcon class="h-5 w-5 mr-2" />Gestion financière
@@ -102,7 +102,7 @@
         </div>
       </div>
     </div>
-    <div class="w-[35%] bg-gray-200 p-4">
+    <div class="w-[35%] border-l p-4">
       <div class="h-[75%] font-bold">
         <h1 class="text-md mx-4">
           <font-awesome-icon
@@ -111,7 +111,7 @@
           />Ajouter une recette ou une dépense !
         </h1>
         <div class="max-h-[70%] overflow-y-auto">
-          <div class="sm:col-span-3 mt-5 mx-4">
+          <div class="sm:col-span-3 mt-2 mx-4">
             <label class="block text-sm font-medium leading-6 text-gray-900"
               >Montant (<b>Ariary</b>) :</label
             >
@@ -248,7 +248,7 @@
           >
             Valider</Button
           >
-          <Button class="btn bg-gray-400 w-full font-bold py-2 rounded cursor-pointer mt-1">
+          <Button class="btn bg-gray-300 w-full py-2 rounded cursor-pointer mt-1">
             📁 Imprimer le rapport de caisse
           </Button>
         </div>
@@ -455,7 +455,7 @@ function postTransaction() {
     type: typeValue.value,
     description: motif.value,
     categorie: categorieValue.value,
-    user_id: user.id,
+    user_id: Number(user.user.id),
     au_id: au.idAU,
     date: dateFormatee
   }

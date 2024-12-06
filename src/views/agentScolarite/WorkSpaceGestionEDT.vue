@@ -62,7 +62,7 @@
             </div>
           </Listbox>
         </div>
-        <div class="mr-2 w-40" v-if="parcour.length !== 0">
+        <div class="mr-2 w-40" v-if="parcour.ListAllParcours.length !== 0">
           <label>Parcours :</label>
           <Listbox v-model="parcour.nomByAll">
             <div class="relative text-xs">
@@ -484,7 +484,7 @@
         <button
           :disabled="!ec.nomECEDT || !edt.heures"
           @click="addDays()"
-          class="px-5 py-1 mt-2 bg-yellow-500 font-bold text-xs rounded"
+          class="px-5 py-1.5 mt-2 bg-yellow-500 font-bold text-xs rounded"
         >
           Ajouter
         </button>
@@ -615,13 +615,13 @@
     >
       <div class="bg-white p-6 rounded-lg shadow-lg w-80">
         <div class="flex justify-between items-center mb-4">
-          <h2 class="text-lg font-bold">Créer un horaire</h2>
+          <h2 class="text-md font-bold">Créer un horaire</h2>
           <button @click="isModalOpen = false">
             <font-awesome-icon :icon="['fas', 'times']" class="text-gray-500" />
           </button>
         </div>
         <div class="mb-4">
-          <label class="block text-sm font-bold mb-1">Heure de début</label>
+          <label class="block text-sm mb-1">Heure de début</label>
           <input
             type="time"
             v-model="heureDebut"
@@ -630,7 +630,7 @@
           />
         </div>
         <div class="mb-4">
-          <label class="block text-sm font-bold mb-1">Heure de fin</label>
+          <label class="block text-sm  mb-1">Heure de fin</label>
           <input
             type="time"
             v-model="heureFin"
@@ -638,7 +638,7 @@
             required
           />
         </div>
-        <button @click="createHoraire" class="w-full bg-green-500 text-white py-2 rounded">
+        <button @click="createHoraire" class="w-full bg-green-500 text-black font-bold text-sm py-2 rounded">
           Valider
         </button>
       </div>

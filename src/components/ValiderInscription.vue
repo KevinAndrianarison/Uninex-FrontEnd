@@ -34,7 +34,7 @@ function postTransaction() {
     type: 'Recette',
     description: "Droit d'inscription",
     categorie: 'Frais de scolarité',
-    user_id: user.id,
+    user_id: user.user.id,
     au_id: au.idAU,
     date: dateFormatee
   }

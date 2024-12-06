@@ -37,6 +37,8 @@ function closeCreatePost() {
 }
 
 function postAnnonce() {
+  const userString = localStorage.getItem('user')
+  const user = JSON.parse(userString)
   show.showSpinner = true
   let formData = new FormData()
   formData.append('titre', titreAnnonce.value || '')
@@ -176,22 +178,22 @@ function onFileChange(event) {
             <XMarkIcon class="h-6 w-6" />
           </button>
         </div>
-        <h1 class="font-bold text-lg">Créér une annonce :</h1>
+        <h1 class="font-bold text-md">Créér une annonce :</h1>
         <input
           type="text"
           placeholder="Titre"
           v-model="titreAnnonce"
-          class="focus:outline-none border-2 rounded w-full px-3 text-sm mt-5 py-2"
+          class="focus:outline-none border rounded w-full px-3 text-sm mt-2 py-2"
         />
-        <div class="mt-1 flex items-end justify-between">
+        <div class="mt-2 flex items-end justify-between">
           <div class="flex items-left w-full flex-col">
-            <label class="text-xs font-bold">Choisissez une catégorie :</label>
+            <label class="text-xs">Choisissez une catégorie :</label>
             <select
               v-model="idCategorie"
-              class="mr-2 py-2 px-2 rounded border-2 focus:outline-none text-xs"
+              class="mr-2 py-2 px-2 rounded border focus:outline-none text-xs"
             >
               <option
-                class="text-sm"
+                class="text-sm overflow-y-auto max-h-[100px]"
                 :key="ctg.id"
                 v-for="(ctg, index) in category.listCategorie"
                 :value="ctg.id"
@@ -225,7 +227,7 @@ function onFileChange(event) {
         <textarea
           placeholder="Description"
           v-model="descriptionAnnonce"
-          class="text-sm min-h-[100px] focus:outline-none border-2 rounded w-full px-3 mt-2 py-2"
+          class="text-sm min-h-[100px] focus:outline-none border rounded w-full px-3 mt-2 py-2"
         ></textarea>
         <div class="relative flex items-center">
           <input
