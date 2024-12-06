@@ -2,23 +2,41 @@
   <div class="border bg-white flex h-[85vh]">
     <div class="w-[65%] p-4 text-xl">
       <div class="max-h-[99%] overflow-y-auto">
-        <div class="flex items-center font-bold">
-          <PresentationChartLineIcon class="h-5 w-5 mr-2" />Gestion financière
+        <div class="flex justify-between">
+          <div class="flex items-center font-bold">
+            <PresentationChartLineIcon class="h-5 w-5 mr-2" />Gestion financière
+          </div>
+          <div class="mr-2 flex">
+            <p class="text-lg mr-2">Total :</p>
+            <p
+              :class="
+                transaction.totalMontant >= 0
+                  ? 'font-bold text-green-500 '
+                  : 'font-bold text-red-500'
+              "
+            >
+              Ar {{ transaction.totalMontant }}
+            </p>
+          </div>
         </div>
-        <div class="mt-4 flex gap-2 justify-center flex-wrap">
+        <div class="flex gap-2 justify-center max-h-[500px] p-4 border-b overflow-y-auto flex-wrap">
           <div
+            v-for="depense in transaction.listDepense"
+            :key="depense.id"
             class="h-[150px] w-[150px] border rounded-xl bg-gray-200 flex flex-col justify-center items-center"
           >
-            <p class="text-xs font-bold">Ar 200 000</p>
+            <p class="text-xs font-bold text-red-500">- Ar {{ depense.montant }}</p>
             <p class="w-[50px] h-[50px] depense mt-2"></p>
-            <p class="text-yellow-500 text-sm mt-2">Categorie 1</p>
+            <p class="text-yellow-500 text-sm mt-2">{{ depense.categorie }}</p>
           </div>
           <div
+            v-for="recette in transaction.listRecette"
+            :key="recette.id"
             class="h-[150px] w-[150px] border rounded-xl bg-gray-200 flex flex-col justify-center items-center"
           >
-            <p class="text-xs font-bold">Ar 200 000</p>
+            <p class="text-xs font-bold text-green-500">+ Ar {{ recette.montant }}</p>
             <p class="w-[50px] h-[50px] recette mt-2"></p>
-            <p class="text-yellow-500 text-sm mt-2">Categorie 1</p>
+            <p class="text-yellow-500 text-sm mt-2">{{ recette.categorie }}</p>
           </div>
         </div>
         <div class="mt-4 text-sm font-bold">
@@ -27,24 +45,51 @@
             :icon="['fas', 'clock-rotate-left']"
           />Historique des transitions :
         </div>
-        <p class="text-gray-400 text-xs">X ce mois</p>
-        <div class="mt-5 max-h-[300px] overflow-y-auto">
-          <div class="mt-2 text-sm flex items-center text-center">
-            <div class="w-7 h-7 border rounded-3xl"></div>
-            <div class="font-bold text-gray-500 w-[20%]">Steeve Vevin</div>
-            <div class="font-bold text-gray-500 w-[20%]">Graphic Design</div>
-            <div class="font-bold text-gray-500 w-[20%]">22/02/2022</div>
-            <div class="font-bold text-gray-500 w-[20%]">Ar 5 000</div>
-            <div class="font-bold text-gray-500 w-[15%]">Completed</div>
+        <div class="flex items-center gap-4 mt-4 text-xs border-l-4 pl-2 border-yellow-500">
+          <label for="searchDate" class="font-bold text-gray-700">Filtrer par date :</label>
+          <input id="searchDate" type="date" v-model="searchDate" class="focus:outline-none" />
+        </div>
+        <div class="max-h-[300px] overflow-y-auto border-b p-4">
+          <div
+            :key="index"
+            v-for="(trans, index) in filteredTransactions"
+            class="text-sm flex items-center text-center"
+          >
+            <div
+              :style="{
+                'background-image': 'url(' + `${URL}/storage/users/${trans.user.photo_name} ` + ')',
+                'background-size': 'cover',
+                'background-position': 'center'
+              }"
+              class="w-[30px] h-[30px] rounded-3xl"
+            ></div>
+            <div class="text-gray-500 w-[20%]">{{ trans.user.email }}</div>
+            <div class="text-gray-500 w-[20%]">{{ trans.type }}</div>
+            <div class="text-gray-500 w-[20%]">{{ trans.date || 'Inconnue' }}</div>
+            <div
+              :class="
+                trans.type === 'Recette'
+                  ? 'font-bold text-green-500 w-[15%] flex'
+                  : 'font-bold text-red-500 w-[15%] flex'
+              "
+            >
+              <p v-if="trans.type === 'Recette'">+</p>
+              <p v-if="trans.type === 'Dépense'">-</p>
+
+              Ar {{ trans.montant }}
+            </div>
+            <div class="text-gray-500 w-[20%] text-left">{{ trans.categorie }}</div>
+            <div class="text-center w-[5%]">
+              <Tooltip content="Générer une facture">
+                <font-awesome-icon
+                  class="iconadd text-blue-500 cursor-pointer h-4 w-3"
+                  :icon="['fas', 'file-pdf']"
+              /></Tooltip>
+            </div>
           </div>
-          <div class="mt-2 text-sm flex items-center text-center">
-            <div class="w-7 h-7 border rounded-3xl"></div>
-            <div class="font-bold text-gray-500 w-[20%]">Steeve Vevin</div>
-            <div class="font-bold text-gray-500 w-[20%]">Graphic Design</div>
-            <div class="font-bold text-gray-500 w-[20%]">22/02/2022</div>
-            <div class="font-bold text-gray-500 w-[20%]">Ar 5 000</div>
-            <div class="font-bold text-gray-500 w-[15%]">Completed</div>
-          </div>
+          <p v-if="filteredTransactions.length === 0" class="text-xs text-center text-gray-500">
+            Aucune transaction à été trouvé
+          </p>
         </div>
         <div class="mt-5 text-sm font-bold">
           <font-awesome-icon
@@ -52,12 +97,19 @@
             :icon="['fas', 'chart-simple']"
           />Diagramme :
         </div>
-        <div class="mt-2 border bg-gray-200 h-[200px]"></div>
+        <div class="mt-2 h-[200px] flex justify-center items-center overflow-x-autp">
+          <canvas ref="chartCanvas"></canvas>
+        </div>
       </div>
     </div>
     <div class="w-[35%] bg-gray-200 p-4">
       <div class="h-[75%] font-bold">
-        <h1 class="text-md mx-4">Ajouter une recette ou une dépense !</h1>
+        <h1 class="text-md mx-4">
+          <font-awesome-icon
+            class="iconadd text-gray-600 cursor-pointer mr-2"
+            :icon="['fas', 'file-circle-plus']"
+          />Ajouter une recette ou une dépense !
+        </h1>
         <div class="max-h-[70%] overflow-y-auto">
           <div class="sm:col-span-3 mt-5 mx-4">
             <label class="block text-sm font-medium leading-6 text-gray-900"
@@ -66,6 +118,7 @@
             <div class="mt-2">
               <input
                 type="number"
+                v-model="montant"
                 class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
               />
             </div>
@@ -74,6 +127,7 @@
             <label class="block text-sm font-medium leading-6 text-gray-900">Motif :</label>
             <div class="mt-2">
               <textarea
+                v-model="motif"
                 class="pl-3 pr-3 min-h-[60px] block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
               ></textarea>
             </div>
@@ -187,10 +241,19 @@
           </div>
         </div>
         <div class="sm:col-span-3 mt-5 mx-4">
-          <Button class="btn bg-green-500 w-full font-bold py-2 rounded"> Valider</Button>
+          <Button
+            @click="postTransaction()"
+            :disabled="!montant || !typeValue"
+            class="btn bg-blue-500 w-full text-white py-2 rounded cursor-pointer"
+          >
+            Valider</Button
+          >
+          <Button class="btn bg-gray-400 w-full font-bold py-2 rounded cursor-pointer mt-1">
+            📁 Imprimer le rapport de caisse
+          </Button>
         </div>
       </div>
-      <div>
+      <div class="h-[25%] flex flex-col justify-center">
         <p>Montant actuel des frais de scolarité : <b>Ar 1 000 000</b></p>
         <p>Prévision pour <b>2025</b> avec <b>+10 %</b> : <b>Ar 1 000 000</b></p>
         <p>Montant actuel pour entretien : <b>Ar 1 000 000</b></p>
@@ -201,13 +264,141 @@
 </template>
 
 <script setup>
-import { PresentationChartLineIcon } from '@heroicons/vue/24/outline'
+import { PresentationChartLineIcon, SparklesIcon } from '@heroicons/vue/24/outline'
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
-import { ref, onBeforeMount } from 'vue'
+import { ref, onBeforeMount, onMounted, watch, computed } from 'vue'
+import { useAu } from '@/stores/Au'
+import { useUrl } from '@/stores/url'
+import axios from 'axios'
+import { useMessages } from '@/stores/messages'
+import { useShow } from '@/stores/Show'
+import { useTransaction } from '@/stores/Transaction'
+import { Chart, registerables } from 'chart.js'
+import Tooltip from '../../components/Tooltip.vue'
+
+Chart.register(...registerables)
 
 let categorieValue = ref('')
+let montant = ref(null)
+let motif = ref('')
 let categories = ref([])
+const chartCanvas = ref(null)
+let chartInstance = null
+const searchDate = ref(null)
+
+const au = useAu()
+const transaction = useTransaction()
+const messages = useMessages()
+const show = useShow()
+const URL = useUrl().url
+
+onMounted(() => {
+  updateChart()
+})
+
+const filteredTransactions = computed(() => {
+  if (!searchDate.value) return transaction.listTrans
+  const selectedDate = new Date(searchDate.value)
+  selectedDate.setHours(0, 0, 0, 0)
+  return transaction.listTrans.filter((trans) => {
+    if (!trans.date) return false
+    const [day, month, year] = trans.date.split('/').map(Number)
+    const transDate = new Date(year, month - 1, day)
+    transDate.setHours(0, 0, 0, 0)
+    return selectedDate.getTime() === transDate.getTime()
+  })
+})
+
+const updateChart = () => {
+  if (chartInstance) {
+    chartInstance.destroy()
+  }
+  const categoriesDepense = transaction.listDepense.map((item) => item.categorie)
+  const montantsDepense = transaction.listDepense.map((item) => -item.montant)
+  const categoriesRecette = transaction.listRecette.map((item) => item.categorie)
+  const montantsRecette = transaction.listRecette.map((item) => item.montant)
+  const categories = [...new Set([...categoriesDepense, ...categoriesRecette])]
+  const dataDepense = categories.map(
+    (cat) => transaction.listDepense.find((item) => item.categorie === cat)?.montant || 0
+  )
+  const dataRecette = categories.map(
+    (cat) => transaction.listRecette.find((item) => item.categorie === cat)?.montant || 0
+  )
+  chartInstance = new Chart(chartCanvas.value, {
+    type: 'bar',
+    data: {
+      labels: categories,
+      datasets: [
+        {
+          label: 'Dépenses',
+          data: dataDepense.map((v) => -v),
+          backgroundColor: 'rgba(255, 99, 132, 0.5)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1
+        },
+        {
+          label: 'Recettes',
+          data: dataRecette,
+          backgroundColor: 'rgba(75, 192, 192, 0.5)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: (tooltipItem) => {
+              return `${tooltipItem.dataset.label}: ${tooltipItem.raw} Ar`
+            }
+          }
+        },
+        legend: {
+          position: 'top',
+          labels: {
+            color: '#000'
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            callback: (value) => `${value} Ar`
+          }
+        },
+        x: {
+          ticks: {
+            color: '#555'
+          }
+        }
+      }
+    }
+  })
+}
+
+watch(
+  () => transaction.listDepense,
+  (newValue) => {
+    if (newValue) {
+      updateChart()
+    }
+  },
+  { immediate: true, deep: true }
+)
+
+watch(
+  () => transaction.listRecette,
+  (newValue) => {
+    if (newValue) {
+      updateChart()
+    }
+  },
+  { deep: true }
+)
 
 const categoriesRecette = [
   'Frais de scolarité',
@@ -232,9 +423,10 @@ const categoriesDepense = [
 ]
 
 let typeValue = ref('')
-const types = ['Recette ', 'Dépense']
+const types = ['Recette', 'Dépense']
 
 onBeforeMount(() => {
+  transaction.isTrans = true
   categorieValue.value = categoriesRecette[0]
   typeValue.value = types[0]
   categories.value = categoriesRecette
@@ -249,6 +441,40 @@ function switchCateg() {
     categories.value = categoriesDepense
     categorieValue.value = categoriesDepense[0]
   }
+}
+
+function postTransaction() {
+  const dateActuelle = new Date()
+  const dateFormatee = dateActuelle.toLocaleDateString('fr-FR')
+
+  show.showSpinner = true
+  const userString = localStorage.getItem('user')
+  const user = JSON.parse(userString)
+  let formData = {
+    montant: montant.value,
+    type: typeValue.value,
+    description: motif.value,
+    categorie: categorieValue.value,
+    user_id: user.id,
+    au_id: au.idAU,
+    date: dateFormatee
+  }
+  axios
+    .post(`${URL}/api/transaction`, formData)
+    .then((response) => {
+      transaction.getByIdAU()
+      messages.messageSucces = 'Transaction réussi !'
+      montant.value = null
+      motif.value = ''
+      show.showSpinner = false
+      setTimeout(() => {
+        messages.messageSucces = ''
+      }, 3000)
+    })
+    .catch((err) => {
+      console.error(err)
+      show.showSpinner = false
+    })
 }
 </script>
 

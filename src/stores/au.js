@@ -9,9 +9,12 @@ import { useMention } from '@/stores/Mention'
 import { useUe } from '@/stores/Ue'
 import { useEc } from '@/stores/Ec'
 import { useEdt } from '@/stores/Edt'
+import { useTransaction } from '@/stores/Transaction'
+
 import axios from 'axios'
 
 export const useAu = defineStore('Au', () => {
+  const transaction = useTransaction()
   const show = useShow()
   const URL = useUrl().url
   const messages = useMessages()
@@ -71,6 +74,9 @@ export const useAu = defineStore('Au', () => {
       }
       if (users.user.status_user === 'ENS') {
         ec.getAllECByEns()
+      }
+      if (show.showNavBarSECPAL) {
+        transaction.getByIdAU()
       }
 
       niveau.NiveauChecked = []

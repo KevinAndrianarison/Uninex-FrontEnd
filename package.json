@@ -22,6 +22,7 @@
     "@headlessui/vue": "^1.7.22",
     "@heroicons/vue": "^2.1.5",
     "axios": "^1.6.8",
+    "chart.js": "^4.4.7",
     "cookie_js": "^1.4.2",
     "html2canvas": "^1.4.1",
     "html2pdf.js": "^0.10.2",
@@ -33,6 +34,7 @@
     "swiper": "^9.4.1",
     "tippy.js": "^6.3.7",
     "vue": "^3.3.4",
+    "vue-chartjs": "^5.3.2",
     "vue-router": "^4.2.4",
     "vue-tippy": "^6.4.4",
     "xlsx": "^0.18.5"
