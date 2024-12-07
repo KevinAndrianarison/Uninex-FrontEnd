@@ -82,6 +82,7 @@
             <div class="text-center w-[5%]">
               <Tooltip content="Générer une facture">
                 <font-awesome-icon
+                  @click="generateFac(trans)"
                   class="iconadd text-blue-500 cursor-pointer h-4 w-3"
                   :icon="['fas', 'file-pdf']"
               /></Tooltip>
@@ -248,7 +249,14 @@
           >
             Valider</Button
           >
-          <Button class="btn bg-gray-300 w-full py-2 rounded cursor-pointer mt-1">
+          <Button
+            @click="
+              () => {
+                show.showCaissepdf = true
+              }
+            "
+            class="btn bg-gray-300 w-full py-2 rounded cursor-pointer mt-1"
+          >
             📁 Imprimer le rapport de caisse
           </Button>
         </div>
@@ -296,6 +304,11 @@ const URL = useUrl().url
 onMounted(() => {
   updateChart()
 })
+
+function generateFac(trans) {
+  transaction.oneFacture = trans
+  show.showFacturepdf = true
+}
 
 const filteredTransactions = computed(() => {
   if (!searchDate.value) return transaction.listTrans

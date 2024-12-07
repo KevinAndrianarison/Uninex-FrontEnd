@@ -17,6 +17,8 @@
     <CarteEtudiant v-if="show.showCarteEtudiant" />
     <ReleveNotePdf v-if="show.showReleveNotePdf" />
     <EDTpdf v-if="show.showEDTpdf" />
+    <FacturePdf v-if="show.showFacturepdf" />
+    <RapportCaissePdf v-if="show.showCaissepdf" />
   </div>
   <Teleport to="body">
     <Overlay />
@@ -134,9 +136,11 @@ import ListeEtudiantPdf from './components/ListeEtudiantPdf.vue'
 import ListeNoteParEC from './components/ListeNoteParEC.vue'
 import CarteEtudiant from './components/CarteEtudiant.vue'
 import EDTpdf from './components/EDTpdf.vue'
+import FacturePdf from './components/FacturePdf.vue'
 import EDT from './components/EDT.vue'
 import ListeNotesEtudiant from './components/ListeNotesEtudiant.vue'
 import ReleveNotePdf from './components/ReleveNotePdf.vue'
+import RapportCaissePdf from './components/RapportCaissePdf.vue'
 
 import Overlay from './components/Overlay.vue'
 import { onBeforeMount } from 'vue'

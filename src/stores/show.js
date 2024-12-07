@@ -51,6 +51,8 @@ export const useShow = defineStore('Show', () => {
   const showListeNotesEtudiant = ref(false)
   const showEDT = ref(false)
   const showEDTpdf = ref(false)
+  const showFacturepdf = ref(false)
+  const showCaissepdf = ref(false)
 
   function toggleCreatePasswordVisibility() {
     showCreatePassword.value = !showCreatePassword.value
@@ -114,6 +116,8 @@ export const useShow = defineStore('Show', () => {
     showDeletEDT,
     showEDT,
     showNavBarSECPAL,
+    showFacturepdf,
+    showCaissepdf,
     toggleCreatePasswordVisibility,
     togglePasswordVisibility,
     toggleVerifyPasswordVisibility

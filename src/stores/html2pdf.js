@@ -6,6 +6,7 @@ import { useAu } from '@/stores/Au'
 import { useEtudiant } from '@/stores/Etudiant'
 import { useEc } from '@/stores/Ec'
 import { useEdt } from '@/stores/Edt'
+import { useTransaction } from '@/stores/Transaction'
 
 // import html2canvas from 'html2canvas'
 // import jsPDF from 'jspdf'
@@ -17,6 +18,7 @@ export const useHtml2pdf = defineStore('Html2pdf', () => {
   const etudiant = useEtudiant()
   const ec = useEc()
   const edt = useEdt()
+  const transaction = useTransaction()
 
   function setElement(element) {
     elementToPrint.value = element
@@ -43,6 +45,32 @@ export const useHtml2pdf = defineStore('Html2pdf', () => {
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
+    }
+
+    html2pdf().from(element).set(options).save()
+  }
+
+  function downloadFacture() {
+    const element = elementToPrint.value
+    const options = {
+      margin: 0,
+      filename: `Facture - ${transaction.oneFacture.date} - ${transaction.oneFacture.categorie} (${transaction.oneFacture.au.annee_debut}/${transaction.oneFacture.au.annee_fin}).pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    }
+
+    html2pdf().from(element).set(options).save()
+  }
+
+  function downloadRapportCaisse() {
+    const element = elementToPrint.value
+    const options = {
+      margin: 0,
+      filename: `Rapport de Caisse (${transaction.listTrans[0].au.annee_debut}/${transaction.listTrans[0].au.annee_fin}).pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
     }
 
     html2pdf().from(element).set(options).save()
@@ -88,9 +116,11 @@ export const useHtml2pdf = defineStore('Html2pdf', () => {
 
   return {
     elementToPrint,
+    downloadRapportCaisse,
     downloadReleve,
     downloadEDT,
     downloadEDT,
+    downloadFacture,
     setElement,
     downloadNote,
     downloadPDF,

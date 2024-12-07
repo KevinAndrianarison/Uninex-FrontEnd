@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import axios from 'axios'
 import { useUrl } from '@/stores/url'
 import { useAu } from '@/stores/Au'
@@ -10,6 +10,7 @@ export const useTransaction = defineStore('Transaction', () => {
   const listDepense = ref([])
   const isTrans = ref(false)
   const totalMontant = ref(0)
+  const oneFacture = reactive({})
 
   const URL = useUrl().url
   const au = useAu()
@@ -17,7 +18,7 @@ export const useTransaction = defineStore('Transaction', () => {
   function getByIdAU() {
     axios
       .get(`${URL}/api/transactionGetByAU/${au.idAU}`)
-      .then((response) => {
+      .then((response) => {        
         listTrans.value = response.data
         listDepense.value = regrouperParCategorie(response.data).listDepense
         listRecette.value = regrouperParCategorie(response.data).listRecette
@@ -58,6 +59,7 @@ export const useTransaction = defineStore('Transaction', () => {
     listRecette,
     isTrans,
     totalMontant,
+    oneFacture,
     getByIdAU
   }
 })
