@@ -28,7 +28,10 @@
         :key="user.id"
         @click="selectUser(user)"
       >
-        <div class="cursor-pointer mt-2 w-full flex hover:bg-gray-100 hover:rounded-3xl">
+        <div
+          v-if="Users.user.id !== user.id"
+          class="cursor-pointer mt-2 w-full flex hover:bg-gray-100 hover:rounded-3xl"
+        >
           <div
             :style="{
               'background-image': `url(${URL}/storage/users/${
@@ -73,7 +76,7 @@
           />
         </Tooltip>
       </div>
-      <div class="h-[80%] max-h-[80%] overflow-y-auto bg-gray-100 px-5 chat-container">
+      <div class="h-[78%] max-h-[78%] overflow-y-auto bg-gray-100 px-5 chat-container">
         <div :key="index" v-for="(message, index) in messages">
           <div v-if="message.sender_id !== localUserId" class="w-[50%] mt-2 flex items-end">
             <div
@@ -96,10 +99,10 @@
           </div>
           <div
             v-if="message.sender_id === localUserId"
-            class="w-[full] mt-2 flex justify-end items-end"
+            class="w-[full] mt-2 flex justify-end items-end "
           >
             <div class="w-[45%] mr-2">
-              <p class="borderRadiusReverse bg-white border p-3">
+              <p class="borderRadiusReverse bg-blue-500 text-white border p-3">
                 {{ message.message }}
               </p>
               <p class="text-right text-xs text-gray-500">
@@ -109,7 +112,7 @@
             <div
               :style="{
                 'background-image': `url(${URL}/storage/users/${
-                  Users.photo_name ||
+                  Users.user.photo_name ||
                   'depositphotos_35717211-stock-illustration-vector-user-icon-removebg-preview.png'
                 })`,
                 'background-size': 'cover',
@@ -125,25 +128,44 @@
           </p>
         </div>
       </div>
-      <div class="h-[12%] flex justify-between items-center px-5">
+      <div class="h-[12%] flex justify-between items-center py-10 px-3">
         <textarea
           v-model="newMessage"
-          class="min-h-[60%] border-2 border-yellow-500 rounded-xl p-2 w-[90%] focus:outline-none"
+          class="min-h-[60%] border focus:border-2 border-yellow-500 rounded-xl p-2 w-[90%] focus:outline-none"
           placeholder="Écrire ici..."
         ></textarea>
-        <Tooltip content="Joindre un fichier">
-          <font-awesome-icon
-            class="iconadd text-blue-500 hover:bg-gray-200 p-2 px-3 rounded-3xl cursor-pointer h-8 w-6"
-            :icon="['fas', 'images']"
+        <div class="relative inline-block">
+          <Tooltip content="Joindre un fichier">
+            <font-awesome-icon
+              class="iconadd text-blue-500 hover:bg-gray-200 p-2 px-3 rounded-3xl cursor-pointer h-8 w-6"
+              :icon="['fas', 'images']"
+            />
+          </Tooltip>
+          <input
+            type="file"
+            accept="*"
+            class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+            @change="onFileChange"
           />
-        </Tooltip>
+        </div>
         <Tooltip content="Envoyer">
           <font-awesome-icon
+            :disabled="!newMessage || !file"
             class="iconadd text-blue-500 cursor-pointer hover:bg-gray-200 rounded-3xl p-2 px-3 h-6 w-5"
             :icon="['fas', 'paper-plane']"
             @click="sendMessage"
           />
         </Tooltip>
+      </div>
+      <div v-if="fileName" class="relative w-[90%] px-10 bottom-8 flex justify-end">
+        <p class="border z-5 text-xs bg-blue-300 py-2 px-4 font-bold rounded-lg flex items-center">
+          {{ fileName }}
+          <font-awesome-icon
+            @click="removeFile"
+            class="ml-2 text-red-500 cursor-pointer"
+            :icon="['fas', 'xmark']"
+          />
+        </p>
       </div>
     </div>
   </div>
@@ -151,7 +173,7 @@
 
 <script setup>
 import Tooltip from '../components/Tooltip.vue'
-import { ref, onBeforeMount, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import Pusher from 'pusher-js'
 import { useUrl } from '@/stores/url'
@@ -159,12 +181,15 @@ import { useUrl } from '@/stores/url'
 const URL = useUrl().url
 const users = ref([])
 const messages = ref([])
-const notifications = ref({})
+const file = ref(null)
+const fileName = ref('')
 const selectedUser = ref(null)
 const newMessage = ref('')
 const localUserId = ref(JSON.parse(localStorage.getItem('user')).user.id)
 const userString = localStorage.getItem('user')
 const Users = JSON.parse(userString)
+let currentChannel = null
+let currentPusher = null
 
 function fetchUsers() {
   axios
@@ -186,11 +211,15 @@ function updateTime() {
 onMounted(() => {
   setInterval(updateTime, 30000)
   updateTime()
+  fetchUsers()
 })
 
 function selectUser(user) {
+  if (window.currentChannel) {
+    window.currentPusher.unsubscribe(window.currentChannel)
+  }
+
   selectedUser.value = user
-  notifications.value[user.id] = 0
   axios
     .get(`${URL}/api/messages/${localUserId.value}/${user.id}`)
     .then((response) => {
@@ -200,32 +229,39 @@ function selectUser(user) {
     .catch((error) => {
       console.error(error)
     })
-}
 
-function getAllMessages(id) {
-  axios
-    .get(`${URL}/api/messages/${localUserId.value}/${id}`)
-    .then((response) => {
-      messages.value = response.data.reverse()
-      updateTime()
-    })
-    .catch((error) => {
-      console.error(error)
-    })
+  const channelName = generateChannelName(localUserId.value, user.id)
+  currentPusher = new Pusher(import.meta.env.VITE_PUSHER_APP_KEY, {
+    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER
+  })
+
+  currentChannel = currentPusher.subscribe(channelName)
+  currentChannel.bind('message-sent', (data) => {
+    messages.value.unshift(data)
+  })
+  window.currentPusher = currentPusher
+  window.currentChannel = channelName
 }
 
 function sendMessage() {
-  const formData = {
-    sender_id: localUserId.value,
-    receiver_id: selectedUser.value.id,
-    message: newMessage.value
-  }
+  // const formData = {
+  //   sender_id: localUserId.value,
+  //   receiver_id: selectedUser.value.id,
+  //   message: newMessage.value
+  // }
+
+  let formData = new FormData()
+  formData.append('sender_id', localUserId.value || '')
+  formData.append('receiver_id', selectedUser.value.id || '')
+  formData.append('fichier', file.value || '')
+  formData.append('message', newMessage.value || '')
 
   axios
     .post(`${URL}/api/send-message`, formData)
     .then((response) => {
       newMessage.value = ''
-      getAllMessages(response.data.receiver_id)
+      file.value = null
+      fileName.value = ''
     })
     .catch((error) => {
       console.error(error)
@@ -256,23 +292,20 @@ function timeAgo(date) {
   }
 }
 
-onBeforeMount(() => {
-  fetchUsers()
-  const pusher = new Pusher(import.meta.env.VITE_PUSHER_APP_KEY, {
-    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-    encrypted: true
-  })
+function generateChannelName(userId1, userId2) {
+  const userIds = [userId1, userId2].sort()
+  return `Chat-${userIds.join('-')}`
+}
 
-  const channel = pusher.subscribe(`chat.${localUserId.value}`)
+function onFileChange(event) {
+  file.value = event.target.files[0]
+  fileName.value = event.target.files[0].name
+}
 
-  channel.bind('MessageSent', (data) => {
-    if (selectedUser.value && data.sender_id === selectedUser.value.id) {
-      messages.value.push(data)
-    } else {
-      notifications.value[data.sender_id] = (notifications.value[data.sender_id] || 0) + 1
-    }
-  })
-})
+function removeFile() {
+  file.value = null
+  fileName.value = ''
+}
 </script>
 
 <style scoped>

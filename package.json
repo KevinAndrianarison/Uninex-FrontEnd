@@ -21,7 +21,7 @@
     "@fortawesome/vue-fontawesome": "^3.0.8",
     "@headlessui/vue": "^1.7.22",
     "@heroicons/vue": "^2.1.5",
-    "axios": "^1.6.8",
+    "axios": "^1.7.9",
     "chart.js": "^4.4.7",
     "cookie_js": "^1.4.2",
     "html2canvas": "^1.4.1",

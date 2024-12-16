@@ -2,13 +2,12 @@
   <div class="body bg-white border pb-5 rounded-lg min-h-[80vh]">
     <div class="head flex justify-center items-center mt-2">
       <div>
-        <select v-model="findBy" class="mr-2 w-40  p-1.5 px-2 rounded border-2 focus:outline-none text-xs"  >
-              <option value="Toutes" class="text-sm">
-                Toutes
-              </option>
-              <option value="Mes annonces" class="text-sm">
-                Mes annonces
-              </option>
+        <select
+          v-model="findBy"
+          class="mr-2 w-40 p-1.5 px-2 rounded border-2 focus:outline-none text-xs"
+        >
+          <option value="Toutes" class="text-sm">Toutes</option>
+          <option value="Mes annonces" class="text-sm">Mes annonces</option>
         </select>
       </div>
       <input
@@ -19,8 +18,8 @@
         v-model="annonces.searchalue"
       />
     </div>
-    <div class="flex justify-evenly mt-2 ">
-      <div class="w-[20%] max-h-[200px] overflow-auto cursor-pointer">
+    <div v-if="!annonces.isSveletron" class="flex justify-evenly mt-2 ">
+      <div class="w-[20%] max-h-[200px] overflow-auto cursor-pointer ">
         <div
           :key="ctg.id"
           v-for="(ctg, index) in category.listCategorie"
@@ -30,9 +29,9 @@
           {{ ctg.titre }}
         </div>
       </div>
-      <div class="w-[45%] overflow-y-auto max-h-[75vh] rounded">
+      <div class="w-[45%] overflow-y-auto max-h-[75vh] rounded px-4">
         <div
-          class="flex p-4 border rounded mt-2"
+          class="flex py-2 border rounded mt-2 pr-8"
           :key="ann.id"
           v-for="(ann, index) in annonces.listAnnonce"
         >
@@ -45,9 +44,9 @@
               'background-size': 'cover',
               'background-position': 'center'
             }"
-            class="image"
+            class="image ml-1"
           ></div>
-          <div class="content w-[95%] pl-4">
+          <div class="content w-[95%] pl-1">
             <h1 class="font-bold">{{ ann.user.email }}</h1>
             <div v-if="editableId === ann.id && isEditingTitle">
               <input
@@ -234,6 +233,43 @@
         </div>
       </div>
     </div>
+
+    <div v-if="annonces.isSveletron" class="flex justify-evenly mt-10">
+      <div role="status" class="max-w-sm animate-pulse">
+        <h3 class="h-3 bg-gray-300 rounded-lg w-48 mb-4"></h3>
+        <p class="h-2 bg-gray-300 rounded-lg max-w-[380px] mb-2.5"></p>
+        <p class="h-2 bg-gray-300 rounded-lg max-w-[340px] mb-2.5"></p>
+        <p class="h-2 bg-gray-300 rounded-lg max-w-[320px] mb-2.5"></p>
+      </div>
+      <div class="w-[50%]">
+        <div role="status" class="animate-pulse">
+          <h3 class="h-3 bg-gray-300 rounded-sm max-w-[340px] mb-4"></h3>
+          <div class="flex">
+            <p class="h-8 bg-gray-300 rounded-full w-8 mb-2.5 mr-2"></p>
+            <div>
+              <p class="h-2 bg-gray-300 rounded-full w-40 mb-2.5"></p>
+              <p class="h-2 bg-gray-300 rounded-full w-48 mb-2.5"></p>
+            </div>
+          </div>
+          <p class="h-4 bg-gray-300 rounded-sm max-w-[340px] mb-1"></p>
+          <p class="h-4 bg-gray-300 rounded-sm max-w-[250px] mb-4"></p>
+          <p class="h-2 bg-gray-300 rounded-sm max-w-[320px] mb-2.5"></p>
+        </div>
+        <div role="status" class="animate-pulse mt-20">
+          <h3 class="h-3 bg-gray-300 rounded-sm max-w-[340px] mb-4"></h3>
+          <div class="flex">
+            <p class="h-8 bg-gray-300 rounded-full w-8 mb-2.5 mr-2"></p>
+            <div>
+              <p class="h-2 bg-gray-300 rounded-full w-40 mb-2.5"></p>
+              <p class="h-2 bg-gray-300 rounded-full w-48 mb-2.5"></p>
+            </div>
+          </div>
+          <p class="h-4 bg-gray-300 rounded-sm max-w-[340px] mb-1"></p>
+          <p class="h-4 bg-gray-300 rounded-sm max-w-[250px] mb-4"></p>
+          <p class="h-2 bg-gray-300 rounded-sm max-w-[320px] mb-2.5"></p>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -256,22 +292,21 @@ const userString = localStorage.getItem('user')
 const user = JSON.parse(userString)
 
 const editableId = ref(null)
-const findBy = ref("Toutes")
+const findBy = ref('Toutes')
 const isEditingTitle = ref(false)
 const isEditingDescription = ref(false)
 const isActive = ref(null)
 const coms = ref(null)
 const isComs = ref(false)
 const editableComId = ref(null)
-const showLikesModal = ref(false);
-const listReacteur = ref([]);
+const showLikesModal = ref(false)
+const listReacteur = ref([])
 
-
-watch(findBy, (newValue, oldValue)=>{
-  if(newValue === "Toutes"){
+watch(findBy, (newValue, oldValue) => {
+  if (newValue === 'Toutes') {
     annonces.getAllAnnonce()
   }
-  if(newValue === "Mes annonces"){
+  if (newValue === 'Mes annonces') {
     annonces.getAnnonceByIdUser(user.user.id)
   }
 })
@@ -292,10 +327,10 @@ function toggleEditPost(ann) {
 
 function openLikesModal(list) {
   listReacteur.value = list
-  showLikesModal.value = true;
+  showLikesModal.value = true
 }
 function closeLikesModal() {
-  showLikesModal.value = false;
+  showLikesModal.value = false
 }
 
 function editComment(com) {
@@ -340,16 +375,17 @@ function deleteComs(id) {
 function toggleLike(annonce) {
   const userString = localStorage.getItem('user')
   const user = JSON.parse(userString)
-  
-  axios.post(`${URL}/api/annonces/${annonce.id}/like`, { user_id: user.user.id })
+
+  axios
+    .post(`${URL}/api/annonces/${annonce.id}/like`, { user_id: user.user.id })
     .then((response) => {
-      if(response.data.message){
+      if (response.data.message) {
         annonces.getAllAnnonce()
       }
     })
-    .catch(error => {
-      console.error(error);
-    });
+    .catch((error) => {
+      console.error(error)
+    })
 }
 
 function setActiveCategory(id) {
@@ -477,7 +513,6 @@ function updateTime() {
     ann.timeAgo = timeAgo(new Date(ann.created_at))
   })
 }
-
 
 function updateTimeComs() {
   commmentaire.listComs.forEach((coms) => {
