@@ -24,6 +24,7 @@ export const useUser = defineStore('User', () => {
   const oldpassword = ref('')
   const passwordVerifier = ref('')
   const photo = ref(null)
+  const photoName = ref('')
   const user_id = ref(null)
   const user_status = ref('')
   const listUser = ref([])
@@ -258,6 +259,7 @@ export const useUser = defineStore('User', () => {
     user_status,
     oldpassword,
     listUser,
+    photoName,
     verifierPasword,
     supprUser,
     login,

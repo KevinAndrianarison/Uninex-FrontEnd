@@ -243,10 +243,10 @@ function onFileChange(event) {
           </div>
         </div>
         <div v-if="fileName" class="flex text-xs">
-          <p class="text-yellow-500 mr-2">{{ fileName }}</p>
+          <p class="text-blue-500 mr-2">{{ fileName }}</p>
           <font-awesome-icon
             @click="removeFile"
-            class="text-gray-500 cursor-pointer w-5 h-4"
+            class="text-red-500 cursor-pointer w-5 h-4"
             :icon="['fas', 'xmark']"
           />
         </div>

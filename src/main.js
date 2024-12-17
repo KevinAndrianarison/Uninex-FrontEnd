@@ -51,6 +51,7 @@ import {
   faChartSimple,
   faFilePdf,
   faFileCirclePlus,
+  faTrash,
   faImages
 } from '@fortawesome/free-solid-svg-icons'
 
@@ -94,7 +95,8 @@ library.add(
   faChartSimple,
   faFilePdf,
   faFileCirclePlus,
-  faImages
+  faImages,
+  faTrash
 )
 
 import App from './App.vue'

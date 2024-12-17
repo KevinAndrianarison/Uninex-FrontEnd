@@ -87,6 +87,7 @@ export const useAgentscolarite = defineStore('Agentscolarite', () => {
         show.showSpinner = false
       })
     user.photo = null
+    user.photoName = ''
     password.password = ''
     user.email = ''
   }

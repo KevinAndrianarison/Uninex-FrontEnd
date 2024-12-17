@@ -22,6 +22,7 @@ export const useEtablissement = defineStore('Etablissement', () => {
   const descri_etab = ref('')
   const abr_etab = ref('')
   const logo_etab = ref(null)
+  const logo_etabName = ref('')
   const dateCreation_etab = ref('')
   const mdpAppGmail_etab = ref('')
   const pays_etab = ref('')
@@ -126,11 +127,13 @@ export const useEtablissement = defineStore('Etablissement', () => {
         email_etab.value = ''
         mdpAppGmail_etab.value = ''
         logo_etab.value = null
+        logo_etabName.value = ''
         dateCreation_etab.value = ''
         user.email = ''
         user.password = ''
         user.passwordVerifier = ''
         user.photo = null
+        user.photoName = ''
         show.showFirstConfig = false
         show.showLogin = true
       })
@@ -254,6 +257,7 @@ export const useEtablissement = defineStore('Etablissement', () => {
     codePostal_etab,
     mdpAppGmail_etab,
     email_etab,
+    logo_etabName,
     createfirstConfig,
     getEtab,
     modifierEtabissement

@@ -78,7 +78,7 @@
       </div>
       <div class="h-[78%] max-h-[78%] overflow-y-auto bg-gray-100 px-5 chat-container">
         <div :key="index" v-for="(message, index) in messages">
-          <div v-if="message.sender_id !== localUserId" class="w-[50%] mt-2 flex items-end">
+          <div v-if="Number(message.sender_id) !== localUserId" class="w-[50%] mt-2 flex items-end">
             <div
               :style="{
                 'background-image': `url(${URL}/storage/users/${
@@ -93,21 +93,66 @@
             <div class="w-[80%]">
               <p class="borderRadius bg-white border p-3">
                 {{ message.message }}
+                <p 
+                v-if="isImageFile(message.fichierName)"
+                :style="{
+                      'background-image': `url(${URL}/storage/message/${message.fichierName})`,
+                      'background-size': 'cover',
+                      'background-position': 'center'
+                        }" 
+                class=" h-[20vh] my-2  bg-white"></p>
+                <Tooltip content="Télecharger">
+                <div v-if="message.fichierName" class="flex text-white items-center bg-green-500 text-xs rounded py-1 px-2 border" >
+                {{ message.fichierName }}
+                <font-awesome-icon
+                 class="cursor-pointer text-yellow-500 ml-2"
+                :icon="['fas', 'arrow-down']"
+                @click.stop="telecharger(message.fichierName)"/>
+                </div> </Tooltip>
               </p>
               <p class="text-xs text-gray-500">{{ message.timeAgo }}</p>
             </div>
           </div>
           <div
-            v-if="message.sender_id === localUserId"
-            class="w-[full] mt-2 flex justify-end items-end "
+            v-if="Number(message.sender_id) === localUserId"
+            class="w-[full] mt-2 flex justify-end items-end cursor-pointer"
+            @click.stop="setIdMessage(message.id)"
           >
             <div class="w-[45%] mr-2">
               <p class="borderRadiusReverse bg-blue-500 text-white border p-3">
                 {{ message.message }}
+                <p 
+                v-if="isImageFile(message.fichierName)"
+                :style="{
+                      'background-image': `url(${URL}/storage/message/${message.fichierName})`,
+                      'background-size': 'cover',
+                      'background-position': 'center'
+                        }" 
+                class=" h-[20vh] my-2  bg-white"></p>
+                <Tooltip content="Télecharger">
+                <div v-if="message.fichierName" class="flex  text-xs items-center bg-white text-gray-900 rounded py-1 px-2 border" >
+                {{ message.fichierName }}
+                <font-awesome-icon
+                 class="cursor-pointer text-yellow-500 ml-2"
+                :icon="['fas', 'arrow-down']"
+                @click.stop="telecharger(message.fichierName)"/>
+                </div>
+                </Tooltip>
               </p>
-              <p class="text-right text-xs text-gray-500">
+              <p v-if="idMessage !== message.id" class="text-right text-xs text-gray-500">
                 {{ message.timeAgo }}
               </p>
+              <div v-if="idMessage === message.id" class="flex justify-end text-xs">
+                <button
+                  @click="deleteMessage(message.id)"
+                  class="bg-red-500 px-3 py-1.5 text-white rounded"
+                >
+                  <font-awesome-icon
+                    class="mr-2 text-white cursor-pointer"
+                    :icon="['fas', 'trash']"
+                  />Supprimer
+                </button>
+              </div>
             </div>
             <div
               :style="{
@@ -178,12 +223,14 @@ import axios from 'axios'
 import Pusher from 'pusher-js'
 import { useUrl } from '@/stores/url'
 
+
 const URL = useUrl().url
 const users = ref([])
 const messages = ref([])
 const file = ref(null)
 const fileName = ref('')
 const selectedUser = ref(null)
+const idMessage = ref(null)
 const newMessage = ref('')
 const localUserId = ref(JSON.parse(localStorage.getItem('user')).user.id)
 const userString = localStorage.getItem('user')
@@ -200,6 +247,36 @@ function fetchUsers() {
     .catch((error) => {
       console.error(error)
     })
+}
+
+function telecharger(nom) {
+  const url = `${URL}/api/messages/${nom}`
+  const link = document.createElement('a')
+  link.href = url
+  link.download = nom
+  link.style.display = 'none'
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+}
+
+function deleteMessage(id) {
+  axios
+    .delete(`${URL}/api/messages/${id}`)
+    .then((response) => {
+      idMessage.value = null
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+}
+
+function setIdMessage(id) {
+  if (idMessage.value === id) {
+    idMessage.value = null
+  } else {
+    idMessage.value = id
+  }
 }
 
 function updateTime() {
@@ -239,22 +316,23 @@ function selectUser(user) {
   currentChannel.bind('message-sent', (data) => {
     messages.value.unshift(data)
   })
+  currentChannel.bind('message-deleted', (data) => {
+    messages.value = messages.value.filter((message) => message.id !== Number(data.message_id))
+    
+  })
   window.currentPusher = currentPusher
   window.currentChannel = channelName
 }
 
 function sendMessage() {
-  // const formData = {
-  //   sender_id: localUserId.value,
-  //   receiver_id: selectedUser.value.id,
-  //   message: newMessage.value
-  // }
-
   let formData = new FormData()
   formData.append('sender_id', localUserId.value || '')
   formData.append('receiver_id', selectedUser.value.id || '')
   formData.append('fichier', file.value || '')
   formData.append('message', newMessage.value || '')
+  newMessage.value = ''
+  file.value = null
+  fileName.value = ''
 
   axios
     .post(`${URL}/api/send-message`, formData)
@@ -290,6 +368,15 @@ function timeAgo(date) {
   } else {
     return `${diffInYears} an${diffInYears > 1 ? 's' : ''}`
   }
+}
+
+function isImageFile(fileName) {
+  if(fileName){
+  const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'tiff', 'svg']
+  const extension = fileName.split('.').pop().toLowerCase()
+  return imageExtensions.includes(extension)
+  }
+
 }
 
 function generateChannelName(userId1, userId2) {
