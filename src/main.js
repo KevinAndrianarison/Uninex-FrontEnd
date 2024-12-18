@@ -52,7 +52,9 @@ import {
   faFilePdf,
   faFileCirclePlus,
   faTrash,
-  faImages
+  faImages,
+  faChevronLeft,
+  faBan
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -96,7 +98,9 @@ library.add(
   faFilePdf,
   faFileCirclePlus,
   faImages,
-  faTrash
+  faTrash,
+  faChevronLeft,
+  faBan
 )
 
 import App from './App.vue'
