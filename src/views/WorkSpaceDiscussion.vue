@@ -22,7 +22,25 @@
         <div class="text-white bg-gray-500 w-[45%] py-0.5 rounded-3xl text-center">Toutes</div>
         <div class="text-white w-[45%] text-center">Groupes</div>
       </div>
-  <div v-for="user in users" :key="user.id" @click="selectUser(user)">
+
+      <div v-if="isSuspense">
+        <div role="status" class="max-w-sm animate-pulse flex mt-4">
+        <h3 class="h-10 bg-gray-300 rounded-3xl w-10 mb-4 mr-2"></h3>
+        <div>
+        <p class="h-3 bg-gray-300 rounded-lg w-20 w-60  mb-2.5"></p>
+        <p class="h-3 bg-gray-300 rounded-lg w-20 w-40  mb-2.5"></p>
+        </div>
+      </div>
+      <div role="status" class="max-w-sm animate-pulse flex mt-2">
+        <h3 class="h-10 bg-gray-300 rounded-3xl w-10 mb-4 mr-2"></h3>
+        <div>
+        <p class="h-3 bg-gray-300 rounded-lg w-20 w-60  mb-2.5"></p>
+        <p class="h-3 bg-gray-300 rounded-lg w-20 w-40  mb-2.5"></p>
+        </div>
+      </div>
+      </div>
+
+  <div v-if="!isSuspense" v-for="user in users" :key="user.id" @click="selectUser(user)">
   <div v-if="Users.user.id !== user.id" class="cursor-pointer mt-2 w-full flex hover:bg-gray-100 hover:rounded-3xl">
     <div :style="{ 'background-image': `url(${URL}/storage/users/${user.photo_name || 'depositphotos_35717211-stock-illustration-vector-user-icon-removebg-preview.png'})`, 'background-size': 'cover', 'background-position': 'center' }" class="logo w-[48px] h-[50px] rounded-3xl"></div>
     <div class="px-3 w-[80%] flex flex-col justify-center">
@@ -54,8 +72,6 @@
     </div>
   </div>
 </div>
-
-
 
     </div>
     <div v-if="!showUserList" class="bg-gray-100 border rounded-2xl w-[100%]">
@@ -253,12 +269,15 @@ const Users = JSON.parse(userString)
 let currentChannel = null
 let currentPusher = null
 const showDropdown = ref(false);
+const isSuspense = ref(false)
+
 
 function toggleDropdown() {
    showDropdown.value = !showDropdown.value; 
 }
 
 function fetchUsers() {
+  isSuspense.value = true
   axios
     .get(`${URL}/api/users`)
     .then((response) => {
@@ -272,7 +291,8 @@ function fetchUsers() {
               const dateB = b.lastMessage ? new Date(b.lastMessage.created_at) : new Date(0);
               return dateB - dateA;
             });
-            users.value = usersWithLastMessage;                        
+            users.value = usersWithLastMessage;  
+            isSuspense.value = false          
             subscribeToPusher();
           }
         });
