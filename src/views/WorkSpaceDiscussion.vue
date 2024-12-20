@@ -101,7 +101,7 @@
           <div v-if="showDropdown" class="absolute right-0  mt-2 w-60 bg-white text-xs  rounded shadow-lg"> 
             <ul>
             <li  class="px-4 py-2 hover:bg-gray-100 font-bold cursor-pointer border-t border-l border-r"><font-awesome-icon  :icon="['fas', 'ban']" class="text-yellow-500 mr-2"  />Ne pas recevoir des messages</li>
-            <li class="px-4 py-2 hover:bg-gray-100 font-bold cursor-pointer border-t border-l border-r border-b"><font-awesome-icon  :icon="['fas', 'trash']" class="text-red-500 mr-2"  />
+            <li @click="deleteConversation()" class="px-4 py-2 hover:bg-gray-100 font-bold cursor-pointer border-t border-l border-r border-b"><font-awesome-icon  :icon="['fas', 'trash']" class="text-red-500 mr-2"  />
               Supprimer la discussion</li> 
             </ul>
           </div> 
@@ -253,6 +253,8 @@ import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import Pusher from 'pusher-js'
 import { useUrl } from '@/stores/url'
+import { useShow } from '@/stores/Show'
+import { useMessages } from '@/stores/messages'
 
 const showUserList = ref(true);
 const URL = useUrl().url
@@ -270,6 +272,9 @@ let currentChannel = null
 let currentPusher = null
 const showDropdown = ref(false);
 const isSuspense = ref(false)
+
+const show = useShow()
+const Message = useMessages()
 
 
 function toggleDropdown() {
@@ -424,6 +429,14 @@ function selectUser(user) {
     messages.value = messages.value.filter((message) => message.id !== Number(data.message_id))
     
   })
+  currentChannel.bind('conversation-deleted', (data) => {
+       fetchUsers();
+          showUserList.value = true;
+          selectedUser.value = null;
+          messages.value = [];
+    }
+  );
+
   window.currentPusher = currentPusher
   window.currentChannel = channelName
 }
@@ -451,6 +464,23 @@ function sendMessage() {
       console.error( error);
     });
 }
+
+function deleteConversation() { 
+  show.showSpinner = true
+  axios.delete(`${URL}/api/conversation/${localUserId.value}/${selectedUser.value.id}`) 
+  .then(response => {
+    Message.messageSucces = response.data.success
+    show.showSpinner = false
+    setTimeout(()=>{
+      Message.messageSucces = ""
+    }, 3000)
+    fetchUsers();
+    }
+  ) 
+  .catch(error => { 
+    console.error(error);
+    show.showSpinner = false
+   }); }
 
 
 function timeAgo(date) {
