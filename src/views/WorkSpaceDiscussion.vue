@@ -96,14 +96,23 @@
         <p class="font-bold text-sm">{{ selectedUser.email }}</p>
         <div class="relative"> 
           <Tooltip content="Options"> 
-          <font-awesome-icon class="iconadd text-blue-500 cursor-pointer h-6 w-4" :icon="['fas', 'bars-staggered']" @click="toggleDropdown" />
+          <font-awesome-icon v-if="messages.length !== 0" class="iconadd text-blue-500 cursor-pointer h-6 w-4" :icon="['fas', 'bars-staggered']" @click="toggleDropdown" />
          </Tooltip>
-          <div v-if="showDropdown" class="absolute right-0  mt-2 w-60 bg-white text-xs  rounded shadow-lg"> 
+          <div v-if="showDropdown" class="absolute right-0  mt-2 w-60 bg-white text-xs  rounded "> 
             <ul>
-            <li  class="px-4 py-2 hover:bg-gray-100 font-bold cursor-pointer border-t border-l border-r"><font-awesome-icon  :icon="['fas', 'ban']" class="text-yellow-500 mr-2"  />Ne pas recevoir des messages</li>
-            <li @click="deleteConversation()" class="px-4 py-2 hover:bg-gray-100 font-bold cursor-pointer border-t border-l border-r border-b"><font-awesome-icon  :icon="['fas', 'trash']" class="text-red-500 mr-2"  />
+            <li @click="handleBlockUser" v-if="!isBlocked && isCanBlocOrUnBloc" class="px-4 py-2 font-bold cursor-pointer border-t border-l border-r">
+              <font-awesome-icon  :icon="['fas', 'ban']" class="text-yellow-500 mr-2 "  />Ne pas recevoir des messages</li>
+            <li @click="handleUnBlockUser" v-if="isBlocked && isCanBlocOrUnBloc" class="px-4 py-2  font-bold cursor-pointer border-t border-l border-r ">
+              <font-awesome-icon  :icon="['fas', 'ban']" class="text-yellow-500 mr-2 "  />Débloquer les messages</li>
+            <li @click="showConfirmModal = true" class="px-4 py-2  font-bold cursor-pointer border-t border-l border-r border-b "><font-awesome-icon  :icon="['fas', 'trash']" class="text-red-500 mr-2"  />
               Supprimer la discussion</li> 
             </ul>
+            <ConfirmDelMessageModal 
+            v-if="showConfirmModal" 
+            :show="showConfirmModal" 
+            message="Êtes-vous sûr de vouloir supprimer cette discussion ?" 
+            @confirm="deleteConversation" 
+            @cancel="showConfirmModal = false" />
           </div> 
         </div>
       </div>
@@ -204,7 +213,7 @@
           </p>
         </div>
       </div>
-      <div class="h-[12%] flex justify-between items-center py-10 px-3">
+      <div v-if="!isBlocked" class="h-[12%] flex justify-between items-center py-10 px-3">
         <textarea
           v-model="newMessage"
           class="min-h-[60%] border focus:border-2 border-yellow-500 rounded-xl p-2 w-[90%] focus:outline-none"
@@ -243,6 +252,7 @@
           />
         </p>
       </div>
+      <div v-if="isBlocked" class=" h-[12%] mt-2 flex justify-center items-center border-t">🔔 Vous ne pouvez plus nous envoyer des messages !</div>
     </div>
   </div>
 </template>
@@ -255,6 +265,7 @@ import Pusher from 'pusher-js'
 import { useUrl } from '@/stores/url'
 import { useShow } from '@/stores/Show'
 import { useMessages } from '@/stores/messages'
+import ConfirmDelMessageModal from '../components/ConfirmDelMessageModal.vue'
 
 const showUserList = ref(true);
 const URL = useUrl().url
@@ -272,6 +283,9 @@ let currentChannel = null
 let currentPusher = null
 const showDropdown = ref(false);
 const isSuspense = ref(false)
+const showConfirmModal = ref(false)
+const isBlocked = ref(false)
+const isCanBlocOrUnBloc = ref(true)
 
 const show = useShow()
 const Message = useMessages()
@@ -403,12 +417,27 @@ function selectUser(user) {
   if (window.currentChannel) {
     window.currentPusher.unsubscribe(window.currentChannel)
   }
-
+  isBlocked.value = false
   selectedUser.value = user
   axios
     .get(`${URL}/api/messages/${localUserId.value}/${user.id}`)
     .then((response) => {
       messages.value = response.data.reverse()
+      messages.value.forEach((message)=> {        
+        if(message.blockedId !== null){
+          if(message.blockedId === localUserId.value){
+            isCanBlocOrUnBloc.value = false
+            isBlocked.value =  true
+            return
+          }
+          if(message.blockedId !== localUserId.value){
+            isCanBlocOrUnBloc.value = true
+            isBlocked.value =  true
+            return
+          }
+
+        }
+      })
       updateTime()
       showUserList.value = false;
     })
@@ -428,6 +457,27 @@ function selectUser(user) {
   currentChannel.bind('message-deleted', (data) => {
     messages.value = messages.value.filter((message) => message.id !== Number(data.message_id))
     
+  })
+  currentChannel.bind('block-message', (data) => {
+    data.forEach((message)=> {
+      if(message.blockedId !== null){
+        if(message.blockedId === localUserId.value){
+            isCanBlocOrUnBloc.value = false
+            isBlocked.value =  true
+            return
+          }
+          if(message.blockedId !== localUserId.value){
+            isCanBlocOrUnBloc.value = true
+            isBlocked.value =  true
+            return
+          }
+
+        }
+        else{
+          isBlocked.value =  false
+          return
+        }
+      })
   })
   currentChannel.bind('conversation-deleted', (data) => {
        fetchUsers();
@@ -449,6 +499,7 @@ function sendMessage() {
   formData.append('receiver_id', selectedUser.value.id || '');
   formData.append('fichier', file.value || '');
   formData.append('message', newMessage.value || '');
+  formData.append('blockedId', "");
   newMessage.value = '';
   file.value = null;
   fileName.value = '';
@@ -465,10 +516,55 @@ function sendMessage() {
     });
 }
 
+function handleBlockUser(){
+  let formData = {
+    sender_id : localUserId.value,
+    receiver_id : selectedUser.value.id,
+    blockedId : selectedUser.value.id,
+  }
+  show.showSpinner = true
+  axios
+    .post(`${URL}/api/block-message`, formData)
+    .then((response) => {
+      Message.messageSucces = "Utiliseteur bloqué !"
+      setTimeout(()=>{
+      Message.messageSucces = ""
+    }, 3000)
+      show.showSpinner = false
+    })
+    .catch((error) => {
+      console.error( error);
+      show.showSpinner = false
+    });
+}
+
+function handleUnBlockUser(){
+  let formData = {
+    sender_id : localUserId.value,
+    receiver_id : selectedUser.value.id,
+    blockedId : null,
+  }
+  show.showSpinner = true
+  axios
+    .post(`${URL}/api/block-message`, formData)
+    .then((response) => {
+      Message.messageSucces = "Utiliseteur débloqué !"
+      setTimeout(()=>{
+      Message.messageSucces = ""
+    }, 3000)
+      show.showSpinner = false
+    })
+    .catch((error) => {
+      console.error( error);
+      show.showSpinner = false
+    });
+}
+
 function deleteConversation() { 
   show.showSpinner = true
   axios.delete(`${URL}/api/conversation/${localUserId.value}/${selectedUser.value.id}`) 
   .then(response => {
+    showConfirmModal.value = false;
     Message.messageSucces = response.data.success
     show.showSpinner = false
     setTimeout(()=>{
