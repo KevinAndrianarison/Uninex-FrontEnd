@@ -13,14 +13,17 @@
       </div>
       <input
         type="text"
+        v-if="isUser"
+        v-model="searchUser"
+        @input="search()"
         placeholder="Recherche"
         class="bg-gray-100 w-full mt-2 py-1 px-5 rounded-3xl focus:outline-none"
       />
       <div
         class="flex justify-between px-1.5 bg-gray-800 w-[90%] m-auto mt-2 py-1 rounded-3xl cursor-pointer"
       >
-        <div class="text-white bg-gray-500 w-[45%] py-0.5 rounded-3xl text-center">Toutes</div>
-        <div class="text-white w-[45%] text-center">Groupes</div>
+        <div @click="switchtoUser()" :class=" isUser ? 'text-white bg-gray-500 w-[45%] py-0.5 rounded-3xl text-center' : 'text-white w-[45%] py-0.5 text-center'">Utilisateurs</div>
+        <div  @click="switchtoGroup()" :class=" isGroup ? 'text-white bg-gray-500 w-[45%] py-0.5 rounded-3xl text-center' : 'text-white w-[45%] py-0.5 text-center'">Groupes</div>
       </div>
 
       <div v-if="isSuspense">
@@ -40,6 +43,7 @@
       </div>
       </div>
 
+<div v-if="isUser">
   <div v-if="!isSuspense" v-for="user in users" :key="user.id" @click="selectUser(user)">
   <div v-if="Users.user.id !== user.id" class="cursor-pointer mt-2 w-full flex hover:bg-gray-100 hover:rounded-3xl">
     <div :style="{ 'background-image': `url(${URL}/storage/users/${user.photo_name || 'depositphotos_35717211-stock-illustration-vector-user-icon-removebg-preview.png'})`, 'background-size': 'cover', 'background-position': 'center' }" class="logo w-[48px] h-[50px] rounded-3xl"></div>
@@ -72,8 +76,15 @@
     </div>
   </div>
 </div>
+<div v-if="users.length === 0 && !isSuspense" class="mt-10 text-center text-xs text-gray-500" >
+  Aucun utilisateur trouvé 🙁☁️
+</div>
+</div>
+      
+<div v-if="isGroup" ><p>Hello !</p></div>
 
-    </div>
+
+</div>
     <div v-if="!showUserList" class="bg-gray-100 border rounded-2xl w-[100%]">
       <div
         class="rounded-t-2xl bg-white border-b flex items-center pl-5 justify-between px-5 h-[8%]"
@@ -100,11 +111,11 @@
          </Tooltip>
           <div v-if="showDropdown" class="absolute right-0  mt-2 w-60 bg-white text-xs  rounded "> 
             <ul>
-            <li @click="handleBlockUser" v-if="!isBlocked && isCanBlocOrUnBloc" class="px-4 py-2 font-bold cursor-pointer border-t border-l border-r">
-              <font-awesome-icon  :icon="['fas', 'ban']" class="text-yellow-500 mr-2 "  />Ne pas recevoir des messages</li>
-            <li @click="handleUnBlockUser" v-if="isBlocked && isCanBlocOrUnBloc" class="px-4 py-2  font-bold cursor-pointer border-t border-l border-r ">
-              <font-awesome-icon  :icon="['fas', 'ban']" class="text-yellow-500 mr-2 "  />Débloquer les messages</li>
-            <li @click="showConfirmModal = true" class="px-4 py-2  font-bold cursor-pointer border-t border-l border-r border-b "><font-awesome-icon  :icon="['fas', 'trash']" class="text-red-500 mr-2"  />
+            <li @click="handleBlockUser" v-if="!isBlocked && isCanBlocOrUnBloc" class="px-4 py-2  cursor-pointer border-t border-l border-r">
+              <font-awesome-icon  :icon="['fas', 'ban']" class="text-yellow-500 mr-2 "  />Bloquer des messages</li>
+            <li @click="handleUnBlockUser" v-if="isBlocked && isCanBlocOrUnBloc" class="px-4 py-2   cursor-pointer border-t border-l border-r ">
+              <font-awesome-icon  :icon="['fas', 'lock-open']" class="text-yellow-500 mr-2 "  />Débloquer les messages</li>
+            <li @click="showConfirmModal = true" class="px-4 py-2  cursor-pointer border-t border-l border-r border-b "><font-awesome-icon  :icon="['fas', 'trash']" class="text-red-500 mr-2"  />
               Supprimer la discussion</li> 
             </ul>
             <ConfirmDelMessageModal 
@@ -252,7 +263,7 @@
           />
         </p>
       </div>
-      <div v-if="isBlocked" class=" h-[12%] mt-2 flex justify-center items-center border-t">🔔 Vous ne pouvez plus nous envoyer des messages !</div>
+      <div v-if="isBlocked" class=" h-[12%] mt-2 flex text-xs justify-center items-center border-t">🔔 Vous ne pouvez plus vous envoyer des messages !</div>
     </div>
   </div>
 </template>
@@ -270,6 +281,7 @@ import ConfirmDelMessageModal from '../components/ConfirmDelMessageModal.vue'
 const showUserList = ref(true);
 const URL = useUrl().url
 const users = ref([])
+const usersTemp = ref([])
 const messages = ref([])
 const file = ref(null)
 const fileName = ref('')
@@ -286,6 +298,10 @@ const isSuspense = ref(false)
 const showConfirmModal = ref(false)
 const isBlocked = ref(false)
 const isCanBlocOrUnBloc = ref(true)
+const isUser = ref(true)
+const isGroup = ref(false)
+const searchUser = ref("")
+
 
 const show = useShow()
 const Message = useMessages()
@@ -294,6 +310,32 @@ const Message = useMessages()
 function toggleDropdown() {
    showDropdown.value = !showDropdown.value; 
 }
+
+
+function search() {
+    if (!searchUser.value) {
+      users.value = usersTemp.value
+    } else {
+      users.value = usersTemp.value
+      users.value = users.value.filter((list) => {
+        return list.email.toLocaleLowerCase().match(searchUser.value.toLocaleLowerCase())
+      })
+    }
+  }
+
+
+const switchtoUser = () => {
+  isGroup.value = false
+  isUser.value = true
+
+}
+
+const switchtoGroup = () => {
+  isUser.value = false
+  isGroup.value = true
+
+}
+
 
 function fetchUsers() {
   isSuspense.value = true
@@ -310,7 +352,8 @@ function fetchUsers() {
               const dateB = b.lastMessage ? new Date(b.lastMessage.created_at) : new Date(0);
               return dateB - dateA;
             });
-            users.value = usersWithLastMessage;  
+            users.value = usersWithLastMessage; 
+            usersTemp.value = usersWithLastMessage;   
             isSuspense.value = false          
             subscribeToPusher();
           }

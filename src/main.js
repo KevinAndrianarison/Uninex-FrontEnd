@@ -54,7 +54,8 @@ import {
   faTrash,
   faImages,
   faChevronLeft,
-  faBan
+  faBan,
+  faLockOpen
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -100,7 +101,8 @@ library.add(
   faImages,
   faTrash,
   faChevronLeft,
-  faBan
+  faBan,
+  faLockOpen
 )
 
 import App from './App.vue'

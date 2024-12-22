@@ -164,7 +164,7 @@
         </div>
         </div>
         <div v-if="annonces.listAnnonce.length === 0" class="text-center mt-5 text-xs text-gray-500">
-          Aucun poste trouvé....
+          Aucun poste trouvé 🙁☁️
         </div>
       </div>
       <div v-if="isComs" class="w-[30%] h-[75vh] border rounded p-2">
