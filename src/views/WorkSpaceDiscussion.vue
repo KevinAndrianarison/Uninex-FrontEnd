@@ -277,9 +277,12 @@ import { useUrl } from '@/stores/url'
 import { useShow } from '@/stores/Show'
 import { useMessages } from '@/stores/messages'
 import ConfirmDelMessageModal from '../components/ConfirmDelMessageModal.vue'
+import { useUser } from '@/stores/User'
+
 
 const showUserList = ref(true);
 const URL = useUrl().url
+const user = useUser()
 const users = ref([])
 const usersTemp = ref([])
 const messages = ref([])
@@ -309,6 +312,11 @@ const Message = useMessages()
 
 function toggleDropdown() {
    showDropdown.value = !showDropdown.value; 
+}
+
+function createGroup(){
+  show.showCreateGroup = true
+  user.getAlluser()
 }
 
 

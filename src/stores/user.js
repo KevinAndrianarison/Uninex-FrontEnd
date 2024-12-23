@@ -243,6 +243,8 @@ export const useUser = defineStore('User', () => {
       .get(`${URL}/api/users`)
       .then((response) => {
         listUser.value = response.data
+        console.log(listUser.value);
+        
       })
       .catch((err) => {
         console.error(err)

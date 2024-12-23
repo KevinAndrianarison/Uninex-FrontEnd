@@ -87,6 +87,9 @@
     <CreatePost />
   </Teleport>
   <Teleport to="body">
+    <CreateGroupe />
+  </Teleport>
+  <Teleport to="body">
     <ListeNotesEtudiant />
   </Teleport>
   <Teleport to="body">
@@ -141,11 +144,11 @@ import EDT from './components/EDT.vue'
 import ListeNotesEtudiant from './components/ListeNotesEtudiant.vue'
 import ReleveNotePdf from './components/ReleveNotePdf.vue'
 import RapportCaissePdf from './components/RapportCaissePdf.vue'
-
 import Overlay from './components/Overlay.vue'
 import { onBeforeMount } from 'vue'
 import { useShow } from '@/stores/Show'
 import { useEtablissement } from '@/stores/Etablissement'
+import CreateGroupe from './components/CreateGroupe.vue'
 
 const show = useShow()
 const etablissement = useEtablissement()
