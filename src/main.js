@@ -56,7 +56,8 @@ import {
   faChevronLeft,
   faBan,
   faLockOpen,
-  faUsers
+  faUsers,
+  faBell
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -104,7 +105,8 @@ library.add(
   faChevronLeft,
   faBan,
   faLockOpen,
-  faUsers
+  faUsers,
+  faBell
 )
 
 import App from './App.vue'

@@ -81,7 +81,15 @@
 </div>
 </div>
       
-<div v-if="isGroup" ><p>Hello !</p></div>
+<div v-if="isGroup" >
+  <div v-for="grp in groupe.groupes" :key="grp.id" class="hover:bg-gray-100 mt-2 flex items-center h-12 px-5 rounded-3xl cursor-pointer" > 
+    <font-awesome-icon :icon="['fas', 'users']" class="text-gray-500 mr-5" /> 
+    <div>
+      <p>{{ grp.name }}</p>
+      <p class="font-bold text-xs" ><font-awesome-icon :icon="['fas', 'bell']" class="text-yellow-500 " />  Nouvelle message</p>
+    </div>
+  </div>
+</div>
 
 
 </div>
@@ -278,6 +286,7 @@ import { useShow } from '@/stores/Show'
 import { useMessages } from '@/stores/messages'
 import ConfirmDelMessageModal from '../components/ConfirmDelMessageModal.vue'
 import { useUser } from '@/stores/User'
+import { useGroupe } from '../stores/groupe'
 
 
 const showUserList = ref(true);
@@ -308,6 +317,7 @@ const searchUser = ref("")
 
 const show = useShow()
 const Message = useMessages()
+const groupe = useGroupe()
 
 
 function toggleDropdown() {
@@ -339,6 +349,9 @@ const switchtoUser = () => {
 }
 
 const switchtoGroup = () => {
+  const userString = localStorage.getItem('user')
+  const user = JSON.parse(userString)
+  groupe.getgroupes(user.user.id)
   isUser.value = false
   isGroup.value = true
 

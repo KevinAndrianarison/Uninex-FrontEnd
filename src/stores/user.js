@@ -242,9 +242,7 @@ export const useUser = defineStore('User', () => {
     axios
       .get(`${URL}/api/users`)
       .then((response) => {
-        listUser.value = response.data
-        console.log(listUser.value);
-        
+        listUser.value = response.data        
       })
       .catch((err) => {
         console.error(err)
