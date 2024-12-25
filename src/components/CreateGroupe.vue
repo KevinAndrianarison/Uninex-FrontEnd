@@ -106,14 +106,14 @@ function createGroupe() {
         <input
           type="text"
           v-model="nomGroup"
-          class="mt-4 focus:outline-none border-b-2 border-b-blue-500 w-full text-xs"
+          class="mt-4 focus:outline-none border-b-2 py-1.5 border-b-blue-500 w-full text-xs"
           placeholder="Nom du groupe"
         />
-        <div class="mt-4 text-xs text-blue-500">({{ selectedMembres.length }}) séléctionné(s)</div>
+        <div class="mt-4 text-xs  text-blue-500">({{ selectedMembres.length }}) séléctionné(s)</div>
         <input
           type="text"
           v-model="searchQuery"
-          class="bg-gray-200 w-full rounded-xl px-3 py-2 text-xs focus:outline-none"
+          class="bg-gray-200 w-full rounded-xl px-3 py-2 mt-2  text-xs focus:outline-none"
           placeholder="Rechercher"
         />
         <ul

@@ -5,24 +5,45 @@ import axios from 'axios'
 
 export const useGroupe = defineStore('Groupe', () => {
   const groupes = ref([])
+  const isSuspense = ref(false)
+  const showChatGroup = ref(false)
+  const messages = ref([])
 
   const URL = useUrl().url
 
-  function getgroupes(id) {    
+  function getgroupes(id) {
+    isSuspense.value = true
     axios
       .get(`${URL}/api/users/${id}/groups`)
       .then((response) => {
         groupes.value = response.data
-        console.log(response.data);
-        
+        isSuspense.value = false
+      })
+      .catch((err) => {
+        console.error(err)
+        isSuspense.value = false
+      })
+  }
+
+  function getmessages(id) {
+    axios
+      .get(`${URL}/api/groups/${id}/messages`)
+      .then((response) => {
+        messages.value = response.data
+        showChatGroup.value = true
       })
       .catch((err) => {
         console.error(err)
       })
   }
 
+
   return {
+    showChatGroup,
     groupes,
-    getgroupes
+    isSuspense,
+    messages,
+    getgroupes,
+    getmessages
   }
 })

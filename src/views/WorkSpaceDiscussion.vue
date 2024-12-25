@@ -27,20 +27,10 @@
       </div>
 
       <div v-if="isSuspense">
-        <div role="status" class="max-w-sm animate-pulse flex mt-4">
-        <h3 class="h-10 bg-gray-300 rounded-3xl w-10 mb-4 mr-2"></h3>
-        <div>
-        <p class="h-3 bg-gray-300 rounded-lg w-20 w-60  mb-2.5"></p>
-        <p class="h-3 bg-gray-300 rounded-lg w-20 w-40  mb-2.5"></p>
-        </div>
+        <SuspenseComponent />
       </div>
-      <div role="status" class="max-w-sm animate-pulse flex mt-2">
-        <h3 class="h-10 bg-gray-300 rounded-3xl w-10 mb-4 mr-2"></h3>
-        <div>
-        <p class="h-3 bg-gray-300 rounded-lg w-20 w-60  mb-2.5"></p>
-        <p class="h-3 bg-gray-300 rounded-lg w-20 w-40  mb-2.5"></p>
-        </div>
-      </div>
+      <div v-if="groupe.isSuspense && (groupe.groupes.length === 0)">
+        <SuspenseComponent />
       </div>
 
 <div v-if="isUser">
@@ -82,7 +72,7 @@
 </div>
       
 <div v-if="isGroup" >
-  <div v-for="grp in groupe.groupes" :key="grp.id" class="hover:bg-gray-100 mt-2 flex items-center h-12 px-5 rounded-3xl cursor-pointer" > 
+  <div v-for="grp in groupe.groupes" :key="grp.id" @click="showChatGroupFunct(grp.id)" class="hover:bg-gray-100 mt-2 flex items-center h-12 px-5 rounded-3xl cursor-pointer" > 
     <font-awesome-icon :icon="['fas', 'users']" class="text-gray-500 mr-5" /> 
     <div>
       <p>{{ grp.name }}</p>
@@ -120,7 +110,7 @@
           <div v-if="showDropdown" class="absolute right-0  mt-2 w-60 bg-white text-xs  rounded "> 
             <ul>
             <li @click="handleBlockUser" v-if="!isBlocked && isCanBlocOrUnBloc" class="px-4 py-2  cursor-pointer border-t border-l border-r">
-              <font-awesome-icon  :icon="['fas', 'ban']" class="text-yellow-500 mr-2 "  />Bloquer des messages</li>
+              <font-awesome-icon  :icon="['fas', 'ban']" class="text-yellow-500 mr-2 "  />Bloquer les messages</li>
             <li @click="handleUnBlockUser" v-if="isBlocked && isCanBlocOrUnBloc" class="px-4 py-2   cursor-pointer border-t border-l border-r ">
               <font-awesome-icon  :icon="['fas', 'lock-open']" class="text-yellow-500 mr-2 "  />Débloquer les messages</li>
             <li @click="showConfirmModal = true" class="px-4 py-2  cursor-pointer border-t border-l border-r border-b "><font-awesome-icon  :icon="['fas', 'trash']" class="text-red-500 mr-2"  />
@@ -273,6 +263,9 @@
       </div>
       <div v-if="isBlocked" class=" h-[12%] mt-2 flex text-xs justify-center items-center border-t">🔔 Vous ne pouvez plus vous envoyer des messages !</div>
     </div>
+    <div v-if="groupe.showChatGroup" class=" w-[100%]"  >
+      <ChatGroupe />
+    </div>
   </div>
 </template>
 
@@ -285,8 +278,10 @@ import { useUrl } from '@/stores/url'
 import { useShow } from '@/stores/Show'
 import { useMessages } from '@/stores/messages'
 import ConfirmDelMessageModal from '../components/ConfirmDelMessageModal.vue'
+import SuspenseComponent from "../components/SuspenseComponent.vue"
 import { useUser } from '@/stores/User'
 import { useGroupe } from '../stores/groupe'
+import ChatGroupe from '../components/ChatGroupe.vue'
 
 
 const showUserList = ref(true);
@@ -322,6 +317,11 @@ const groupe = useGroupe()
 
 function toggleDropdown() {
    showDropdown.value = !showDropdown.value; 
+}
+
+function showChatGroupFunct(id){
+  groupe.getmessages(id)
+
 }
 
 function createGroup(){
