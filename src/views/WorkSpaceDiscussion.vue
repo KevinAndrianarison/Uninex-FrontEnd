@@ -72,7 +72,7 @@
 </div>
       
 <div v-if="isGroup" >
-  <div v-for="grp in groupe.groupes" :key="grp.id" @click="showChatGroupFunct(grp.id)" class="hover:bg-gray-100 mt-2 flex items-center h-12 px-5 rounded-3xl cursor-pointer" > 
+  <div v-for="grp in groupe.groupes" :key="grp.id" @click="showChatGroupFunct(grp.id, grp.name)" class="hover:bg-gray-100 mt-2 flex items-center h-12 px-5 rounded-3xl cursor-pointer" > 
     <font-awesome-icon :icon="['fas', 'users']" class="text-gray-500 mr-5" /> 
     <div>
       <p>{{ grp.name }}</p>
@@ -319,7 +319,9 @@ function toggleDropdown() {
    showDropdown.value = !showDropdown.value; 
 }
 
-function showChatGroupFunct(id){
+function showChatGroupFunct(id, name){
+  groupe.groupeId = id
+  groupe.groupeName = name
   groupe.getmessages(id)
 
 }
@@ -343,6 +345,7 @@ function search() {
 
 
 const switchtoUser = () => {
+  groupe.showChatGroup = false
   isGroup.value = false
   isUser.value = true
 

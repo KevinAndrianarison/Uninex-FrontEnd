@@ -8,6 +8,8 @@ export const useGroupe = defineStore('Groupe', () => {
   const isSuspense = ref(false)
   const showChatGroup = ref(false)
   const messages = ref([])
+  const groupeId = ref(null)
+  const groupeName = ref("")
 
   const URL = useUrl().url
 
@@ -16,6 +18,8 @@ export const useGroupe = defineStore('Groupe', () => {
     axios
       .get(`${URL}/api/users/${id}/groups`)
       .then((response) => {
+        console.log(response.data);
+        
         groupes.value = response.data
         isSuspense.value = false
       })
