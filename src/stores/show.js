@@ -54,6 +54,10 @@ export const useShow = defineStore('Show', () => {
   const showFacturepdf = ref(false)
   const showCaissepdf = ref(false)
   const showCreateGroup = ref(false)
+  const showDeleteGroup = ref(false)
+  const showSetGroupMember = ref(false)
+
+
 
 
   function toggleCreatePasswordVisibility() {
@@ -121,6 +125,8 @@ export const useShow = defineStore('Show', () => {
     showFacturepdf,
     showCaissepdf,
     showCreateGroup,
+    showDeleteGroup,
+    showSetGroupMember,
     toggleCreatePasswordVisibility,
     togglePasswordVisibility,
     toggleVerifyPasswordVisibility

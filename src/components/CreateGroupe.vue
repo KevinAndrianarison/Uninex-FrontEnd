@@ -83,6 +83,7 @@ function createGroupe() {
             console.error(err)
           })
       })
+      selectedMembres.value = []
     })
     .catch((err) => {
       console.error()

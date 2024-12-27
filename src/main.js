@@ -59,7 +59,8 @@ import {
   faUsers,
   faBell,
   faUserMinus,
-  faGear
+  faGear,
+  faUserGear
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -110,7 +111,8 @@ library.add(
   faUsers,
   faBell,
   faUserMinus,
-  faGear
+  faGear,
+  faUserGear
 )
 
 import App from './App.vue'

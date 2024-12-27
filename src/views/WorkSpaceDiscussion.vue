@@ -79,6 +79,9 @@
       <p class="font-bold text-xs" ><font-awesome-icon :icon="['fas', 'bell']" class="text-yellow-500 " />  Nouvelle message</p>
     </div>
   </div>
+  <div v-if="groupe.groupes.length === 0 && !groupe.isSuspense" class="mt-5 text-center text-xs text-gray-500" >
+  Aucun groupe trouvé 🙁☁️
+</div>
 </div>
 
 

@@ -99,10 +99,16 @@
     <DeleteSalle />
   </Teleport>
   <Teleport to="body">
+    <DeleteGroup />
+  </Teleport>
+  <Teleport to="body">
     <DeleteEDT />
   </Teleport>
   <Teleport to="body">
     <EDT />
+  </Teleport>
+  <Teleport to="body">
+    <SetGroupMember />
   </Teleport>
 </template>
 
@@ -149,6 +155,8 @@ import { onBeforeMount } from 'vue'
 import { useShow } from '@/stores/Show'
 import { useEtablissement } from '@/stores/Etablissement'
 import CreateGroupe from './components/CreateGroupe.vue'
+import DeleteGroup from './components/delete/DeleteGroup.vue'
+import SetGroupMember from './components/SetGroupMember.vue'
 
 const show = useShow()
 const etablissement = useEtablissement()
