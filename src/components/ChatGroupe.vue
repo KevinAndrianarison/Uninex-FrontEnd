@@ -138,7 +138,8 @@ import Tooltip from '../components/Tooltip.vue'
 import { useUrl } from '@/stores/url'
 import { useGroupe } from '../stores/groupe'
 import { useShow } from '../stores/show'
-useShow
+import { useUser } from '@/stores/User'
+
 
 const localUserId = ref(JSON.parse(localStorage.getItem('user')).user.id)
 const file = ref(null)
@@ -148,12 +149,14 @@ const fileName = ref('')
 const URL = useUrl().url
 const groupe = useGroupe()
 const show = useShow()
+const user = useUser()
 
 function goBack() {
   groupe.showChatGroup = false
 }
 
 function setMembers() {
+  user.getAlluser()
   groupe.getmembres()
 }
 

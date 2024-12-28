@@ -6,17 +6,47 @@ import { useGroupe } from '../stores/groupe'
 import axios from 'axios'
 import { useUrl } from '@/stores/url'
 import { useMessages } from '@/stores/messages'
-
+import { useUser } from '@/stores/User'
+import { ref, computed } from 'vue'
 
 const show = useShow()
 const groupe = useGroupe()
 const URL = useUrl().url
 const messages = useMessages()
+const user = useUser()
 
+const searchQuery = ref('')
+
+function addMember(id) {
+  let formData = {
+    user_id: id
+  }
+  searchQuery.value = ''
+  axios
+    .post(`${URL}/api/groups/${groupe.groupeId}/members`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    .then((response) => {
+      groupe.getmembres()
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+}
 
 function closeSetgroupMember() {
   show.showSetGroupMember = false
 }
+
+const filteredMembres = computed(() => {
+  return user.listUser.filter(
+    (membre) =>
+      membre.email.toLowerCase().includes(searchQuery.value.toLowerCase()) &&
+      !groupe.membres.some((selected) => selected.id === membre.id)
+  )
+})
 
 function removeMember(id) {
   show.showSpinner = true
@@ -39,7 +69,6 @@ function removeMember(id) {
       show.showSpinner = false
     })
 }
-
 </script>
 
 <template>
@@ -61,9 +90,23 @@ function removeMember(id) {
         <input
           type="text"
           placeholder="Nouveau membre"
-          class="focus:outline-none border w-full mt-4 p-2 text-sm rounded-2xl focus:border-2 transition border-blue-500"
+          v-model="searchQuery"
+          class="focus:outline-none border w-full mt-4 px-4 p-2 text-sm rounded-2xl focus:border-2 transition border-blue-500"
         />
-        <div class="mt-4 ">
+        <ul
+          v-if="searchQuery && filteredMembres.length"
+          class="bg-white border rounded mt-2 max-h-40 overflow-auto text-xs max-h-[150px] overflow-y-auto"
+        >
+          <li
+            v-for="(membre, index) in filteredMembres"
+            :key="membre.id"
+            class="p-2 hover:bg-gray-100 cursor-pointer"
+            @click="addMember(membre.id)"
+          >
+            {{ membre.email }}
+          </li>
+        </ul>
+        <div class="mt-4">
           <div
             :key="index"
             v-for="(membre, index) in groupe.membres"
@@ -71,7 +114,10 @@ function removeMember(id) {
           >
             <p>{{ membre.email }}</p>
             <Tooltip content="Retirer">
-              <XMarkIcon @click="removeMember(membre.id)" class="h-5 w-5 text-red-500 cursor-pointer" />
+              <XMarkIcon
+                @click="removeMember(membre.id)"
+                class="h-5 w-5 text-red-500 cursor-pointer"
+              />
             </Tooltip>
           </div>
         </div>
