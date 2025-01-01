@@ -3,6 +3,7 @@ import { ref } from 'vue'
 
 export const useShow = defineStore('Show', () => {
   const showHome = ref(false)
+  const showUserList = ref(true);
   const showSpinner = ref(false)
   const showFirstConfig = ref(false)
   const showCreatePassword = ref(false)
@@ -56,6 +57,8 @@ export const useShow = defineStore('Show', () => {
   const showCreateGroup = ref(false)
   const showDeleteGroup = ref(false)
   const showSetGroupMember = ref(false)
+  const showSetGroup = ref(false)
+  const showQuitGroup = ref(false)
 
 
 
@@ -127,6 +130,9 @@ export const useShow = defineStore('Show', () => {
     showCreateGroup,
     showDeleteGroup,
     showSetGroupMember,
+    showSetGroup,
+    showQuitGroup,
+    showUserList,
     toggleCreatePasswordVisibility,
     togglePasswordVisibility,
     toggleVerifyPasswordVisibility

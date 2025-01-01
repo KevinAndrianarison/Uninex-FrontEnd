@@ -183,14 +183,14 @@ function onFileChange(event) {
           type="text"
           placeholder="Titre"
           v-model="titreAnnonce"
-          class="focus:outline-none border rounded w-full px-3 text-sm mt-2 py-2"
+          class="focus:outline-none focus:border-2 border border-green-400 rounded w-full px-3 text-sm mt-2 py-2"
         />
         <div class="mt-2 flex items-end justify-between">
           <div class="flex items-left w-full flex-col">
-            <label class="text-xs">Choisissez une catégorie :</label>
+            <label class="text-xs mt-2">Choisissez une catégorie :</label>
             <select
               v-model="idCategorie"
-              class="mr-2 py-2 px-2 rounded border focus:outline-none text-xs"
+              class="mr-2 py-2 px-2 mt-1 rounded border focus:outline-none text-xs"
             >
               <option
                 class="text-sm overflow-y-auto max-h-[100px]"
@@ -227,7 +227,7 @@ function onFileChange(event) {
         <textarea
           placeholder="Description"
           v-model="descriptionAnnonce"
-          class="text-sm min-h-[100px] focus:outline-none border rounded w-full px-3 mt-2 py-2"
+          class="text-sm min-h-[100px] focus:border-2 border border-green-400 focus:outline-none border rounded w-full px-3 mt-4 py-2"
         ></textarea>
         <div class="relative flex items-center">
           <input
@@ -299,20 +299,19 @@ function onFileChange(event) {
             <XMarkIcon class="h-6 w-6" />
           </button>
         </div>
-        <h1 class="font-bold text-sm">Liste des catégories :</h1>
+        <h1 class="font-bold text-sm mb-2">Liste des catégories :</h1>
         <li
-          class="px-1 py-1 justify-between border flex text-xs mt-1"
+          class="px-1 py-1 justify-between border flex text-xs"
           :key="ctg.id"
           v-for="(ctg, index) in category.listCategorie"
         >
-          <input class="w-60 focus:outline-none" type="text" v-model="ctg.titre" />
+          <input
+            class="w-60 focus:outline-none"
+            type="text"
+            @blur="modifierCategorie(ctg.id, ctg.titre)"
+            v-model="ctg.titre"
+          />
           <p>
-            <Tooltip content="Enregister la modification">
-              <font-awesome-icon
-                class="cursor-pointer text-yellow-500 mr-2"
-                :icon="['fas', 'pen']"
-                @click="modifierCategorie(ctg.id, ctg.titre)"
-            /></Tooltip>
             <Tooltip content="Supprimer">
               <font-awesome-icon
                 @click="deleteCategory(ctg.id)"

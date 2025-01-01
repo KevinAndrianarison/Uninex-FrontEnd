@@ -89,6 +89,7 @@ export const useEnseignant = defineStore('Enseignant', () => {
         show.showSpinner = false
       })
     user.photo = null
+    user.photoName = ''
     password.password = ''
     user.email = ''
   }

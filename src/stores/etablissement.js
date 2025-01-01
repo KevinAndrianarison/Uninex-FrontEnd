@@ -168,6 +168,8 @@ export const useEtablissement = defineStore('Etablissement', () => {
       })
       .then((response) => {
         messages.messageSucces = 'Modification réussi !'
+        logo_etab.value = null
+        logo_etabName.value = ''
         show.showSpinner = false
         getEtab()
         setTimeout(() => {

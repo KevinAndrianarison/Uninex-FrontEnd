@@ -46,29 +46,26 @@
             }"
             class="image ml-1"
           ></div>
-          <div class="content w-[95%] pl-1">
-            <h1 class="font-bold">{{ ann.user.email }}</h1>
-            <div v-if="editableId === ann.id && isEditingTitle">
+          <div class="content w-[95%] pl-1" >
+            <h1 class="font-bold mb-2 ml-2">{{ ann.user.email }}</h1>
+            <div v-if="editableId === ann.id && isEditingTitle" >
               <input
                 v-model="ann.editableTitre"
-                class="border p-1 w-full focus:outline-none"
+                class="border p-1 w-full focus:outline-none text-sm"
                 @blur="saveChanges(ann, 'titre')"
-                @keyup.enter="saveChanges(ann, 'titre')"
                 autofocus
               />
             </div>
-            <p class="titre" v-else>{{ ann.titre }}</p>
+            <p  v-else>{{ ann.titre }}</p>
 
             <div v-if="editableId === ann.id && isEditingDescription">
               <textarea
                 v-model="ann.editableDescription"
-                class="border p-1 w-full min-h-[50px] focus:outline-none"
+                class="border text-sm p-1 w-full min-h-[50px] focus:outline-none"
                 @blur="saveChanges(ann, 'description')"
-                @keyup.enter="saveChanges(ann, 'description')"
-                autofocus
               ></textarea>
             </div>
-            <p class="text-gray-500" v-else>
+            <p class="text-gray-500 text-sm" v-else>
               {{ ann.description }}
             </p>
             <div class="mt-1 flex">
@@ -122,7 +119,7 @@
                 <p class="text-gray-500">{{ ann.timeAgo }}</p>
               </div>
               <div v-if="ann.user.id === user.user.id" class="flex">
-                <p class="font-bold mr-4">
+                <p v-if="editableId !== ann.id" class="font-bold mr-4">
                   <Tooltip content="Modifier le titre et la description">
                     <font-awesome-icon
                       @click.stop="toggleEditPost(ann)"
@@ -203,7 +200,6 @@
                   v-model="coms.editableContenu"
                   class="border w-full focus:outline-none rounded min-h-[50px] p-1"
                   @blur="saveCommentChanges(coms)"
-                  @keyup.enter="saveCommentChanges(coms)"
                   autofocus
                 ></textarea>
               </div>
@@ -212,8 +208,8 @@
               <div class="mt-2 flex items-center justify-between w-full">
                 <p class="text-gray-500 text-xs">{{ coms.timeAgo }}</p>
                 <div v-if="coms.user.id === user.user.id" class="flex justify-end">
-                  <p class="font-bold mr-2">
-                    <Tooltip content="Modifier"><font-awesome-icon @click.stop="editComment(coms)" class="iconadd cursor-pointer text-yellow-500 transition-transform duration-300 transform hover:scale-150" :icon="['fas', 'pen']"/></Tooltip>
+                  <p v-if="editableComId !== coms.id" class="font-bold mr-2">
+                    <Tooltip content="Modifier"><font-awesome-icon @click.stop="editComment(coms)" class="iconadd cursor-pointer text-yellow-500" :icon="['fas', 'pen']"/></Tooltip>
                   </p>
                   <p class="font-bold">
                     <Tooltip content="Supprimer">

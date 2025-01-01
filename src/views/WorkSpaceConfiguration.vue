@@ -136,6 +136,19 @@
                   📂 Choisissez une image
                 </div>
               </div>
+              <div v-if="etablissement.logo_etabName" class="flex text-xs absolute">
+                <p class="text-blue-500 mr-2">{{ etablissement.logo_etabName }}</p>
+                <font-awesome-icon
+                  class="text-red-500 cursor-pointer w-5 h-4"
+                  :icon="['fas', 'xmark']"
+                  @click="
+                    () => {
+                      etablissement.logo_etabName = ''
+                      etablissement.logo_etab = null
+                    }
+                  "
+                />
+              </div>
             </div>
           </div>
 
@@ -260,6 +273,19 @@
                 </div>
               </div>
             </div>
+            <div v-if="user.photoName" class="flex text-xs ">
+              <p class="text-blue-500 mr-2">{{ user.photoName }}</p>
+              <font-awesome-icon
+                class="text-red-500 cursor-pointer w-5 h-4"
+                :icon="['fas', 'xmark']"
+                @click="
+                  () => {
+                    user.photoName = ''
+                    user.photo = null
+                  }
+                "
+              />
+            </div>
           </div>
 
           <div class="sm:col-span-3 mt-4">
@@ -382,6 +408,7 @@ const grades = ['Ingénieur', 'Docteur', 'Professeur']
 
 function onFileLogoChange(event) {
   etablissement.logo_etab = event.target.files[0]
+  etablissement.logo_etabName = event.target.files[0].name
 }
 
 onBeforeMount(() => {
@@ -455,6 +482,7 @@ function handleCopy(event) {
 
 function onPhotoFileChange(event) {
   user.photo = event.target.files[0]
+  user.photoName = event.target.files[0].name
 }
 </script>
 

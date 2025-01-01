@@ -1,6 +1,6 @@
 <template>
   <div class="px-4 h-full">
-    <div class="border h-full bg-white rounded-xl">
+    <div @click="hideDropdown" class="border h-full bg-white rounded-xl">
       <div class="h-[8%] border-b flex items-center justify-between px-4">
         <font-awesome-icon
           :icon="['fas', 'chevron-left']"
@@ -17,30 +17,49 @@
             <font-awesome-icon
               class="iconadd text-blue-500 cursor-pointer h-6 w-4"
               :icon="['fas', 'bars-staggered']"
-              @click="toggleDropdown"
+              @click.stop="toggleDropdown"
           /></Tooltip>
           <div
             v-if="showDropdown"
             class="text-xs border absolute bg-white border rounded-lg shadow-lg mt-2 w-48 right-5"
           >
             <ul>
-              <li @click="setMembers" class="px-4 border py-2 cursor-pointer">
+              <li
+                v-if="groupe.idAdmin === localUserId"
+                @click="setMembers"
+                class="px-4 border py-2 cursor-pointer"
+              >
                 <font-awesome-icon
                   class="iconadd text-yellow-500 cursor-pointer mr-2"
                   :icon="['fas', 'user-gear']"
                 />
                 Gérer les membres
               </li>
-              <li class="px-4 border py-2 cursor-pointer">
+              <li
+                v-if="groupe.idAdmin === localUserId"
+                @click="setGroup"
+                class="px-4 border py-2 cursor-pointer"
+              >
                 <font-awesome-icon class="iconadd cursor-pointer mr-2" :icon="['fas', 'gear']" />
                 Modifier le groupe
               </li>
-              <li @click="deleteGroupe" class="px-4 border py-2 cursor-pointer">
+              <li
+                v-if="groupe.idAdmin === localUserId"
+                @click="deleteGroupe"
+                class="px-4 border py-2 cursor-pointer"
+              >
                 <font-awesome-icon
                   class="iconadd text-red-500 cursor-pointer mr-2"
                   :icon="['fas', 'trash']"
                 />
                 Supprimer le groupe
+              </li>
+              <li @click="QuitterGroupe()" class="px-4 border py-2 cursor-pointer">
+                <font-awesome-icon
+                  class="iconadd cursor-pointer mr-2"
+                  :icon="['fas', 'right-from-bracket']"
+                />
+                Quitter le groupe
               </li>
             </ul>
           </div>
@@ -63,17 +82,64 @@
             <div class="w-[80%]">
               <p class="borderRadius bg-white border p-3">
                 {{ message.content }}
+                <p 
+                v-if="isImageFile(message.fichierName)"
+                :style="{
+                      'background-image': `url(${URL}/storage/messageGroup/${message.fichierName})`,
+                      'background-size': 'cover',
+                      'background-position': 'center'
+                        }" 
+                class=" h-[20vh] my-2  bg-white"></p>
+                <Tooltip content="Télecharger">
+                <div v-if="message.fichierName" class="flex text-white items-center bg-green-500 text-xs rounded py-1 px-2 border" >
+                {{ message.fichierName }}
+                <font-awesome-icon
+                 class="cursor-pointer text-yellow-500 ml-2"
+                :icon="['fas', 'arrow-down']"
+                @click.stop="telecharger(message.fichierName)"/>
+                </div> </Tooltip>
               </p>
+              <p class="text-xs text-gray-500">{{ message.timeAgo }}</p>
             </div>
           </div>
           <div
             v-if="Number(message.user_id) === localUserId"
+            @click.stop="setIdMessage(message.id)"
             class="w-[full] mt-2 flex justify-end items-end cursor-pointer"
           >
             <div class="w-[45%] mr-2">
               <p class="borderRadiusReverse bg-blue-500 text-white border p-3">
                 {{ message.content }}
+                <p 
+                v-if="isImageFile(message.fichierName)"
+                :style="{
+                      'background-image': `url(${URL}/storage/messageGroup/${message.fichierName})`,
+                      'background-size': 'cover',
+                      'background-position': 'center'
+                        }" 
+                class=" h-[20vh] my-2  bg-white"></p>
+                <Tooltip content="Télecharger">
+                <div v-if="message.fichierName" class="flex  text-xs items-center bg-white text-gray-900 rounded py-1 px-2 border" >
+                {{ message.fichierName }}
+                <font-awesome-icon
+                 class="cursor-pointer text-yellow-500 ml-2"
+                :icon="['fas', 'arrow-down']"
+                @click.stop="telecharger(message.fichierName)"/>
+                </div>
+                </Tooltip>
               </p>
+              <p class="text-xs text-gray-500">{{ message.timeAgo }}</p>
+              <div v-if="idMessage === message.id" class="flex justify-end text-xs">
+                <button
+                  @click="deleteMessage(message.id)"
+                  class="bg-red-500 px-3 py-1.5 text-white rounded"
+                >
+                  <font-awesome-icon
+                    class="mr-2 text-white cursor-pointer"
+                    :icon="['fas', 'trash']"
+                  />Supprimer
+                </button>
+              </div>
             </div>
             <div
               :style="{
@@ -96,6 +162,7 @@
         <textarea
           class="min-h-[50%] border focus:border-2 border-yellow-500 rounded-xl p-2 w-[90%] focus:outline-none"
           placeholder="Écrire ici..."
+          v-model="messageSend"
         ></textarea>
         <div class="relative inline-block">
           <Tooltip content="Joindre un fichier">
@@ -114,7 +181,9 @@
         <Tooltip content="Envoyer">
           <font-awesome-icon
             class="iconadd text-blue-500 cursor-pointer hover:bg-gray-200 rounded-3xl p-2 px-3 h-6 w-5"
+            :disabled="!messageSend"
             :icon="['fas', 'paper-plane']"
+            @click="sendMessage()"
           />
         </Tooltip>
       </div>
@@ -139,20 +208,109 @@ import { useUrl } from '@/stores/url'
 import { useGroupe } from '../stores/groupe'
 import { useShow } from '../stores/show'
 import { useUser } from '@/stores/User'
+import axios from 'axios'
+import Pusher from 'pusher-js'
+
 
 
 const localUserId = ref(JSON.parse(localStorage.getItem('user')).user.id)
 const file = ref(null)
 const showDropdown = ref(false)
-
 const fileName = ref('')
+const messageSend = ref('')
+const idMessage = ref(null)
+
+
 const URL = useUrl().url
 const groupe = useGroupe()
 const show = useShow()
 const user = useUser()
+const pusher = new Pusher(
+  import.meta.env.VITE_PUSHER_APP_KEY,
+ { cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER, useTLS: true }
+)
+let channel = pusher.subscribe(String(groupe.groupeId))
+channel.bind('message-sent', (data) => { 
+  groupe.messages.unshift(mergeUserIntoMessage(data).message)
+})
+channel.bind('message-deleted', (data) => {
+  const index = groupe.messages.findIndex((message) => message.id === Number(data.messageId));
+  if (index !== -1) {
+    groupe.messages.splice(index, 1);
+  }
+});
+
+
+
+function mergeUserIntoMessage(data) {
+    if (data.message && data.user) {
+        data.message.user = data.user;
+        delete data.user;
+    }
+    return data;
+}
+
+function sendMessage() {
+  const userString = localStorage.getItem('user')
+  const user = JSON.parse(userString)
+  let formData = new FormData()
+  formData.append('user_id', Number(user.user.id) || '')
+  formData.append('content', messageSend.value || '')
+  formData.append('fichier', file.value || '')
+
+  messageSend.value = ''
+  file.value = null
+  fileName.value = ''
+  axios
+    .post(`${URL}/api/groups/${groupe.groupeId}/messages`, formData)
+    .then((response) => {
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+}
+
+function isImageFile(fileName) {
+  if (fileName) {
+    const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'tiff', 'svg']
+    const extension = fileName.split('.').pop().toLowerCase()
+    return imageExtensions.includes(extension)
+  }
+}
+
+function deleteMessage(id){
+  axios
+    .delete(`${URL}/api/groups/${groupe.groupeId}/messages/${id}`)
+    .then((response) => {
+      idMessage.value = null
+    })
+    .catch((error) => {
+      console.error(error)
+    })  
+}
+
+
+function setIdMessage(id) {
+  if (idMessage.value === id) {
+    idMessage.value = null
+  } else {
+    idMessage.value = id
+  }
+}
+function telecharger(nom) {
+  const url = `${URL}/api/messageGroup/${nom}`
+  const link = document.createElement('a')
+  link.href = url
+  link.download = nom
+  link.style.display = 'none'
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+}
 
 function goBack() {
   groupe.showChatGroup = false
+  show.showUserList = true
 }
 
 function setMembers() {
@@ -160,8 +318,21 @@ function setMembers() {
   groupe.getmembres()
 }
 
+function setGroup() {
+  groupe.getmembresForAdmin()
+  show.showSetGroup = true
+}
+
+function QuitterGroupe() {
+  show.showQuitGroup = true
+}
+
 function toggleDropdown() {
   showDropdown.value = !showDropdown.value
+}
+
+function hideDropdown() {
+  showDropdown.value = false
 }
 
 function onFileChange(event) {

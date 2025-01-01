@@ -110,6 +110,12 @@
   <Teleport to="body">
     <SetGroupMember />
   </Teleport>
+  <Teleport to="body">
+    <SetGroup />
+  </Teleport>
+  <Teleport to="body">
+    <QuitterGroup />
+  </Teleport>
 </template>
 
 <script setup>
@@ -157,6 +163,8 @@ import { useEtablissement } from '@/stores/Etablissement'
 import CreateGroupe from './components/CreateGroupe.vue'
 import DeleteGroup from './components/delete/DeleteGroup.vue'
 import SetGroupMember from './components/SetGroupMember.vue'
+import SetGroup from './components/SetGroup.vue'
+import QuitterGroup from './components/QuitterGroup.vue'
 
 const show = useShow()
 const etablissement = useEtablissement()

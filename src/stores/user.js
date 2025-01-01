@@ -189,6 +189,8 @@ export const useUser = defineStore('User', () => {
         }
       })
       .then((response) => {
+        photo.value = null
+        photoName.value = ""
         let user = localStorage.getItem('user')
         user = JSON.parse(user)
         infosheader.photo = response.data[0].photo_name

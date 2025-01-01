@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-between body min-h-[85vh] max-h-[85vh]">
-    <div v-if="showUserList" class="bg-white border border w-[30%] rounded-2xl p-4">
+    <div v-if="show.showUserList" class="bg-white border border w-[30%] rounded-2xl p-4">
       <div class="flex items-center justify-between px-2">
         <h1 class="text-xl text-center font-bold">Discussions</h1>
         <Tooltip content="Créer un groupe">
@@ -66,13 +66,13 @@
     </div>
   </div>
 </div>
-<div v-if="users.length === 0 && !isSuspense" class="mt-10 text-center text-xs text-gray-500" >
+<div v-if="users.length === 1 && !isSuspense" class="mt-5 text-center text-xs text-gray-500" >
   Aucun utilisateur trouvé 🙁☁️
 </div>
 </div>
       
 <div v-if="isGroup" >
-  <div v-for="grp in groupe.groupes" :key="grp.id" @click="showChatGroupFunct(grp.id, grp.name)" class="hover:bg-gray-100 mt-2 flex items-center h-12 px-5 rounded-3xl cursor-pointer" > 
+ <div v-for="grp in groupe.groupes" :key="grp.id" @click="showChatGroupFunct(grp.id, grp.name, grp.user_id)" class="hover:bg-gray-100 mt-2 flex items-center h-12 px-5 rounded-3xl cursor-pointer" > 
     <font-awesome-icon :icon="['fas', 'users']" class="text-gray-500 mr-5" /> 
     <div>
       <p>{{ grp.name }}</p>
@@ -86,7 +86,7 @@
 
 
 </div>
-    <div v-if="!showUserList" class="bg-gray-100 border rounded-2xl w-[100%]">
+    <div v-if="showUserChat" @click="hideDropdown" class="bg-gray-100 border rounded-2xl w-[100%]">
       <div
         class="rounded-t-2xl bg-white border-b flex items-center pl-5 justify-between px-5 h-[8%]"
       >
@@ -108,7 +108,7 @@
         <p class="font-bold text-sm">{{ selectedUser.email }}</p>
         <div class="relative"> 
           <Tooltip content="Options"> 
-          <font-awesome-icon v-if="messages.length !== 0" class="iconadd text-blue-500 cursor-pointer h-6 w-4" :icon="['fas', 'bars-staggered']" @click="toggleDropdown" />
+          <font-awesome-icon v-if="messages.length !== 0" class="iconadd text-blue-500 cursor-pointer h-6 w-4" :icon="['fas', 'bars-staggered']" @click.stop="toggleDropdown" />
          </Tooltip>
           <div v-if="showDropdown" class="absolute right-0  mt-2 w-60 bg-white text-xs  rounded "> 
             <ul>
@@ -267,14 +267,14 @@
       <div v-if="isBlocked" class=" h-[12%] mt-2 flex text-xs justify-center items-center border-t">🔔 Vous ne pouvez plus vous envoyer des messages !</div>
     </div>
     <div v-if="groupe.showChatGroup" class=" w-[100%]"  >
-      <ChatGroupe />
+      <ChatGroupe  />
     </div>
   </div>
 </template>
 
 <script setup>
 import Tooltip from '../components/Tooltip.vue'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
 import Pusher from 'pusher-js'
 import { useUrl } from '@/stores/url'
@@ -287,7 +287,7 @@ import { useGroupe } from '../stores/groupe'
 import ChatGroupe from '../components/ChatGroupe.vue'
 
 
-const showUserList = ref(true);
+const showUserChat = ref(false);
 const URL = useUrl().url
 const user = useUser()
 const users = ref([])
@@ -322,9 +322,17 @@ function toggleDropdown() {
    showDropdown.value = !showDropdown.value; 
 }
 
-function showChatGroupFunct(id, name){
+
+
+function hideDropdown() {
+   showDropdown.value = false 
+}
+
+function showChatGroupFunct(id, name, idAdmin){
   groupe.groupeId = id
   groupe.groupeName = name
+  groupe.groupeNameToPUT = name
+  groupe.idAdmin = idAdmin
   groupe.getmessages(id)
 
 }
@@ -478,7 +486,8 @@ onMounted(() => {
 
 function goBack() {
   selectedUser.value = null;
-  showUserList.value = true;
+  showUserChat.value = false
+  show.showUserList = true;
   fetchUsers();
 }
 
@@ -509,7 +518,8 @@ function selectUser(user) {
         }
       })
       updateTime()
-      showUserList.value = false;
+      show.showUserList = false;
+      showUserChat.value = true
     })
     .catch((error) => {
       console.error(error)
@@ -551,7 +561,8 @@ function selectUser(user) {
   })
   currentChannel.bind('conversation-deleted', (data) => {
        fetchUsers();
-          showUserList.value = true;
+          showUserChat.value = false
+          show.showUserList = true;
           selectedUser.value = null;
           messages.value = [];
     }
@@ -577,9 +588,7 @@ function sendMessage() {
   axios
     .post(`${URL}/api/send-message`, formData)
     .then((response) => {
-      newMessage.value = '';
-      file.value = null;
-      fileName.value = '';
+
     })
     .catch((error) => {
       console.error( error);

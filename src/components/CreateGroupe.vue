@@ -107,7 +107,7 @@ function createGroupe() {
         <input
           type="text"
           v-model="nomGroup"
-          class="mt-4 focus:outline-none border-b-2 py-1.5 border-b-blue-500 w-full text-xs"
+          class="mt-4 focus:outline-none border-b-2 py-1.5 border-b-blue-500 w-full text-sm"
           placeholder="Nom du groupe"
         />
         <div class="mt-4 text-xs  text-blue-500">({{ selectedMembres.length }}) séléctionné(s)</div>
@@ -119,7 +119,7 @@ function createGroupe() {
         />
         <ul
           v-if="searchQuery && filteredMembres.length"
-          class="bg-white border rounded mt-2 max-h-40 overflow-auto text-xs max-h-[150px] overflow-y-auto"
+          class="bg-white border rounded-xl   mt-1 max-h-40 overflow-auto text-xs max-h-[150px] overflow-y-auto"
         >
           <li
             v-for="(membre, index) in filteredMembres"

@@ -110,6 +110,19 @@
               </div>
             </div>
           </div>
+          <div v-if="user.photoName" class="flex text-xs absolute">
+            <p class="text-blue-500 mr-2">{{ user.photoName }}</p>
+            <font-awesome-icon
+              class="text-red-500 cursor-pointer w-5 h-4"
+              :icon="['fas', 'xmark']"
+              @click="
+                () => {
+                  user.photoName = ''
+                  user.photo = null
+                }
+              "
+            />
+          </div>
         </div>
 
         <div class="sm:col-span-3 mt-2 mr-4 ctgr">
@@ -269,6 +282,7 @@ onBeforeMount(() => {
 
 function onPhotoFileChange(event) {
   user.photo = event.target.files[0]
+  user.photoName = event.target.files[0].name
 }
 </script>
 

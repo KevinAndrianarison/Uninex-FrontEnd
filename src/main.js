@@ -60,7 +60,9 @@ import {
   faBell,
   faUserMinus,
   faGear,
-  faUserGear
+  faUserGear,
+  faRotate,
+  faRightFromBracket
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -112,7 +114,9 @@ library.add(
   faBell,
   faUserMinus,
   faGear,
-  faUserGear
+  faUserGear,
+  faRotate,
+  faRightFromBracket
 )
 
 import App from './App.vue'

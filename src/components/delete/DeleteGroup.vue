@@ -28,6 +28,7 @@ function DelGroupe() {
     .then((response) => {
       groupe.getgroupes(user.user.id)
       groupe.showChatGroup = false
+      show.showUserList = true
       messages.messageSucces = 'Groupe supprimée !'
       show.showDeleteGroup = false
       setTimeout(() => {

@@ -95,7 +95,7 @@ function removeMember(id) {
         />
         <ul
           v-if="searchQuery && filteredMembres.length"
-          class="bg-white border rounded mt-2 max-h-40 overflow-auto text-xs max-h-[150px] overflow-y-auto"
+          class="bg-white border rounded-2xl mt-1 max-h-40 overflow-auto text-sm max-h-[150px] overflow-y-auto"
         >
           <li
             v-for="(membre, index) in filteredMembres"
@@ -110,7 +110,7 @@ function removeMember(id) {
           <div
             :key="index"
             v-for="(membre, index) in groupe.membres"
-            class="flex text-sm items-center justify-between hover:bg-blue-100 p-2 rounded-2xl"
+            class="flex text-sm items-center justify-between hover:bg-blue-100 p-2 px-4 rounded-2xl"
           >
             <p>{{ membre.email }}</p>
             <Tooltip content="Retirer">
