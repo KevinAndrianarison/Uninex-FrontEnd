@@ -309,6 +309,9 @@ function telecharger(nom) {
 }
 
 function goBack() {
+  const userString = localStorage.getItem('user')
+  const user = JSON.parse(userString)
+  groupe.getgroupes(user.user.id)
   groupe.showChatGroup = false
   show.showUserList = true
 }

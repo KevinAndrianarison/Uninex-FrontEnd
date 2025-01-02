@@ -72,16 +72,19 @@
 </div>
       
 <div v-if="isGroup" >
- <div v-for="grp in groupe.groupes" :key="grp.id" @click="showChatGroupFunct(grp.id, grp.name, grp.user_id)" class="hover:bg-gray-100 mt-2 flex items-center h-12 px-5 rounded-3xl cursor-pointer" > 
-    <font-awesome-icon :icon="['fas', 'users']" class="text-gray-500 mr-5" /> 
+<div v-for="grp in groupe.groupes" :key="grp.id" @click="showChatGroupFunct(grp.id, grp.name, grp.user_id)" class="hover:bg-gray-100 mt-2 flex items-center h-12 px-5 rounded-3xl cursor-pointer">
+    <font-awesome-icon :icon="['fas', 'users']" class="text-gray-500 mr-5" />
     <div>
       <p>{{ grp.name }}</p>
-      <p class="font-bold text-xs" ><font-awesome-icon :icon="['fas', 'bell']" class="text-yellow-500 " />  Nouvelle message</p>
+      <p class="font-bold text-xs">
+        <font-awesome-icon :icon="['fas', 'comment']" class="text-gray-500" />
+        <span v-if="grp.lastMessageUserId === localUserId" class="font-normal">Vous : </span>
+        <span :class="grp.lastMessageUserId === localUserId ? 'font-normal' : 'font-bold'">
+          {{ grp.lastMessage || '✨ Démarrer la discussion' }}
+        </span>
+      </p>
     </div>
   </div>
-  <div v-if="groupe.groupes.length === 0 && !groupe.isSuspense" class="mt-5 text-center text-xs text-gray-500" >
-  Aucun groupe trouvé 🙁☁️
-</div>
 </div>
 
 
