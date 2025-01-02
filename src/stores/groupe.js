@@ -28,7 +28,6 @@ export const useGroupe = defineStore('Groupe', () => {
       .get(`${URL}/api/users/${id}/groups`)
       .then((response) => {
         console.log(response.data);
-        sortGroupsByLastMessage(response.data)
         groupes.value = response.data
         isSuspense.value = false
       })
@@ -37,15 +36,6 @@ export const useGroupe = defineStore('Groupe', () => {
         isSuspense.value = false
       })
   }
-
-  function sortGroupsByLastMessage(data) {
-    groupes.value = data.sort((a, b) => {
-      const aLastMessageDate = a.messagegroupes && a.messagegroupes[0] ? new Date(a.messagegroupes[0].created_at) : 0
-      const bLastMessageDate = b.messagegroupes && b.messagegroupes[0] ? new Date(b.messagegroupes[0].created_at) : 0
-            return bLastMessageDate - aLastMessageDate
-    })
-  }
-
 
   function getmessages(id) {
     if (window.currentChannel) {

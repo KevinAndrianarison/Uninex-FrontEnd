@@ -76,8 +76,7 @@
     <font-awesome-icon :icon="['fas', 'users']" class="text-gray-500 mr-5" />
     <div>
       <p>{{ grp.name }}</p>
-      <p class="font-bold text-xs">
-        <font-awesome-icon :icon="['fas', 'comment']" class="text-gray-500" />
+      <p class="font-bold text-xs truncate w-60">
         <span v-if="grp.lastMessageUserId === localUserId" class="font-normal">Vous : </span>
         <span :class="grp.lastMessageUserId === localUserId ? 'font-normal' : 'font-bold'">
           {{ grp.lastMessage || '✨ Démarrer la discussion' }}
@@ -86,8 +85,6 @@
     </div>
   </div>
 </div>
-
-
 </div>
     <div v-if="showUserChat" @click="hideDropdown" class="bg-gray-100 border rounded-2xl w-[100%]">
       <div
