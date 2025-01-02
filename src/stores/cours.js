@@ -11,6 +11,7 @@ export const useCours = defineStore('Cours', () => {
   const description_cours = ref('')
   const categorie_cours = ref('')
   const cours = ref('')
+  const fileName = ref('')
   const ListeCours = ref([])
 
   const ec = useEc()
@@ -42,6 +43,8 @@ export const useCours = defineStore('Cours', () => {
         console.error(err)
         show.showSpinner = false
       })
+      cours.value = null
+      fileName.value = ''
   }
 
   function getAllCours() {
@@ -80,6 +83,7 @@ export const useCours = defineStore('Cours', () => {
     description_cours,
     cours,
     ListeCours,
+    fileName,
     deleteCours,
     publierCours,
     getAllCours

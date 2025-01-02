@@ -62,13 +62,13 @@ function createSalle() {
 <template>
   <Transition>
     <div class="showModal" v-if="show.showCreateSalle">
-      <div class="formModals">
+      <div class="formModals ">
         <div class="divbtn">
           <button type="button" class="Annullers" @click="closeCreateSalle()">
             <XMarkIcon class="h-6 w-6" />
           </button>
         </div>
-        <p class="infos">Gérer les salles :</p>
+        <p class="infos ">Gérer les salles :</p>
         <div class="class formInput mt-4">
           <label class="block text-sm font-medium leading-6 text-gray-900">Nom de la salle</label>
           <input

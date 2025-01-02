@@ -55,7 +55,7 @@
 
           <div class="w-52 sm:col-span-3 mt-2 mr-4">
             <label class="block text-sm font-medium leading-6 text-gray-900">Sexe</label>
-            <div >
+            <div>
               <Listbox v-model="etudiant.sexe_etud">
                 <div class="relative mt-2">
                   <ListboxButton
@@ -226,6 +226,14 @@
                   📂 Importer (Photo ou Pdf)
                 </div>
               </div>
+              <div v-if="etudiant.fileName" class="flex text-xs absolute">
+                <p class="text-blue-500 mr-2">{{ etudiant.fileName }}</p>
+                <font-awesome-icon
+                  @click="removeFile"
+                  class="text-red-500 cursor-pointer w-5 h-4"
+                  :icon="['fas', 'xmark']"
+                />
+              </div>
             </div>
           </div>
 
@@ -266,7 +274,13 @@ onBeforeMount(() => {
 })
 
 function onPhotoFileChange(event) {
-  etudiant.photoBordereaux = event.target.files[0]
+  etudiant.photoBordereaux = event.target.files[0]  
+  etudiant.fileName = event.target.files[0].name
+}
+
+function removeFile() {
+  etudiant.photoBordereaux = null
+  etudiant.fileName = ''
 }
 </script>
 

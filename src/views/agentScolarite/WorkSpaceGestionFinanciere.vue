@@ -255,12 +255,6 @@
           </Button>
         </div>
       </div>
-      <div class="h-[25%] flex flex-col justify-center">
-        <p>Montant actuel des frais de scolarité : <b>Ar 1 000 000</b></p>
-        <p>Prévision pour <b>2025</b> avec <b>+10 %</b> : <b>Ar 1 000 000</b></p>
-        <p>Montant actuel pour entretien : <b>Ar 1 000 000</b></p>
-        <p>Prévision avec <b>+10 %</b> : <b>Ar 1 000 000</b></p>
-      </div>
     </div>
   </div>
 </template>

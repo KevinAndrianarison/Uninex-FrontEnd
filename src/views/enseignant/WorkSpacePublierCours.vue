@@ -161,6 +161,14 @@
                 📂 Importer un fichier
               </div>
             </div>
+            <div v-if="cours.fileName" class="flex text-xs absolute">
+              <p class="text-blue-500 mr-2">{{ cours.fileName }}</p>
+              <font-awesome-icon
+                @click="removeFile"
+                class="text-red-500 cursor-pointer w-5 h-4"
+                :icon="['fas', 'xmark']"
+              />
+            </div>
           </div>
         </div>
 
@@ -242,6 +250,12 @@ onBeforeMount(() => {
 
 function onPhotoFileChange(event) {
   cours.cours = event.target.files[0]
+  cours.fileName = event.target.files[0].name
+}
+
+function removeFile() {
+  cours.cours = null
+  cours.fileName = ''
 }
 </script>
 

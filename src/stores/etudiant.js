@@ -35,6 +35,7 @@ export const useEtudiant = defineStore('Etudiant', () => {
   const nom_mere_etud = ref('')
   const nom_tuteur = ref('')
   const photoBordereaux_name = ref('')
+  const fileName = ref('')
   const adresse_etud = ref('')
   const serieBAC_etud = ref('')
   const sexe_etud = ref('')
@@ -411,6 +412,8 @@ export const useEtudiant = defineStore('Etudiant', () => {
           messages.messageSucces = ''
         }, 3000)
       })
+    photoBordereaux.value = null
+    fileName.value = ''
   }
 
   return {
@@ -450,6 +453,7 @@ export const useEtudiant = defineStore('Etudiant', () => {
     isElimination,
     noteElim,
     isshowNotes,
+    fileName,
     createEtudiant,
     setValiditeInscriptionEtudiant,
     getAllEtudiantBysemestre,
