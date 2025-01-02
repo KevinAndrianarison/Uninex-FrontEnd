@@ -84,6 +84,9 @@
       </p>
     </div>
   </div>
+  <div v-if="groupe.groupes.length === 0 && !groupe.isSuspense" class="mt-5 text-center text-xs text-gray-500" >
+  Aucune groupe trouvé 🙁☁️
+</div>
 </div>
 </div>
     <div v-if="showUserChat" @click="hideDropdown" class="bg-gray-100 border rounded-2xl w-[100%]">
