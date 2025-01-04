@@ -107,6 +107,7 @@ export const useParcour = defineStore('Parcour', () => {
       .then((response) => {
         if (response.data.length !== 0) {
           ListParcours.value = response.data
+          console.log('ETO', ListParcours.value)
           parcours_nom.value = ListParcours.value[0].nom_parcours
           parcours_id.value = ListParcours.value[0].id
           parcours_abr.value = ListParcours.value[0].abr_parcours

@@ -202,6 +202,7 @@ export const useEtudiant = defineStore('Etudiant', () => {
           a.nomComplet_etud.localeCompare(b.nomComplet_etud, 'fr', { sensitivity: 'base' })
         )
         listdefinitive.value = listeAlphabetique.filter((list) => list.validiter_inscri === 'true')
+        console.log(listdefinitive.value, 'HERE')
         listdefinitiveTemp.value = listeAlphabetique.filter(
           (list) => list.validiter_inscri === 'true'
         )
@@ -249,6 +250,7 @@ export const useEtudiant = defineStore('Etudiant', () => {
         })
         id_etud.value = response.data.etudiant.id
         moyenneGen.value = response.data.moyenne_generale
+        console.log(moyenneGen.value, "MOYENNE");
         listNote.value = response.data.etudiant.ec
         CIN_etud.value = response.data.etudiant.CIN_etud
         adresse_etud.value = response.data.etudiant.adresse_etud
