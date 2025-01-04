@@ -20,10 +20,16 @@ import WorkSpaceConfiguration from '../views/WorkSpaceConfiguration.vue'
 import WorkSpaceAnnonces from '../views/WorkSpaceAnnonces.vue'
 import WorkSpacePublierCours from '../views/enseignant/WorkSpacePublierCours.vue'
 import WorkSpaceTrascrireNotes from '../views/enseignant/WorkSpaceTrascrireNotes.vue'
+import WorkSpaceDeliberation from '../views/chefParcours/WorkSpaceDeliberation.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: '/chefParcours/Deliberation',
+      name: 'Deliberation',
+      component: WorkSpaceDeliberation
+    },
     {
       path: '/enseignant/TrascrireNotes',
       name: 'TrascrireNotes',
