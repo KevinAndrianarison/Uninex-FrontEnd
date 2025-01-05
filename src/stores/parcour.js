@@ -15,8 +15,10 @@ export const useParcour = defineStore('Parcour', () => {
   const nom_parcours = ref('')
   const abreviation = ref('')
   const abreviationbyAll = ref('')
+  const abreviationbyEns = ref('')
   const nom = ref('')
   const nomByAll = ref('')
+  const nomByEns = ref('')
   const parcours_id = ref(null)
   const parcours_abr = ref('')
   const parcours_nom = ref('')
@@ -25,6 +27,7 @@ export const useParcour = defineStore('Parcour', () => {
   const ListParcours = ref([])
   const ListParcoursByMention = ref([])
   const ListAllParcours = ref([])
+  const ListParcoursByEns = ref([])
 
   const niveau = useNiveau()
   const mention = useMention()
@@ -48,6 +51,14 @@ export const useParcour = defineStore('Parcour', () => {
   })
 
   watch(parcours_nom, (newValue, oldValue) => {
+    if (newValue && !show.showNavBarRespParcours) {
+      semestre.semestreNom = ''
+      semestre.ListeSemestre = []
+      semestre.getSemestreByParcour()
+    }
+  })
+
+  watch(nomByEns, (newValue, oldValue) => {
     if (newValue) {
       semestre.semestreNom = ''
       semestre.ListeSemestre = []
@@ -107,7 +118,6 @@ export const useParcour = defineStore('Parcour', () => {
       .then((response) => {
         if (response.data.length !== 0) {
           ListParcours.value = response.data
-          console.log('ETO', ListParcours.value)
           parcours_nom.value = ListParcours.value[0].nom_parcours
           parcours_id.value = ListParcours.value[0].id
           parcours_abr.value = ListParcours.value[0].abr_parcours
@@ -210,6 +220,24 @@ export const useParcour = defineStore('Parcour', () => {
       })
   }
 
+  function getParcoursByIdEns(au_id) {    
+    const userString = localStorage.getItem('user')
+    const user = JSON.parse(userString)
+    axios
+      .get(`${URL}/api/parcours/enseignant/${user.id}/au/${au_id}`)
+      .then((response) => {
+        if (response.data.length !== 0) {
+          ListParcoursByEns.value = response.data
+          nomByEns.value = ListParcoursByEns.value[0].nom_parcours
+          abreviationbyEns.value = ListParcoursByEns.value[0].abr_parcours
+          parcours_id.value = ListParcoursByEns.value[0].id
+        }
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
   function clearEnseignantId(id, ensId) {
     show.showSpinner = true
     axios
@@ -255,7 +283,11 @@ export const useParcour = defineStore('Parcour', () => {
     ListAllParcours,
     nomByAll,
     abreviationbyAll,
+    ListParcoursByEns,
+    nomByEns,
+    abreviationbyEns,
     postParcour,
+    getParcoursByIdEns,
     clearEnseignantId,
     getByNiveauId,
     getByMentionId,

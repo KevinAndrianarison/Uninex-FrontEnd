@@ -27,7 +27,6 @@ export const useGroupe = defineStore('Groupe', () => {
     axios
       .get(`${URL}/api/users/${id}/groups`)
       .then((response) => {
-        console.log(response.data);
         groupes.value = response.data
         isSuspense.value = false
       })

@@ -10,6 +10,7 @@ import { useUe } from '@/stores/Ue'
 import { useEc } from '@/stores/Ec'
 import { useEdt } from '@/stores/Edt'
 import { useTransaction } from '@/stores/Transaction'
+import { useParcour } from '@/stores/Parcour'
 
 import axios from 'axios'
 
@@ -24,6 +25,7 @@ export const useAu = defineStore('Au', () => {
   const ue = useUe()
   const ec = useEc()
   const edt = useEdt()
+  const parcour = useParcour()
 
   const annee_debut = ref(null)
   const annee_fin = ref(null)
@@ -77,6 +79,11 @@ export const useAu = defineStore('Au', () => {
       }
       if (show.showNavBarSECPAL) {
         transaction.getByIdAU()
+      }
+
+      if (show.showNavBarRespParcours) {
+        parcour.nomByEns = ''
+        parcour.getParcoursByIdEns(idAU.value)
       }
 
       niveau.NiveauChecked = []

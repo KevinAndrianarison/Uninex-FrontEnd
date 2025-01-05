@@ -250,7 +250,6 @@ export const useEtudiant = defineStore('Etudiant', () => {
         })
         id_etud.value = response.data.etudiant.id
         moyenneGen.value = response.data.moyenne_generale
-        console.log(moyenneGen.value, "MOYENNE");
         listNote.value = response.data.etudiant.ec
         CIN_etud.value = response.data.etudiant.CIN_etud
         adresse_etud.value = response.data.etudiant.adresse_etud
