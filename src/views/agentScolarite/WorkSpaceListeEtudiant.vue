@@ -97,7 +97,7 @@
                       :key="index"
                       v-for="(prc, index) in parcour.ListParcours"
                       :value="prc.nom_parcours"
-                      @click="setIdParcours(prc.id)"
+                      @click="setIdParcours(prc.id, prc.abr_parcours)"
                     >
                       <li
                         :class="[
@@ -268,8 +268,9 @@ const parcour = useParcour()
 const etudiant = useEtudiant()
 const directeur = useDirecteur()
 
-function setIdParcours(id) {
+function setIdParcours(id, abr) {
   parcour.parcours_id = id
+  parcour.parcours_abr = abr
 }
 
 function getOneEtudiant(id) {

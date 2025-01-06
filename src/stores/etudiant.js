@@ -56,6 +56,8 @@ export const useEtudiant = defineStore('Etudiant', () => {
   const ListeEtudiantByExcel = ref([])
   const listdefinitiveTemp = ref([])
   const listdefinitive = ref([])
+  const listDeliberation = ref([])
+  const statusDeliberation = ref("")
   const listNote = ref([])
   const listNoteParSemestre = ref([])
   const listIdDefinitive = ref([])
@@ -202,7 +204,6 @@ export const useEtudiant = defineStore('Etudiant', () => {
           a.nomComplet_etud.localeCompare(b.nomComplet_etud, 'fr', { sensitivity: 'base' })
         )
         listdefinitive.value = listeAlphabetique.filter((list) => list.validiter_inscri === 'true')
-        console.log(listdefinitive.value, 'HERE')
         listdefinitiveTemp.value = listeAlphabetique.filter(
           (list) => list.validiter_inscri === 'true'
         )
@@ -455,6 +456,8 @@ export const useEtudiant = defineStore('Etudiant', () => {
     noteElim,
     isshowNotes,
     fileName,
+    listDeliberation,
+    statusDeliberation,
     createEtudiant,
     setValiditeInscriptionEtudiant,
     getAllEtudiantBysemestre,

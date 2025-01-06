@@ -8,6 +8,7 @@ import { useEc } from '@/stores/Ec'
 import { useEdt } from '@/stores/Edt'
 import { useTransaction } from '@/stores/Transaction'
 
+
 // import html2canvas from 'html2canvas'
 // import jsPDF from 'jspdf'
 
@@ -22,6 +23,19 @@ export const useHtml2pdf = defineStore('Html2pdf', () => {
 
   function setElement(element) {
     elementToPrint.value = element
+  }
+
+  function downloadPDFDeliberation() {
+    const element = elementToPrint.value
+    const options = {
+      margin: 0,
+      filename: `Liste des étudiants - ${parcour.abreviationbyEns} - ${etudiant.statusDeliberation} - ${au.oneAU}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    }
+
+    html2pdf().from(element).set(options).save()
   }
 
   function downloadPDF() {
@@ -124,6 +138,7 @@ export const useHtml2pdf = defineStore('Html2pdf', () => {
     setElement,
     downloadNote,
     downloadPDF,
-    downloadCarte
+    downloadCarte,
+    downloadPDFDeliberation
   }
 })

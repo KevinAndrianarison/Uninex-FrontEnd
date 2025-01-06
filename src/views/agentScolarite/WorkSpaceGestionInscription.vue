@@ -122,7 +122,7 @@
                       :key="index"
                       v-for="(prc, index) in parcour.ListParcours"
                       :value="prc.nom_parcours"
-                      @click="setIdParcours(prc.id)"
+                      @click="setIdParcours(prc.id, prc.abr_parcours)"
                     >
                       <li
                         :class="[
@@ -184,7 +184,7 @@
                       :key="index"
                       v-for="(sm, index) in semestre.ListeSemestre"
                       :value="sm.nom_semestre"
-                      @click="setSemestreId(sm.id)"
+                      @click="setSemestreId(sm.id, sm.nom_semestre)"
                     >
                       <li
                         :class="[
@@ -341,8 +341,9 @@ const parcour = useParcour()
 const etudiant = useEtudiant()
 const password = usePassword()
 
-function setIdParcours(id) {
+function setIdParcours(id, prc) {
   parcour.parcours_id = id
+  parcour.parcours_abr = prc
 }
 
 onBeforeMount(() => {
@@ -377,8 +378,9 @@ function showValiderInscription(id, nom) {
   show.showValiderInscription = true
 }
 
-function setSemestreId(id) {
+function setSemestreId(id, name) {
   semestre.semestreId = id
+  semestre.semestreNom = name
 }
 </script>
 

@@ -91,6 +91,7 @@ import { useEtudiant } from '@/stores/Etudiant'
 import { useNiveau } from '@/stores/Niveau'
 import { useDirecteur } from '@/stores/Directeur'
 import QRCode from 'qrcode'
+import { useShow } from '@/stores/Show'
 
 const elementToPrint = ref(null)
 const formattedDate = ref('')
@@ -103,6 +104,8 @@ const directeur = useDirecteur()
 const niveau = useNiveau()
 const qrCanvas = ref(null)
 const QrCanvas = ref(null)
+const show = useShow()
+
 
 function generateQRCode() {
   if (qrCanvas.value) {
@@ -127,9 +130,10 @@ function generateQRCode() {
       margin: 1
     })
   }
-
+  directeur.isCarte = false
   htmltopdf.setElement(elementToPrint.value)
   htmltopdf.downloadCarte()
+  show.showCarteEtudiant = false
 }
 
 onMounted(() => {

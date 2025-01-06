@@ -33,7 +33,7 @@
                         :key="index"
                         v-for="(prc, index) in parcour.ListParcoursByEns"
                         :value="prc.abr_parcours"
-                        @click="setIdParcours(prc.id)"
+                        @click="setIdParcours(prc.id, prc.nom_parcours)"
                       >
                         <li
                           :class="[
@@ -131,18 +131,48 @@
         </div>
       </div>
       <div class="flex flex-col justify-center w-[50%]">
-        <h1 class="create pl-5 mt-2 text-blue-500 flex gap-2">
-          Admis :
-          <p class="text-black">{{ countAdmis }} étudiant(s)</p>
-        </h1>
-        <h1 class="create pl-5 mt-2 text-yellow-500 flex gap-2">
-          Autorisé à redoubler :
-          <p class="text-black">{{ countRedouble }} étudiant(s)</p>
-        </h1>
-        <h1 class="create pl-5 mt-2 text-red-500 flex gap-2">
-          Eliminé :
-          <p class="text-black">{{ countElimine }} étudiant(s)</p>
-        </h1>
+        <div class="create px-5 mt-2 text-blue-500 flex justify-between items-center">
+          <div class="flex gap-2">
+            Admis :
+            <p class="text-black">{{ countAdmis }} étudiant(s)</p>
+          </div>
+          <button
+            v-if="countAdmis !== 0"
+            @click="AdmisList"
+            class="font-light text-black hover:bg-blue-200 py-1 px-3 text-sm hover:text-blue-900 rounded"
+          >
+            <font-awesome-icon :icon="['fas', 'file-pdf']" class="text-blue-600" />
+            Générer une liste
+          </button>
+        </div>
+        <div class="create px-5 mt-2 text-yellow-500 flex justify-between items-center">
+          <div class="flex gap-2">
+            Autorisé à redoubler :
+            <p class="text-black">{{ countRedouble }} étudiant(s)</p>
+          </div>
+          <button
+            v-if="countRedouble !== 0"
+            @click="RedoubleList"
+            class="font-light text-black hover:bg-blue-200 py-1 px-3 text-sm hover:text-blue-900 rounded"
+          >
+            <font-awesome-icon :icon="['fas', 'file-pdf']" class="text-blue-600" />
+            Générer une liste
+          </button>
+        </div>
+        <div class="create px-5 mt-2 text-red-500 flex justify-between items-center">
+          <div class="flex gap-2">
+            Eliminé :
+            <p class="text-black">{{ countElimine }} étudiant(s)</p>
+          </div>
+          <button
+            v-if="countElimine !== 0"
+            @click="ElimineList"
+            class="font-light text-black hover:bg-blue-200 py-1 hover:text-blue-900 text-sm px-3 rounded"
+          >
+            <font-awesome-icon :icon="['fas', 'file-pdf']" class="text-blue-600" />
+            Générer une liste
+          </button>
+        </div>
       </div>
     </div>
     <div class="listEtud" v-if="niveau.ListNiveau.length !== 0">
@@ -221,6 +251,8 @@ import { useAu } from '@/stores/Au'
 import Tooltip from '../../components/Tooltip.vue'
 import { FireIcon } from '@heroicons/vue/24/outline'
 import { onBeforeMount, ref, computed } from 'vue'
+import { useDirecteur } from '@/stores/Directeur'
+
 
 const niveau = useNiveau()
 const semestre = useSemestre()
@@ -229,9 +261,35 @@ const parcour = useParcour()
 const etudiant = useEtudiant()
 const au = useAu()
 const noteElim = ref(5)
+const directeur = useDirecteur()
 
-function setIdParcours(id) {
+
+function setIdParcours(id, name) {
   parcour.parcours_id = id
+  parcour.nomByEns = name
+}
+
+function AdmisList() {
+  etudiant.statusDeliberation = 'ADMIN'
+  etudiant.listDeliberation = etudiant.listdefinitive.filter(
+    (etd) => etd.moyenne_generale >= 10 && etd.worstNote >= noteElim.value
+  )
+  directeur.isListeEtudDelib = true
+  directeur.getFirst()
+}
+
+function RedoubleList() {
+  etudiant.statusDeliberation = 'AUTORISER A REDOUBLER'
+  etudiant.listDeliberation = etudiant.listdefinitive.filter(
+    (etd) => etd.moyenne_generale < 10 && etd.worstNote >= noteElim.value
+  )
+}
+
+function ElimineList() {
+  etudiant.statusDeliberation = 'ELIMINE'
+  etudiant.listDeliberation = etudiant.listdefinitive.filter(
+    (etd) => etd.moyenne_generale < 10 || etd.worstNote < noteElim.value
+  )
 }
 
 const countAdmis = computed(() => {

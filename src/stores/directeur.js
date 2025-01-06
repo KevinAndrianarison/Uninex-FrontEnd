@@ -14,6 +14,7 @@ export const useDirecteur = defineStore('Directeur', () => {
   const grade_dir = ref('')
   const telephone_dir = ref(null)
   const isListeEtud = ref(false)
+  const isListeEtudDelib = ref(false)
   const isListeNote = ref(false)
   const isReleve = ref(false)
   const URL = useUrl().url
@@ -31,6 +32,9 @@ export const useDirecteur = defineStore('Directeur', () => {
         grade_dir.value = response.data.grade_dir
         if (isListeEtud.value) {
           show.showListeEtudiantPdf = true
+        }
+        if (isListeEtudDelib.value) {
+          show.showListeEtudiantPdfDelib = true
         }
         if (etudiant.isCarte) {
           show.showCarteEtudiant = true
@@ -97,6 +101,7 @@ export const useDirecteur = defineStore('Directeur', () => {
     isListeNote,
     grade_dir,
     telephone_dir,
-    isListeEtud
+    isListeEtud,
+    isListeEtudDelib
   }
 })

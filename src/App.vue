@@ -13,6 +13,7 @@
       <WorkSpaceDash v-if="show.showAdmin" />
     </Transition>
     <ListeEtudiantPdf v-if="show.showListeEtudiantPdf" />
+    <ListeDeliberation v-if="show.showListeEtudiantPdfDelib" />
     <ListeNoteParEC v-if="show.showListeNoteEtudiantPdf" />
     <CarteEtudiant v-if="show.showCarteEtudiant" />
     <ReleveNotePdf v-if="show.showReleveNotePdf" />
@@ -148,6 +149,7 @@ import DeleteUE from './components/delete/DeleteUE.vue'
 import DeleteEDT from './components/delete/DeleteEDT.vue'
 import DeleteSalle from './components/delete/DeleteSalle.vue'
 import ListeEtudiantPdf from './components/ListeEtudiantPdf.vue'
+import ListeDeliberation from './components/ListeDeliberation.vue'
 import ListeNoteParEC from './components/ListeNoteParEC.vue'
 import CarteEtudiant from './components/CarteEtudiant.vue'
 import EDTpdf from './components/EDTpdf.vue'
