@@ -59,6 +59,8 @@ import { useEtablissement } from '@/stores/Etablissement'
 import { useEtudiant } from '@/stores/Etudiant'
 import { useDirecteur } from '@/stores/Directeur'
 import { useUrl } from '@/stores/url'
+import { useShow } from '@/stores/Show'
+
 
 const elementToPrint = ref(null)
 const formattedDate = ref('')
@@ -71,8 +73,11 @@ const URL = useUrl().url
 const parcour = useParcour()
 const etablissement = useEtablissement()
 const directeur = useDirecteur()
+const show = useShow()
+
 
 onMounted(() => {
+  directeur.isListeEtud = false
   const date = new Date(Date.now())
   formattedDate.value = date.toLocaleDateString('fr-FR', {
     day: '2-digit',
@@ -81,6 +86,7 @@ onMounted(() => {
   })
   htmltopdf.setElement(elementToPrint.value)
   htmltopdf.downloadPDF()
+  show.showListeEtudiantPdf = false
 })
 </script>
 

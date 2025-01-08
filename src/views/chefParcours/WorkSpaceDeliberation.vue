@@ -175,6 +175,8 @@
         </div>
       </div>
     </div>
+    <h1 class="text-sm py-1">Choisissez un parcours pour le prochain AU :</h1>
+    <div class="bg-white border-2 rounded-lg h-[50px]"></div>
     <div class="listEtud" v-if="niveau.ListNiveau.length !== 0">
       <div class="header gap-2">
         <input
@@ -196,7 +198,6 @@
           <li class="widthnom">Nom complet</li>
           <li class="widthemail">Observation</li>
           <li class="widthemails text-center">Moyenne générale /20</li>
-          <li v-if="show.showNavBarAS" class="width text-center">Notes</li>
         </div>
         <div :key="index" v-for="(etd, index) in etudiant.listdefinitive">
           <div class="body">
@@ -220,14 +221,6 @@
             </li>
             <li class="widthvalueemails">
               <p class="text-center w-full">{{ etd.moyenne_generale }}</p>
-            </li>
-            <li v-if="show.showNavBarAS" class="widthvalue flex justify-center">
-              <Tooltip content="Voir les notes de l'étudiant">
-                <font-awesome-icon
-                  @click="getOneEtudiant(etd.id)"
-                  :icon="['fas', 'eye']"
-                  class="h-4 w-4 text-yellow-500"
-              /></Tooltip>
             </li>
           </div>
         </div>
@@ -253,7 +246,6 @@ import { FireIcon } from '@heroicons/vue/24/outline'
 import { onBeforeMount, ref, computed } from 'vue'
 import { useDirecteur } from '@/stores/Directeur'
 
-
 const niveau = useNiveau()
 const semestre = useSemestre()
 const show = useShow()
@@ -263,14 +255,13 @@ const au = useAu()
 const noteElim = ref(5)
 const directeur = useDirecteur()
 
-
 function setIdParcours(id, name) {
   parcour.parcours_id = id
   parcour.nomByEns = name
 }
 
 function AdmisList() {
-  etudiant.statusDeliberation = 'ADMIN'
+  etudiant.statusDeliberation = 'ADMIS'
   etudiant.listDeliberation = etudiant.listdefinitive.filter(
     (etd) => etd.moyenne_generale >= 10 && etd.worstNote >= noteElim.value
   )

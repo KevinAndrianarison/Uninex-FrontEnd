@@ -30,7 +30,7 @@ export const useDirecteur = defineStore('Directeur', () => {
       .then((response) => {
         nomComplet_dir.value = response.data.nomComplet_dir
         grade_dir.value = response.data.grade_dir
-        if (isListeEtud.value) {
+        if (isListeEtud.value) {          
           show.showListeEtudiantPdf = true
         }
         if (isListeEtudDelib.value) {
@@ -45,7 +45,6 @@ export const useDirecteur = defineStore('Directeur', () => {
         if (isReleve.value) {
           show.showReleveNotePdf = true
         }
-        
 
         setTimeout(() => {
           show.showListeEtudiantPdf = false

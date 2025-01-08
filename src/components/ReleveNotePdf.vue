@@ -167,6 +167,8 @@ import { useEtablissement } from '@/stores/Etablissement'
 import { useEtudiant } from '@/stores/Etudiant'
 import { useDirecteur } from '@/stores/Directeur'
 import { useUrl } from '@/stores/url'
+import { useShow } from '@/stores/Show'
+
 
 const elementToPrint = ref(null)
 const formattedDate = ref('')
@@ -174,6 +176,7 @@ const htmltopdf = useHtml2pdf()
 const etudiant = useEtudiant()
 const semestre = useSemestre()
 const au = useAu()
+const show = useShow()
 const mention = useMention()
 const URL = useUrl().url
 const parcour = useParcour()
@@ -187,9 +190,11 @@ onMounted(() => {
     month: 'long',
     year: 'numeric'
   })
+  directeur.isReleve = false
   htmltopdf.setElement(elementToPrint.value)
   htmltopdf.downloadReleve()
-  directeur.isReleve = false
+  show.showReleveNotePdf = false
+
 })
 </script>
 

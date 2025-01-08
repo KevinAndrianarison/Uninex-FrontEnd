@@ -86,12 +86,12 @@ import { ref, onMounted, watch, reactive } from 'vue'
 import { useHtml2pdf } from '@/stores/Html2pdf'
 import { useEtablissement } from '@/stores/Etablissement'
 import { useAu } from '@/stores/Au'
+import { useShow } from '@/stores/Show'
 import { useParcour } from '@/stores/Parcour'
 import { useEtudiant } from '@/stores/Etudiant'
 import { useNiveau } from '@/stores/Niveau'
 import { useDirecteur } from '@/stores/Directeur'
 import QRCode from 'qrcode'
-import { useShow } from '@/stores/Show'
 
 const elementToPrint = ref(null)
 const formattedDate = ref('')
@@ -100,12 +100,11 @@ const etablissement = useEtablissement()
 const etudiant = useEtudiant()
 const parcours = useParcour()
 const au = useAu()
+const show = useShow()
 const directeur = useDirecteur()
 const niveau = useNiveau()
 const qrCanvas = ref(null)
 const QrCanvas = ref(null)
-const show = useShow()
-
 
 function generateQRCode() {
   if (qrCanvas.value) {
@@ -130,7 +129,7 @@ function generateQRCode() {
       margin: 1
     })
   }
-  directeur.isCarte = false
+  etudiant.isCarte = false
   htmltopdf.setElement(elementToPrint.value)
   htmltopdf.downloadCarte()
   show.showCarteEtudiant = false

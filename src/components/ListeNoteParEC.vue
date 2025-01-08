@@ -50,19 +50,27 @@ import { useMention } from '@/stores/Mention'
 import { useParcour } from '@/stores/Parcour'
 import { useEtablissement } from '@/stores/Etablissement'
 import { useEc } from '@/stores/Ec'
+import { useShow } from '@/stores/Show'
+import { useDirecteur } from '@/stores/Directeur'
+
+
 
 const elementToPrint = ref(null)
 const htmltopdf = useHtml2pdf()
 const semestre = useSemestre()
 const au = useAu()
 const ec = useEc()
+const show = useShow()
+const directeur = useDirecteur()
 const mention = useMention()
 const parcour = useParcour()
 const etablissement = useEtablissement()
 
 onMounted(() => {
+  directeur.isListeNote = false
   htmltopdf.setElement(elementToPrint.value)
   htmltopdf.downloadNote()
+  show.showListeNoteEtudiantPdf = false
 })
 </script>
 

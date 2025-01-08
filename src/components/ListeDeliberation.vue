@@ -58,6 +58,7 @@
   import { useUrl } from '@/stores/url'
   import { useShow } from '@/stores/Show'
 
+
   
   const elementToPrint = ref(null)
   const formattedDate = ref('')
@@ -72,13 +73,13 @@
 
   
   onMounted(() => {
+    directeur.isListeEtudDelib = false
     const date = new Date(Date.now())
     formattedDate.value = date.toLocaleDateString('fr-FR', {
       day: '2-digit',
       month: 'long',
       year: 'numeric'
     })
-    directeur.isListeEtudDelib = false
     htmltopdf.setElement(elementToPrint.value)
     htmltopdf.downloadPDFDeliberation()
     show.showListeEtudiantPdfDelib = false
