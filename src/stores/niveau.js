@@ -24,6 +24,9 @@ export const useNiveau = defineStore('Niveau', () => {
   const nom_niveau = ref('')
   const montant = ref('')
   const ListNiveau = ref([])
+  const ListNiveauDelib = ref([])
+  const nom_niveauDelib = ref('')
+  const idniveauDelib = ref(null)
   const NiveauChecked = ref([])
   const NiveauCheck = ref([])
   const niveau = reactive({
@@ -46,6 +49,12 @@ export const useNiveau = defineStore('Niveau', () => {
       show.ShowListEtudiantEmpty = true
       mention.getByAuId()
       parcour.getByNiveauId()
+    }
+  })
+
+  watch(idniveauDelib, (newValue, oldValue) => {
+    if (newValue) {
+      parcour.getByNiveauIdDelib()
     }
   })
 
@@ -97,6 +106,21 @@ export const useNiveau = defineStore('Niveau', () => {
       })
   }
 
+  function getByAuIdDelib() {
+    axios
+      .get(`${URL}/api/niveau/getById/${au.idAUDelib}`)
+      .then((response) => {
+        if (response.data.length !== 0) {
+          ListNiveauDelib.value = response.data
+          nom_niveauDelib.value = response.data[0].nom_niveau
+          idniveauDelib.value = response.data[0].id
+        }
+      })
+      .catch((error) => {
+        console.error('Erreur du GET BY ID Niveau : ', error)
+      })
+  }
+
   function deleteNiveau() {
     show.showSpinner = true
     axios
@@ -125,7 +149,11 @@ export const useNiveau = defineStore('Niveau', () => {
     NiveauChecked,
     NiveauCheck,
     montant,
+    ListNiveauDelib,
+    nom_niveauDelib,
+    idniveauDelib,
     createNiveau,
+    getByAuIdDelib,
     getByAuId,
     deleteNiveau
   }

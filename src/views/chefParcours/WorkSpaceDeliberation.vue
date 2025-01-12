@@ -95,7 +95,6 @@
                         :key="index"
                         v-for="(sm, index) in semestre.ListeSemestre"
                         :value="sm.nom_semestre"
-                        @click="setSemestreId(sm.id)"
                       >
                         <li
                           :class="[
@@ -176,7 +175,228 @@
       </div>
     </div>
     <h1 class="text-sm py-1">Choisissez un parcours pour le prochain AU :</h1>
-    <div class="bg-white border-2 rounded-lg h-[50px]"></div>
+    <div class="bg-white border-2 rounded-lg h-[50px] flex items-center justify-between px-2">
+      <div class="flex gap-2">
+        <Listbox v-model="au.nomAUDelib" v-if="au.listeAUDelib.length !== 0">
+          <div class="relative text-xs w-40">
+            <ListboxButton
+              class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none sm:text-sm"
+            >
+              <span class="block truncate text-xs">{{ au.nomAUDelib }}</span>
+              <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+              </span>
+            </ListboxButton>
+
+            <transition
+              leave-active-class="transition duration-100 ease-in"
+              leave-from-class="opacity-100"
+              leave-to-class="opacity-0"
+            >
+              <ListboxOptions
+                class="z-10 absolute mt-1 max-h-40 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+              >
+                <ListboxOption
+                  v-slot="{ active, selected }"
+                  v-for="(AU, index) in au.listeAUDelib"
+                  :key="AU.id"
+                  :value="AU.annee_debut + '-' + AU.annee_fin"
+                  as="div"
+                  @click="
+                    () => {
+                      au.idAUDelib = AU.id
+                    }
+                  "
+                >
+                  <li
+                    :class="[
+                      active ? 'bg-amber-100 text-amber-900 text-xs' : 'text-gray-900',
+                      'relative cursor-default select-none py-2 pl-10 pr-4 text-xs'
+                    ]"
+                  >
+                    <span :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']">
+                      {{ AU.annee_debut }} - {{ AU.annee_fin }}
+                    </span>
+                    <span
+                      v-if="selected"
+                      class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
+                    >
+                      <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                    </span>
+                  </li>
+                </ListboxOption>
+              </ListboxOptions>
+            </transition>
+          </div>
+        </Listbox>
+        <Listbox v-model="niveau.nom_niveauDelib" v-if="niveau.ListNiveauDelib.length !== 0">
+          <div class="relative text-xs w-40">
+            <ListboxButton
+              class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none sm:text-sm"
+            >
+              <span class="block truncate text-xs">{{ niveau.nom_niveauDelib }}</span>
+              <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+              </span>
+            </ListboxButton>
+
+            <transition
+              leave-active-class="transition duration-100 ease-in"
+              leave-from-class="opacity-100"
+              leave-to-class="opacity-0"
+            >
+              <ListboxOptions
+                class="z-10 absolute mt-1 max-h-40 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+              >
+                <ListboxOption
+                  v-slot="{ active, selected }"
+                  v-for="(nv, index) in niveau.ListNiveauDelib"
+                  :key="nv.id"
+                  :value="nv.nom_niveau"
+                  as="div"
+                  @click="
+                    () => {
+                      niveau.idniveauDelib = nv.id
+                    }
+                  "
+                >
+                  <li
+                    :class="[
+                      active ? 'bg-amber-100 text-amber-900 text-xs' : 'text-gray-900',
+                      'relative cursor-default select-none py-2 pl-10 pr-4 text-xs'
+                    ]"
+                  >
+                    <span :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']">
+                      {{ nv.nom_niveau }}
+                    </span>
+                    <span
+                      v-if="selected"
+                      class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
+                    >
+                      <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                    </span>
+                  </li>
+                </ListboxOption>
+              </ListboxOptions>
+            </transition>
+          </div>
+        </Listbox>
+        <Listbox v-model="parcour.abr_parcoursDelib" v-if="parcour.ListParcoursDelib.length !== 0">
+          <div class="relative text-xs w-40">
+            <ListboxButton
+              class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none sm:text-sm"
+            >
+              <span class="block truncate text-xs">{{ parcour.abr_parcoursDelib }}</span>
+              <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+              </span>
+            </ListboxButton>
+
+            <transition
+              leave-active-class="transition duration-100 ease-in"
+              leave-from-class="opacity-100"
+              leave-to-class="opacity-0"
+            >
+              <ListboxOptions
+                class="z-10 absolute mt-1 max-h-40 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+              >
+                <ListboxOption
+                  v-slot="{ active, selected }"
+                  v-for="(prc, index) in parcour.ListParcoursDelib"
+                  :key="prc.id"
+                  :value="prc.abr_parcoursDelib"
+                  as="div"
+                  @click="
+                    () => {
+                      parcour.parcours_idDelib = prc.id
+                    }
+                  "
+                >
+                  <li
+                    :class="[
+                      active ? 'bg-amber-100 text-amber-900 text-xs' : 'text-gray-900',
+                      'relative cursor-default select-none py-2 pl-10 pr-4 text-xs'
+                    ]"
+                  >
+                    <span :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']">
+                      {{ prc.abr_parcoursDelib }}
+                    </span>
+                    <span
+                      v-if="selected"
+                      class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
+                    >
+                      <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                    </span>
+                  </li>
+                </ListboxOption>
+              </ListboxOptions>
+            </transition>
+          </div>
+        </Listbox>
+        <Listbox
+          v-model="semestre.semestreNomDelib"
+          v-if="semestre.ListeSemestreDelib.length !== 0"
+        >
+          <div class="relative text-xs w-40">
+            <ListboxButton
+              class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none sm:text-sm"
+            >
+              <span class="block truncate text-xs">{{ semestre.semestreNomDelib }}</span>
+              <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+              </span>
+            </ListboxButton>
+
+            <transition
+              leave-active-class="transition duration-100 ease-in"
+              leave-from-class="opacity-100"
+              leave-to-class="opacity-0"
+            >
+              <ListboxOptions
+                class="z-10 absolute mt-1 max-h-40 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+              >
+                <ListboxOption
+                  v-slot="{ active, selected }"
+                  v-for="(smtr, index) in semestre.ListeSemestreDelib"
+                  :key="smtr.id"
+                  :value="smtr.nom_semestre"
+                  as="div"
+                  @click="
+                    () => {
+                      semestre.semestreIdDelib = smtr.id
+                    }
+                  "
+                >
+                  <li
+                    :class="[
+                      active ? 'bg-amber-100 text-amber-900 text-xs' : 'text-gray-900',
+                      'relative cursor-default select-none py-2 pl-10 pr-4 text-xs'
+                    ]"
+                  >
+                    <span :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']">
+                      {{ smtr.nom_semestre }}
+                    </span>
+                    <span
+                      v-if="selected"
+                      class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
+                    >
+                      <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                    </span>
+                  </li>
+                </ListboxOption>
+              </ListboxOptions>
+            </transition>
+          </div>
+        </Listbox>
+      </div>
+      <button
+        v-if="semestre.semestreNomDelib"
+        @click="delibaration()"
+        class="bg-blue-500 text-white rounded px-4 py-1.5"
+      >
+        Valider la déliberation
+      </button>
+    </div>
     <div class="listEtud" v-if="niveau.ListNiveau.length !== 0">
       <div class="header gap-2">
         <input
@@ -239,25 +459,96 @@ import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headless
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import { useNiveau } from '@/stores/Niveau'
 import { useEtudiant } from '@/stores/Etudiant'
-import { useShow } from '@/stores/Show'
-import { useAu } from '@/stores/Au'
-import Tooltip from '../../components/Tooltip.vue'
 import { FireIcon } from '@heroicons/vue/24/outline'
 import { onBeforeMount, ref, computed } from 'vue'
 import { useDirecteur } from '@/stores/Directeur'
+import { useAu } from '@/stores/Au'
+import { useUrl } from '@/stores/url'
+import axios from 'axios'
 
 const niveau = useNiveau()
 const semestre = useSemestre()
-const show = useShow()
 const parcour = useParcour()
 const etudiant = useEtudiant()
 const au = useAu()
 const noteElim = ref(5)
+const listeAdmins = ref([])
 const directeur = useDirecteur()
+const URL = useUrl().url
 
 function setIdParcours(id, name) {
   parcour.parcours_id = id
   parcour.nomByEns = name
+}
+
+function delibaration() {
+  listeAdmins.value = etudiant.listdefinitive.filter(
+    (etd) => etd.moyenne_generale >= 10 && etd.worstNote >= noteElim.value
+  )
+  delibAdmis()
+}
+
+function delibAdmis() {
+  listeAdmins.value.forEach((etd) => {
+    let formData = {
+      password: '',
+      validiter_compte: 'false'
+    }
+    axios
+      .put(`${URL}/api/user/setup/${etd.user_id}`, formData)
+      .then((response) => {
+        let formdata = {
+          email: etd.user.email,
+          status_user: 'Etudiant',
+          validiter_compte: false
+        }
+        axios
+          .post(`${URL}/api/user/createEtudiant`, formdata, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          })
+          .then((responseUser) => {
+            let formDataEtudiant = {
+              user_id: responseUser.data.id,
+              nomComplet_etud: etd.nomComplet_etud,
+              validiter_inscri: false
+            }
+            axios
+              .post(`${URL}/api/etudiant`, formDataEtudiant, {
+                headers: {
+                  'Content-Type': 'multipart/form-data'
+                }
+              })
+              .then((responseEtd) => {
+                let formDataToSemestre = {
+                  etudiant_id: responseEtd.data.id,
+                  semestre_ids: semestre.semestreIdDelib
+                }
+                axios
+                  .post(`${URL}/api/semestres/addEtudiant`, formDataToSemestre, {
+                    headers: {
+                      'Content-Type': 'multipart/form-data'
+                    }
+                  })
+                  .then((response) => {
+                  })
+                  .catch((err) => {
+                    console.error(err)
+                  })
+              })
+              .catch((err) => {
+                console.error(err)
+              })
+          })
+          .catch((err) => {
+            console.error(err)
+          })
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  })
 }
 
 function AdmisList() {
@@ -310,10 +601,6 @@ function getOneEtudiant(id) {
   etudiant.isshowNotes = true
   etudiant.id_etud = id
   etudiant.getEtudiantById()
-}
-
-function setSemestreId(id) {
-  semestre.semestreId = id
 }
 </script>
 

@@ -20,14 +20,17 @@ export const useParcour = defineStore('Parcour', () => {
   const nomByAll = ref('')
   const nomByEns = ref('')
   const parcours_id = ref(null)
+  const parcours_idDelib = ref(null)
   const parcours_abr = ref('')
   const parcours_nom = ref('')
   const abr_parcours = ref('')
+  const abr_parcoursDelib = ref('')
   const mention_id = ref(null)
   const ListParcours = ref([])
   const ListParcoursByMention = ref([])
   const ListAllParcours = ref([])
   const ListParcoursByEns = ref([])
+  const ListParcoursDelib = ref([])
 
   const niveau = useNiveau()
   const mention = useMention()
@@ -71,6 +74,12 @@ export const useParcour = defineStore('Parcour', () => {
       semestre.semestreNom = ''
       semestre.ListeSemestre = []
       semestre.getSemestreByParcourEDT()
+    }
+  })
+
+  watch(parcours_idDelib, (newValue, oldValue) => {
+    if (newValue) {
+      semestre.getSemestreByDelib()
     }
   })
 
@@ -121,6 +130,21 @@ export const useParcour = defineStore('Parcour', () => {
           parcours_nom.value = ListParcours.value[0].nom_parcours
           parcours_id.value = ListParcours.value[0].id
           parcours_abr.value = ListParcours.value[0].abr_parcours
+        }
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
+  function getByNiveauIdDelib() {
+    axios
+      .get(`${URL}/api/parcours/getById/${niveau.idniveauDelib}`)
+      .then((response) => {
+        if (response.data.length !== 0) {
+          ListParcoursDelib.value = response.data
+          abr_parcoursDelib.value = ListParcoursDelib.value[0].abr_parcours
+          parcours_idDelib.value = ListParcoursDelib.value[0].id
         }
       })
       .catch((error) => {
@@ -220,7 +244,7 @@ export const useParcour = defineStore('Parcour', () => {
       })
   }
 
-  function getParcoursByIdEns(au_id) {    
+  function getParcoursByIdEns(au_id) {
     const userString = localStorage.getItem('user')
     const user = JSON.parse(userString)
     axios
@@ -286,6 +310,10 @@ export const useParcour = defineStore('Parcour', () => {
     ListParcoursByEns,
     nomByEns,
     abreviationbyEns,
+    ListParcoursDelib,
+    abr_parcoursDelib,
+    parcours_idDelib,
+    getByNiveauIdDelib,
     postParcour,
     getParcoursByIdEns,
     clearEnseignantId,

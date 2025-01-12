@@ -30,11 +30,14 @@ export const useAu = defineStore('Au', () => {
   const annee_debut = ref(null)
   const annee_fin = ref(null)
   const oneAU = ref('')
+  const nomAUDelib = ref('')
   const oneAUSelectEDT = ref('')
   const oneAUSelectFind = ref('')
   const idAU = ref(null)
   const idAUEDT = ref(null)
   const listeAU = ref([])
+  const listeAUDelib = ref([])
+  const idAUDelib = ref(null)
 
   function getallAU() {
     axios
@@ -43,6 +46,9 @@ export const useAu = defineStore('Au', () => {
         idAUEDT.value = response.data[0].id
         idAU.value = response.data[0].id
         listeAU.value = response.data
+        listeAUDelib.value = response.data
+        idAUDelib.value = response.data[0].id
+        nomAUDelib.value = listeAU.value[0].annee_debut + '-' + listeAU.value[0].annee_fin
         oneAU.value = listeAU.value[0].annee_debut + '-' + listeAU.value[0].annee_fin
         oneAUSelectEDT.value = listeAU.value[0].annee_debut + '-' + listeAU.value[0].annee_fin
         oneAUSelectFind.value = listeAU.value[0].annee_debut + '-' + listeAU.value[0].annee_fin
@@ -87,6 +93,14 @@ export const useAu = defineStore('Au', () => {
       }
 
       niveau.NiveauChecked = []
+    }
+  })
+
+  watch(nomAUDelib, (newValue, oldValue) => {
+    if (newValue) {
+      if (show.showNavBarRespParcours) {
+        niveau.getByAuIdDelib()
+      }
     }
   })
 
@@ -161,6 +175,9 @@ export const useAu = defineStore('Au', () => {
     oneAUSelectEDT,
     oneAUSelectFind,
     idAUEDT,
+    listeAUDelib,
+    idAUDelib,
+    nomAUDelib,
     createAU,
     getallAU,
     ShowIdAU,
