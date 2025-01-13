@@ -25,8 +25,11 @@ export const useNiveau = defineStore('Niveau', () => {
   const montant = ref('')
   const ListNiveau = ref([])
   const ListNiveauDelib = ref([])
+  const ListNiveauDelibRed = ref([])
   const nom_niveauDelib = ref('')
+  const nom_niveauDelibRed = ref('')
   const idniveauDelib = ref(null)
+  const idniveauDelibRed = ref(null)
   const NiveauChecked = ref([])
   const NiveauCheck = ref([])
   const niveau = reactive({
@@ -55,6 +58,12 @@ export const useNiveau = defineStore('Niveau', () => {
   watch(idniveauDelib, (newValue, oldValue) => {
     if (newValue) {
       parcour.getByNiveauIdDelib()
+    }
+  })
+
+  watch(idniveauDelibRed, (newValue, oldValue) => {
+    if (newValue) {
+      parcour.getByNiveauIdDelibRed()
     }
   })
 
@@ -121,6 +130,21 @@ export const useNiveau = defineStore('Niveau', () => {
       })
   }
 
+  function getByAuIdDelibRed() {
+    axios
+      .get(`${URL}/api/niveau/getById/${au.idAUDelibRed}`)
+      .then((response) => {
+        if (response.data.length !== 0) {
+          ListNiveauDelibRed.value = response.data
+          nom_niveauDelibRed.value = response.data[0].nom_niveau
+          idniveauDelibRed.value = response.data[0].id
+        }
+      })
+      .catch((error) => {
+        console.error('Erreur du GET BY ID Niveau : ', error)
+      })
+  }
+
   function deleteNiveau() {
     show.showSpinner = true
     axios
@@ -152,8 +176,12 @@ export const useNiveau = defineStore('Niveau', () => {
     ListNiveauDelib,
     nom_niveauDelib,
     idniveauDelib,
+    ListNiveauDelibRed,
+    nom_niveauDelibRed,
+    idniveauDelibRed,
     createNiveau,
     getByAuIdDelib,
+    getByAuIdDelibRed,
     getByAuId,
     deleteNiveau
   }

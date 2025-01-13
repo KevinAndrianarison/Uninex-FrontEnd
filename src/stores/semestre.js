@@ -17,10 +17,13 @@ export const useSemestre = defineStore('Semestre', () => {
   const semestreId = ref('')
   const semestreIdEDT = ref('')
   const semestreIdDelib = ref('')
+  const semestreIdDelibRed = ref('')
   const semestreIds = ref([])
   const ListeSemestreEDT = ref([])
   const ListeSemestre = ref([])
   const ListeSemestreDelib = ref([])
+  const ListeSemestreDelibRed = ref([])
+  const semestreNomDelibRed = ref("")
   const semestre = reactive({
     nom: '',
     id: ''
@@ -131,6 +134,23 @@ export const useSemestre = defineStore('Semestre', () => {
       })
   }
 
+  function getSemestreByDelibRed() {
+    axios
+      .get(`${URL}/api/semestre/getById/${parcour.parcours_idDelibRed}`)
+      .then((response) => {
+        if (response.data.length !== 0) {
+          ListeSemestreDelibRed.value = response.data
+          semestreNomDelibRed.value = ListeSemestreDelibRed.value[0].nom_semestre
+          semestreIdDelibRed.value = ListeSemestreDelibRed.value.map((val) => {
+            return val.id
+          })
+        }
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
   function deleteSemestre() {
     show.showSpinner = true
     axios
@@ -183,7 +203,11 @@ export const useSemestre = defineStore('Semestre', () => {
     ListeSemestreDelib,
     semestreNomDelib,
     semestreIdDelib,
+    ListeSemestreDelibRed,
+    semestreNomDelibRed,
+    semestreIdDelibRed,
     postSemestre,
+    getSemestreByDelibRed,
     getSemestreByParcour,
     deleteSemestre,
     getSemestreByEtudiantId,

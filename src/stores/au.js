@@ -31,12 +31,15 @@ export const useAu = defineStore('Au', () => {
   const annee_fin = ref(null)
   const oneAU = ref('')
   const nomAUDelib = ref('')
+  const nomAUDelibRed = ref('')
   const oneAUSelectEDT = ref('')
   const oneAUSelectFind = ref('')
   const idAU = ref(null)
   const idAUEDT = ref(null)
+  const idAUDelibRed = ref(null)
   const listeAU = ref([])
   const listeAUDelib = ref([])
+  const listeAUDelibRed = ref([])
   const idAUDelib = ref(null)
 
   function getallAU() {
@@ -47,8 +50,11 @@ export const useAu = defineStore('Au', () => {
         idAU.value = response.data[0].id
         listeAU.value = response.data
         listeAUDelib.value = response.data
+        listeAUDelibRed.value = response.data
         idAUDelib.value = response.data[0].id
+        idAUDelibRed.value = response.data[0].id
         nomAUDelib.value = listeAU.value[0].annee_debut + '-' + listeAU.value[0].annee_fin
+        nomAUDelibRed.value = listeAU.value[0].annee_debut + '-' + listeAU.value[0].annee_fin
         oneAU.value = listeAU.value[0].annee_debut + '-' + listeAU.value[0].annee_fin
         oneAUSelectEDT.value = listeAU.value[0].annee_debut + '-' + listeAU.value[0].annee_fin
         oneAUSelectFind.value = listeAU.value[0].annee_debut + '-' + listeAU.value[0].annee_fin
@@ -100,6 +106,14 @@ export const useAu = defineStore('Au', () => {
     if (newValue) {
       if (show.showNavBarRespParcours) {
         niveau.getByAuIdDelib()
+      }
+    }
+  })
+
+  watch(nomAUDelibRed, (newValue, oldValue) => {
+    if (newValue) {
+      if (show.showNavBarRespParcours) {
+        niveau.getByAuIdDelibRed()
       }
     }
   })
@@ -178,6 +192,9 @@ export const useAu = defineStore('Au', () => {
     listeAUDelib,
     idAUDelib,
     nomAUDelib,
+    listeAUDelibRed,
+    nomAUDelibRed,
+    idAUDelibRed,
     createAU,
     getallAU,
     ShowIdAU,

@@ -21,16 +21,20 @@ export const useParcour = defineStore('Parcour', () => {
   const nomByEns = ref('')
   const parcours_id = ref(null)
   const parcours_idDelib = ref(null)
+  const parcours_idDelibRed = ref(null)
   const parcours_abr = ref('')
   const parcours_nom = ref('')
   const abr_parcours = ref('')
   const abr_parcoursDelib = ref('')
+  const abr_parcoursDelibRed = ref('')
   const mention_id = ref(null)
   const ListParcours = ref([])
   const ListParcoursByMention = ref([])
   const ListAllParcours = ref([])
   const ListParcoursByEns = ref([])
   const ListParcoursDelib = ref([])
+  const ListParcoursDelibRed = ref([])
+
 
   const niveau = useNiveau()
   const mention = useMention()
@@ -80,6 +84,12 @@ export const useParcour = defineStore('Parcour', () => {
   watch(parcours_idDelib, (newValue, oldValue) => {
     if (newValue) {
       semestre.getSemestreByDelib()
+    }
+  })
+
+  watch(parcours_idDelibRed, (newValue, oldValue) => {
+    if (newValue) {
+      semestre.getSemestreByDelibRed()
     }
   })
 
@@ -145,6 +155,21 @@ export const useParcour = defineStore('Parcour', () => {
           ListParcoursDelib.value = response.data
           abr_parcoursDelib.value = ListParcoursDelib.value[0].abr_parcours
           parcours_idDelib.value = ListParcoursDelib.value[0].id
+        }
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
+  function getByNiveauIdDelibRed() {
+    axios
+      .get(`${URL}/api/parcours/getById/${niveau.idniveauDelibRed}`)
+      .then((response) => {
+        if (response.data.length !== 0) {
+          ListParcoursDelibRed.value = response.data
+          abr_parcoursDelibRed.value = ListParcoursDelibRed.value[0].abr_parcours
+          parcours_idDelibRed.value = ListParcoursDelibRed.value[0].id
         }
       })
       .catch((error) => {
@@ -313,6 +338,9 @@ export const useParcour = defineStore('Parcour', () => {
     ListParcoursDelib,
     abr_parcoursDelib,
     parcours_idDelib,
+    ListParcoursDelibRed,
+    abr_parcoursDelibRed,
+    parcours_idDelibRed,
     getByNiveauIdDelib,
     postParcour,
     getParcoursByIdEns,
@@ -321,6 +349,7 @@ export const useParcour = defineStore('Parcour', () => {
     getByMentionId,
     addRespParcours,
     deleteParcours,
-    getAllParcours
+    getAllParcours,
+    getByNiveauIdDelibRed
   }
 })
