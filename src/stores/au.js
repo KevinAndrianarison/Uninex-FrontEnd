@@ -11,6 +11,7 @@ import { useEc } from '@/stores/Ec'
 import { useEdt } from '@/stores/Edt'
 import { useTransaction } from '@/stores/Transaction'
 import { useParcour } from '@/stores/Parcour'
+import { useSemestre } from '@/stores/Semestre'
 
 import axios from 'axios'
 
@@ -26,6 +27,7 @@ export const useAu = defineStore('Au', () => {
   const ec = useEc()
   const edt = useEdt()
   const parcour = useParcour()
+  const semestre = useSemestre()
 
   const annee_debut = ref(null)
   const annee_fin = ref(null)
@@ -105,6 +107,10 @@ export const useAu = defineStore('Au', () => {
   watch(nomAUDelib, (newValue, oldValue) => {
     if (newValue) {
       if (show.showNavBarRespParcours) {
+        niveau.ListNiveauDelib = []
+        parcour.ListParcoursDelib = []
+        semestre.ListeSemestreDelib = []
+        semestre.semestreIdDelib = []
         niveau.getByAuIdDelib()
       }
     }
@@ -113,6 +119,10 @@ export const useAu = defineStore('Au', () => {
   watch(nomAUDelibRed, (newValue, oldValue) => {
     if (newValue) {
       if (show.showNavBarRespParcours) {
+        niveau.ListNiveauDelibRed = []
+        parcour.ListParcoursDelibRed = []
+        semestre.ListeSemestreDelibRed = []
+        semestre.semestreIdDelibRed = []
         niveau.getByAuIdDelibRed()
       }
     }

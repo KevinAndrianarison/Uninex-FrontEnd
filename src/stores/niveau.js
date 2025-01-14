@@ -57,12 +57,18 @@ export const useNiveau = defineStore('Niveau', () => {
 
   watch(idniveauDelib, (newValue, oldValue) => {
     if (newValue) {
+      parcour.ListParcoursDelib = []
+      semestre.ListeSemestreDelib = []
+      semestre.semestreIdDelib = []
       parcour.getByNiveauIdDelib()
     }
   })
 
   watch(idniveauDelibRed, (newValue, oldValue) => {
     if (newValue) {
+      parcour.ListParcoursDelibRed = []
+      semestre.ListeSemestreDelibRed = []
+      semestre.semestreIdDelibRed = []
       parcour.getByNiveauIdDelibRed()
     }
   })

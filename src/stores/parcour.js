@@ -83,12 +83,16 @@ export const useParcour = defineStore('Parcour', () => {
 
   watch(parcours_idDelib, (newValue, oldValue) => {
     if (newValue) {
+      semestre.ListeSemestreDelib = []
+      semestre.semestreIdDelib = []
       semestre.getSemestreByDelib()
     }
   })
 
   watch(parcours_idDelibRed, (newValue, oldValue) => {
     if (newValue) {
+      semestre.ListeSemestreDelibRed = []
+      semestre.semestreIdDelibRed = []
       semestre.getSemestreByDelibRed()
     }
   })

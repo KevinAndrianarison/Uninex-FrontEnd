@@ -365,11 +365,6 @@
                     :key="smtr.id"
                     :value="smtr.nom_semestre"
                     as="div"
-                    @click="
-                      () => {
-                        semestre.semestreIdDelib = smtr.id
-                      }
-                    "
                   >
                     <li
                       :class="[
@@ -585,11 +580,6 @@
                     :key="smtr.id"
                     :value="smtr.nom_semestre"
                     as="div"
-                    @click="
-                      () => {
-                        semestre.semestreIdDelibRed = smtr.id
-                      }
-                    "
                   >
                     <li
                       :class="[
@@ -616,7 +606,11 @@
         </div>
       </div>
       <button
-        v-if="semestre.semestreNomDelib && semestre.semestreNomDelibRed"
+        v-if="
+          semestre.semestreIdDelib.length !== 0 &&
+          semestre.semestreIdDelibRed.length !== 0 &&
+          (countAdmis !== 0 || countRedouble !== 0)
+        "
         @click="delibaration()"
         class="bg-blue-500 text-white rounded px-4 py-1.5"
       >
