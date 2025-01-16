@@ -1,17 +1,15 @@
 <script setup>
 import { useShow } from '@/stores/Show'
-import { useMention } from '@/stores/Mention'
-import { useParcour } from '@/stores/Parcour'
 import { useUser } from '@/stores/User'
 import { useRouter } from 'vue-router'
 import { useInfossetup } from '@/stores/Infossetup'
+import { useTheme } from '@/stores/Theme'
 
 const show = useShow()
 const user = useUser()
 const router = useRouter()
-const parcour = useParcour()
-const mention = useMention()
 const infossetup = useInfossetup()
+const theme = useTheme()
 
 function Canceldeconnexion() {
   show.showDeconnexion = false
@@ -24,7 +22,7 @@ function deconnexion() {
   infossetup.telephone = null
   localStorage.removeItem('auth_token')
   const userString = localStorage.getItem('user')
-  Canceldeconnexion()
+  show.showDeconnexion = false
   show.showAdmin = false
   const users = JSON.parse(userString)
   if (users.user.status_user === 'Directeur') {
@@ -58,7 +56,7 @@ function deconnexion() {
 <template>
   <Transition>
     <div class="showModal" v-if="show.showDeconnexion">
-      <div class="formModal">
+      <div :class="theme.theme === 'light' ? 'formModal' : 'formModal  !bg-gray-500 text-white'">
         <h6 class="login">Voulez-vous vraiment quitter ?</h6>
         <div class="valider">
           <button type="submit" class="Modifier btn btn-primary mt-5" @click="deconnexion()">

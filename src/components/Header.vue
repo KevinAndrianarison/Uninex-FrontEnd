@@ -94,14 +94,14 @@
         </button>
       </Tooltip>
       <Switch
-        v-model="enabled"
-        :class="enabled ? 'bg-gray-800' : 'bg-gray-400'"
+        v-model="isDarkMode"
+        :class="isDarkMode ? 'bg-gray-800' : 'bg-gray-400'"
         class="relative inline-flex h-[24px] w-[48px] shrink-0 cursor-pointer ml-4 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75"
       >
         <span class="sr-only">Use setting</span>
         <span
           aria-hidden="true"
-          :class="enabled ? 'translate-x-6' : 'translate-x-0'"
+          :class="isDarkMode ? 'translate-x-6' : 'translate-x-0'"
           class="pointer-events-none inline-block h-[20px] w-[20px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out"
         />
       </Switch>
@@ -112,7 +112,7 @@
 <script setup>
 import { AtSymbolIcon, TrashIcon } from '@heroicons/vue/24/outline'
 import { Switch } from '@headlessui/vue'
-import { ref, onBeforeMount } from 'vue'
+import { ref, onBeforeMount, computed } from 'vue'
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
 import { ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import { useAu } from '@/stores/Au'
@@ -121,8 +121,10 @@ import { useShow } from '@/stores/Show'
 import { useCategory } from '@/stores/Category'
 import { useInfosheader } from '@/stores/Infosheader'
 import { useEtablissement } from '@/stores/Etablissement'
+import { useTheme } from '@/stores/Theme'
 import Tooltip from './Tooltip.vue'
 
+const theme = useTheme()
 const au = useAu()
 const category = useCategory()
 const show = useShow()
@@ -135,6 +137,11 @@ function createPost() {
   show.showCreatePost = true
   category.getAllCategorie()
 }
+
+const isDarkMode = computed({
+    get: () => theme.theme === 'dark',
+    set: () => theme.toggleTheme()
+});
 
 onBeforeMount(() => {
   const userString = localStorage.getItem('user')

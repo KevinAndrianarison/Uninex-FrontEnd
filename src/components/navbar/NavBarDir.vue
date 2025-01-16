@@ -22,15 +22,12 @@
       <MenuItems
         class="z-20 absolute ml-[80px] w-[200px] divide-gray-100 rounded-sm bg-white shadow-lg ring-1 ring-black/5 focus:outline-none"
       >
-        <div class="px-1 py-1">
+        <div :class="theme.theme === 'light' ? 'px-1 py-1' : 'px-1 py-1  !bg-gray-500'">
           <MenuItem v-slot="{ active }">
             <RouterLink to="/directeur/GestionAgentScolarite">
               <button
                 class="btndrop"
-                :class="[
-                  active ? 'bg-[#FDCB6E]' : 'text-gray-900',
-                  'w-[99%] rounded-sm px-2 py-2 text-sm'
-                ]"
+                :class="[active ? 'bg-[#FDCB6E]' : '', 'w-[99%] rounded-sm px-2 py-2 text-sm']"
               >
                 <EditIcon
                   :active="active"
@@ -46,10 +43,7 @@
             <RouterLink to="/directeur/GestionEnseignant">
               <button
                 class="btndrop"
-                :class="[
-                  active ? 'bg-[#FDCB6E]' : 'text-gray-900',
-                  'w-[99%] rounded-sm px-2 py-2 text-sm'
-                ]"
+                :class="[active ? 'bg-[#FDCB6E]' : '', 'w-[99%] rounded-sm px-2 py-2 text-sm']"
               >
                 <DuplicateIcon
                   :active="active"
@@ -89,15 +83,12 @@
       <MenuItems
         class="z-10 absolute ml-[80px] w-[200px] divide-gray-100 rounded-sm bg-white shadow-lg ring-1 ring-black/5 focus:outline-none"
       >
-        <div class="px-1 py-1">
+        <div :class="theme.theme === 'light' ? 'px-1 py-1' : 'px-1 py-1  !bg-gray-500'">
           <MenuItem v-slot="{ active }">
             <button
               class="btndrop"
               @click="showCreateNiveau()"
-              :class="[
-                active ? 'bg-[#FDCB6E]' : 'text-gray-900',
-                'w-[99%] rounded-sm px-2 py-2 text-sm'
-              ]"
+              :class="[active ? 'bg-[#FDCB6E]' : '', 'w-[99%] rounded-sm px-2 py-2 text-sm']"
             >
               <EditIcon :active="active" class="mr-2 h-5 w-5 text-violet-400" aria-hidden="true" />
               <font-awesome-icon class="h-4 w-5 mr-2" :icon="['fas', 'folder-tree']" /> Niveau
@@ -108,7 +99,7 @@
               <button
                 class="btndrop"
                 :class="[
-                  active ? 'bg-[#FDCB6E]' : 'text-gray-900',
+                  active ? 'bg-[#FDCB6E]' : '',
                   'w-[99%] rounded-sm px-2 py-2 text-sm'
                 ]"
               >
@@ -127,7 +118,7 @@
               <button
                 class="btndrop"
                 :class="[
-                  active ? 'bg-[#FDCB6E]' : 'text-gray-900',
+                  active ? 'bg-[#FDCB6E]' : '',
                   'w-[99%] rounded-sm px-2 py-2 text-sm'
                 ]"
               >
@@ -146,7 +137,7 @@
               class="btndrop"
               @click="createSemestre()"
               :class="[
-                active ? 'bg-[#FDCB6E]' : 'text-gray-900',
+                active ? 'bg-[#FDCB6E]' : '',
                 'w-[99%] rounded-sm px-2 py-2 text-sm'
               ]"
             >
@@ -176,8 +167,10 @@ import { CheckBadgeIcon, AcademicCapIcon, UserCircleIcon } from '@heroicons/vue/
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { useNiveau } from '@/stores/Niveau'
 import { useShow } from '@/stores/Show'
+import { useTheme } from '@/stores/Theme'
 
 const show = useShow()
+const theme = useTheme()
 const niveau = useNiveau()
 
 function showCreateNiveau() {

@@ -8,6 +8,7 @@ import axios from 'axios'
 import { useMessages } from '@/stores/messages'
 import { useCategory } from '@/stores/Category'
 import { useAnnonce } from '@/stores/Annonce'
+import { useTheme } from '@/stores/Theme'
 
 const file = ref(null)
 const fileName = ref('')
@@ -21,6 +22,7 @@ const newCategory = reactive({
   title: ''
 })
 const messages = useMessages()
+const theme = useTheme()
 const annonce = useAnnonce()
 const URL = useUrl().url
 const show = useShow()
@@ -172,10 +174,10 @@ function onFileChange(event) {
 <template>
   <Transition>
     <div class="showModal" v-if="show.showCreatePost">
-      <div class="formModal">
+      <div :class="theme.theme === 'light' ? 'formModal' : 'formModal  !bg-gray-600 text-white'">
         <div class="divbtn">
           <button type="button" class="Annullers" @click="closeCreatePost()">
-            <XMarkIcon class="h-6 w-6" />
+            <XMarkIcon :class="theme.theme === 'light' ? 'h-6 w-6' : 'h-6 w-6 text-red-500'" />
           </button>
         </div>
         <h1 class="font-bold text-md">Créér une annonce :</h1>
@@ -183,14 +185,14 @@ function onFileChange(event) {
           type="text"
           placeholder="Titre"
           v-model="titreAnnonce"
-          class="focus:outline-none focus:border-2 border border-green-400 rounded w-full px-3 text-sm mt-2 py-2"
+          class="text-black focus:outline-none focus:border-2 border border-green-400 rounded w-full px-3 text-sm mt-2 py-2"
         />
         <div class="mt-2 flex items-end justify-between">
           <div class="flex items-left w-full flex-col">
             <label class="text-xs mt-2">Choisissez une catégorie :</label>
             <select
               v-model="idCategorie"
-              class="mr-2 py-2 px-2 mt-1 rounded border focus:outline-none text-xs"
+              class="mr-2 py-2 px-2 mt-1 rounded border focus:outline-none text-xs text-black"
             >
               <option
                 class="text-sm overflow-y-auto max-h-[100px]"
@@ -213,13 +215,21 @@ function onFileChange(event) {
             <Tooltip content="Créer une nouvelle catégorie">
               <font-awesome-icon
                 @click="openCreateCategory"
-                class="text-gray-500 cursor-pointer w-4 h-4"
+                :class="
+                  theme.theme === 'light'
+                    ? 'text-gray-500 cursor-pointer w-4 h-4'
+                    : 'text-yellow-500 cursor-pointer w-4 h-4'
+                "
                 :icon="['fas', 'square-plus']"
             /></Tooltip>
             <Tooltip content="Liste de toutes les catégories">
               <font-awesome-icon
                 @click="openListeCategory"
-                class="iconadd text-gray-800 cursor-pointer h-4 w-3"
+                :class="
+                  theme.theme === 'light'
+                    ? 'iconadd text-gray-800 cursor-pointer h-4 w-3'
+                    : 'iconadd text-gray-200 cursor-pointer h-4 w-3'
+                "
                 :icon="['fas', 'bars-staggered']"
             /></Tooltip>
           </div>
@@ -227,7 +237,7 @@ function onFileChange(event) {
         <textarea
           placeholder="Description"
           v-model="descriptionAnnonce"
-          class="text-sm min-h-[100px] focus:border-2 border border-green-400 focus:outline-none border rounded w-full px-3 mt-4 py-2"
+          class="text-black text-sm min-h-[100px] focus:border-2 border border-green-400 focus:outline-none border rounded w-full px-3 mt-4 py-2"
         ></textarea>
         <div class="relative flex items-center">
           <input
@@ -262,10 +272,13 @@ function onFileChange(event) {
   </Transition>
   <Transition>
     <div class="showModal" v-if="showCreateCategory">
-      <div class="formModal">
+      <div :class="theme.theme === 'light' ? 'formModal' : 'formModal  !bg-gray-600 text-white'">
         <div class="divbtn">
           <button type="button" class="Annullers" @click="closeCreateCategory">
-            <XMarkIcon class="h-6 w-6" />
+            <XMarkIcon 
+            class="h-6 w-6"
+            :class="theme.theme === 'light' ? 'h-6 w-6' : 'h-6 w-6 text-red-500'"
+             />
           </button>
         </div>
         <h1 class="font-bold text-sm">Créer une nouvelle catégorie :</h1>
@@ -273,13 +286,13 @@ function onFileChange(event) {
           v-model="newCategory.emoji"
           type="text"
           placeholder="Emoji (e.g., 📚)"
-          class="focus:outline-none border-2 text-xs rounded w-full px-3 mt-5 py-2"
+          class="focus:outline-none border-2 text-xs rounded w-full px-3 mt-5 py-2 text-black"
         />
         <input
           v-model="newCategory.title"
           type="text"
           placeholder="Titre"
-          class="focus:outline-none border-2 text-xs rounded w-full px-3 mt-2 py-2"
+          class="focus:outline-none border-2 text-xs rounded w-full px-3 mt-2 py-2 text-black"
         />
         <button
           :disabled="!newCategory.title"
@@ -293,10 +306,10 @@ function onFileChange(event) {
   </Transition>
   <Transition>
     <div class="showModal" v-if="showListeCategory">
-      <div class="formModal">
+      <div :class="theme.theme === 'light' ? 'formModal' : 'formModal  !bg-gray-600 text-white'">
         <div class="divbtn">
           <button type="button" class="Annullers" @click="closeListeCategory">
-            <XMarkIcon class="h-6 w-6" />
+            <XMarkIcon :class="theme.theme === 'light' ? 'h-6 w-6' : 'h-6 w-6  text-red-500'" />
           </button>
         </div>
         <h1 class="font-bold text-sm mb-2">Liste des catégories :</h1>
@@ -306,7 +319,11 @@ function onFileChange(event) {
           v-for="(ctg, index) in category.listCategorie"
         >
           <input
-            class="w-60 focus:outline-none"
+            :class="
+              theme.theme === 'light'
+                ? 'w-60 focus:outline-none'
+                : 'w-60 focus:outline-none  !bg-gray-600 text-white'
+            "
             type="text"
             @blur="modifierCategorie(ctg.id, ctg.titre)"
             v-model="ctg.titre"

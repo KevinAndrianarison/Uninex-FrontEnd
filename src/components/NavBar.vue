@@ -1,5 +1,5 @@
 <template>
-  <nav class="sidebar">
+  <nav :class="theme.theme === 'light' ? 'sidebar' : 'sidebar !text-white !bg-gray-700'">
     <ul class="mt-5">
       <RouterLink to="/">
         <li><NewspaperIcon class="h-5 w-5 mr-2" /> Annonces</li>
@@ -42,6 +42,10 @@ import NavBarEtud from './navbar/NavBarEtud.vue'
 import NavBarRespMention from './navbar/NavBarRespMention.vue'
 import NavBarRespParcours from './navbar/NavBarRespParcours.vue'
 import NavBarEns from './navbar/NavBarEns.vue'
+import { useTheme } from '@/stores/Theme'
+
+
+const theme = useTheme()
 
 const show = useShow()
 

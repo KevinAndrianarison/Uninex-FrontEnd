@@ -69,6 +69,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+
 :root {
   --color-primary: rgba(0, 184, 148, 1.0);
   --color-secondary: rgba(9, 132, 227, 1.0);
@@ -78,6 +79,7 @@ body {
   --color-text-main: rgba(45, 52, 54, 1.0);
   --color-text-secondary: #f7f7f7;
   --color-text-danger: rgba(214, 48, 49, 1.0);
+  
 }
 
 ::-webkit-scrollbar {

@@ -1,6 +1,6 @@
 <template>
-  <div class="body bg-white border pb-5 rounded-lg min-h-[80vh]">
-    <div class="head flex justify-center items-center mt-2">
+    <div :class="theme.theme === 'light' ? 'body bg-white border pb-5 rounded-lg min-h-[80vh]' : 'body bg-white pb-5 rounded-lg min-h-[80vh] !text-white !bg-gray-600 !border-gray-200'">
+    <div class="head flex justify-center items-center mt-2 text-black">
       <div>
         <select
           v-model="findBy"
@@ -160,7 +160,7 @@
         </div>
         </div>
         </div>
-        <div v-if="annonces.listAnnonce.length === 0" class="text-center mt-5 text-xs text-gray-500">
+        <div v-if="annonces.listAnnonce.length === 0" class="text-center mt-5 text-xs">
           Aucun poste trouvé 🙁☁️
         </div>
       </div>
@@ -277,9 +277,11 @@ import { useAnnonce } from '@/stores/Annonce'
 import { useCom } from '@/stores/Com'
 import { onBeforeMount, onMounted, ref, watch } from 'vue'
 import { useUrl } from '@/stores/url'
+import { useTheme } from '@/stores/Theme'
 import axios from 'axios'
 
 const show = useShow()
+const theme = useTheme()
 const commmentaire = useCom()
 const annonces = useAnnonce()
 const category = useCategory()
