@@ -1,9 +1,11 @@
 <script setup>
 import { useShow } from '@/stores/Show'
 import { useMention } from '@/stores/Mention'
+import { useTheme } from '@/stores/Theme'
 
 const show = useShow()
 const mention = useMention()
+const theme = useTheme()
 
 function closeModaleDeMention() {
   show.showDeleteMention = false
@@ -13,7 +15,7 @@ function closeModaleDeMention() {
 <template>
   <Transition>
     <div class="showModal" v-if="show.showDeleteMention">
-      <div class="formModal">
+        <div :class="theme.theme === 'light' ? 'formModal' : 'formModal !bg-gray-600 !text-white'">
         <h6 class="login">
           Des données «<b> importantes </b>» risquent d'être perdues, voulez-vous vraiment supprimer
           « <b>{{ mention.mention.abr_mention }}</b> » ?

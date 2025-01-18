@@ -1,10 +1,14 @@
 <template>
-  <div class="parcours">
+  <div :class="theme.theme === 'light' ? 'parcours' : 'parcours !bg-gray-600 !text-white'">
     <h1 class="titre">
       <CheckBadgeIcon class="h-8 w-8 mr-4" />
       Rôles
     </h1>
-    <div class="createParcours">
+    <div
+      :class="
+        theme.theme === 'light' ? 'createParcours' : 'createParcours !bg-gray-600 !text-gray-200'
+      "
+    >
       <div class="radio px-4 mt-2 ml-2">
         <div class="mt-2">
           <RadioGroup v-model="niveau.NiveauCheck">
@@ -74,15 +78,14 @@
       <div class="content pb-2">
         <div class="right ml-2 px-4 mt-2" v-if="mention.mentionParcours.nom && enseignant.nom_ens">
           <div class="sm:col-span-3">
-            <label class="block text-sm font-medium leading-6 text-gray-900"
-              >Choisissez un enseignant :</label
-            >
+            <label class="block text-sm font-medium leading-6">Choisissez un enseignant :</label>
             <div class="mention">
               <div class="w-52 mt-1 mr-4">
                 <Listbox v-model="enseignant.nom_ens">
                   <div class="relative">
                     <ListboxButton
-                      class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+                      :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+                      class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
                     >
                       <span class="block truncate">{{ enseignant.nom_ens }}</span>
                       <span
@@ -98,6 +101,7 @@
                       leave-to-class="opacity-0"
                     >
                       <ListboxOptions
+                        :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
                         class="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                       >
                         <ListboxOption
@@ -110,7 +114,7 @@
                             :class="[
                               enseignant.nom_ens === ens.nomComplet_ens
                                 ? 'bg-amber-100 text-amber-900'
-                                : 'text-gray-900',
+                                : '',
                               'relative cursor-default select-none py-2 pl-10 pr-4'
                             ]"
                           >
@@ -141,7 +145,8 @@
                 <Listbox v-model="mention.mentionParcours.nom">
                   <div class="relative">
                     <ListboxButton
-                      class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+                      :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+                      class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
                     >
                       <span class="block truncate">{{ mention.mentionParcours.nom }}</span>
                       <span
@@ -157,6 +162,7 @@
                       leave-to-class="opacity-0"
                     >
                       <ListboxOptions
+                        :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
                         class="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                       >
                         <ListboxOption
@@ -169,7 +175,7 @@
                             :class="[
                               mention.mentionParcours.nom === mnt.nom_mention
                                 ? 'bg-amber-100 text-amber-900'
-                                : 'text-gray-900',
+                                : '',
                               'relative cursor-default select-none py-2 pl-10 pr-4'
                             ]"
                           >
@@ -197,7 +203,9 @@
               </div>
 
               <div class="sm:col-span-3 mt-1">
-                <Button class="btn font-bold" @click="mention.addRespMention()"> Valider</Button>
+                <Button class="btn font-bold text-black" @click="mention.addRespMention()">
+                  Valider</Button
+                >
               </div>
             </div>
           </div>
@@ -210,15 +218,14 @@
       <div class="content pb-5">
         <div class="right ml-2 px-4 mt-2" v-if="parcour.parcours_nom && enseignant.name">
           <div class="sm:col-span-3">
-            <label class="block text-sm font-medium leading-6 text-gray-900"
-              >Choisissez un enseignant :</label
-            >
+            <label class="block text-sm font-medium leading-6">Choisissez un enseignant :</label>
             <div class="mention">
               <div class="w-52 mt-1 mr-4">
                 <Listbox v-model="enseignant.name">
                   <div class="relative">
                     <ListboxButton
-                      class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+                      :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+                      class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
                     >
                       <span class="block truncate">{{ enseignant.name }}</span>
                       <span
@@ -234,6 +241,7 @@
                       leave-to-class="opacity-0"
                     >
                       <ListboxOptions
+                        :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
                         class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                       >
                         <ListboxOption
@@ -246,7 +254,7 @@
                             :class="[
                               enseignant.name === ens.nomComplet_ens
                                 ? 'bg-amber-100 text-amber-900'
-                                : 'text-gray-900',
+                                : '',
                               'relative cursor-default select-none py-2 pl-10 pr-4'
                             ]"
                           >
@@ -277,7 +285,8 @@
                 <Listbox v-model="parcour.parcours_nom">
                   <div class="relative">
                     <ListboxButton
-                      class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+                      :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+                      class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
                     >
                       <span class="block truncate">{{ parcour.parcours_nom }}</span>
                       <span
@@ -293,6 +302,7 @@
                       leave-to-class="opacity-0"
                     >
                       <ListboxOptions
+                        :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
                         class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                       >
                         <ListboxOption
@@ -305,7 +315,7 @@
                             :class="[
                               parcour.parcours_nom === prc.nom_parcours
                                 ? 'bg-amber-100 text-amber-900'
-                                : 'text-gray-900',
+                                : '',
                               'relative cursor-default select-none py-2 pl-10 pr-4'
                             ]"
                           >
@@ -333,21 +343,30 @@
               </div>
 
               <div class="sm:col-span-3 mt-1">
-                <Button class="btn font-bold" @click="parcour.addRespParcours()"> Valider</Button>
+                <Button class="btn font-bold text-black" @click="parcour.addRespParcours()">
+                  Valider</Button
+                >
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="listRole" v-if="mention.mentionParcours.nom || parcour.parcours_nom">
+    <div
+      :class="theme.theme === 'light' ? 'listRole' : 'listRole !bg-gray-600 !text-white'"
+      v-if="mention.mentionParcours.nom || parcour.parcours_nom"
+    >
       <div class="listScolValue">
         <div class="head pb-2">
           <li class="widthnom">Mentions et Parcours</li>
           <li class="widthemails">Responsables</li>
           <li class="widthe">Retirer</li>
         </div>
-        <div class="body" :key="index" v-for="(mnt, index) in mention.ListMention">
+        <div
+          :class="theme.theme === 'light' ? 'body' : 'body !text-gray-200'"
+          :key="index"
+          v-for="(mnt, index) in mention.ListMention"
+        >
           <li class="widthvaluenom">{{ mnt.nom_mention }} / {{ mnt.abr_mention }}</li>
           <li class="widthvalueemails" v-if="mnt.enseignant !== null">
             {{ mnt.enseignant.nomComplet_ens }}
@@ -386,6 +405,8 @@ import { useNiveau } from '@/stores/Niveau'
 import { useParcour } from '@/stores/Parcour'
 import { useMention } from '@/stores/Mention'
 import { useEnseignant } from '@/stores/Enseignant'
+import { useTheme } from '@/stores/Theme'
+
 import {
   RadioGroup,
   RadioGroupLabel,
@@ -400,6 +421,7 @@ const niveau = useNiveau()
 const mention = useMention()
 const parcour = useParcour()
 const enseignant = useEnseignant()
+const theme = useTheme()
 
 onBeforeMount(() => {
   enseignant.getAllENS()

@@ -1,7 +1,9 @@
 <template>
-  <div class="flex justify-between body min-h-[85vh] max-h-[85vh]">
-    <div v-if="show.showUserList" class="bg-white border border w-[30%] rounded-2xl p-4">
-      <div class="flex items-center justify-between px-2">
+  <div class="flex justify-between body min-h-[85vh] max-h-[85vh] ">
+    <div v-if="show.showUserList"
+    :class="theme.theme === 'light' ? '' : '!bg-gray-700 !text-white !border-none'"
+     class=" bg-white border border w-[30%] rounded-2xl p-4 ">
+      <div class=" flex items-center justify-between px-2 ">
         <h1 class="text-xl text-center font-bold">Discussions</h1>
         <Tooltip content="Créer un groupe">
           <font-awesome-icon
@@ -17,7 +19,8 @@
         v-model="searchUser"
         @input="search()"
         placeholder="Recherche"
-        class="bg-gray-100 w-full mt-2 py-1 px-5 rounded-3xl focus:outline-none"
+        :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+        class="bg-gray-100 text-black w-full mt-2 py-1 px-5 rounded-3xl focus:outline-none"
       />
       <div
         class="flex justify-between px-1.5 bg-gray-800 w-[90%] m-auto mt-2 py-1 rounded-3xl cursor-pointer"
@@ -33,14 +36,17 @@
         <SuspenseComponent />
       </div>
 
-<div v-if="isUser">
-  <div v-if="!isSuspense" v-for="user in users" :key="user.id" @click="selectUser(user)">
-  <div v-if="Users.user.id !== user.id" class="cursor-pointer mt-2 w-full flex hover:bg-gray-100 hover:rounded-3xl">
+<div class="max-h-[75%] overflow-y-auto" v-if="isUser">
+  <div  v-if="!isSuspense" v-for="user in users" :key="user.id" @click="selectUser(user)">
+  <div
+  :class="theme.theme === 'light' ? 'cursor-pointer mt-2 w-full flex hover:bg-gray-100 hover:rounded-3xl' : 
+  'cursor-pointer mt-2 w-full flex hover:bg-gray-500 hover:rounded-3xl'"
+   v-if="Users.user.id !== user.id" >
     <div :style="{ 'background-image': `url(${URL}/storage/users/${user.photo_name || 'depositphotos_35717211-stock-illustration-vector-user-icon-removebg-preview.png'})`, 'background-size': 'cover', 'background-position': 'center' }" class="logo w-[48px] h-[50px] rounded-3xl"></div>
     <div class="px-3 w-[80%] flex flex-col justify-center">
       <div class="flex justify-between items-center">
         <p>{{ user.email }}</p>
-        <p class="text-gray-500 text-xs">{{ user.lastMessage ? user.lastMessage.timeAgo : '' }}</p>
+        <p class=" text-xs">{{ user.lastMessage ? user.lastMessage.timeAgo : '' }}</p>
       </div>
       <div 
         :class="{
@@ -66,14 +72,21 @@
     </div>
   </div>
 </div>
-<div v-if="users.length === 1 && !isSuspense" class="mt-5 text-center text-xs text-gray-500" >
+<div v-if="users.length === 1 && !isSuspense" class="mt-5 text-center text-xs" >
   Aucun utilisateur trouvé 🙁☁️
 </div>
 </div>
       
 <div v-if="isGroup" >
-<div v-for="grp in groupe.groupes" :key="grp.id" @click="showChatGroupFunct(grp.id, grp.name, grp.user_id)" class="hover:bg-gray-100 mt-2 flex items-center h-12 px-5 rounded-3xl cursor-pointer">
-    <font-awesome-icon :icon="['fas', 'users']" class="text-gray-500 mr-5" />
+<div 
+      v-for="grp in groupe.groupes" :key="grp.id" @click="showChatGroupFunct(grp.id, grp.name, grp.user_id)" 
+      :class="theme.theme === 'light' ? 'hover:bg-gray-100 mt-2 flex items-center h-12 px-5 rounded-3xl cursor-pointer' :
+       'hover:bg-gray-500 mt-2 flex items-center h-12 px-5 rounded-3xl cursor-pointer'"
+      >
+    <font-awesome-icon :icon="['fas', 'users']" 
+      :class="theme.theme === 'light' ? 'text-gray-500 mr-5' : 'text-white'"
+      class="text-gray-500 mr-5"
+     />
     <div>
       <p>{{ grp.name }}</p>
       <p class="font-bold text-xs truncate w-60">
@@ -89,8 +102,11 @@
 </div>
 </div>
 </div>
-    <div v-if="showUserChat" @click="hideDropdown" class="bg-gray-100 border rounded-2xl w-[100%]">
+    <div v-if="showUserChat" @click="hideDropdown" 
+    :class="theme.theme === 'light' ? '' : '!bg-gray-200 !border-none'"
+    class="bg-gray-100 border rounded-2xl w-[100%]">
       <div
+        :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
         class="rounded-t-2xl bg-white border-b flex items-center pl-5 justify-between px-5 h-[8%]"
       >
     <div class="flex items-center">
@@ -113,13 +129,16 @@
           <Tooltip content="Options"> 
           <font-awesome-icon v-if="messages.length !== 0" class="iconadd text-blue-500 cursor-pointer h-6 w-4" :icon="['fas', 'bars-staggered']" @click.stop="toggleDropdown" />
          </Tooltip>
-          <div v-if="showDropdown" class="absolute right-0  mt-2 w-60 bg-white text-xs  rounded "> 
+          <div v-if="showDropdown"
+          :class="theme.theme === 'light' ? '' : '!bg-gray-300'" 
+          class="absolute right-0  mt-2 w-60 bg-white text-xs  rounded "
+          > 
             <ul>
             <li @click="handleBlockUser" v-if="!isBlocked && isCanBlocOrUnBloc" class="px-4 py-2  cursor-pointer border-t border-l border-r">
               <font-awesome-icon  :icon="['fas', 'ban']" class="text-yellow-500 mr-2 "  />Bloquer les messages</li>
             <li @click="handleUnBlockUser" v-if="isBlocked && isCanBlocOrUnBloc" class="px-4 py-2   cursor-pointer border-t border-l border-r ">
               <font-awesome-icon  :icon="['fas', 'lock-open']" class="text-yellow-500 mr-2 "  />Débloquer les messages</li>
-            <li @click="showConfirmModal = true" class="px-4 py-2  cursor-pointer border-t border-l border-r border-b "><font-awesome-icon  :icon="['fas', 'trash']" class="text-red-500 mr-2"  />
+            <li @click="()=> showConfirmModal = true" class="px-4 py-2  cursor-pointer border-t border-l border-r border-b "><font-awesome-icon  :icon="['fas', 'trash']" class="text-red-500 mr-2"  />
               Supprimer la discussion</li> 
             </ul>
             <ConfirmDelMessageModal 
@@ -131,7 +150,10 @@
           </div> 
         </div>
       </div>
-      <div class="h-[78%] max-h-[78%] overflow-y-auto bg-gray-100 px-5 chat-container">
+      <div 
+      :class="theme.theme === 'light' ? '' : '!bg-gray-200'" 
+      class="h-[78%] max-h-[78%] overflow-y-auto bg-gray-100 px-5 chat-container"
+      >
         <div :key="index" v-for="(message, index) in messages">
           <div v-if="Number(message.sender_id) !== localUserId" class="w-[50%] mt-2 flex items-end">
             <div
@@ -228,7 +250,10 @@
           </p>
         </div>
       </div>
-      <div v-if="!isBlocked" class="h-[12%] flex justify-between items-center py-10 px-3">
+      <div v-if="!isBlocked" 
+      :class="theme.theme === 'light' ? '' : '!bg-gray-200 rounded-b-2xl'" 
+      class=" h-[12%] flex justify-between items-center py-10 px-3"
+      >
         <textarea
           v-model="newMessage"
           class="min-h-[60%] border focus:border-2 border-yellow-500 rounded-xl p-2 w-[90%] focus:outline-none"
@@ -267,7 +292,9 @@
           />
         </p>
       </div>
-      <div v-if="isBlocked" class=" h-[12%] mt-2 flex text-xs justify-center items-center border-t">🔔 Vous ne pouvez plus vous envoyer des messages !</div>
+      <div v-if="isBlocked"
+      :class="theme.theme === 'light' ? '' : '!bg-gray-200 rounded-b-2xl border-none'"
+       class=" h-[12%] mt-2 flex text-xs justify-center items-center border-t">🔔 Vous ne pouvez plus vous envoyer des messages !</div>
     </div>
     <div v-if="groupe.showChatGroup" class=" w-[100%]"  >
       <ChatGroupe  />
@@ -288,6 +315,8 @@ import SuspenseComponent from "../components/SuspenseComponent.vue"
 import { useUser } from '@/stores/User'
 import { useGroupe } from '../stores/groupe'
 import ChatGroupe from '../components/ChatGroupe.vue'
+import { useTheme } from '@/stores/Theme'
+
 
 
 const showUserChat = ref(false);
@@ -319,6 +348,7 @@ const searchUser = ref("")
 const show = useShow()
 const Message = useMessages()
 const groupe = useGroupe()
+const theme = useTheme()
 
 
 function toggleDropdown() {

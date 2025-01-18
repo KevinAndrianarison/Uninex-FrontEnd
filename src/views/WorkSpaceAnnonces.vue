@@ -4,6 +4,7 @@
       <div>
         <select
           v-model="findBy"
+          :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
           class="mr-2 w-40 p-1.5 px-2 rounded border-2 focus:outline-none text-xs"
         >
           <option value="Toutes" class="text-sm">Toutes</option>
@@ -12,6 +13,7 @@
       </div>
       <input
         type="search"
+        :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
         class="py-2 text-center px-1 w-60 rounded border focus:outline-none text-xs focus:border-green-500 border-2"
         placeholder="🔍 Recherche par titre"
         @input="annonces.search(annonces.searchalue)"
@@ -29,9 +31,10 @@
           {{ ctg.titre }}
         </div>
       </div>
-      <div class="w-[45%] overflow-y-auto max-h-[75vh] rounded px-4">
+      <div class="w-[45%] overflow-y-auto max-h-[75vh] rounded px-4 ">
         <div
-          class="flex py-2 border rounded mt-2 pr-8"
+        :class="theme.theme === 'light' ? '' : '!bg-gray-500 border-none'"
+          class="flex py-2 border rounded mt-2 pr-8 "
           :key="ann.id"
           v-for="(ann, index) in annonces.listAnnonce"
         >
@@ -51,6 +54,7 @@
             <div v-if="editableId === ann.id && isEditingTitle" >
               <input
                 v-model="ann.editableTitre"
+                :class="theme.theme === 'light' ? '' : 'text-black !bg-gray-300'"
                 class="border p-1 w-full focus:outline-none text-sm"
                 @blur="saveChanges(ann, 'titre')"
                 autofocus
@@ -61,11 +65,14 @@
             <div v-if="editableId === ann.id && isEditingDescription">
               <textarea
                 v-model="ann.editableDescription"
+                :class="theme.theme === 'light' ? '' : 'text-black !bg-gray-300'"
                 class="border text-sm p-1 w-full min-h-[50px] focus:outline-none"
                 @blur="saveChanges(ann, 'description')"
               ></textarea>
             </div>
-            <p class="text-gray-500 text-sm" v-else>
+            <p    
+            :class="theme.theme === 'light' ? '' : 'text-gray-100'"
+            class="text-gray-500 text-sm" v-else>
               {{ ann.description }}
             </p>
             <div class="mt-1 flex">
@@ -94,14 +101,15 @@
                 <p class="font-bold mr-4 flex items-center " >
                   <font-awesome-icon
                   v-if="ann.liked_by_user "
-                  @click="toggleLike(ann)"
-                    class="iconadd text-gray-500 cursor-pointer text-red-500 mr-1 "
+                    @click="toggleLike(ann)"
+                    class="iconadd text-gray-500 cursor-pointer text-red-500 mr-1"
                     :icon="['fas', 'heart']"
                   />
                   <font-awesome-icon
                   v-if="!ann.liked_by_user "
 
                   @click="toggleLike(ann)"
+                    :class="theme.theme === 'light' ? '' : 'text-white'"
                     class="iconadd text-gray-500 cursor-pointer text-gray-500 mr-1 "
                     :icon="['fas', 'heart']"
                   />
@@ -112,11 +120,14 @@
                   <Tooltip content="Commentaires">
                     <font-awesome-icon
                       @click="showComs(ann.id)"
+                      :class="theme.theme === 'light' ? '' : 'text-white'"
                       class="iconadd text-gray-500 cursor-pointer text-gray-500 mr-1"
                       :icon="['fas', 'comment-dots']" /></Tooltip
                   >{{ ann.com.length }}
                 </p>
-                <p class="text-gray-500">{{ ann.timeAgo }}</p>
+                <p 
+                :class="theme.theme === 'light' ? '' : 'text-white'"
+                class="text-gray-500">{{ ann.timeAgo }}</p>
               </div>
               <div v-if="ann.user.id === user.user.id" class="flex">
                 <p v-if="editableId !== ann.id" class="font-bold mr-4">
@@ -139,7 +150,9 @@
             </div>
           </div>
         <div v-if="showLikesModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center " @click.self="closeLikesModal">
-          <div class="bg-white p-5 rounded-lg w-1/3 overflow-y-auto max-h-[80vh]">
+          <div
+          :class="theme.theme === 'light' ? '' : '!bg-gray-600'"
+           class="bg-white p-5 rounded-lg w-1/3 overflow-y-auto max-h-[80vh]">
             <h2 class="text-md font-bold mb-3">❤️ Les réacteurs :</h2>
             <ul>
               <li  :key="lk.id"
@@ -164,12 +177,15 @@
           Aucun poste trouvé 🙁☁️
         </div>
       </div>
-      <div v-if="isComs" class="w-[30%] h-[75vh] border rounded p-2">
+      <div v-if="isComs"         
+      :class="theme.theme === 'light' ? '' : '!bg-gray-500 border-none'"
+      class="w-[30%] h-[75vh] border rounded p-2">
         <h1 class="font-bold">Commentaires :</h1>
         <textarea
           placeholder="Ecrire ici..."
           v-model="coms"
-          class="border-2 focus:border-yellow-500 rounded w-full min-h-[50px] focus:outline-none p-1"
+          :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+          class="text-black border-2 focus:border-yellow-500 rounded w-full min-h-[50px] focus:outline-none p-1"
         >
         </textarea>
         <div class="relative bottom-8 right-3 text-end">
@@ -182,7 +198,7 @@
           </Tooltip>
         </div>
         <div class="max-h-[350px] overflow-y-auto">
-          <di class="coms mt-2 w-full flex" :key="coms.id" v-for="(coms, index) in commmentaire.listComs">
+          <di class="coms mt-2 w-full flex " :key="coms.id" v-for="(coms, index) in commmentaire.listComs">
             <div
               :style="{
                 'background-image': `url(${URL}/storage/users/${
@@ -192,9 +208,11 @@
                 'background-size': 'cover',
                 'background-position': 'center'
               }"
-              class="image mr-1"
+              class="image mr-1 "
             ></div>
-            <div class="border w-[85%] p-1 px-2 rounded text-sm">
+            <div  
+            :class="theme.theme === 'light' ? '' : 'bg-gray-300 border-none text-black'"
+            class="border w-[85%] p-1 px-2 rounded text-sm ">
               <div v-if="editableComId === coms.id">
                 <textarea
                   v-model="coms.editableContenu"
@@ -223,7 +241,9 @@
               </div>
              </div>   
           </di>
-          <p v-if="commmentaire.listComs.length === 0" class="mt-1 text-center text-xs text-gray-500">
+          <p v-if="commmentaire.listComs.length === 0"
+            :class="theme.theme === 'light' ? '' : 'text-white'"
+            class="mt-1 text-center text-xs text-gray-500">
             Aucun commentaire...
           </p>
         </div>

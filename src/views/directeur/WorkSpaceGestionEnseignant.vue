@@ -1,50 +1,54 @@
 <template>
-  <div class="ens">
+  <div :class="theme.theme === 'light' ? 'ens' : 'ens !bg-gray-600 !text-white'">
     <h1 class="titre">
       <font-awesome-icon :icon="['fas', 'user-tie']" class="h-7 w-7 mr-5" /> Enseignants
     </h1>
-    <div class="createens">
+    <div :class="theme.theme === 'light' ? 'createens' : '!bg-gray-600 !text-gray-200'">
       <h1 class="create pl-5 mt-2">Ajouter un nouveau Enseignant :</h1>
       <div class="class formInput border-gray-900/10 pb-5 pl-5">
         <div class="sm:col-span-3 mt-2 mr-4">
-          <label class="block text-sm font-medium leading-6 text-gray-900">Nom complet</label>
+          <label class="block text-sm font-medium leading-6">Nom complet</label>
           <div class="mt-2">
             <input
               type="text"
               v-model="enseignant.nomComplet_ens"
+              :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
               class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
             />
           </div>
         </div>
         <div class="sm:col-span-3 mt-2 mr-4">
-          <label class="block text-sm font-medium leading-6 text-gray-900">Adresse email</label>
+          <label class="block text-sm font-medium leading-6">Adresse email</label>
           <div class="mt-2">
             <input
               type="email"
               @input="regex.RegexEmail(user.email)"
               v-model="user.email"
+              :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
               class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
             />
             <p class="err" v-if="show.showMessageErrorEmail">Adresse email invalide</p>
           </div>
         </div>
         <div class="sm:col-span-3 mt-2 mr-4">
-          <label class="block text-sm font-medium leading-6 text-gray-900">Numéro téléphone</label>
+          <label class="block text-sm font-medium leading-6">Numéro téléphone</label>
           <div class="mt-2">
             <input
               type="number"
               v-model="enseignant.telephone_ens"
+              :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
               class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
             />
           </div>
         </div>
         <div class="sm:col-span-3 mt-2 mr-4">
-          <label class="block text-sm font-medium leading-6 text-gray-900">Titre académique</label>
+          <label class="block text-sm font-medium leading-6">Titre académique</label>
           <div class="w-60">
             <Listbox v-model="enseignant.grade_ens">
               <div class="relative mt-2">
                 <ListboxButton
-                  class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+                  :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+                  class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
                 >
                   <span class="block truncate">{{ enseignant.grade_ens }}</span>
                   <span
@@ -60,6 +64,7 @@
                   leave-to-class="opacity-0"
                 >
                   <ListboxOptions
+                    :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
                     class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                   >
                     <ListboxOption
@@ -71,7 +76,7 @@
                     >
                       <li
                         :class="[
-                          active ? 'bg-amber-100 text-amber-900' : 'text-gray-900',
+                          active ? 'bg-amber-100 text-amber-900' : '',
                           'relative cursor-default select-none py-2 pl-10 pr-4'
                         ]"
                       >
@@ -94,7 +99,7 @@
           </div>
         </div>
         <div class="sm:col-span-3 mt-2 mr-4 file">
-          <label class="block text-sm font-medium leading-6 text-gray-900">Photo</label>
+          <label class="block text-sm font-medium leading-6">Photo</label>
           <div class="mt-1">
             <div class="relative flex items-center">
               <input
@@ -104,6 +109,7 @@
                 accept="image/jpeg, image/png"
               />
               <div
+                :class="theme.theme === 'light' ? '' : 'bg-green-300'"
                 class="file-label bg-green-100 text-green-800 py-2 px-1 rounded-md border border-green-300"
               >
                 📂 Choisissez une photo
@@ -126,14 +132,15 @@
         </div>
 
         <div class="sm:col-span-3 mt-2 mr-4 ctgr">
-          <label class="block text-sm font-medium leading-6 text-gray-900">Catégorie</label>
+          <label class="block text-sm font-medium leading-6">Catégorie</label>
           <div class="w-60">
             <Listbox v-model="enseignant.categorie_ens">
               <div class="relative mt-2">
                 <ListboxButton
+                  :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
                   class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
                 >
-                  <span class="block truncate">{{ enseignant.categorie_ens }}</span>
+                  <span class="block truncate text-black">{{ enseignant.categorie_ens }}</span>
                   <span
                     class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
                   >
@@ -147,6 +154,7 @@
                   leave-to-class="opacity-0"
                 >
                   <ListboxOptions
+                    :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
                     class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                   >
                     <ListboxOption
@@ -158,7 +166,7 @@
                     >
                       <li
                         :class="[
-                          active ? 'bg-amber-100 text-amber-900' : 'text-gray-900',
+                          active ? 'bg-amber-100 text-amber-900' : '',
                           'relative cursor-default select-none py-2 pl-10 pr-4'
                         ]"
                       >
@@ -181,19 +189,18 @@
           </div>
         </div>
         <div class="sm:col-span-3 mt-2 date">
-          <label class="block text-sm font-medium leading-6 text-gray-900"
-            >Date de recrutement</label
-          >
+          <label class="block text-sm font-medium leading-6">Date de recrutement</label>
           <div class="mt-2">
             <input
               type="date"
               v-model="enseignant.date_recrutement_ens"
+              :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
               class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
             />
           </div>
         </div>
 
-        <div class="divbtn sm:col-span-3 mt-3 ml-4">
+        <div class="divbtn text-black sm:col-span-3 mt-3 ml-4">
           <Button
             :disabled="
               !user.photo ||
@@ -210,12 +217,13 @@
         </div>
       </div>
     </div>
-    <div class="listens">
+    <div :class="theme.theme === 'light' ? 'listens' : 'listens !bg-gray-600 !text-white'">
       <input
         placeholder="🔎 Recherche par nom"
         @input="enseignant.search(enseignant.searchalue)"
         v-model="enseignant.searchalue"
         type="search"
+        :class="theme.theme === 'light' ? '' : 'bg-gray-300'"
         class="pl-3 pr-3 ml-5 mt-3 block rounded-sm border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
       />
       <div class="listensValue">
@@ -226,7 +234,12 @@
           <li class="width">Catégorie</li>
           <li class="h-5 w-5"></li>
         </div>
-        <div class="body" :key="index" v-for="(ens, index) in enseignant.ListeENS">
+        <div
+          :class="theme.theme === 'light' ? 'body' : 'body !text-gray-200'"
+          class="body"
+          :key="index"
+          v-for="(ens, index) in enseignant.ListeENS"
+        >
           <li class="widthvaluenom">{{ ens.nomComplet_ens }}</li>
           <li class="widthvalueemail">{{ ens.user.email }}</li>
           <li class="widthvalue">{{ ens.telephone_ens }}</li>
@@ -251,9 +264,11 @@ import { usePassword } from '@/stores/Password'
 import { onBeforeMount } from 'vue'
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
+import { useTheme } from '@/stores/Theme'
 
 const user = useUser()
 const regex = useRegex()
+const theme = useTheme()
 const show = useShow()
 const enseignant = useEnseignant()
 const password = usePassword()

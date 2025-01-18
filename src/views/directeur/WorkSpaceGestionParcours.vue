@@ -1,17 +1,19 @@
 <template>
-  <div class="parcours">
+  <div :class="theme.theme === 'light' ? 'parcours' : 'parcours !bg-gray-600 !text-white'">
     <h1 class="titre">
       <font-awesome-icon class="h-7 w-7 mr-5" :icon="['fas', 'clipboard-check']" />
       Parcours
     </h1>
-    <div class="createParcours">
+    <div
+      :class="
+        theme.theme === 'light' ? 'createParcours' : ' createParcours !bg-gray-600 !text-gray-200'
+      "
+    >
       <h1 class="create pl-5 mt-2">Ajouter un nouveau Parcours :</h1>
 
       <div class="content pb-5">
         <div class="radio px-4 mt-4">
-          <label class="block text-sm font-medium leading-6 text-gray-900"
-            >Choisissez un niveau :
-          </label>
+          <label class="block text-sm font-medium leading-6">Choisissez un niveau : </label>
           <div class="mt-2">
             <RadioGroup v-model="niveau.NiveauCheck">
               <RadioGroupLabel class="sr-only">Server size</RadioGroupLabel>
@@ -77,14 +79,13 @@
 
         <div class="right ml-4 px-4 mt-4" v-if="mention.mentionParcours.nom">
           <div class="sm:col-span-3 mr-4">
-            <label class="block text-sm font-medium leading-6 text-gray-900"
-              >Choisissez une mention :</label
-            >
+            <label class="block text-sm font-medium leading-6">Choisissez une mention :</label>
             <div class="w-60 mt-1">
               <Listbox v-model="mention.mentionParcours.nom">
                 <div class="relative">
                   <ListboxButton
-                    class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+                    :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+                    class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
                   >
                     <span class="block truncate">{{ mention.mentionParcours.nom }}</span>
                     <span
@@ -100,6 +101,7 @@
                     leave-to-class="opacity-0"
                   >
                     <ListboxOptions
+                      :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
                       class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                     >
                       <ListboxOption
@@ -112,7 +114,7 @@
                           :class="[
                             mention.mentionParcours.nom === mnt.nom_mention
                               ? 'bg-amber-100 text-amber-900'
-                              : 'text-gray-900',
+                              : '',
                             'relative cursor-default select-none py-2 pl-10 pr-4'
                           ]"
                         >
@@ -144,26 +146,28 @@
 
       <div class="class formInput border-gray-900/10 pb-5 pl-5" v-if="mention.mentionParcours.nom">
         <div class="sm:col-span-3 mr-4">
-          <label class="block text-sm font-medium leading-6 text-gray-900">Nom du parcours</label>
+          <label class="block text-sm font-medium leading-6">Nom du parcours</label>
           <div class="mt-2">
             <input
               type="text"
               v-model="parcour.nom_parcours"
+              :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
               class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
             />
           </div>
         </div>
         <div class="sm:col-span-3 mr-4">
-          <label class="block text-sm font-medium leading-6 text-gray-900">Abréviation</label>
+          <label class="block text-sm font-medium leading-6">Abréviation</label>
           <div class="mt-2">
             <input
               type="text"
               v-model="parcour.abr_parcours"
+              :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
               class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
             />
           </div>
         </div>
-        <div class="divbtn sm:col-span-3 mt-2">
+        <div class="divbtn sm:col-span-3 text-black mt-2">
           <Button
             class="btn font-bold"
             @click="parcour.postParcour()"
@@ -175,7 +179,7 @@
       </div>
     </div>
     <div
-      class="listParcours"
+      :class="theme.theme === 'light' ? 'listParcours' : 'listParcours !bg-gray-600 !text-white'"
       v-if="mention.mentionParcours.nom && parcour.ListParcours.length !== 0"
     >
       <div class="listScolValue">
@@ -211,11 +215,13 @@ import {
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import { TrashIcon } from '@heroicons/vue/24/outline'
+import { useTheme } from '@/stores/Theme'
 
 const niveau = useNiveau()
 const mention = useMention()
 const parcour = useParcour()
 const show = useShow()
+const theme = useTheme()
 
 function showDeleteParcoursModal(id, abr) {
   parcour.parcours_id = id

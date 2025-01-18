@@ -4,18 +4,19 @@ import { useUrl } from '@/stores/url'
 import axios from 'axios'
 import { useMessages } from '@/stores/messages'
 import { useAnnonce } from '@/stores/Annonce'
-
+import { useTheme } from '@/stores/Theme'
 
 const show = useShow()
 const messages = useMessages()
 const annonce = useAnnonce()
+const theme = useTheme()
 const URL = useUrl().url
 
 function closeModaleDelPost() {
   show.showDeletePost = false
 }
 
-function DelPost(){
+function DelPost() {
   show.showSpinner = true
   axios
     .delete(`${URL}/api/annonce/${annonce.idAnnonce}`)
@@ -37,7 +38,7 @@ function DelPost(){
 <template>
   <Transition>
     <div class="showModal" v-if="show.showDeletePost">
-      <div class="formModal">
+      <div :class="theme.theme === 'light' ? '' : '!bg-gray-500 text-white'" class="formModal">
         <h6 class="login">Voulez-vous vraiment supprimer ce poste ?</h6>
         <div class="valider">
           <button type="button" class="delete btn btn-primary mt-5" @click="DelPost()">OUI</button>

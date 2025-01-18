@@ -3,10 +3,12 @@ import { useShow } from '@/stores/Show'
 import { useGroupe } from '../stores/groupe'
 import { useUrl } from '@/stores/url'
 import axios from 'axios'
+import { useTheme } from '@/stores/Theme'
 
 const show = useShow()
 const groupe = useGroupe()
 const URL = useUrl().url
+const theme = useTheme()
 
 function closeQuitterGroup() {
   show.showQuitGroup = false
@@ -39,7 +41,7 @@ function quitter() {
 <template>
   <Transition>
     <div class="showModal" v-if="show.showQuitGroup">
-      <div class="formModal">
+      <div :class="theme.theme === 'light' ? 'formModal' : 'formModal !bg-gray-600 !text-white'">
         <h6 class="login">
           Voulez-vous vraiment quitter « <b>{{ groupe.groupeName }}</b> » ?
         </h6>

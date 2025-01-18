@@ -1,9 +1,11 @@
 <script setup>
 import { useShow } from '@/stores/Show'
 import { useAu } from '@/stores/Au'
+import { useTheme } from '@/stores/Theme'
 
 const show = useShow()
 const au = useAu()
+const theme = useTheme()
 
 function closeModaleDelAU() {
   show.showDeleteAU = false
@@ -13,7 +15,7 @@ function closeModaleDelAU() {
 <template>
   <Transition>
     <div class="showModal" v-if="show.showDeleteAU">
-      <div class="formModal">
+      <div :class="theme.theme === 'light' ? 'formModal' : 'formModal !bg-gray-600 !text-white'">
         <h6 class="login">
           Des données «<b> importantes </b>» risquent d'être perdues, voulez-vous vraiment supprimer
           « <b>{{ au.oneAU }}</b> » ?

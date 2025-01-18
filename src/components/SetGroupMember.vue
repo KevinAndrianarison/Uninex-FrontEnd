@@ -8,12 +8,14 @@ import { useUrl } from '@/stores/url'
 import { useMessages } from '@/stores/messages'
 import { useUser } from '@/stores/User'
 import { ref, computed } from 'vue'
+import { useTheme } from '@/stores/Theme'
 
 const show = useShow()
 const groupe = useGroupe()
 const URL = useUrl().url
 const messages = useMessages()
 const user = useUser()
+const theme = useTheme()
 
 const searchQuery = ref('')
 
@@ -74,14 +76,17 @@ function removeMember(id) {
 <template>
   <Transition>
     <div class="showModal" v-if="show.showSetGroupMember">
-      <div class="formModal">
+      <div :class="theme.theme === 'light' ? 'formModal' : 'formModal !bg-gray-600 !text-white'">
         <div class="divbtn">
           <button type="button" class="Annullers" @click="closeSetgroupMember()">
-            <XMarkIcon class="h-6 w-6" />
+            <XMarkIcon
+            :class="theme.theme === 'light' ? '' : '!text-gray-200 '"
+             class="h-6 w-6" />
           </button>
         </div>
         <h1 class="font-bold">
           <font-awesome-icon
+          :class="theme.theme === 'light' ? '' : '!text-white '"
             class="iconadd text-gray-500 cursor-pointer mr-2"
             :icon="['fas', 'gear']"
           />
@@ -91,11 +96,13 @@ function removeMember(id) {
           type="text"
           placeholder="Nouveau membre"
           v-model="searchQuery"
-          class="focus:outline-none border w-full mt-4 px-4 p-2 text-sm rounded-2xl focus:border-2 transition border-blue-500"
+          :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+          class="text-black focus:outline-none border w-full mt-4 px-4 p-2 text-sm rounded-2xl focus:border-2 transition border-blue-500"
         />
         <ul
           v-if="searchQuery && filteredMembres.length"
-          class="bg-white border rounded-2xl mt-1 max-h-40 overflow-auto text-sm max-h-[150px] overflow-y-auto"
+          :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+          class="text-black bg-white border rounded-2xl mt-1 max-h-40 overflow-auto text-sm max-h-[150px] overflow-y-auto"
         >
           <li
             v-for="(membre, index) in filteredMembres"

@@ -1,63 +1,68 @@
 <template>
-  <div class="ens">
+  <div :class="theme.theme === 'light' ? 'ens' : 'ens !bg-gray-600 !text-white'">
     <h1 class="titre">
       <WrenchScrewdriverIcon class="h-7 w-7 mr-5" /> Configurations et modifications
     </h1>
-    <div class="configContent">
+    <div
+      :class="
+        theme.theme === 'light' ? 'configContent' : ' configContent !bg-gray-600 !text-gray-200'
+      "
+    >
       <div class="CONTENT">
         <h1 class="create pl-5 mt-2" v-if="show.showNavBarDir">
           Modifier les informations de votre établissement :
         </h1>
         <div v-if="show.showNavBarDir" class="class formInputs border-gray-900/10 pb-5 pl-5">
           <div class="sm:col-span-3 mt-2 mr-4">
-            <label class="block text-sm font-medium leading-6 text-gray-900"
-              >Nom de l'établissement</label
-            >
+            <label class="block text-sm font-medium leading-6">Nom de l'établissement</label>
             <div class="mt-2">
               <input
                 type="text"
                 v-model="etablissement.etablissement.nom_etab"
+                :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
                 class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
               />
             </div>
           </div>
           <div class="sm:col-span-3 mt-2 mr-4">
-            <label class="block text-sm font-medium leading-6 text-gray-900">Abréviation</label>
+            <label class="block text-sm font-medium leading-6">Abréviation</label>
             <div class="mt-2">
               <input
                 type="text"
                 v-model="etablissement.etablissement.abr_etab"
+                :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
                 class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
               />
             </div>
           </div>
           <div class="sm:col-span-3 mt-2 mr-4">
-            <label class="block text-sm font-medium leading-6 text-gray-900">Slogant</label>
+            <label class="block text-sm font-medium leading-6">Slogant</label>
             <div class="mt-2">
               <input
                 type="text"
                 v-model="etablissement.etablissement.slogan_etab"
+                :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
                 class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
               />
             </div>
           </div>
           <div class="sm:col-span-3 mt-2 mr-4">
-            <label class="block text-sm font-medium leading-6 text-gray-900">Description</label>
+            <label class="block text-sm font-medium leading-6">Description</label>
             <div class="mt-2">
               <textarea
                 type="text"
                 v-model="etablissement.etablissement.descri_etab"
+                :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
                 class="pl-3 pr-3 h-8 min-h-8 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
               ></textarea>
             </div>
           </div>
           <div class="w-52 sm:col-span-3 mt-2 mr-4 file">
-            <label class="block text-sm font-medium leading-6 text-gray-900"
-              >Date de création</label
-            >
+            <label class="block text-sm font-medium leading-6">Date de création</label>
             <div class="mt-2">
               <input
                 type="date"
+                :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
                 v-model="etablissement.etablissement.dateCreation_etab"
                 class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
               />
@@ -65,42 +70,46 @@
           </div>
 
           <div class="sm:col-span-3 mt-2 mr-4">
-            <label class="block text-sm font-medium leading-6 text-gray-900">Pays</label>
+            <label class="block text-sm font-medium leading-6">Pays</label>
             <div class="mt-2">
               <input
                 type="text"
                 v-model="etablissement.etablissement.pays_etab"
+                :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
                 class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
               />
             </div>
           </div>
           <div class="sm:col-span-3 mt-2 mr-4">
-            <label class="block text-sm font-medium leading-6 text-gray-900">Ville</label>
+            <label class="block text-sm font-medium leading-6">Ville</label>
             <div class="mt-2">
               <input
                 type="text"
                 v-model="etablissement.etablissement.ville_etab"
+                :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
                 class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
               />
             </div>
           </div>
           <div class="sm:col-span-3 mt-2 mr-4">
-            <label class="block text-sm font-medium leading-6 text-gray-900">Code postal</label>
+            <label class="block text-sm font-medium leading-6">Code postal</label>
             <div class="mt-2">
               <input
                 type="number"
                 v-model="etablissement.etablissement.codePostal_etab"
+                :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
                 class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
               />
             </div>
           </div>
           <div class="sm:col-span-3 mt-2 mr-4">
-            <label class="block text-sm font-medium leading-6 text-gray-900">Adresse e-mail</label>
+            <label class="block text-sm font-medium leading-6">Adresse e-mail</label>
             <div class="mt-2">
               <input
                 type="email"
                 @input="regex.RegexEmailDir(etablissement.etablissement.email_etab)"
                 v-model="etablissement.etablissement.email_etab"
+                :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
                 class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
               />
             </div>
@@ -108,20 +117,21 @@
           </div>
 
           <div class="w-52 sm:col-span-3 mt-2 mr-4">
-            <label class="block text-sm font-medium leading-6 text-gray-900"
+            <label class="block text-sm font-medium leading-6"
               >Mot de passe application Gmail</label
             >
             <div class="mt-2">
               <input
                 type="email"
                 v-model="etablissement.etablissement.mdpAppGmail_etab"
+                :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
                 class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
               />
             </div>
           </div>
 
           <div class="sm:col-span-3 mr-4 mt-2">
-            <label class="block text-sm font-medium leading-6 text-gray-900">Votre logo</label>
+            <label class="block text-sm font-medium leading-6">Votre logo</label>
             <div class="mt-2">
               <div class="relative flex items-center">
                 <input
@@ -131,6 +141,7 @@
                   accept="image/jpeg, image/png"
                 />
                 <div
+                  :class="theme.theme === 'light' ? '' : 'bg-green-300'"
                   class="file-label bg-green-100 text-green-800 py-2 px-4 rounded-md border border-green-300"
                 >
                   📂 Choisissez une image
@@ -166,48 +177,52 @@
         <h1 class="create pl-5 mt-2">Modifier vos informations personnelles :</h1>
         <div class="class formInputs border-gray-900/10 pb-5 pl-5">
           <div class="sm:col-span-3 mt-2 mr-4">
-            <label class="block text-sm font-medium leading-6 text-gray-900">Nom complet</label>
+            <label class="block text-sm font-medium leading-6 ">Nom complet</label>
             <div class="mt-2">
               <input
                 type="text"
                 v-model="infossetup.nom"
+                :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
                 class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
               />
             </div>
           </div>
           <div class="sm:col-span-3 mt-2 mr-4">
-            <label class="block text-sm font-medium leading-6 text-gray-900">Adresse email</label>
+            <label class="block text-sm font-medium leading-6">Adresse email</label>
             <div class="mt-2">
               <input
                 type="email"
                 @input="regex.RegexEmail(user.email)"
                 v-model="user.email"
+                :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
                 class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
               />
               <p class="err" v-if="show.showMessageErrorEmail">Adresse email invalide</p>
             </div>
           </div>
           <div class="sm:col-span-3 mt-2 mr-4">
-            <label class="block text-sm font-medium leading-6 text-gray-900"
+            <label class="block text-sm font-medium leading-6"
               >Numéro téléphone</label
             >
             <div class="mt-2">
               <input
                 type="number"
                 v-model="infossetup.telephone"
+                :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
                 class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
               />
             </div>
           </div>
           <div v-if="show.showNavBarDir" class="sm:col-span-3 mt-2 mr-4">
-            <label class="block text-sm font-medium leading-6 text-gray-900"
+            <label class="block text-sm font-medium leading-6"
               >Titre académique</label
             >
             <div class="w-60">
               <Listbox v-model="infossetup.grade">
                 <div class="relative mt-2">
                   <ListboxButton
-                    class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+                  :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+                    class="text-black  relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
                   >
                     <span class="block truncate">{{ infossetup.grade }}</span>
                     <span
@@ -257,7 +272,7 @@
             </div>
           </div>
           <div class="sm:col-span-3 mt-2 mr-4 file">
-            <label class="block text-sm font-medium leading-6 text-gray-900">Photo</label>
+            <label class="block text-sm font-medium leading-6 ">Photo</label>
             <div class="mt-1">
               <div class="relative flex items-center">
                 <input
@@ -267,13 +282,14 @@
                   accept="image/jpeg, image/png"
                 />
                 <div
+                :class="theme.theme === 'light' ? '' : 'bg-green-300'"
                   class="file-label bg-green-100 text-green-800 py-2 px-1 rounded-md border border-green-300"
                 >
                   📂 Choisissez une photo
                 </div>
               </div>
             </div>
-            <div v-if="user.photoName" class="flex text-xs ">
+            <div v-if="user.photoName" class="flex text-xs">
               <p class="text-blue-500 mr-2">{{ user.photoName }}</p>
               <font-awesome-icon
                 class="text-red-500 cursor-pointer w-5 h-4"
@@ -297,20 +313,21 @@
         <h1 class="create pl-5 mt-2">Changer de mot de passe :</h1>
         <div class="class formInput border-gray-900/10 pb-5 pl-5">
           <div class="sm:col-span-3 mt-2 mr-4">
-            <label class="block text-sm font-medium leading-6 text-gray-900"
+            <label class="block text-sm font-medium leading-6 "
               >Ancien mot de passe</label
             >
             <div class="mt-2">
               <input
                 type="text"
                 v-model="user.oldpassword"
+                :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
                 class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
               />
             </div>
           </div>
 
           <div class="w-52 sm:col-span-3 mr-4 mt-2">
-            <label class="block text-sm font-medium leading-6 text-gray-900"
+            <label class="block text-sm font-medium leading-6 "
               >Créer un mot de passe</label
             >
             <div class="mt-2 relative">
@@ -319,6 +336,7 @@
                 :type="show.showCreatePassword ? 'text' : 'password'"
                 @copy="handleCopy"
                 v-model="user.password"
+                :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
                 class="pl-3 pr-10 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
               />
               <button
@@ -336,7 +354,7 @@
           </div>
 
           <div class="w-52 sm:col-span-3 mt-2 mr-4">
-            <label class="block text-sm font-medium leading-6 text-gray-900"
+            <label class="block text-sm font-medium leading-6 "
               >Confirmer votre mot de passe</label
             >
             <div class="mt-2 relative">
@@ -344,6 +362,7 @@
                 @input="user.verifierPasword()"
                 :type="show.showVerifyPassword ? 'text' : 'password'"
                 v-model="user.passwordVerifier"
+                :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
                 class="pl-3 pr-10 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
               />
               <button
@@ -393,6 +412,7 @@ import { useInfossetup } from '@/stores/Infossetup'
 import { onBeforeMount } from 'vue'
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
+import { useTheme } from '@/stores/Theme'
 
 const user = useUser()
 const regex = useRegex()
@@ -403,6 +423,7 @@ const etudiant = useEtudiant()
 const infossetup = useInfossetup()
 const directeur = useDirecteur()
 const agentscolarite = useAgentscolarite()
+const theme = useTheme()
 
 const grades = ['Ingénieur', 'Docteur', 'Professeur']
 

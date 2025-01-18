@@ -185,6 +185,7 @@ function onFileChange(event) {
           type="text"
           placeholder="Titre"
           v-model="titreAnnonce"
+          :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
           class="text-black focus:outline-none focus:border-2 border border-green-400 rounded w-full px-3 text-sm mt-2 py-2"
         />
         <div class="mt-2 flex items-end justify-between">
@@ -192,6 +193,7 @@ function onFileChange(event) {
             <label class="text-xs mt-2">Choisissez une catégorie :</label>
             <select
               v-model="idCategorie"
+              :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
               class="mr-2 py-2 px-2 mt-1 rounded border focus:outline-none text-xs text-black"
             >
               <option
@@ -237,6 +239,7 @@ function onFileChange(event) {
         <textarea
           placeholder="Description"
           v-model="descriptionAnnonce"
+          :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
           class="text-black text-sm min-h-[100px] focus:border-2 border border-green-400 focus:outline-none border rounded w-full px-3 mt-4 py-2"
         ></textarea>
         <div class="relative flex items-center">
@@ -247,6 +250,7 @@ function onFileChange(event) {
             accept="*"
           />
           <div
+            :class="theme.theme === 'light' ? '' : 'bg-green-300'"
             class="w-full file-label bg-green-100 text-green-800 py-2 text-center rounded-md border border-green-300 text-sm"
           >
             📂 Importer un fichier
@@ -275,10 +279,10 @@ function onFileChange(event) {
       <div :class="theme.theme === 'light' ? 'formModal' : 'formModal  !bg-gray-600 text-white'">
         <div class="divbtn">
           <button type="button" class="Annullers" @click="closeCreateCategory">
-            <XMarkIcon 
-            class="h-6 w-6"
-            :class="theme.theme === 'light' ? 'h-6 w-6' : 'h-6 w-6 text-red-500'"
-             />
+            <XMarkIcon
+              class="h-6 w-6"
+              :class="theme.theme === 'light' ? 'h-6 w-6' : 'h-6 w-6 text-red-500'"
+            />
           </button>
         </div>
         <h1 class="font-bold text-sm">Créer une nouvelle catégorie :</h1>
@@ -286,12 +290,14 @@ function onFileChange(event) {
           v-model="newCategory.emoji"
           type="text"
           placeholder="Emoji (e.g., 📚)"
+          :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
           class="focus:outline-none border-2 text-xs rounded w-full px-3 mt-5 py-2 text-black"
         />
         <input
           v-model="newCategory.title"
           type="text"
           placeholder="Titre"
+          :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
           class="focus:outline-none border-2 text-xs rounded w-full px-3 mt-2 py-2 text-black"
         />
         <button

@@ -1,9 +1,11 @@
 <script setup>
 import { useShow } from '@/stores/Show'
 import { useParcour } from '@/stores/Parcour'
+import { useTheme } from '@/stores/Theme'
 
 const show = useShow()
 const parcour = useParcour()
+const theme = useTheme()
 
 function closeModaleDelParcour() {
   show.showDeleteParcour = false
@@ -13,7 +15,7 @@ function closeModaleDelParcour() {
 <template>
   <Transition>
     <div class="showModal" v-if="show.showDeleteParcour">
-      <div class="formModal">
+        <div :class="theme.theme === 'light' ? 'formModal' : 'formModal !bg-gray-600 !text-white'">
         <h6 class="login">
           Des données «<b> importantes </b>» risquent d'être perdues, voulez-vous vraiment supprimer
           « <b>{{ parcour.parcours_abr }}</b> » ?

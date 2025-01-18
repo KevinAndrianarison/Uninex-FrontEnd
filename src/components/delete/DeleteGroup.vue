@@ -4,11 +4,13 @@ import { useUrl } from '@/stores/url'
 import { useMessages } from '@/stores/messages'
 import axios from 'axios'
 import { useGroupe } from '../../stores/groupe'
+import { useTheme } from '@/stores/Theme'
 
 const show = useShow()
 const URL = useUrl().url
 const messages = useMessages()
 const groupe = useGroupe()
+const theme = useTheme()
 
 function closeModaleDelGroup() {
   show.showDeleteGroup = false
@@ -46,7 +48,7 @@ function DelGroupe() {
 <template>
   <Transition>
     <div class="showModal" v-if="show.showDeleteGroup">
-      <div class="formModal">
+      <div :class="theme.theme === 'light' ? 'formModal' : 'formModal !bg-gray-600 !text-white'">
         <h6 class="login">
           Voulez-vous vraiment supprimer «
           <b>{{ groupe.groupeName }}</b> » ?

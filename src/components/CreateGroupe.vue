@@ -7,12 +7,14 @@ import axios from 'axios'
 import { useMessages } from '@/stores/messages'
 import { useUrl } from '@/stores/url'
 import { useGroupe } from '../stores/groupe'
+import { useTheme } from '@/stores/Theme'
 
 const show = useShow()
 const user = useUser()
 const URL = useUrl().url
 const messages = useMessages()
 const groupe = useGroupe()
+const theme = useTheme()
 
 function closeCreateGroup() {
   show.showCreateGroup = false
@@ -95,10 +97,12 @@ function createGroupe() {
 <template>
   <Transition>
     <div class="showModal" v-if="show.showCreateGroup">
-      <div class="formModal">
+      <div :class="theme.theme === 'light' ? 'formModal' : 'formModal !bg-gray-600 !text-white'">
         <div class="divbtn">
           <button type="button" class="Annullers" @click="closeCreateGroup()">
-            <XMarkIcon class="h-6 w-6" />
+            <XMarkIcon
+            :class="theme.theme === 'light' ? '' : '!text-red-500'"
+             class="h-6 w-6" />
           </button>
         </div>
         <p class="font-bold">
@@ -107,19 +111,22 @@ function createGroupe() {
         <input
           type="text"
           v-model="nomGroup"
+          :class="theme.theme === 'light' ? '' : '!bg-gray-600'"
           class="mt-4 focus:outline-none border-b-2 py-1.5 border-b-blue-500 w-full text-sm"
           placeholder="Nom du groupe"
         />
-        <div class="mt-4 text-xs  text-blue-500">({{ selectedMembres.length }}) séléctionné(s)</div>
+        <div class="mt-4 text-xs text-blue-500">({{ selectedMembres.length }}) séléctionné(s)</div>
         <input
           type="text"
           v-model="searchQuery"
-          class="bg-gray-200 w-full rounded-xl px-3 py-2 mt-2  text-xs focus:outline-none"
+          :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+          class="text-black w-full rounded-xl px-3 py-2 mt-2 text-xs focus:outline-none"
           placeholder="Rechercher"
         />
         <ul
           v-if="searchQuery && filteredMembres.length"
-          class="bg-white border rounded-xl   mt-1 max-h-40 overflow-auto text-xs max-h-[150px] overflow-y-auto"
+          :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+          class="bg-white text-black border rounded-xl mt-1 max-h-40 overflow-auto text-xs max-h-[150px] overflow-y-auto"
         >
           <li
             v-for="(membre, index) in filteredMembres"

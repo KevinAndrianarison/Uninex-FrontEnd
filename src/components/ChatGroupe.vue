@@ -1,7 +1,13 @@
 <template>
   <div class="px-4 h-full">
-    <div @click="hideDropdown" class="border h-full bg-white rounded-xl">
-      <div class="h-[8%] border-b flex items-center justify-between px-4">
+    <div @click="hideDropdown" 
+    :class="theme.theme === 'light' ? '' : '!bg-gray-200'" 
+    class="border h-full bg-gray-100 rounded-xl"
+    >
+      <div 
+      :class="theme.theme === 'light' ? '' : '!bg-gray-300'" 
+      class="h-[8%] border-b bg-white rounded-t-xl flex items-center justify-between px-4"
+      >
         <font-awesome-icon
           :icon="['fas', 'chevron-left']"
           @click="goBack"
@@ -21,7 +27,8 @@
           /></Tooltip>
           <div
             v-if="showDropdown"
-            class="text-xs border absolute bg-white border rounded-lg shadow-lg mt-2 w-48 right-5"
+            :class="theme.theme === 'light' ? '' : '!bg-gray-300'" 
+            class="text-xs border absolute bg-white border shadow-lg mt-2 w-48 right-5"
           >
             <ul>
               <li
@@ -65,7 +72,9 @@
           </div>
         </div>
       </div>
-      <div class="boder h-[78%] max-h-[78%] bg-gray-100 chat-container px-4">
+      <div 
+      :class="theme.theme === 'light' ? '' : '!bg-gray-200'" 
+      class="boder h-[78%] max-h-[78%] bg-gray-100 chat-container px-4">
         <div :key="index" v-for="(message, index) in groupe.messages">
           <div v-if="Number(message.user_id) !== localUserId" class="w-[50%] mt-2 flex items-end">
             <div
@@ -158,7 +167,9 @@
           Nouvelle discussion, commencer à envoyer des messages ✨!
         </p>
       </div>
-      <div class="h-[12%] flex justify-between items-center py-10 px-3 bg-gray-100">
+      <div 
+      :class="theme.theme === 'light' ? '' : '!bg-gray-200'" 
+      class="h-[12%] flex justify-between items-center py-10 px-3 rounded-b-xl bg-gray-100">
         <textarea
           class="min-h-[50%] border focus:border-2 border-yellow-500 rounded-xl p-2 w-[90%] focus:outline-none"
           placeholder="Écrire ici..."
@@ -210,6 +221,8 @@ import { useShow } from '../stores/show'
 import { useUser } from '@/stores/User'
 import axios from 'axios'
 import Pusher from 'pusher-js'
+import { useTheme } from '@/stores/Theme'
+
 
 
 
@@ -225,6 +238,7 @@ const URL = useUrl().url
 const groupe = useGroupe()
 const show = useShow()
 const user = useUser()
+const theme = useTheme()
 const pusher = new Pusher(
   import.meta.env.VITE_PUSHER_APP_KEY,
  { cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER, useTLS: true }

@@ -2,10 +2,12 @@
 import { useShow } from '@/stores/Show'
 import { usePassword } from '@/stores/Password'
 import { useEnseignant } from '@/stores/Enseignant'
+import { useTheme } from '@/stores/Theme'
 
 const show = useShow()
 const password = usePassword()
 const enseignant = useEnseignant()
+const theme = useTheme()
 
 function createENS() {
   show.showMdpENS = false
@@ -16,7 +18,7 @@ function createENS() {
 <template>
   <Transition>
     <div class="showModal" v-if="show.showMdpENS">
-      <div class="formModal">
+      <div :class="theme.theme === 'light' ? '' : ' !bg-gray-500 !text-white'" class="formModal">
         <h6>
           Veuillez copier ce mot de passe qui vous a été attribué "<b>{{ password.password }}</b
           >", puis cliquez sur "<b>OK</b>"

@@ -8,6 +8,7 @@ import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import { TrashIcon } from '@heroicons/vue/24/outline'
 import { ChevronUpIcon } from '@heroicons/vue/20/solid'
+import { useTheme } from '@/stores/Theme'
 
 import {
   RadioGroup,
@@ -25,6 +26,7 @@ const show = useShow()
 const niveau = useNiveau()
 const parcour = useParcour()
 const semestre = useSemestre()
+const theme = useTheme()
 
 function delSemestre(nom, id) {
   semestre.semestre.nom = nom
@@ -40,16 +42,18 @@ function closeCreateSemestre() {
 <template>
   <Transition>
     <div class="showModal" v-if="show.showCreateSemestre">
-      <div class="formModales">
+      <div
+        :class="theme.theme === 'light' ? 'formModales' : 'formModales !bg-gray-600 !text-white'"
+      >
         <div class="divbtn">
           <button type="button" class="Annullers" @click="closeCreateSemestre()">
-            <XMarkIcon class="h-6 w-6" />
+            <XMarkIcon :class="theme.theme === 'light' ? '' : ' !text-red-500'" class="h-6 w-6" />
           </button>
         </div>
         <p class="infos">Nouvelle semestre :</p>
 
         <div class="radio mt-2">
-          <label class="text-sm font-medium leading-6 text-gray-900">Choisissez un niveau : </label>
+          <label class="text-sm font-medium leading-6">Choisissez un niveau : </label>
           <div>
             <RadioGroup v-model="niveau.NiveauCheck">
               <RadioGroupLabel class="sr-only">Server size</RadioGroupLabel>
@@ -116,14 +120,13 @@ function closeCreateSemestre() {
         <div class="class formInput mt-4" v-if="parcour.parcours_nom">
           <div class="gap-x-6 gap-y-8 sm:grid-cols-6">
             <div class="sm:col-span-3">
-              <label class="block text-sm font-medium leading-6 text-gray-900"
-                >Choisissez un parcours :</label
-              >
+              <label class="block text-sm font-medium leading-6">Choisissez un parcours :</label>
               <div class="mt-1 semsetre">
                 <Listbox v-model="parcour.parcours_nom">
                   <div class="relative">
                     <ListboxButton
-                      class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+                      :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+                      class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
                     >
                       <span class="block truncate">{{ parcour.parcours_nom }}</span>
                       <span
@@ -139,6 +142,7 @@ function closeCreateSemestre() {
                       leave-to-class="opacity-0"
                     >
                       <ListboxOptions
+                        :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
                         class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                       >
                         <ListboxOption
@@ -152,7 +156,7 @@ function closeCreateSemestre() {
                             :class="[
                               parcour.parcours_nom === prc.nom_parcours
                                 ? 'bg-amber-100 text-amber-900'
-                                : 'text-gray-900',
+                                : '',
                               'relative cursor-default select-none py-2 pl-10 pr-4'
                             ]"
                           >
@@ -181,10 +185,11 @@ function closeCreateSemestre() {
             </div>
 
             <div class="sm:col-span-3 mt-3">
-              <label class="block text-sm font-medium leading-6 text-gray-900">Semestre :</label>
+              <label class="block text-sm font-medium leading-6">Semestre :</label>
               <div class="mt-1">
                 <input
                   type="text"
+                  :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
                   v-model="semestre.nom_semestre"
                   class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
                 />
@@ -213,7 +218,7 @@ function closeCreateSemestre() {
                 class="h-5 w-5 text-yellow-500"
               />
             </DisclosureButton>
-            <DisclosurePanel class="DisclosurePanels mt-2 text-sm text-gray-500">
+            <DisclosurePanel class="DisclosurePanels mt-2 text-sm">
               <div class="listNiv" :key="index" v-for="(sm, index) in semestre.ListeSemestre">
                 {{ sm.nom_semestre }}
                 <TrashIcon

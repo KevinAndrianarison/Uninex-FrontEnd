@@ -1,9 +1,12 @@
 <script setup>
 import { useShow } from '@/stores/Show'
 import { useNiveau } from '@/stores/Niveau'
+import { useTheme } from '@/stores/Theme'
+
 
 const show = useShow()
 const niveau = useNiveau()
+const theme = useTheme()
 
 function closeModaleDelNiveau() {
   show.showDeleteNiveau = false
@@ -13,7 +16,7 @@ function closeModaleDelNiveau() {
 <template>
   <Transition>
     <div class="showModal" v-if="show.showDeleteNiveau">
-      <div class="formModal">
+        <div :class="theme.theme === 'light' ? 'formModal' : 'formModal !bg-gray-600 !text-white'">
         <h6 class="login">
           Des données «<b> importantes </b>» risquent d'être perdues, voulez-vous vraiment supprimer
           « <b>{{ niveau.niveau.nom_niveau }}</b> » ?
