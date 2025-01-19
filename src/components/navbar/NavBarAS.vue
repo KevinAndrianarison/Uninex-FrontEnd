@@ -22,13 +22,13 @@
       <MenuItems
         class="z-20 absolute ml-[80px] w-[200px] divide-gray-100 rounded-sm bg-white shadow-lg ring-1 ring-black/5 focus:outline-none"
       >
-        <div class="px-1 py-1">
-          <MenuItem v-slot="{ active }">
+      <div :class="theme.theme === 'light' ? 'px-1 py-1' : 'px-1 py-1  !bg-gray-500'">
+        <MenuItem v-slot="{ active }">
             <RouterLink to="/agentScolarite/GestionInscription">
               <button
                 class="btndrop"
                 :class="[
-                  active ? 'bg-[#FDCB6E]' : 'text-gray-900',
+                  active ? 'bg-[#FDCB6E]' : '',
                   'w-[99%] rounded-sm px-2 py-2 text-sm'
                 ]"
               >
@@ -47,7 +47,7 @@
               <button
                 class="btndrop"
                 :class="[
-                  active ? 'bg-[#FDCB6E]' : 'text-gray-900',
+                  active ? 'bg-[#FDCB6E]' : '',
                   'w-[99%] rounded-sm px-2 py-2 text-sm'
                 ]"
               >
@@ -67,7 +67,7 @@
               <button
                 class="btndrop"
                 :class="[
-                  active ? 'bg-[#FDCB6E]' : 'text-gray-900',
+                  active ? 'bg-[#FDCB6E]' : '',
                   'w-[99%] rounded-sm px-2 py-2 text-sm'
                 ]"
               >
@@ -107,9 +107,12 @@ import {
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { useShow } from '@/stores/Show'
 import { useSalle } from '@/stores/salle'
+import { useTheme } from '@/stores/Theme'
+
 
 const show = useShow()
 const salles = useSalle()
+const theme = useTheme()
 
 function showCreateSalle() {
   show.showCreateSalle = true

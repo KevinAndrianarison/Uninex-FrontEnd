@@ -4,11 +4,13 @@ import { useSalle } from '@/stores/Salle'
 import { useUrl } from '@/stores/url'
 import { useMessages } from '@/stores/messages'
 import axios from 'axios'
+import { useTheme } from '@/stores/Theme'
 
 const show = useShow()
 const salles = useSalle()
 const URL = useUrl().url
 const messages = useMessages()
+const theme = useTheme()
 
 function closeModaleDelSalle() {
   show.showDeletSalle = false
@@ -42,7 +44,7 @@ function DelSalle() {
 <template>
   <Transition>
     <div class="showModal" v-if="show.showDeletSalle">
-      <div class="formModal">
+      <div :class="theme.theme === 'light' ? 'formModal' : 'formModal !bg-gray-600 !text-white'">
         <h6 class="login">
           Des «<b> données </b>» risquent d'être perdues, voulez-vous vraiment supprimer «
           <b>{{ salles.NomSalle }}</b> » ?

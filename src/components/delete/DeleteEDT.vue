@@ -4,11 +4,13 @@ import { useUrl } from '@/stores/url'
 import axios from 'axios'
 import { useMessages } from '@/stores/messages'
 import { useEdt } from '@/stores/Edt'
+import { useTheme } from '@/stores/Theme'
 
 const show = useShow()
 const messages = useMessages()
 const edt = useEdt()
 const URL = useUrl().url
+const theme = useTheme()
 
 function closeModaleDelEDT() {
   show.showDeletEDT = false
@@ -36,7 +38,7 @@ function DelEDT() {
 <template>
   <Transition>
     <div class="showModal" v-if="show.showDeletEDT">
-      <div class="formModal">
+      <div :class="theme.theme === 'light' ? 'formModal' : 'formModal !bg-gray-600 !text-white'">
         <h6 class="login">Voulez-vous vraiment supprimer cet emplois du temps ?</h6>
         <div class="valider">
           <button type="button" class="delete btn btn-primary mt-5" @click="DelEDT()">OUI</button>

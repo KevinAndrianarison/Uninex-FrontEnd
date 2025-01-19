@@ -3,10 +3,12 @@ import { useShow } from '@/stores/Show'
 import { useEtudiant } from '@/stores/Etudiant'
 import { useMessages } from '@/stores/Messages'
 import * as XLSX from 'xlsx'
+import { useTheme } from '@/stores/Theme'
 
 const show = useShow()
 const etudiant = useEtudiant()
 const messages = useMessages()
+const theme = useTheme()
 
 function closeModal() {
   show.showFormatExcel = false
@@ -60,7 +62,7 @@ function onFileChange(event) {
 <template>
   <Transition>
     <div class="showModal" v-if="show.showFormatExcel" @click="closeModal()">
-      <div class="formMod">
+      <div :class="theme.theme === 'light' ? 'formMod' : 'formMod !bg-gray-600 !text-white'">
         <p class="infos">Assurez-vous que votre fichier Excel a la structure suivante :</p>
         <div class="class formInputs mt-4"></div>
         <div class="valide">

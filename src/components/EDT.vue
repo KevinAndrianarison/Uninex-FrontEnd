@@ -3,10 +3,12 @@ import { useShow } from '@/stores/Show'
 import { useEdt } from '@/stores/Edt'
 import { useEtablissement } from '@/stores/Etablissement'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
+import { useTheme } from '@/stores/Theme'
 
 const show = useShow()
 const edt = useEdt()
 const etablissemnet = useEtablissement()
+const theme = useTheme()
 
 function closeEDT() {
   show.showEDT = false
@@ -16,10 +18,16 @@ function closeEDT() {
 <template>
   <Transition>
     <div class="showModal" v-if="show.showEDT">
-      <div class="formModal !w-[1024px]">
+      <div
+        :class="
+          theme.theme === 'light'
+            ? 'formModal !w-[1024px]'
+            : 'formModal !w-[1024px] !bg-gray-600 !text-white'
+        "
+      >
         <div class="divbtn">
           <button type="button" class="Annullers" @click="closeEDT()">
-            <XMarkIcon class="h-6 w-6" />
+            <XMarkIcon :class="theme.theme === 'light' ? '' : '!text-red-500'" class="h-6 w-6" />
           </button>
         </div>
         <p class="font-bold text-xs">UNIVERSITE D'{{ etablissemnet.etablissement.ville_etab }}</p>

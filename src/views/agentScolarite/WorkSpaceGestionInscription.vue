@@ -1,10 +1,10 @@
 <template>
-  <div class="inscr">
+  <div :class="theme.theme === 'light' ? 'inscr' : 'inscr !bg-gray-600 !text-white'">
     <h1 class="titre">
       <font-awesome-icon class="h-7 w-7 mr-5" :icon="['fas', 'paperclip']" /> Inscriptions et
       comptes des étudiants
     </h1>
-    <div class="createEtud">
+    <div :class="theme.theme === 'light' ? 'createEtud' : '!bg-gray-600 !text-gray-200'">
       <div class="radio px-4 mt-2 pb-2 ml-2">
         <div class="mt-2">
           <RadioGroup v-model="niveau.NiveauCheck">
@@ -72,21 +72,23 @@
       </h1>
       <div v-if="parcour.parcours_nom" class="class formInput border-gray-900/10 pb-5 pl-5">
         <div class="sm:col-span-3 mr-4 mt-2">
-          <label class="block text-sm font-medium leading-6 text-gray-900">Nom complet</label>
+          <label class="block text-sm font-medium leading-6">Nom complet</label>
           <div class="mt-1">
             <input
               type="text"
               v-model="etudiant.nomComplet_etud"
+              :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
               class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
             />
           </div>
         </div>
         <div class="sm:col-span-3 mt-2 mr-4">
-          <label class="block text-sm font-medium leading-6 text-gray-900">Adresse email</label>
+          <label class="block text-sm font-medium leading-6">Adresse email</label>
           <div class="mt-1">
             <input
               type="email"
               @input="regex.RegexEmail(user.email)"
+              :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
               v-model="user.email"
               class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
             />
@@ -95,12 +97,13 @@
         </div>
 
         <div class="sm:col-span-3 mt-2 ctgr mr-4">
-          <label class="block text-sm font-medium leading-6 text-gray-900">Parcours</label>
+          <label class="block text-sm font-medium leading-6">Parcours</label>
           <div class="w-52 mt-1">
             <Listbox v-model="parcour.parcours_nom">
               <div class="relative">
                 <ListboxButton
-                  class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+                  :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+                  class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
                 >
                   <span class="block truncate">{{ parcour.parcours_nom }}</span>
                   <span
@@ -116,6 +119,7 @@
                   leave-to-class="opacity-0"
                 >
                   <ListboxOptions
+                    :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
                     class="z-20 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                   >
                     <ListboxOption
@@ -128,7 +132,7 @@
                         :class="[
                           parcour.parcours_nom === prc.nom_parcours
                             ? 'bg-amber-100 text-amber-900'
-                            : 'text-gray-900',
+                            : '',
                           'relative cursor-default select-none py-2 pl-10 pr-4'
                         ]"
                       >
@@ -157,12 +161,13 @@
         </div>
 
         <div class="sm:col-span-3 mt-2 ctgr mr-4" v-if="semestre.semestreNom">
-          <label class="block text-sm font-medium leading-6 text-gray-900">Semestre</label>
+          <label class="block text-sm font-medium leading-6">Semestre</label>
           <div class="w-52 mt-1">
             <Listbox v-model="semestre.semestreNom">
               <div class="relative">
                 <ListboxButton
-                  class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+                  :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+                  class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
                 >
                   <span class="block truncate">{{ semestre.semestreNom }}</span>
                   <span
@@ -178,6 +183,7 @@
                   leave-to-class="opacity-0"
                 >
                   <ListboxOptions
+                    :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
                     class="z-20 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                   >
                     <ListboxOption
@@ -190,7 +196,7 @@
                         :class="[
                           semestre.semestreNom === sm.nom_semestre
                             ? 'bg-amber-100 text-amber-900'
-                            : 'text-gray-900',
+                            : '',
                           'relative cursor-default select-none py-2 pl-10 pr-4'
                         ]"
                       >
@@ -218,7 +224,7 @@
           </div>
         </div>
 
-        <div class="divbtn sm:col-span-3">
+        <div class="divbtn text-black sm:col-span-3">
           <Button
             :disabled="
               !user.email ||
@@ -234,13 +240,17 @@
         </div>
       </div>
     </div>
-    <div class="listEtud" v-if="niveau.ListNiveau.length !== 0">
+    <div
+      :class="theme.theme === 'light' ? 'listEtud' : 'listEtud !bg-gray-600 !text-white'"
+      v-if="niveau.ListNiveau.length !== 0"
+    >
       <div class="header">
         <input
           placeholder="🔎 Recherche par nom"
           @input="etudiant.search(etudiant.searchalue)"
           v-model="etudiant.searchalue"
           type="search"
+          :class="theme.theme === 'light' ? '' : 'bg-gray-300'"
           class="pl-3 pr-3 ml-5 mt-3 block rounded-sm border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
         />
         <div class="ml-4 excel" v-if="semestre.semestreNom">
@@ -248,6 +258,7 @@
           <div class="sm:col-span-3 mt-2 ml-4">
             <div class="relative flex items-center">
               <div
+                :class="theme.theme === 'light' ? '' : 'bg-green-300'"
                 class="file-label bg-green-100 text-green-800 py-1 px-2 rounded-md border border-green-300"
                 @click="showImportExcel()"
               >
@@ -267,7 +278,12 @@
           <li class="width">Valider</li>
           <li class="h-5 w-5"></li>
         </div>
-        <div class="body" :key="index" v-for="(etd, index) in etudiant.ListeEtudiant">
+        <div
+          :class="theme.theme === 'light' ? 'body' : 'body !text-gray-200'"
+          class="body"
+          :key="index"
+          v-for="(etd, index) in etudiant.ListeEtudiant"
+        >
           <li class="widthvaluenom">{{ etd.nomComplet_etud }}</li>
           <li class="widthvalueemail">{{ etd.user.email }}</li>
           <li class="widthvalueemails">
@@ -323,6 +339,7 @@ import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import { useNiveau } from '@/stores/Niveau'
 import { useEtudiant } from '@/stores/Etudiant'
 import Tooltip from '../../components/Tooltip.vue'
+import { useTheme } from '@/stores/Theme'
 
 import {
   RadioGroup,
@@ -339,6 +356,7 @@ const regex = useRegex()
 const show = useShow()
 const parcour = useParcour()
 const etudiant = useEtudiant()
+const theme = useTheme()
 const password = usePassword()
 
 function setIdParcours(id, prc) {

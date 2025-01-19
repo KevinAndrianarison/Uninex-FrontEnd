@@ -130,7 +130,7 @@
           <font-awesome-icon v-if="messages.length !== 0" class="iconadd text-blue-500 cursor-pointer h-6 w-4" :icon="['fas', 'bars-staggered']" @click.stop="toggleDropdown" />
          </Tooltip>
           <div v-if="showDropdown"
-          :class="theme.theme === 'light' ? '' : '!bg-gray-300'" 
+          :class="theme.theme === 'light' ? '' : '!bg-gray-400 text-white'" 
           class="absolute right-0  mt-2 w-60 bg-white text-xs  rounded "
           > 
             <ul>
@@ -258,6 +258,7 @@
           v-model="newMessage"
           class="min-h-[60%] border focus:border-2 border-yellow-500 rounded-xl p-2 w-[90%] focus:outline-none"
           placeholder="Écrire ici..."
+          :class="theme.theme === 'light' ? '' : '!bg-gray-200'"
         ></textarea>
         <div class="relative inline-block">
           <Tooltip content="Joindre un fichier">

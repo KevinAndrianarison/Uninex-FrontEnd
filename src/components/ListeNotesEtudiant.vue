@@ -3,10 +3,12 @@ import { useShow } from '@/stores/Show'
 import { useEtudiant } from '@/stores/Etudiant'
 import { useDirecteur } from '@/stores/Directeur'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
+import { useTheme } from '@/stores/Theme'
 
 const show = useShow()
 const directeur = useDirecteur()
 const etudiant = useEtudiant()
+const theme = useTheme()
 
 function handleNoteElim() {
   etudiant.getEtudiantById()
@@ -26,10 +28,19 @@ function close() {
 <template>
   <Transition>
     <div class="showModal" v-if="show.showListeNotesEtudiant">
-      <div class="bg-white w-[80%] p-2 pl-5 pb-5 rounded-lg">
+      <div
+        :class="
+          theme.theme === 'light'
+            ? 'bg-white w-[80%] p-2 pl-5 pb-5 rounded-lg'
+            : ' w-[80%] p-2 pl-5 pb-5 rounded-lg !bg-gray-600 !text-white'
+        "
+      >
         <div class="text-right">
           <button type="button" @click="close()">
-            <XMarkIcon class="h-6 w-6 text-gray-500" />
+            <XMarkIcon
+              :class="theme.theme === 'light' ? '' : '!text-red-500'"
+              class="h-6 w-6 text-gray-500"
+            />
           </button>
         </div>
         <h1 class="font-bold text-center">LISTE DES NOTES :</h1>
@@ -163,7 +174,7 @@ function close() {
         </div>
         <button
           @click="genererReleve"
-          class="bg-blue-400 rounded text-xs font-bold px-5 py-2 mt-3 cursoir-pointer"
+          class="bg-blue-400 rounded text-black text-xs font-bold px-5 py-2 mt-3 cursoir-pointer"
         >
           ✨ Génerer un relevé des notes
         </button>

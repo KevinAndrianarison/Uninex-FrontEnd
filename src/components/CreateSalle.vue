@@ -9,11 +9,13 @@ import { useUrl } from '@/stores/url'
 import axios from 'axios'
 import { useMessages } from '@/stores/messages'
 import { useSalle } from '@/stores/salle'
+import { useTheme } from '@/stores/Theme'
 
 const salles = useSalle()
 const show = useShow()
 const URL = useUrl().url
 const messages = useMessages()
+const theme = useTheme()
 
 const nomSalle = ref(null)
 
@@ -62,18 +64,19 @@ function createSalle() {
 <template>
   <Transition>
     <div class="showModal" v-if="show.showCreateSalle">
-      <div class="formModals ">
+      <div :class="theme.theme === 'light' ? 'formModals' : 'formModals !bg-gray-600 !text-white'">
         <div class="divbtn">
           <button type="button" class="Annullers" @click="closeCreateSalle()">
-            <XMarkIcon class="h-6 w-6" />
+            <XMarkIcon :class="theme.theme === 'light' ? '' : 'text-red-500'" class="h-6 w-6" />
           </button>
         </div>
-        <p class="infos ">Gérer les salles :</p>
+        <p class="infos">Gérer les salles :</p>
         <div class="class formInput mt-4">
-          <label class="block text-sm font-medium leading-6 text-gray-900">Nom de la salle</label>
+          <label class="block text-sm font-medium leading-6">Nom de la salle</label>
           <input
             type="text"
             v-model="nomSalle"
+            :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
             class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
           />
         </div>
@@ -99,7 +102,7 @@ function createSalle() {
                 class="h-5 w-5 text-yellow-500"
               />
             </DisclosureButton>
-            <DisclosurePanel class="DisclosurePanel mt-2 text-sm text-gray-500">
+            <DisclosurePanel class="DisclosurePanel mt-2 text-sm">
               <div class="listNiv" :key="index" v-for="(salle, index) in salles.listSalle">
                 {{ salle.nom_salle }}
                 <TrashIcon

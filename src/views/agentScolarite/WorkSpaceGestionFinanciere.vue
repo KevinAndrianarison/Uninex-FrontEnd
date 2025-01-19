@@ -1,5 +1,8 @@
 <template>
-  <div class="border rounded-lg bg-white flex h-[85vh]">
+  <div
+    :class="theme.theme === 'light' ? '' : '!bg-gray-300 '"
+    class="border rounded-lg bg-white flex h-[85vh]"
+  >
     <div class="w-[65%] p-4 h-full overflow-y-auto text-xl">
       <div class="">
         <div class="flex justify-between">
@@ -47,7 +50,13 @@
         </div>
         <div class="flex items-center gap-4 mt-4 text-xs border-l-4 pl-2 border-yellow-500">
           <label for="searchDate" class="font-bold text-gray-700">Filtrer par date :</label>
-          <input id="searchDate" type="date" v-model="searchDate" class="focus:outline-none" />
+          <input
+            id="searchDate"
+            type="date"
+            :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+            v-model="searchDate"
+            class="focus:outline-none"
+          />
         </div>
         <div class="max-h-[300px] overflow-y-auto border-b p-4">
           <div
@@ -116,6 +125,7 @@
           <Listbox v-model="typeValue">
             <div class="relative z-10 mt-2">
               <ListboxButton
+                :class="theme.theme === 'light' ? '' : '!bg-gray-200'"
                 class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
               >
                 <span class="block truncate">{{ typeValue }}</span>
@@ -130,6 +140,7 @@
                 leave-to-class="opacity-0"
               >
                 <ListboxOptions
+                  :class="theme.theme === 'light' ? '' : '!bg-gray-200'"
                   class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                 >
                   <ListboxOption
@@ -167,6 +178,7 @@
           <Listbox v-model="categorieValue">
             <div class="relative mt-2">
               <ListboxButton
+                :class="theme.theme === 'light' ? '' : '!bg-gray-200'"
                 class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
               >
                 <span class="block truncate">{{ categorieValue }}</span>
@@ -181,6 +193,7 @@
                 leave-to-class="opacity-0"
               >
                 <ListboxOptions
+                  :class="theme.theme === 'light' ? '' : '!bg-gray-200'"
                   class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                 >
                   <ListboxOption
@@ -221,6 +234,7 @@
               <input
                 type="number"
                 v-model="montant"
+                :class="theme.theme === 'light' ? '' : '!bg-gray-200'"
                 class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
               />
             </div>
@@ -230,6 +244,7 @@
             <div class="mt-2">
               <textarea
                 v-model="motif"
+                :class="theme.theme === 'light' ? '' : '!bg-gray-200'"
                 class="pl-3 pr-3 min-h-[60px] block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
               ></textarea>
             </div>
@@ -249,6 +264,7 @@
                 show.showCaissepdf = true
               }
             "
+            :class="theme.theme === 'light' ? '' : '!bg-gray-400'"
             class="btn bg-gray-300 w-full py-2 rounded cursor-pointer mt-1"
           >
             📁 Imprimer le rapport de caisse
@@ -272,6 +288,7 @@ import { useShow } from '@/stores/Show'
 import { useTransaction } from '@/stores/Transaction'
 import { Chart, registerables } from 'chart.js'
 import Tooltip from '../../components/Tooltip.vue'
+import { useTheme } from '@/stores/Theme'
 
 Chart.register(...registerables)
 
@@ -288,6 +305,7 @@ const transaction = useTransaction()
 const messages = useMessages()
 const show = useShow()
 const URL = useUrl().url
+const theme = useTheme()
 
 onMounted(() => {
   updateChart()

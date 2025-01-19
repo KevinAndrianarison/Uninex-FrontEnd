@@ -27,7 +27,7 @@
           /></Tooltip>
           <div
             v-if="showDropdown"
-            :class="theme.theme === 'light' ? '' : '!bg-gray-300'" 
+            :class="theme.theme === 'light' ? '' : '!bg-gray-400 text-white'" 
             class="text-xs border absolute bg-white border shadow-lg mt-2 w-48 right-5"
           >
             <ul>
@@ -171,6 +171,7 @@
       :class="theme.theme === 'light' ? '' : '!bg-gray-200'" 
       class="h-[12%] flex justify-between items-center py-10 px-3 rounded-b-xl bg-gray-100">
         <textarea
+        :class="theme.theme === 'light' ? '' : '!bg-gray-200'"
           class="min-h-[50%] border focus:border-2 border-yellow-500 rounded-xl p-2 w-[90%] focus:outline-none"
           placeholder="Écrire ici..."
           v-model="messageSend"

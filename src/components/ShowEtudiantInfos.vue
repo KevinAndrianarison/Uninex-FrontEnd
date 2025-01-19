@@ -4,11 +4,13 @@ import { useNiveau } from '@/stores/Niveau'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
 import { useEtudiant } from '@/stores/Etudiant'
 import { useUrl } from '@/stores/url'
+import { useTheme } from '@/stores/Theme'
 const URL = useUrl().url
 
 const show = useShow()
 const niveau = useNiveau()
 const etudiant = useEtudiant()
+const theme = useTheme()
 
 function closeCreateNiveau() {
   show.showEtudiantInfos = false
@@ -20,10 +22,16 @@ function closeCreateNiveau() {
 <template>
   <Transition>
     <div class="showModal" v-if="show.showEtudiantInfos">
-      <div class="formModalsInfosEtud">
+      <div
+        :class="
+          theme.theme === 'light'
+            ? 'formModalsInfosEtud'
+            : 'formModalsInfosEtud !bg-gray-600 !text-white'
+        "
+      >
         <div class="divbtn">
           <button type="button" class="Annullers" @click="closeCreateNiveau()">
-            <XMarkIcon class="h-6 w-6" />
+            <XMarkIcon :class="theme.theme === 'light' ? '' : 'text-red-500'" class="h-6 w-6" />
           </button>
         </div>
         <p class="infos">Informations sur l'inscription de {{ etudiant.nomComplet_etud }} :</p>
