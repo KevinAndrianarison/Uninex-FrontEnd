@@ -238,6 +238,8 @@
                     leave-to-class="opacity-0"
                   >
                     <ListboxOptions
+                    :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
+
                       class="z-10 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                     >
                       <ListboxOption
@@ -249,7 +251,7 @@
                       >
                         <li
                           :class="[
-                            active ? 'bg-amber-100 text-amber-900' : 'text-gray-900',
+                            active ? 'bg-amber-100 text-amber-900' : '',
                             'relative cursor-default select-none py-2 pl-10 pr-4'
                           ]"
                         >

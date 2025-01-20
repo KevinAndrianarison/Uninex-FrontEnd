@@ -205,6 +205,7 @@
       <div class="header">
         <input
           placeholder="🔎 Recherche par nom"
+          :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
           @input="etudiant.searchDefinitive(etudiant.searchalueDef)"
           v-model="etudiant.searchalueDef"
           type="search"

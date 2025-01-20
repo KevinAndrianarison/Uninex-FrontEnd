@@ -287,6 +287,7 @@
                 leave-to-class="opacity-0"
               >
                 <ListboxOptions
+                :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
                   class="z-10 absolute mt-1 max-h-40 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                 >
                   <ListboxOption
@@ -303,7 +304,7 @@
                   >
                     <li
                       :class="[
-                        active ? 'bg-amber-100 text-amber-900 text-xs' : 'text-gray-900',
+                        active ? 'bg-amber-100 text-amber-900 text-xs' : '',
                         'relative cursor-default select-none py-2 pl-10 pr-4 text-xs'
                       ]"
                     >
@@ -642,11 +643,16 @@
       v-if="isModalOpen"
       class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-10"
     >
-      <div class="bg-white p-6 rounded-lg shadow-lg w-80">
+      <div
+      
+      :class="theme.theme === 'light' ? '' : '!bg-gray-600'"
+      class="bg-white p-6 rounded-lg shadow-lg w-80">
         <div class="flex justify-between items-center mb-4">
           <h2 class="text-md font-bold">Créer un horaire</h2>
           <button @click="isModalOpen = false">
-            <font-awesome-icon :icon="['fas', 'times']" class="text-gray-500" />
+            <font-awesome-icon :icon="['fas', 'times']"
+            :class="theme.theme === 'light' ? '' : '!text-red-500'"
+             class="text-gray-500" />
           </button>
         </div>
         <div class="mb-4">
@@ -654,7 +660,8 @@
           <input
             type="time"
             v-model="heureDebut"
-            class="w-full border border-gray-300 rounded p-2 text-sm focus:outline-none"
+            :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+            class="text-black w-full border border-gray-300 rounded p-2 text-sm focus:outline-none"
             required
           />
         </div>
@@ -663,7 +670,8 @@
           <input
             type="time"
             v-model="heureFin"
-            class="w-full border border-gray-300 rounded p-2 text-sm focus:outline-none"
+            :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+            class="text-black w-full border border-gray-300 rounded p-2 text-sm focus:outline-none"
             required
           />
         </div>

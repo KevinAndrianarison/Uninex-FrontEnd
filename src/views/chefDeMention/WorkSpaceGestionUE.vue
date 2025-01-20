@@ -1,19 +1,22 @@
 <template>
-  <div class="lists">
+    <div :class="theme.theme === 'light' ? 'lists' : 'lists !bg-gray-600 !text-white'">
     <h1 class="titre">
       <PlusCircleIcon class="h-8 w-8 mr-5" /> Gestion des unités d'enseignement (UE)
     </h1>
-    <div class="chooseSemestre" v-if="mention.nom_mention">
+    <div 
+    :class="theme.theme === 'light' ? 'chooseSemestre' : 'chooseSemestre !bg-gray-600 !text-gray-200'"
+    v-if="mention.nom_mention">
       <h1 class="create pl-5 mt-2">Sélectionnez un semestre :</h1>
 
       <div v-if="mention.nom_mention" class="class formInput border-gray-900/10 pb-5 pl-5">
         <div class="sm:col-span-3 mt-2 ctgr mr-4">
-          <label class="block text-sm font-medium leading-6 text-gray-900">Mentions</label>
+          <label class="block text-sm font-medium leading-6 ">Mentions</label>
           <div class="w-52 mt-1">
             <Listbox v-model="mention.nom_mention">
               <div class="relative">
                 <ListboxButton
-                  class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+                 :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+                  class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
                 >
                   <span class="block truncate"
                     >{{ mention.nom_mention }} / {{ mention.abreviation }}</span
@@ -31,6 +34,7 @@
                   leave-to-class="opacity-0"
                 >
                   <ListboxOptions
+                  :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
                     class="z-20 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                   >
                     <ListboxOption
@@ -43,7 +47,7 @@
                         :class="[
                           mention.abreviation === mnt.abr_mention
                             ? 'bg-amber-100 text-amber-900'
-                            : 'text-gray-900',
+                            : '',
                           'relative cursor-default select-none py-2 pl-10 pr-4'
                         ]"
                       >
@@ -69,12 +73,13 @@
           </div>
         </div>
         <div class="sm:col-span-3 mt-2 ctgr mr-4" v-if="parcour.nom">
-          <label class="block text-sm font-medium leading-6 text-gray-900">Parcours</label>
+          <label class="block text-sm font-medium leading-6">Parcours</label>
           <div class="w-52 mt-1">
             <Listbox v-model="parcour.nom">
               <div class="relative">
                 <ListboxButton
-                  class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+                :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+                  class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
                 >
                   <span class="block truncate">{{ parcour.nom }} / {{ parcour.abreviation }}</span>
                   <span
@@ -90,6 +95,7 @@
                   leave-to-class="opacity-0"
                 >
                   <ListboxOptions
+                  :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
                     class="z-20 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                   >
                     <ListboxOption
@@ -102,7 +108,7 @@
                         :class="[
                           parcour.abreviation === prc.abr_parcours
                             ? 'bg-amber-100 text-amber-900'
-                            : 'text-gray-900',
+                            : '',
                           'relative cursor-default select-none py-2 pl-10 pr-4'
                         ]"
                       >
@@ -131,12 +137,13 @@
         </div>
 
         <div class="sm:col-span-3 mt-2 ctgr mr-4" v-if="semestre.semestreNom">
-          <label class="block text-sm font-medium leading-6 text-gray-900">Semestre</label>
+          <label class="block text-sm font-medium leading-6">Semestre</label>
           <div class="w-52 mt-1">
             <Listbox v-model="semestre.semestreNom">
               <div class="relative">
                 <ListboxButton
-                  class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+                :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+                  class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
                 >
                   <span class="block truncate">{{ semestre.semestreNom }}</span>
                   <span
@@ -152,6 +159,7 @@
                   leave-to-class="opacity-0"
                 >
                   <ListboxOptions
+                  :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
                     class="z-20 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                   >
                     <ListboxOption
@@ -164,7 +172,7 @@
                         :class="[
                           semestre.semestreNom === sm.nom_semestre
                             ? 'bg-amber-100 text-amber-900'
-                            : 'text-gray-900',
+                            : '',
                           'relative cursor-default select-none py-2 pl-10 pr-4'
                         ]"
                       >
@@ -192,26 +200,24 @@
           </div>
         </div>
         <div v-if="semestre.semestreNom" class="w-52 sm:col-span-3 mr-4 mt-1">
-          <label class="block text-sm font-medium leading-6 text-gray-900">Nom de l'UE</label>
+          <label class="block text-sm font-medium leading-6">Nom de l'UE</label>
           <div class="mt-2 relative">
             <input
               type="text"
               v-model="ue.nom_ue"
+              :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
               class="pl-3 pr-10 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
             />
-            <button
-              type="button"
-              class="absolute inset-y-0 right-3 pl-3 flex items-center text-gray-600"
-            ></button>
           </div>
         </div>
         <div class="w-40 sm:col-span-3 mr-4 mt-1" v-if="semestre.semestreNom">
-          <label class="block text-sm font-medium leading-6 text-gray-900">Crédit</label>
+          <label class="block text-sm font-medium leading-6">Crédit</label>
           <div class="mt-2 relative">
             <input
               type="number"
               v-model="ue.credit_ue"
               @input="limitcreditLength"
+              :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
               class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
             />
             <button
@@ -221,13 +227,13 @@
           </div>
         </div>
         <div class="divbtn sm:col-span-3 mt-1 " v-if="semestre.semestreNom">
-          <Button class="btn font-bold" @click="ue.createUE()" :disabled="!ue.nom_ue || !ue.credit_ue">
+          <Button class="btn font-bold text-black" @click="ue.createUE()" :disabled="!ue.nom_ue || !ue.credit_ue">
             Valider</Button
           >
         </div>
       </div>
     </div>
-    <div class="listUE">
+      <div :class="theme.theme === 'light' ? 'listUE' : 'listUE !bg-gray-600 !text-white'">
       <div class="header">
         <h1 class="create pl-5 mt-4">Liste des UE de ce semestre :</h1>
       </div>
@@ -238,7 +244,10 @@
           <li class="widthUEnom"></li>
         </div>
         <div :key="index" v-for="(UE, index) in ue.ListeueBysemestre">
-          <div class="body">
+          <div 
+          :class="theme.theme === 'light' ? 'body' : 'body !text-gray-200'"
+          class="body"
+          >
             <li class="widthvalueUE">{{ UE.nom_ue }}</li>
             <li class="widthvaluecredit">{{ UE.credit_ue }}</li>
             <li class="widthvalueTrash">
@@ -264,12 +273,14 @@ import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headless
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import { useShow } from '@/stores/Show'
 import { onBeforeMount } from 'vue'
+import { useTheme } from '@/stores/Theme'
 
 const semestre = useSemestre()
 const ue = useUe()
 const parcour = useParcour()
 const show = useShow()
 const mention = useMention()
+const theme = useTheme()
 
 function showdeleteUE(nom, id) {
   ue.nomUE = nom

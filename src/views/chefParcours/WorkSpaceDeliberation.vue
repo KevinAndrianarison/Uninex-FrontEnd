@@ -1,17 +1,21 @@
 <template>
-  <div class="list p-2 overflow-y-auto">
+    <div :class="theme.theme === 'light' ? 'list p-2 overflow-y-auto' :
+     'list p-2 overflow-y-auto !bg-gray-600 !text-white'">
     <h1 class="titre"><FireIcon class="h-7 w-7 mr-2" /> Résultats finaux</h1>
     <div class="flex">
-      <div class="chooseSemestre w-[50%]">
+      <div 
+      :class="theme.theme === 'light' ? '' : '!bg-gray-600'"
+      class="chooseSemestre w-[50%]">
         <h1 class="create pl-5 mt-2" v-if="parcour.abreviationbyEns">Sélectionnez un semestre :</h1>
         <div v-if="parcour.abreviationbyEns" class="class formInput border-gray-900/10 pb-5 pl-5">
           <div class="sm:col-span-3 mt-2 ctgr mr-4">
-            <label class="block text-sm font-medium leading-6 text-gray-900">Parcours</label>
+            <label class="block text-sm font-medium leading-6">Parcours</label>
             <div class="w-52 mt-1">
               <Listbox v-model="parcour.abreviationbyEns">
                 <div class="relative">
                   <ListboxButton
-                    class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+                  :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+                    class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
                   >
                     <span class="block truncate">{{ parcour.abreviationbyEns }}</span>
                     <span
@@ -27,6 +31,7 @@
                     leave-to-class="opacity-0"
                   >
                     <ListboxOptions
+                    :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
                       class="z-20 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                     >
                       <ListboxOption
@@ -39,7 +44,7 @@
                           :class="[
                             parcour.abreviationbyEns === prc.abr_parcours
                               ? 'bg-amber-100 text-amber-900 '
-                              : 'text-gray-900',
+                              : '',
                             'relative cursor-default select-none py-2 pl-10 pr-4'
                           ]"
                         >
@@ -68,12 +73,13 @@
           </div>
 
           <div class="sm:col-span-3 mt-2 ctgr mr-4" v-if="semestre.semestreNom">
-            <label class="block text-sm font-medium leading-6 text-gray-900">Semestre</label>
+            <label class="block text-sm font-medium leading-6">Semestre</label>
             <div class="w-52 mt-1">
               <Listbox v-model="semestre.semestreNom">
                 <div class="relative">
                   <ListboxButton
-                    class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+                  :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+                    class="text-black  relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
                   >
                     <span class="block truncate">{{ semestre.semestreNom }}</span>
                     <span
@@ -89,6 +95,7 @@
                     leave-to-class="opacity-0"
                   >
                     <ListboxOptions
+                    :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
                       class="z-20 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                     >
                       <ListboxOption
@@ -100,7 +107,7 @@
                           :class="[
                             semestre.semestreNom === sm.nom_semestre
                               ? 'bg-amber-100 text-amber-900'
-                              : 'text-gray-900',
+                              : '',
                             'relative cursor-default select-none py-2 pl-10 pr-4'
                           ]"
                         >
@@ -133,11 +140,14 @@
         <div class="create px-5 mt-2 text-blue-500 flex justify-between items-center">
           <div class="flex gap-2">
             Admis :
-            <p class="text-black">{{ countAdmis }} étudiant(s)</p>
+            <p
+            :class="theme.theme === 'light' ? '' : 'text-white'" 
+            class="text-black">{{ countAdmis }} étudiant(s)</p>
           </div>
           <button
             v-if="countAdmis !== 0"
             @click="AdmisList"
+            :class="theme.theme === 'light' ? '' : 'text-white'" 
             class="font-light text-black hover:bg-blue-200 py-1 px-3 text-sm hover:text-blue-900 rounded"
           >
             <font-awesome-icon :icon="['fas', 'file-pdf']" class="text-blue-600" />
@@ -147,11 +157,14 @@
         <div class="create px-5 mt-2 text-yellow-500 flex justify-between items-center">
           <div class="flex gap-2">
             Autorisé à redoubler :
-            <p class="text-black">{{ countRedouble }} étudiant(s)</p>
+            <p
+            :class="theme.theme === 'light' ? '' : 'text-white'" 
+            class="text-black">{{ countRedouble }} étudiant(s)</p>
           </div>
           <button
             v-if="countRedouble !== 0"
             @click="RedoubleList"
+            :class="theme.theme === 'light' ? '' : 'text-white'" 
             class="font-light text-black hover:bg-blue-200 py-1 px-3 text-sm hover:text-blue-900 rounded"
           >
             <font-awesome-icon :icon="['fas', 'file-pdf']" class="text-blue-600" />
@@ -161,11 +174,14 @@
         <div class="create px-5 mt-2 text-red-500 flex justify-between items-center">
           <div class="flex gap-2">
             Eliminé :
-            <p class="text-black">{{ countElimine }} étudiant(s)</p>
+            <p
+            :class="theme.theme === 'light' ? '' : 'text-white'"  
+            class="text-black">{{ countElimine }} étudiant(s)</p>
           </div>
           <button
             v-if="countElimine !== 0"
             @click="ElimineList"
+            :class="theme.theme === 'light' ? '' : 'text-white'" 
             class="font-light text-black hover:bg-blue-200 py-1 hover:text-blue-900 text-sm px-3 rounded"
           >
             <font-awesome-icon :icon="['fas', 'file-pdf']" class="text-blue-600" />
@@ -175,13 +191,16 @@
       </div>
     </div>
     <h1 class="text-sm py-1">Choisissez un parcours pour le prochain AU :</h1>
-    <div class="bg-white border-2 rounded-lg flex items-center justify-between p-2">
+    <div
+    :class="theme.theme === 'light' ? '' : '!bg-gray-600 border-none'"
+     class="bg-white border-2 rounded-lg flex items-center justify-between p-2">
       <div class="flex flex-col gap-2">
         <div class="flex gap-2 items-center">
           <Listbox v-model="au.nomAUDelib" v-if="au.listeAUDelib.length !== 0">
             <div class="relative text-xs w-40">
               <ListboxButton
-                class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none sm:text-sm"
+              :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+                class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none sm:text-sm"
               >
                 <span class="block truncate text-xs">{{ au.nomAUDelib }}</span>
                 <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -195,6 +214,7 @@
                 leave-to-class="opacity-0"
               >
                 <ListboxOptions
+                :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
                   class="z-10 absolute mt-1 max-h-40 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                 >
                   <ListboxOption
@@ -211,7 +231,7 @@
                   >
                     <li
                       :class="[
-                        active ? 'bg-amber-100 text-amber-900 text-xs' : 'text-gray-900',
+                        active ? 'bg-amber-100 text-amber-900 text-xs' : '',
                         'relative cursor-default select-none py-2 pl-10 pr-4 text-xs'
                       ]"
                     >
@@ -233,7 +253,8 @@
           <Listbox v-model="niveau.nom_niveauDelib" v-if="niveau.ListNiveauDelib.length !== 0">
             <div class="relative text-xs w-40">
               <ListboxButton
-                class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none sm:text-sm"
+              :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+                class="text-black  relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none sm:text-sm"
               >
                 <span class="block truncate text-xs">{{ niveau.nom_niveauDelib }}</span>
                 <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -247,6 +268,7 @@
                 leave-to-class="opacity-0"
               >
                 <ListboxOptions
+                :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
                   class="z-10 absolute mt-1 max-h-40 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                 >
                   <ListboxOption
@@ -263,7 +285,7 @@
                   >
                     <li
                       :class="[
-                        active ? 'bg-amber-100 text-amber-900 text-xs' : 'text-gray-900',
+                        active ? 'bg-amber-100 text-amber-900 text-xs' : '',
                         'relative cursor-default select-none py-2 pl-10 pr-4 text-xs'
                       ]"
                     >
@@ -288,7 +310,8 @@
           >
             <div class="relative text-xs w-40">
               <ListboxButton
-                class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none sm:text-sm"
+              :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+                class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none sm:text-sm"
               >
                 <span class="block truncate text-xs">{{ parcour.abr_parcoursDelib }}</span>
                 <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -302,6 +325,7 @@
                 leave-to-class="opacity-0"
               >
                 <ListboxOptions
+                :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
                   class="z-10 absolute mt-1 max-h-40 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                 >
                   <ListboxOption
@@ -318,12 +342,12 @@
                   >
                     <li
                       :class="[
-                        active ? 'bg-amber-100 text-amber-900 text-xs' : 'text-gray-900',
+                        active ? 'bg-amber-100 text-amber-900 text-xs' : '',
                         'relative cursor-default select-none py-2 pl-10 pr-4 text-xs'
                       ]"
                     >
                       <span :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']">
-                        {{ prc.abr_parcoursDelib }}
+                        {{ prc.abr_parcours }}
                       </span>
                       <span
                         v-if="selected"
@@ -343,7 +367,8 @@
           >
             <div class="relative text-xs w-40">
               <ListboxButton
-                class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none sm:text-sm"
+              :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+                class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none sm:text-sm"
               >
                 <span class="block truncate text-xs">{{ semestre.semestreNomDelib }}</span>
                 <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -357,6 +382,7 @@
                 leave-to-class="opacity-0"
               >
                 <ListboxOptions
+                :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
                   class="z-10 absolute mt-1 max-h-40 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                 >
                   <ListboxOption
@@ -368,7 +394,7 @@
                   >
                     <li
                       :class="[
-                        active ? 'bg-amber-100 text-amber-900 text-xs' : 'text-gray-900',
+                        active ? 'bg-amber-100 text-amber-900 text-xs' : '',
                         'relative cursor-default select-none py-2 pl-10 pr-4 text-xs'
                       ]"
                     >
@@ -393,7 +419,8 @@
           <Listbox v-model="au.nomAUDelibRed" v-if="au.listeAUDelibRed.length !== 0">
             <div class="relative text-xs w-40">
               <ListboxButton
-                class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none sm:text-sm"
+              :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+                class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none sm:text-sm"
               >
                 <span class="block truncate text-xs">{{ au.nomAUDelibRed }}</span>
                 <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -407,6 +434,7 @@
                 leave-to-class="opacity-0"
               >
                 <ListboxOptions
+                :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
                   class="z-10 absolute mt-1 max-h-40 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                 >
                   <ListboxOption
@@ -423,7 +451,7 @@
                   >
                     <li
                       :class="[
-                        active ? 'bg-amber-100 text-amber-900 text-xs' : 'text-gray-900',
+                        active ? 'bg-amber-100 text-amber-900 text-xs' : '',
                         'relative cursor-default select-none py-2 pl-10 pr-4 text-xs'
                       ]"
                     >
@@ -448,7 +476,8 @@
           >
             <div class="relative text-xs w-40">
               <ListboxButton
-                class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none sm:text-sm"
+              :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+                class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none sm:text-sm"
               >
                 <span class="block truncate text-xs">{{ niveau.nom_niveauDelibRed }}</span>
                 <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -462,6 +491,7 @@
                 leave-to-class="opacity-0"
               >
                 <ListboxOptions
+                :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
                   class="z-10 absolute mt-1 max-h-40 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                 >
                   <ListboxOption
@@ -478,7 +508,7 @@
                   >
                     <li
                       :class="[
-                        active ? 'bg-amber-100 text-amber-900 text-xs' : 'text-gray-900',
+                        active ? 'bg-amber-100 text-amber-900 text-xs' : '',
                         'relative cursor-default select-none py-2 pl-10 pr-4 text-xs'
                       ]"
                     >
@@ -503,7 +533,8 @@
           >
             <div class="relative text-xs w-40">
               <ListboxButton
-                class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none sm:text-sm"
+              :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+                class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none sm:text-sm"
               >
                 <span class="block truncate text-xs">{{ parcour.abr_parcoursDelibRed }}</span>
                 <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -517,7 +548,8 @@
                 leave-to-class="opacity-0"
               >
                 <ListboxOptions
-                  class="z-10 absolute mt-1 max-h-40 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+                :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
+                class="z-10 absolute mt-1 max-h-40 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                 >
                   <ListboxOption
                     v-slot="{ active, selected }"
@@ -533,7 +565,7 @@
                   >
                     <li
                       :class="[
-                        active ? 'bg-amber-100 text-amber-900 text-xs' : 'text-gray-900',
+                        active ? 'bg-amber-100 text-amber-900 text-xs' : '',
                         'relative cursor-default select-none py-2 pl-10 pr-4 text-xs'
                       ]"
                     >
@@ -558,7 +590,8 @@
           >
             <div class="relative text-xs w-40">
               <ListboxButton
-                class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none sm:text-sm"
+              :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+                class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none sm:text-sm"
               >
                 <span class="block truncate text-xs">{{ semestre.semestreNomDelibRed }}</span>
                 <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -572,6 +605,7 @@
                 leave-to-class="opacity-0"
               >
                 <ListboxOptions
+                :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
                   class="z-10 absolute mt-1 max-h-40 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                 >
                   <ListboxOption
@@ -583,7 +617,7 @@
                   >
                     <li
                       :class="[
-                        active ? 'bg-amber-100 text-amber-900 text-xs' : 'text-gray-900',
+                        active ? 'bg-amber-100 text-amber-900 text-xs' : '',
                         'relative cursor-default select-none py-2 pl-10 pr-4 text-xs'
                       ]"
                     >
@@ -617,18 +651,22 @@
         Valider la déliberation
       </button>
     </div>
-    <div class="listEtud" v-if="niveau.ListNiveau.length !== 0">
+    <div 
+    :class="theme.theme === 'light' ? 'listEtud' : 'listEtud !bg-gray-600 !text-white'"
+     v-if="niveau.ListNiveau.length !== 0">
       <div class="header gap-2">
         <input
           placeholder="🔎 Recherche par nom"
           @input="etudiant.searchDefinitive(etudiant.searchalueDef)"
           v-model="etudiant.searchalueDef"
+          :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
           type="search"
           class="pl-3 pr-3 ml-5 mt-3 block rounded-sm border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
         />
         <input
           type="number"
           v-model="noteElim"
+          :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
           class="w-20 pl-3 pr-1 mt-3 block text-center rounded-sm border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
         />
         <p class="text-xs font-bold">( Note éliminatoire )</p>
@@ -640,7 +678,9 @@
           <li class="widthemails text-center">Moyenne générale /20</li>
         </div>
         <div :key="index" v-for="(etd, index) in etudiant.listdefinitive">
-          <div class="body">
+          <div 
+          :class="theme.theme === 'light' ? 'body' : 'body !text-gray-200'"
+          class="body">
             <li class="widthvaluenom">{{ etd.nomComplet_etud }}</li>
             <li class="widthvalueemail">
               <p
@@ -685,6 +725,8 @@ import { useDirecteur } from '@/stores/Directeur'
 import { useAu } from '@/stores/Au'
 import { useUrl } from '@/stores/url'
 import axios from 'axios'
+import { useTheme } from '@/stores/Theme'
+
 
 const niveau = useNiveau()
 const semestre = useSemestre()
@@ -695,6 +737,7 @@ const noteElim = ref(5)
 const listeAdmins = ref([])
 const listeRed = ref([])
 const directeur = useDirecteur()
+const theme = useTheme()
 const URL = useUrl().url
 
 function setIdParcours(id, name) {

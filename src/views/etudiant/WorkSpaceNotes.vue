@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="theme.theme === 'light' ? '' : ' !bg-gray-600 !text-white'">
     <p>
       <font-awesome-icon class="mr-2 cursor-pointer" :icon="['fas', 'list-check']" />Liste de mes
       notes pour cette année universitaire
@@ -7,8 +7,12 @@
         >{{ etudiant.listNote[0].au.annee_debut }} - {{ etudiant.listNote[0].au.annee_fin }}</b
       >
     </p>
-    <div class="border-2 rounded bg-white h-[80vh] mt-2">
-      <div class="flex list-none text-sm p-2 border-b-2">
+    <div
+    :class="theme.theme === 'light' ? '' : '!bg-gray-600 !border-gray-400'"
+     class="border-2 rounded bg-white h-[80vh] mt-2">
+      <div
+      :class="theme.theme === 'light' ? '' : '!border-b-gray-400'"
+      class="flex list-none text-sm p-2 border-b-2">
         <li class="w-[30%] font-bold">Nom EC</li>
         <li class="w-[30%] font-bold">Nom UE</li>
         <li class="w-[20%] font-bold">Semestre</li>
@@ -20,7 +24,9 @@
         v-for="(etd, index) in etudiant.listNote"
         class="max-h-[70vh] overflow-y-auto"
       >
-        <div class="flex list-none text-xs p-1 border-b-2 px-2">
+        <div
+        :class="theme.theme === 'light' ? '' : '!border-b-gray-400'"
+         class="flex list-none text-xs p-1 border-b-2 px-2">
           <li class="w-[30%]">{{ etd.nom_ec }}</li>
           <li class="w-[30%]">{{ etd.ue.nom_ue }}</li>
           <li class="w-[20%]">{{ etd.ue.semestre.nom_semestre }}</li>
@@ -51,8 +57,10 @@
 import { useEtudiant } from '@/stores/Etudiant'
 import { onBeforeMount } from 'vue'
 import { CheckBadgeIcon } from '@heroicons/vue/24/outline'
+import { useTheme } from '@/stores/Theme'
 
 const etudiant = useEtudiant()
+const theme = useTheme()
 
 onBeforeMount(() => {
   const userString = localStorage.getItem('user')
