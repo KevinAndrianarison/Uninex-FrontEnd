@@ -21,6 +21,8 @@ import WorkSpaceAnnonces from '../views/WorkSpaceAnnonces.vue'
 import WorkSpacePublierCours from '../views/enseignant/WorkSpacePublierCours.vue'
 import WorkSpaceTrascrireNotes from '../views/enseignant/WorkSpaceTrascrireNotes.vue'
 import WorkSpaceDeliberation from '../views/chefParcours/WorkSpaceDeliberation.vue'
+import WorkSpaceGestionRH from '../views/WorkSpaceGestionRH.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -124,6 +126,11 @@ const router = createRouter({
       path: '/Discussion',
       name: 'Discussion',
       component: WorkSpaceDiscussion
+    },
+    {
+      path: '/GestionRH',
+      name: 'GestionRH',
+      component: WorkSpaceGestionRH
     },
     {
       path: '/Configuration',

@@ -160,6 +160,12 @@
       Rôles
     </li>
   </RouterLink>
+  <RouterLink to="/GestionRH">
+    <li>
+      <CheckBadgeIcon class="h-5 w-5 mr-2" />
+      Gestion RH
+    </li>
+  </RouterLink>
 </template>
 
 <script setup>
