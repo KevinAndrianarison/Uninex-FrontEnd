@@ -1,4 +1,5 @@
 import './assets/main.css'
+import './assets/index.css'
 import '@fontsource/oswald'
 import '@fontsource/montserrat-alternates'
 import '@fontsource/montserrat'

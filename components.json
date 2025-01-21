@@ -5,10 +5,10 @@
   "tsConfigPath": "./jsconfig.json",
   "tailwind": {
     "config": "tailwind.config.js",
-    "css": "src/assets/base.css",
+    "css": "src/assets/index.css",
     "baseColor": "slate",
     "cssVariables": false,
-    "prefix": " "
+    "prefix": ""
   },
   "framework": "vite",
   "aliases": {

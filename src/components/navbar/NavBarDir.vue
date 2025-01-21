@@ -162,14 +162,14 @@
   </RouterLink>
   <RouterLink to="/GestionRH">
     <li>
-      <CheckBadgeIcon class="h-5 w-5 mr-2" />
+      <UserGroupIcon class="h-5 w-5 mr-2" />
       Gestion RH
     </li>
   </RouterLink>
 </template>
 
 <script setup>
-import { CheckBadgeIcon, AcademicCapIcon, UserCircleIcon } from '@heroicons/vue/24/outline'
+import { CheckBadgeIcon, AcademicCapIcon, UserCircleIcon, UserGroupIcon } from '@heroicons/vue/24/outline'
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { useNiveau } from '@/stores/Niveau'
 import { useShow } from '@/stores/Show'
