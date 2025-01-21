@@ -1,5 +1,6 @@
 <script setup>
-import TotalUser from '@/components/TotalUser.vue'
+import TotalUserChef from '@/components/TotalUserChef.vue'
+import TotalUserChefParc from '@/components/TotalUserChefParc.vue'
 import { Button } from '@/components/ui/button'
 import {
   Sheet,
@@ -12,6 +13,7 @@ import {
   SheetTrigger
 } from '@/components/ui/sheet'
 import { UserGroupIcon } from '@heroicons/vue/24/outline'
+import { Camera } from 'lucide-vue-next'
 import {
   Select,
   SelectContent,
@@ -66,10 +68,10 @@ import {
     Gestion RH
   </h1>
   <div class="head flex flex-wrap gap-4 justify-center">
-    <TotalUser poste="Chef de mention" />
-    <TotalUser poste="Eudiant" />
+    <TotalUserChef nombre="11" />
+    <TotalUserChefParc nombre="12" />
   </div>
-  <div class="bg-red-500 mt-4">A</div>
+  <!-- <Camera color="red" :size="32" /> -->
 </template>
 
 <style scoped>
