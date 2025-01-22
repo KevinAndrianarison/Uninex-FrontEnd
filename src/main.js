@@ -64,7 +64,10 @@ import {
   faUserGear,
   faRotate,
   faRightFromBracket,
-  faComment
+  faComment,
+  faMagnifyingGlass,
+  faArrowDownAZ,
+  faCircleInfo
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -119,7 +122,10 @@ library.add(
   faUserGear,
   faRotate,
   faRightFromBracket,
-  faComment
+  faComment,
+  faMagnifyingGlass,
+  faArrowDownAZ,
+  faCircleInfo
 )
 
 import App from './App.vue'
