@@ -103,6 +103,7 @@ export const useEnseignant = defineStore('Enseignant', () => {
       .get(`${URL}/api/enseignant`)
       .then((response) => {
         if (response.data.length !== 0) {
+          console.log(response.data, 'ENS')
           ListeENS.value = response.data
           nom_ens.value = ListeENS.value[0].nomComplet_ens
           name.value = ListeENS.value[0].nomComplet_ens

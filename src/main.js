@@ -67,7 +67,8 @@ import {
   faComment,
   faMagnifyingGlass,
   faArrowDownAZ,
-  faCircleInfo
+  faCircleInfo,
+  faUserPen
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -125,7 +126,8 @@ library.add(
   faComment,
   faMagnifyingGlass,
   faArrowDownAZ,
-  faCircleInfo
+  faCircleInfo,
+  faUserPen
 )
 
 import App from './App.vue'
