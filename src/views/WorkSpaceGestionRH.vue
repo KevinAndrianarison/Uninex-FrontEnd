@@ -1,6 +1,8 @@
 <script setup>
 import TotalUserChef from '@/components/TotalUserChef.vue'
 import TotalUserChefParc from '@/components/TotalUserChefParc.vue'
+import TotalUserAS from '@/components/TotalUserAS.vue'
+import TotalUserEtud from '@/components/TotalUserEtud.vue'
 import { Button } from '@/components/ui/button'
 import {
   Sheet,
@@ -70,6 +72,8 @@ import {
   <div class="head flex flex-wrap gap-4 justify-center">
     <TotalUserChef nombre="11" />
     <TotalUserChefParc nombre="12" />
+    <TotalUserAS nombre="13" />
+    <TotalUserEtud nombre="14" />
   </div>
   <!-- <Camera color="red" :size="32" /> -->
 </template>
