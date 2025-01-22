@@ -18,7 +18,6 @@ import {
   SheetTrigger
 } from '@/components/ui/sheet'
 import { UserGroupIcon } from '@heroicons/vue/24/outline'
-import { Camera } from 'lucide-vue-next'
 import {
   Select,
   SelectContent,
@@ -27,13 +26,10 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { ref } from 'vue'
-
-const isSheetOpen = ref(false)
 </script>
 
 <template>
-  <Sheet v-model="isSheetOpen">
+  <Sheet>
     <SheetTrigger as-child>
       <Button variant="outline"> Open </Button>
     </SheetTrigger>
@@ -56,7 +52,6 @@ const isSheetOpen = ref(false)
     </SheetContent>
   </Sheet>
 
-  <!-- <Camera color="red" :size="32" /> -->
   <div class="max-h-[85vh] overflow-y-auto">
     <h1 class="titre font-bold">
       <UserGroupIcon class="h-7 w-7 mr-5" />
@@ -87,7 +82,6 @@ const isSheetOpen = ref(false)
       <div class="flex h-10 border">
         <p class="w-10 bg-blue-500 flex items-center justify-center">
           <font-awesome-icon
-            @click="removeFile"
             class="text-white cursor-pointer w-5 h-4"
             :icon="['fas', 'magnifying-glass']"
           />
@@ -100,7 +94,6 @@ const isSheetOpen = ref(false)
       </div>
       <Tooltip content="Filtrer">
         <font-awesome-icon
-          @click="removeFile"
           class="cursor-pointer w-6 h-8 bg-gray-200 rounded-sm px-2"
           :icon="['fas', 'arrow-down-a-z']"
       /></Tooltip>
@@ -114,10 +107,7 @@ const isSheetOpen = ref(false)
         </div>
       </div>
       <div class="w-[10%] flex flex-col text-xs gap-1">
-        <button
-          @click="isSheetOpen = true"
-          class="bg-yellow-500 text-black font-bold py-1.5 rounded-sm"
-        >
+        <button class="bg-yellow-500 text-black font-bold py-1.5 rounded-sm">
           <font-awesome-icon class="cursor-pointer mr-2" :icon="['fas', 'circle-info']" />Voir
         </button>
         <button class="bg-red-500 text-white py-1.5 rounded-sm">
