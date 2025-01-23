@@ -68,11 +68,13 @@ import {
   faMagnifyingGlass,
   faArrowDownAZ,
   faCircleInfo,
-  faUserPen, 
+  faUserPen,
   faPhone,
   faAt,
   faUnlock,
-  faCalendarDay 
+  faCalendarDay,
+  faStar,
+  faCircle
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -135,7 +137,9 @@ library.add(
   faPhone,
   faAt,
   faUnlock,
-  faCalendarDay
+  faCalendarDay,
+  faStar,
+  faCircle
 )
 
 import App from './App.vue'

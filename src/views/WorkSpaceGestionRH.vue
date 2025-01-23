@@ -23,11 +23,13 @@ import { useAgentscolarite } from '@/stores/Agentscolarite'
 import { useUrl } from '@/stores/url'
 import axios from 'axios'
 import { useMessages } from '@/stores/messages'
+import { ref } from 'vue'
 
 const enseignant = useEnseignant()
 const agentscolarite = useAgentscolarite()
 const messages = useMessages()
 const URL = useUrl().url
+const idEns = ref(null)
 
 onBeforeMount(() => {
   enseignant.getAllENS()
@@ -62,6 +64,20 @@ function putNumberEns(valeur, id) {
   putEns(formData, id)
 }
 
+function disableUser(id) {
+  let formData = new FormData()
+  formData.append('validiter_compte', 'false')
+  formData.append('_method', 'PUT')
+  putUser(formData, id)
+}
+
+function ableUser(id) {
+  let formData = new FormData()
+  formData.append('validiter_compte', 'true')
+  formData.append('_method', 'PUT')
+  putUser(formData, id)
+}
+
 function putUser(formData, id) {
   axios
     .post(`${URL}/api/user/setuser/${id}`, formData, {
@@ -94,6 +110,20 @@ function putEns(formData, id) {
         messages.messageError = ''
       }, 3000)
     })
+}
+
+function handleCtgSelection(valeur) {
+  let formData = {
+    categorie_ens: valeur
+  }
+  putEns(formData, idEns.value)
+}
+
+function handleGradeSelection(valeur) {
+  let formData = {
+    grade_ens: valeur
+  }
+  putEns(formData, idEns.value)
 }
 </script>
 
@@ -183,6 +213,7 @@ function putEns(formData, id) {
             <Button
               class="hover:bg-yellow-500 border-none bg-yellow-500 text-black font-bold rounded-sm"
               variant="outline"
+              @click="() => (idEns = ens.id)"
               ><font-awesome-icon class="cursor-pointer mr-2" :icon="['fas', 'circle-info']" /> Voir
             </Button>
           </SheetTrigger>
@@ -198,7 +229,27 @@ function putEns(formData, id) {
                 class="w-12 h-12 rounded-3xl"
               ></div>
               <div>
-                <p>{{ ens.nomComplet_ens }}</p>
+                <div class="flex justify-between items-center">
+                  <p>{{ ens.nomComplet_ens }}</p>
+                  <p
+                    v-if="ens.user.validiter_compte === 'true'"
+                    class="text-xs bg-green-500 text-white py-0.5 px-1.5 rounded-sm flex items-center"
+                  >
+                    <font-awesome-icon
+                      class="cursor-pointer mr-2 text-blue-500 h-2"
+                      :icon="['fas', 'circle']"
+                    />Compte actif
+                  </p>
+                  <p
+                    v-if="ens.user.validiter_compte !== 'true'"
+                    class="text-xs bg-red-500 text-white py-0.5 px-1.5 rounded-sm flex items-center"
+                  >
+                    <font-awesome-icon
+                      class="cursor-pointer mr-2 text-white h-2"
+                      :icon="['fas', 'circle']"
+                    />Compte désactivé
+                  </p>
+                </div>
                 <div class="text-xs flex">
                   <p>Enseignant &nbsp;</p>
                   <p v-if="ens.chefParcours_status === '1'" class="text-green-600">
@@ -207,10 +258,17 @@ function putEns(formData, id) {
                   <p v-if="ens.chefMention_status === '1'" class="text-blue-600">
                     - Chef de mention &nbsp;
                   </p>
+                  <p>({{ ens.categorie_ens }})</p>
                 </div>
               </div>
             </div>
-            <div class="mt-4 flex flex-col gap-2">
+            <p class="mt-2">
+              <font-awesome-icon
+                class="cursor-pointer mr-2 text-yellow-500"
+                :icon="['fas', 'star']"
+              />{{ ens.grade_ens }}
+            </p>
+            <div class="mt-2 flex flex-col gap-2">
               <div class="bg-gray-100 rounded-lg flex p-2 gap-2">
                 <p class="w-8 flex items-center justify-center">
                   <font-awesome-icon class="cursor-pointer mr-2" :icon="['fas', 'user-pen']" />
@@ -305,7 +363,7 @@ function putEns(formData, id) {
                 (catégorie/grade)
               </h1>
               <div class="flex flex-col gap-2 mt-2">
-                <Select>
+                <Select @update:modelValue="handleCtgSelection">
                   <SelectTrigger class="w-full select-trigger">
                     <SelectValue class="focus:outline-none" placeholder="Nouvelle catégorie" />
                   </SelectTrigger>
@@ -316,7 +374,7 @@ function putEns(formData, id) {
                     </SelectGroup>
                   </SelectContent>
                 </Select>
-                <Select>
+                <Select @update:modelValue="handleGradeSelection">
                   <SelectTrigger class="w-full select-trigger">
                     <SelectValue class="focus:outline-none" placeholder="Grade" />
                   </SelectTrigger>
@@ -333,11 +391,13 @@ function putEns(formData, id) {
             <button
               v-if="ens.user.validiter_compte === 'true'"
               class="bg-red-500 mt-4 w-full py-2 rounded text-white flex justify-center items-center"
+              @click="() => disableUser(ens.user.id)"
             >
               <font-awesome-icon class="cursor-pointer mr-2" :icon="['fas', 'ban']" />Désactiver ce
               compte
             </button>
             <button
+              @click="() => ableUser(ens.user.id)"
               v-if="ens.user.validiter_compte !== 'true'"
               class="bg-white border border-yellow-500 mt-4 w-full py-2 rounded text-yellow-500 flex justify-center items-center"
             >
