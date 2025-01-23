@@ -236,7 +236,7 @@ function handleGradeSelection(valeur) {
                     class="text-xs bg-green-500 text-white py-0.5 px-1.5 rounded-sm flex items-center"
                   >
                     <font-awesome-icon
-                      class="cursor-pointer mr-2 text-blue-500 h-2"
+                      class="cursor-pointer mr-1 text-blue-500 h-2"
                       :icon="['fas', 'circle']"
                     />Compte actif
                   </p>
@@ -245,7 +245,7 @@ function handleGradeSelection(valeur) {
                     class="text-xs bg-red-500 text-white py-0.5 px-1.5 rounded-sm flex items-center"
                   >
                     <font-awesome-icon
-                      class="cursor-pointer mr-2 text-white h-2"
+                      class="cursor-pointer mr-1 text-white h-2"
                       :icon="['fas', 'circle']"
                     />Compte désactivé
                   </p>
