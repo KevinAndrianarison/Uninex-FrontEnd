@@ -105,7 +105,6 @@ export const useEnseignant = defineStore('Enseignant', () => {
       .get(`${URL}/api/enseignant`)
       .then((response) => {
         if (response.data.length !== 0) {
-          console.log(response.data, 'ENS')
           ListeENS.value = response.data
           ListeChefMention.value = filterByMention(response.data)
           ListeChefParcours.value = filterByParcours(response.data)

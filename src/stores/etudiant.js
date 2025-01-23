@@ -53,11 +53,12 @@ export const useEtudiant = defineStore('Etudiant', () => {
   const id_etud = ref(null)
   const ListeEtudiant = ref([])
   const ListeEtudiantTemp = ref([])
+  const ListeEtudiantRH = ref([])
   const ListeEtudiantByExcel = ref([])
   const listdefinitiveTemp = ref([])
   const listdefinitive = ref([])
   const listDeliberation = ref([])
-  const statusDeliberation = ref("")
+  const statusDeliberation = ref('')
   const listNote = ref([])
   const listNoteParSemestre = ref([])
   const listIdDefinitive = ref([])
@@ -84,7 +85,9 @@ export const useEtudiant = defineStore('Etudiant', () => {
           let formDataEtudiant = {
             user_id: response.data.id,
             nomComplet_etud: etud.nomComplet,
-            validiter_inscri: false
+            validiter_inscri: false,
+            status_etud: 1,
+            au_id: au.idAU
           }
           axios
             .post(`${URL}/api/etudiant`, formDataEtudiant, {
@@ -149,7 +152,9 @@ export const useEtudiant = defineStore('Etudiant', () => {
         let formDataEtudiant = {
           user_id: response.data.id,
           nomComplet_etud: nomComplet_etud.value,
-          validiter_inscri: false
+          validiter_inscri: false,
+          status_etud: 1,
+          au_id: au.idAU
         }
         axios
           .post(`${URL}/api/etudiant`, formDataEtudiant, {
@@ -196,7 +201,6 @@ export const useEtudiant = defineStore('Etudiant', () => {
   }
 
   function getAllEtudiantBysemestre() {
-    show.ShowListEtudiantEmpty = true
     axios
       .get(`${URL}/api/semestres/${semestre.semestreId}/etudiants`)
       .then((response) => {
@@ -229,6 +233,18 @@ export const useEtudiant = defineStore('Etudiant', () => {
         return list.nomComplet_etud.toLocaleLowerCase().match(valeur.toLocaleLowerCase())
       })
     }
+  }
+
+  function getEtudiantByIdAu() {
+    axios
+      .get(`${URL}/api/etudiant/getByAuId/${au.idAU}`)
+      .then((response) => {
+        console.log(response.data, 'ETD')
+        ListeEtudiantRH.value = response.data
+      })
+      .catch((err) => {
+        console.error(err)
+      })
   }
 
   function getEtudiantById() {
@@ -458,6 +474,8 @@ export const useEtudiant = defineStore('Etudiant', () => {
     fileName,
     listDeliberation,
     statusDeliberation,
+    ListeEtudiantRH,
+    getEtudiantByIdAu,
     createEtudiant,
     setValiditeInscriptionEtudiant,
     getAllEtudiantBysemestre,

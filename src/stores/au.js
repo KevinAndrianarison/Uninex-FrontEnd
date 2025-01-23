@@ -12,6 +12,8 @@ import { useEdt } from '@/stores/Edt'
 import { useTransaction } from '@/stores/Transaction'
 import { useParcour } from '@/stores/Parcour'
 import { useSemestre } from '@/stores/Semestre'
+import { useEtudiant } from '@/stores/Etudiant'
+
 
 import axios from 'axios'
 
@@ -28,6 +30,7 @@ export const useAu = defineStore('Au', () => {
   const edt = useEdt()
   const parcour = useParcour()
   const semestre = useSemestre()
+  const etudiant = useEtudiant()
 
   const annee_debut = ref(null)
   const annee_fin = ref(null)
@@ -93,6 +96,9 @@ export const useAu = defineStore('Au', () => {
       }
       if (show.showNavBarSECPAL) {
         transaction.getByIdAU()
+      }
+      if(show.showNavBarDir){
+        etudiant.getEtudiantByIdAu()
       }
 
       if (show.showNavBarRespParcours) {

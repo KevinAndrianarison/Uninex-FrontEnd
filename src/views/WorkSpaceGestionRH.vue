@@ -6,6 +6,7 @@ import TotalUserEtud from '@/components/TotalUserEtud.vue'
 import TotalUserEns from '@/components/TotalUserEns.vue'
 import EnsRH from '@/components/EnsRH.vue'
 import AsRH from '@/components/AsRH.vue'
+import EtudRH from '@/components/EtudRH.vue'
 import { UserGroupIcon } from '@heroicons/vue/24/outline'
 import {
   Select,
@@ -24,6 +25,7 @@ import { useMessages } from '@/stores/messages'
 import { ref } from 'vue'
 import { useShow } from '@/stores/Show'
 import { useUser } from '@/stores/User'
+import { useEtudiant } from '@/stores/Etudiant'
 
 const enseignant = useEnseignant()
 const agentscolarite = useAgentscolarite()
@@ -31,6 +33,7 @@ const messages = useMessages()
 const URL = useUrl().url
 const show = useShow()
 const user = useUser()
+const etudiant = useEtudiant()
 
 const roleSelected = ref('Enseignant')
 
@@ -53,6 +56,13 @@ function putNomAS(valeur, id) {
   putAS(formData, id)
 }
 
+function putNomEtud(valeur, id) {
+  let formData = {
+    nomComplet_etud: valeur
+  }
+  putEtud(formData, id)
+}
+
 function handleRoleSelection(valeur) {
   roleSelected.value = valeur
 }
@@ -67,6 +77,12 @@ function showdeleteAS(id) {
   show.showDeleteusers = true
   user.user_id = id
   user.user_status = 'AS'
+}
+
+function showdeleteEtud(id) {
+  show.showDeleteusers = true
+  user.user_id = id
+  user.user_status = 'Etudiant'
 }
 
 function putEmailEns(valeur, id) {
@@ -104,6 +120,13 @@ function putNumberAS(valeur, id) {
   putAS(formData, id)
 }
 
+function putNumberEtud(valeur, id) {
+  let formData = {
+    telephone_etud: valeur
+  }
+  putEtud(formData, id)
+}
+
 function disableUser(id) {
   let formData = new FormData()
   formData.append('validiter_compte', 'false')
@@ -129,7 +152,7 @@ function putUser(formData, id) {
       if (roleSelected.value === 'Enseignant') {
         enseignant.getAllENS()
       }
-      if (roleSelected.value === 'AS') {        
+      if (roleSelected.value === 'AS') {
         agentscolarite.getAllAS()
       }
     })
@@ -147,6 +170,21 @@ function putEns(formData, id) {
     .put(`${URL}/api/enseignant/${id}`, formData)
     .then((response) => {
       enseignant.getAllENS()
+    })
+    .catch((err) => {
+      console.error(err)
+      messages.messageError = 'Modification échoué !'
+      setTimeout(() => {
+        messages.messageError = ''
+      }, 3000)
+    })
+}
+
+function putEtud(formData, id) {
+  axios
+    .put(`${URL}/api/etudiant/${id}`, formData)
+    .then((response) => {
+      etudiant.getEtudiantByIdAu()
     })
     .catch((err) => {
       console.error(err)
@@ -184,7 +222,7 @@ function putAS(formData, id) {
       <TotalUserChefParc :nombre="enseignant.ListeChefParcours.length" />
       <TotalUserEns :nombre="enseignant.ListeENS.length" />
       <TotalUserAS :nombre="agentscolarite.ListeAS.length" />
-      <TotalUserEtud nombre="15" />
+      <TotalUserEtud :nombre="etudiant.ListeEtudiantRH.length" />
     </div>
     <div class="mt-4 focus:outline-none flex items-center justify-center gap-4">
       <Select @update:modelValue="handleRoleSelection">
@@ -199,7 +237,7 @@ function putAS(formData, id) {
           </SelectGroup>
         </SelectContent>
       </Select>
-      <div class="flex h-10 border">
+      <div v-if="roleSelected === 'Enseignant'" class="flex h-10 border">
         <p class="w-10 bg-blue-500 flex items-center justify-center">
           <font-awesome-icon
             class="text-white cursor-pointer w-5 h-4"
@@ -211,6 +249,21 @@ function putAS(formData, id) {
           placeholder="Rechercher ici"
           @input="enseignant.search(enseignant.searchalue)"
           v-model="enseignant.searchalue"
+          type="text"
+        />
+      </div>
+      <div v-if="roleSelected === 'AS'" class="flex h-10 border">
+        <p class="w-10 bg-blue-500 flex items-center justify-center">
+          <font-awesome-icon
+            class="text-white cursor-pointer w-5 h-4"
+            :icon="['fas', 'magnifying-glass']"
+          />
+        </p>
+        <input
+          class="focus:outline-none px-2 w-[300px] animation focus:border focus:border-blue-500"
+          placeholder="Rechercher ici"
+          @input="agentscolarite.search(agentscolarite.searchalue)"
+          v-model="agentscolarite.searchalue"
           type="text"
         />
       </div>
@@ -236,6 +289,16 @@ function putAS(formData, id) {
       :disableUser="disableUser"
       :ableUser="ableUser"
       :showdeleteAS="showdeleteAS"
+    />
+    <EtudRH
+      v-if="roleSelected === 'Etudiant'"
+      :etudiants="etudiant.ListeEtudiantRH"
+      :putNomEtud="putNomEtud"
+      :putNumberEtud="putNumberEtud"
+      :putEmailEns="putEmailEns"
+      :disableUser="disableUser"
+      :ableUser="ableUser"
+      :showdeleteEtud="showdeleteEtud"
     />
   </div>
 </template>

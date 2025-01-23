@@ -48,8 +48,6 @@ export const useNiveau = defineStore('Niveau', () => {
       etudiant.listdefinitive = []
       parcour.parcours_nom = ''
       semestre.semestreNom = ''
-      semestre.idsemestre = null
-      show.ShowListEtudiantEmpty = true
       mention.getByAuId()
       parcour.getByNiveauId()
     }
