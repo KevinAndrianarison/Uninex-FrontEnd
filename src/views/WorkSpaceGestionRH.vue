@@ -5,6 +5,7 @@ import TotalUserAS from '@/components/TotalUserAS.vue'
 import TotalUserEtud from '@/components/TotalUserEtud.vue'
 import TotalUserEns from '@/components/TotalUserEns.vue'
 import EnsRH from '@/components/EnsRH.vue'
+import AsRH from '@/components/AsRH.vue'
 import { UserGroupIcon } from '@heroicons/vue/24/outline'
 import {
   Select,
@@ -31,6 +32,8 @@ const URL = useUrl().url
 const show = useShow()
 const user = useUser()
 
+const roleSelected = ref('Enseignant')
+
 onBeforeMount(() => {
   enseignant.getAllENS()
   agentscolarite.getAllAS()
@@ -43,10 +46,27 @@ function putNomEns(valeur, id) {
   putEns(formData, id)
 }
 
+function putNomAS(valeur, id) {
+  let formData = {
+    nomComplet_scol: valeur
+  }
+  putAS(formData, id)
+}
+
+function handleRoleSelection(valeur) {
+  roleSelected.value = valeur
+}
+
 function showdelete(id) {
   show.showDeleteusers = true
   user.user_id = id
   user.user_status = 'ENS'
+}
+
+function showdeleteAS(id) {
+  show.showDeleteusers = true
+  user.user_id = id
+  user.user_status = 'AS'
 }
 
 function putEmailEns(valeur, id) {
@@ -63,11 +83,25 @@ function putDateEns(valeur, id) {
   putEns(formData, id)
 }
 
+function putDateAS(valeur, id) {
+  let formData = {
+    date_recrutement_scol: valeur
+  }
+  putAS(formData, id)
+}
+
 function putNumberEns(valeur, id) {
   let formData = {
     telephone_ens: valeur
   }
   putEns(formData, id)
+}
+
+function putNumberAS(valeur, id) {
+  let formData = {
+    telephone_scol: valeur
+  }
+  putAS(formData, id)
 }
 
 function disableUser(id) {
@@ -92,7 +126,12 @@ function putUser(formData, id) {
       }
     })
     .then((response) => {
-      enseignant.getAllENS()
+      if (roleSelected.value === 'Enseignant') {
+        enseignant.getAllENS()
+      }
+      if (roleSelected.value === 'AS') {        
+        agentscolarite.getAllAS()
+      }
     })
     .catch((err) => {
       console.error(err)
@@ -108,6 +147,21 @@ function putEns(formData, id) {
     .put(`${URL}/api/enseignant/${id}`, formData)
     .then((response) => {
       enseignant.getAllENS()
+    })
+    .catch((err) => {
+      console.error(err)
+      messages.messageError = 'Modification échoué !'
+      setTimeout(() => {
+        messages.messageError = ''
+      }, 3000)
+    })
+}
+
+function putAS(formData, id) {
+  axios
+    .put(`${URL}/api/agentscolarite/${id}`, formData)
+    .then((response) => {
+      agentscolarite.getAllAS()
     })
     .catch((err) => {
       console.error(err)
@@ -133,15 +187,15 @@ function putEns(formData, id) {
       <TotalUserEtud nombre="15" />
     </div>
     <div class="mt-4 focus:outline-none flex items-center justify-center gap-4">
-      <Select>
+      <Select @update:modelValue="handleRoleSelection">
         <SelectTrigger class="w-[250px] select-trigger">
           <SelectValue class="font-bold focus:outline-none" placeholder="Selectionner le rôle" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectItem value="blueberry"> Enseignant</SelectItem>
-            <SelectItem value="grapes"> Agent de la scolarité </SelectItem>
-            <SelectItem value="pineapple"> Etudiant </SelectItem>
+            <SelectItem value="Enseignant"> Enseignant</SelectItem>
+            <SelectItem value="AS"> Agent de la scolarité </SelectItem>
+            <SelectItem value="Etudiant"> Etudiant </SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>
@@ -162,6 +216,7 @@ function putEns(formData, id) {
       </div>
     </div>
     <EnsRH
+      v-if="roleSelected === 'Enseignant'"
       :enseignants="enseignant.ListeENS"
       :putNomEns="putNomEns"
       :putNumberEns="putNumberEns"
@@ -170,6 +225,17 @@ function putEns(formData, id) {
       :disableUser="disableUser"
       :ableUser="ableUser"
       :showdelete="showdelete"
+    />
+    <AsRH
+      v-if="roleSelected === 'AS'"
+      :agentscolarites="agentscolarite.ListeAS"
+      :putNomAS="putNomAS"
+      :putNumberAS="putNumberAS"
+      :putEmailEns="putEmailEns"
+      :putDateAS="putDateAS"
+      :disableUser="disableUser"
+      :ableUser="ableUser"
+      :showdeleteAS="showdeleteAS"
     />
   </div>
 </template>

@@ -13,33 +13,26 @@ import {
 import axios from 'axios'
 import { useMessages } from '@/stores/messages'
 import { ref } from 'vue'
-import { useEnseignant } from '@/stores/Enseignant'
+import { useAgentscolarite } from '@/stores/Agentscolarite'
 
-const idEns = ref('')
+const idAS = ref('')
 
 const URL = useUrl().url
 const messages = useMessages()
-const enseignant = useEnseignant()
+const agentscolarite = useAgentscolarite()
 
 function handleCtgSelection(valeur) {
   let formData = {
-    categorie_ens: valeur
+    categorie_scol: valeur
   }
-  putEns(formData, idEns.value)
+  putAS(formData, idAS.value)
 }
 
-function handleGradeSelection(valeur) {
-  let formData = {
-    grade_ens: valeur
-  }
-  putEns(formData, idEns.value)
-}
-
-function putEns(formData, id) {
+function putAS(formData, id) {
   axios
-    .put(`${URL}/api/enseignant/${id}`, formData)
+    .put(`${URL}/api/agentscolarite/${id}`, formData)
     .then((response) => {
-      enseignant.getAllENS()
+      agentscolarite.getAllAS()
     })
     .catch((err) => {
       console.error(err)
@@ -51,51 +44,50 @@ function putEns(formData, id) {
 }
 
 defineProps({
-  enseignants: {
+  agentscolarites: {
     type: Array,
     default: () => []
   },
-  putNomEns: Function,
-  putNumberEns: Function,
+  putNomAS: Function,
+  putNumberAS: Function,
   putEmailEns: Function,
-  putDateEns: Function,
+  putDateAS: Function,
   disableUser: Function,
   ableUser: Function,
-  showdelete: Function
+  showdeleteAS: Function
 })
 </script>
 
 <template>
   <div
     :key="index"
-    v-for="(ens, index) in enseignants"
+    v-for="(agent, index) in agentscolarites"
     class="border mt-4 flex h-24 bg-white rounded-lg items-center px-2"
   >
     <div class="w-[90%] flex gap-4 items-center">
       <div
         :style="{
-          'background-image': 'url(' + `${URL}/storage/users/${ens.user.photo_name} ` + ')',
+          'background-image': 'url(' + `${URL}/storage/users/${agent.user.photo_name} ` + ')',
           'background-size': 'cover',
           'background-position': 'center'
         }"
         class="w-12 h-12 rounded-3xl"
       ></div>
       <div class="flex flex-col gap-2">
-        <p class="font-bold">{{ ens.nomComplet_ens }}</p>
+        <p class="font-bold">{{ agent.nomComplet_scol }}</p>
         <div class="flex gap-2">
           <p
-            v-if="ens.chefMention_status === '1'"
+            v-if="agent.user.status_user === 'SECPAL'"
             class="bg-blue-200 text-xs text-blue-600 font-bold text-center p-1 px-1.5 rounded-md"
           >
-            Chef de mention
+            Sécretaire principale
           </p>
           <p
-            v-if="ens.chefParcours_status === '1'"
+            v-if="agent.user.status_user === 'AS'"
             class="bg-green-200 text-xs text-green-600 font-bold text-center p-1 px-1.5 rounded-md"
           >
-            Chef de parcours
+            Agent de la scolarité
           </p>
-          <p class="bg-gray-200 text-xs text-center font-bold p-1 px-1.5 rounded-md">Enseignant</p>
         </div>
       </div>
     </div>
@@ -107,7 +99,7 @@ defineProps({
             variant="outline"
             @click="
               () => {
-                idEns = ens.id
+                idAS = agent.id
               }
             "
             ><font-awesome-icon class="cursor-pointer" :icon="['fas', 'circle-info']" /> Voir
@@ -118,17 +110,17 @@ defineProps({
           <div class="flex items-center gap-4 mt-4">
             <div
               :style="{
-                'background-image': 'url(' + `${URL}/storage/users/${ens.user.photo_name} ` + ')',
+                'background-image': 'url(' + `${URL}/storage/users/${agent.user.photo_name} ` + ')',
                 'background-size': 'cover',
                 'background-position': 'center'
               }"
               class="w-12 h-12 rounded-3xl"
             ></div>
             <div>
-              <div class="flex justify-between gap-2 flex-wrap items-center">
-                <p>{{ ens.nomComplet_ens }}</p>
+              <div class="flex gap-2 flex-wrap justify-between items-center">
+                <p>{{ agent.nomComplet_scol }}</p>
                 <p
-                  v-if="ens.user.validiter_compte === 'true'"
+                  v-if="agent.user.validiter_compte === 'true'"
                   class="text-xs bg-green-500 text-white py-0.5 px-1.5 rounded-sm flex items-center"
                 >
                   <font-awesome-icon
@@ -137,7 +129,7 @@ defineProps({
                   />Compte actif
                 </p>
                 <p
-                  v-if="ens.user.validiter_compte !== 'true'"
+                  v-if="agent.user.validiter_compte !== 'true'"
                   class="text-xs bg-red-500 text-white py-0.5 px-1.5 rounded-sm flex items-center"
                 >
                   <font-awesome-icon
@@ -147,24 +139,17 @@ defineProps({
                 </p>
               </div>
               <div class="text-xs flex">
-                <p>Enseignant &nbsp;</p>
-                <p v-if="ens.chefParcours_status === '1'" class="text-green-600">
-                  - Chef de parcours &nbsp;
+                <p v-if="agent.user.status_user === 'SECPAL'" class="text-green-600">
+                   Sécretaire principale &nbsp;
                 </p>
-                <p v-if="ens.chefMention_status === '1'" class="text-blue-600">
-                  - Chef de mention &nbsp;
+                <p v-if="agent.user.status_user === 'AS'" class="text-blue-600">
+                   Agent de la scolarité &nbsp;
                 </p>
-                <p>({{ ens.categorie_ens }})</p>
+                <p>({{ agent.categorie_scol }})</p>
               </div>
             </div>
           </div>
-          <p class="mt-2">
-            <font-awesome-icon
-              class="cursor-pointer mr-2 text-yellow-500"
-              :icon="['fas', 'star']"
-            />{{ ens.grade_ens }}
-          </p>
-          <div class="mt-2 flex flex-col gap-2">
+          <div class="mt-4 flex flex-col gap-2">
             <div class="bg-gray-100 rounded-lg flex p-2 gap-2">
               <p class="w-8 flex items-center justify-center">
                 <font-awesome-icon class="cursor-pointer mr-2" :icon="['fas', 'user-pen']" />
@@ -173,15 +158,15 @@ defineProps({
                 <p class="text-gray-600">Nom complet</p>
                 <input
                   type="text"
-                  v-model="ens.nomComplet_ens"
+                  v-model="agent.nomComplet_scol"
                   @blur="
                     (e) => {
-                      putNomEns(e.target.value, ens.id)
+                      putNomAS(e.target.value, agent.id)
                     }
                   "
                   @keydown.enter="
                     (e) => {
-                      putNomEns(e.target.value, ens.id)
+                      putNomAS(e.target.value, agent.id)
                     }
                   "
                   class="w-60 bg-gray-100 focus:outline-none py-1 text-sm"
@@ -196,15 +181,15 @@ defineProps({
                 <p class="text-gray-600">Télephone</p>
                 <input
                   type="number"
-                  v-model="ens.telephone_ens"
+                  v-model="agent.telephone_scol"
                   @blur="
                     (e) => {
-                      putNumberEns(e.target.value, ens.id)
+                      putNumberAS(e.target.value, agent.id)
                     }
                   "
                   @keydown.enter="
                     (e) => {
-                      putNumberEns(e.target.value, ens.id)
+                      putNumberAS(e.target.value, agent.id)
                     }
                   "
                   class="w-60 bg-gray-100 focus:outline-none py-1 text-sm"
@@ -219,15 +204,15 @@ defineProps({
                 <p class="text-gray-600">E-mail</p>
                 <input
                   type="text"
-                  v-model="ens.user.email"
+                  v-model="agent.user.email"
                   @blur="
                     (e) => {
-                      putEmailEns(e.target.value, ens.user.id)
+                      putEmailEns(e.target.value, agent.user.id)
                     }
                   "
                   @keydown.enter="
                     (e) => {
-                      putEmailEns(e.target.value, ens.id)
+                      putEmailEns(e.target.value, agent.id)
                     }
                   "
                   class="w-60 bg-gray-100 focus:outline-none py-1 text-sm"
@@ -242,10 +227,10 @@ defineProps({
                 <p class="text-gray-600">Date de recrutement</p>
                 <input
                   type="date"
-                  v-model="ens.date_recrutement_ens"
+                  v-model="agent.date_recrutement_scol"
                   @input="
                     (e) => {
-                      putDateEns(e.target.value, ens.id)
+                      putDateAS(e.target.value, agent.id)
                     }
                   "
                   class="w-60 bg-gray-100 focus:outline-none py-1 text-sm"
@@ -256,7 +241,7 @@ defineProps({
           <div class="bg-blue-100 mt-4 p-2 pb-4 rounded">
             <h1 class="font-bold flex items-center">
               <font-awesome-icon class="cursor-pointer mr-2" :icon="['fas', 'gear']" />Modifier
-              (catégorie/grade)
+              (catégorie)
             </h1>
             <div class="flex flex-col gap-2 mt-2">
               <Select @update:modelValue="handleCtgSelection">
@@ -270,31 +255,19 @@ defineProps({
                   </SelectGroup>
                 </SelectContent>
               </Select>
-              <Select @update:modelValue="handleGradeSelection">
-                <SelectTrigger class="w-full select-trigger">
-                  <SelectValue class="focus:outline-none" placeholder="Grade" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="Ingénieur"> Ingénieur</SelectItem>
-                    <SelectItem value="Docteur"> Docteur </SelectItem>
-                    <SelectItem value="Professeur"> Professeur </SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
             </div>
           </div>
           <button
-            v-if="ens.user.validiter_compte === 'true'"
+            v-if="agent.user.validiter_compte === 'true'"
             class="bg-red-500 mt-4 w-full py-2 rounded text-white flex justify-center items-center"
-            @click="() => disableUser(ens.user.id)"
+            @click="() => disableUser(agent.user.id)"
           >
             <font-awesome-icon class="cursor-pointer mr-2" :icon="['fas', 'ban']" />Désactiver ce
             compte
           </button>
           <button
-            @click="() => ableUser(ens.user.id)"
-            v-if="ens.user.validiter_compte !== 'true'"
+            @click="() => ableUser(agent.user.id)"
+            v-if="agent.user.validiter_compte !== 'true'"
             class="bg-white border border-yellow-500 mt-4 w-full py-2 rounded text-yellow-500 flex justify-center items-center"
           >
             <font-awesome-icon class="cursor-pointer mr-2" :icon="['fas', 'unlock']" />Re-activer le
@@ -303,7 +276,10 @@ defineProps({
         </SheetContent>
       </Sheet>
 
-      <button @click="() => showdelete(ens.user.id)" class="bg-red-500 text-white py-2 rounded-sm">
+      <button
+        @click="() => showdeleteAS(agent.user.id)"
+        class="bg-red-500 text-white py-2 rounded-sm"
+      >
         <font-awesome-icon class="cursor-pointer mr-2" :icon="['fas', 'trash-can']" />Supprimer
       </button>
     </div>
