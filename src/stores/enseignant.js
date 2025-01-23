@@ -21,6 +21,8 @@ export const useEnseignant = defineStore('Enseignant', () => {
   const infossetup = useInfossetup()
 
   const ListeENS = ref([])
+  const ListeChefMention = ref([])
+  const ListeChefParcours = ref([])
   const ListeENSEDT = ref([])
   const ListeENSTemp = ref([])
   const nomComplet_ens = ref('')
@@ -105,6 +107,8 @@ export const useEnseignant = defineStore('Enseignant', () => {
         if (response.data.length !== 0) {
           console.log(response.data, 'ENS')
           ListeENS.value = response.data
+          ListeChefMention.value = filterByMention(response.data)
+          ListeChefParcours.value = filterByParcours(response.data)
           nom_ens.value = ListeENS.value[0].nomComplet_ens
           name.value = ListeENS.value[0].nomComplet_ens
           idBottom.value = ListeENS.value[0].id
@@ -117,6 +121,14 @@ export const useEnseignant = defineStore('Enseignant', () => {
         console.error(err)
         show.showSpinner = false
       })
+  }
+
+  function filterByMention(array) {
+    return array.filter((element) => element.chefMention_status === '1')
+  }
+
+  function filterByParcours(array) {
+    return array.filter((element) => element.chefParcours_status === '1')
   }
 
   function getAllENSEDT() {
@@ -195,6 +207,8 @@ export const useEnseignant = defineStore('Enseignant', () => {
     ListeENSEDT,
     nom_ensEDT,
     id_ensEDT,
+    ListeChefMention,
+    ListeChefParcours,
     getAllENSEDT,
     createEnseignant,
     setEnseignant,

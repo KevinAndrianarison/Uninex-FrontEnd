@@ -21,15 +21,80 @@ import { onBeforeMount } from 'vue'
 import { useEnseignant } from '@/stores/Enseignant'
 import { useAgentscolarite } from '@/stores/Agentscolarite'
 import { useUrl } from '@/stores/url'
+import axios from 'axios'
+import { useMessages } from '@/stores/messages'
 
 const enseignant = useEnseignant()
 const agentscolarite = useAgentscolarite()
+const messages = useMessages()
 const URL = useUrl().url
 
 onBeforeMount(() => {
   enseignant.getAllENS()
   agentscolarite.getAllAS()
 })
+
+function putNomEns(valeur, id) {
+  let formData = {
+    nomComplet_ens: valeur
+  }
+  putEns(formData, id)
+}
+
+function putEmailEns(valeur, id) {
+  let formData = new FormData()
+  formData.append('email', valeur)
+  formData.append('_method', 'PUT')
+  putUser(formData, id)
+}
+
+function putDateEns(valeur, id) {
+  let formData = {
+    date_recrutement_ens: valeur
+  }
+  putEns(formData, id)
+}
+
+function putNumberEns(valeur, id) {
+  let formData = {
+    telephone_ens: valeur
+  }
+  putEns(formData, id)
+}
+
+function putUser(formData, id) {
+  axios
+    .post(`${URL}/api/user/setuser/${id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    .then((response) => {
+      enseignant.getAllENS()
+    })
+    .catch((err) => {
+      console.error(err)
+      messages.messageError = 'Modification échoué !'
+      setTimeout(() => {
+        messages.messageError = ''
+      }, 3000)
+    })
+}
+
+function putEns(formData, id) {
+  axios
+    .put(`${URL}/api/enseignant/${id}`, formData)
+    .then((response) => {
+      enseignant.getAllENS()
+    })
+    .catch((err) => {
+      console.error(err)
+      messages.messageError = 'Modification échoué !'
+      setTimeout(() => {
+        messages.messageError = ''
+      }, 3000)
+    })
+}
 </script>
 
 <template>
@@ -40,8 +105,8 @@ onBeforeMount(() => {
       Gestion RH
     </h1>
     <div class="head flex flex-wrap gap-4 justify-center">
-      <TotalUserChef nombre="11" />
-      <TotalUserChefParc nombre="12" />
+      <TotalUserChef :nombre="enseignant.ListeChefMention.length" />
+      <TotalUserChefParc :nombre="enseignant.ListeChefParcours.length" />
       <TotalUserEns :nombre="enseignant.ListeENS.length" />
       <TotalUserAS :nombre="agentscolarite.ListeAS.length" />
       <TotalUserEtud nombre="15" />
@@ -136,7 +201,7 @@ onBeforeMount(() => {
               <div>
                 <p>{{ ens.nomComplet_ens }}</p>
                 <div class="text-xs flex">
-                  <p>Etudiant &nbsp;</p>
+                  <p>Enseignant &nbsp;</p>
                   <p v-if="ens.chefParcours_status === '1'" class="text-green-600">
                     - Chef de parcours &nbsp;
                   </p>
@@ -146,7 +211,7 @@ onBeforeMount(() => {
                 </div>
               </div>
             </div>
-            <div class="mt-4 flex flex-col">
+            <div class="mt-4 flex flex-col gap-2">
               <div class="bg-gray-100 rounded-lg flex p-2 gap-2">
                 <p class="w-8 flex items-center justify-center">
                   <font-awesome-icon class="cursor-pointer mr-2" :icon="['fas', 'user-pen']" />
@@ -156,11 +221,131 @@ onBeforeMount(() => {
                   <input
                     type="text"
                     v-model="ens.nomComplet_ens"
+                    @blur="
+                      (e) => {
+                        putNomEns(e.target.value, ens.id)
+                      }
+                    "
+                    @keydown.enter="
+                      (e) => {
+                        putNomEns(e.target.value, ens.id)
+                      }
+                    "
+                    class="w-60 bg-gray-100 focus:outline-none py-1 text-sm"
+                  />
+                </div>
+              </div>
+              <div class="bg-gray-100 rounded-lg flex p-2 gap-2">
+                <p class="w-8 flex items-center justify-center">
+                  <font-awesome-icon class="cursor-pointer mr-2" :icon="['fas', 'phone']" />
+                </p>
+                <div>
+                  <p class="text-gray-600">Télephone</p>
+                  <input
+                    type="number"
+                    v-model="ens.telephone_ens"
+                    @blur="
+                      (e) => {
+                        putNumberEns(e.target.value, ens.id)
+                      }
+                    "
+                    @keydown.enter="
+                      (e) => {
+                        putNumberEns(e.target.value, ens.id)
+                      }
+                    "
+                    class="w-60 bg-gray-100 focus:outline-none py-1 text-sm"
+                  />
+                </div>
+              </div>
+              <div class="bg-gray-100 rounded-lg flex p-2 gap-2">
+                <p class="w-8 flex items-center justify-center">
+                  <font-awesome-icon class="cursor-pointer mr-2" :icon="['fas', 'at']" />
+                </p>
+                <div>
+                  <p class="text-gray-600">E-mail</p>
+                  <input
+                    type="text"
+                    v-model="ens.user.email"
+                    @blur="
+                      (e) => {
+                        putEmailEns(e.target.value, ens.user.id)
+                      }
+                    "
+                    @keydown.enter="
+                      (e) => {
+                        putEmailEns(e.target.value, ens.id)
+                      }
+                    "
+                    class="w-60 bg-gray-100 focus:outline-none py-1 text-sm"
+                  />
+                </div>
+              </div>
+              <div class="bg-gray-100 rounded-lg flex p-2 gap-2">
+                <p class="w-8 flex items-center justify-center">
+                  <font-awesome-icon class="cursor-pointer mr-2" :icon="['fas', 'calendar-day']" />
+                </p>
+                <div>
+                  <p class="text-gray-600">Date de recrutement</p>
+                  <input
+                    type="date"
+                    v-model="ens.date_recrutement_ens"
+                    @input="
+                      (e) => {
+                        putDateEns(e.target.value, ens.id)
+                      }
+                    "
                     class="w-60 bg-gray-100 focus:outline-none py-1 text-sm"
                   />
                 </div>
               </div>
             </div>
+            <div class="bg-blue-100 mt-4 p-2 pb-4 rounded">
+              <h1 class="font-bold flex items-center">
+                <font-awesome-icon class="cursor-pointer mr-2" :icon="['fas', 'gear']" />Modifier
+                (catégorie/grade)
+              </h1>
+              <div class="flex flex-col gap-2 mt-2">
+                <Select>
+                  <SelectTrigger class="w-full select-trigger">
+                    <SelectValue class="focus:outline-none" placeholder="Nouvelle catégorie" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="blueberry"> Permanent</SelectItem>
+                      <SelectItem value="grapes"> Vacataire </SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                <Select>
+                  <SelectTrigger class="w-full select-trigger">
+                    <SelectValue class="focus:outline-none" placeholder="Grade" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="blueberry"> Ingénieur</SelectItem>
+                      <SelectItem value="grapes"> Docteur </SelectItem>
+                      <SelectItem value="pineapple"> Professeur </SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                <button class="bg-yellow-500 py-2 rounded font-bold">Sauvegarder</button>
+              </div>
+            </div>
+            <button
+              v-if="ens.user.validiter_compte === 'true'"
+              class="bg-red-500 mt-4 w-full py-2 rounded text-white flex justify-center items-center"
+            >
+              <font-awesome-icon class="cursor-pointer mr-2" :icon="['fas', 'ban']" />Désactiver ce
+              compte
+            </button>
+            <button
+              v-if="ens.user.validiter_compte !== 'true'"
+              class="bg-white border border-yellow-500 mt-4 w-full py-2 rounded text-yellow-500 flex justify-center items-center"
+            >
+              <font-awesome-icon class="cursor-pointer mr-2" :icon="['fas', 'unlock']" />Re-activer
+              le compte
+            </button>
           </SheetContent>
         </Sheet>
 
