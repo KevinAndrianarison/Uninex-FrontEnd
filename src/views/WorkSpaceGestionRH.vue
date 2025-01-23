@@ -98,7 +98,6 @@ function putEns(formData, id) {
 </script>
 
 <template>
-  <Sheet> </Sheet>
   <div class="max-h-[85vh] overflow-y-auto">
     <h1 class="titre font-bold">
       <UserGroupIcon class="h-7 w-7 mr-5" />
@@ -312,8 +311,8 @@ function putEns(formData, id) {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectItem value="blueberry"> Permanent</SelectItem>
-                      <SelectItem value="grapes"> Vacataire </SelectItem>
+                      <SelectItem value="Permanent"> Permanent</SelectItem>
+                      <SelectItem value="Vacataire"> Vacataire </SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -323,13 +322,12 @@ function putEns(formData, id) {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectItem value="blueberry"> Ingénieur</SelectItem>
-                      <SelectItem value="grapes"> Docteur </SelectItem>
-                      <SelectItem value="pineapple"> Professeur </SelectItem>
+                      <SelectItem value="Ingénieur"> Ingénieur</SelectItem>
+                      <SelectItem value="Docteur"> Docteur </SelectItem>
+                      <SelectItem value="Professeur"> Professeur </SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
-                <button class="bg-yellow-500 py-2 rounded font-bold">Sauvegarder</button>
               </div>
             </div>
             <button
