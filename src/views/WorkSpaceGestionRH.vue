@@ -270,6 +270,21 @@ function putAS(formData, id) {
           type="text"
         />
       </div>
+      <div v-if="roleSelected === 'Etudiant'" class="flex h-10 border">
+        <p class="w-10 bg-blue-500 flex items-center justify-center">
+          <font-awesome-icon
+            class="text-white cursor-pointer w-5 h-4"
+            :icon="['fas', 'magnifying-glass']"
+          />
+        </p>
+        <input
+          class="focus:outline-none px-2 w-[300px] animation focus:border focus:border-blue-500"
+          placeholder="Rechercher ici"
+          @input="etudiant.searchRH(etudiant.searchalueRH)"
+          v-model="etudiant.searchalueRH"
+          type="text"
+        />
+      </div>
     </div>
     <EnsRH
       v-if="roleSelected === 'Enseignant'"

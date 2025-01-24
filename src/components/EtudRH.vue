@@ -184,16 +184,16 @@ defineProps({
                 {{ etud.lieux_naissance_etud ? etud.lieux_naissance_etud : '...' }}
               </p>
               <p>
-                <b>Numéros matricule :</b> {{ etud.matricule_etud ? etud.matricule_etud : '...' }}
+                <b>Numéros de matricule :</b> {{ etud.matricule_etud ? etud.matricule_etud : '...' }}
               </p>
               <p>
                 <b>Nationalité :</b> {{ etud.nationalite_etud ? etud.nationalite_etud : '...' }}
               </p>
               <div class="flex items-center gap-2">
                 <p class="font-bold">Inscription :</p>
-                <p v-if="etud.validiter_inscri === 'true'" class="text-green-500">Déjas inscris</p>
+                <p v-if="etud.validiter_inscri === 'true'" class="text-green-500">Déjas inscrit</p>
                 <p v-if="etud.validiter_inscri !== 'true'" class="text-red-500">
-                  Pas encore inscris
+                  Pas encore inscrit
                 </p>
               </div>
             </div>

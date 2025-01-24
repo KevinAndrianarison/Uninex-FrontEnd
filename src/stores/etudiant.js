@@ -54,6 +54,7 @@ export const useEtudiant = defineStore('Etudiant', () => {
   const ListeEtudiant = ref([])
   const ListeEtudiantTemp = ref([])
   const ListeEtudiantRH = ref([])
+  const ListeEtudiantRHTemp = ref([])
   const ListeEtudiantByExcel = ref([])
   const listdefinitiveTemp = ref([])
   const listdefinitive = ref([])
@@ -63,6 +64,7 @@ export const useEtudiant = defineStore('Etudiant', () => {
   const listNoteParSemestre = ref([])
   const listIdDefinitive = ref([])
   const searchalue = ref('')
+  const searchalueRH = ref('')
   const searchalueDef = ref('')
   const moyenneGen = ref('')
   const noteElim = ref(5)
@@ -235,12 +237,24 @@ export const useEtudiant = defineStore('Etudiant', () => {
     }
   }
 
+  function searchRH(valeur) {
+    if (!valeur) {
+      getEtudiantByIdAu()
+    } else {
+      ListeEtudiantRH.value = ListeEtudiantRHTemp.value
+      ListeEtudiantRH.value = ListeEtudiantRH.value.filter((list) => {
+        return list.nomComplet_etud.toLocaleLowerCase().match(valeur.toLocaleLowerCase())
+      })
+    }
+  }
+
   function getEtudiantByIdAu() {
     axios
       .get(`${URL}/api/etudiant/getByAuId/${au.idAU}`)
       .then((response) => {
         console.log(response.data, 'ETD')
         ListeEtudiantRH.value = response.data
+        ListeEtudiantRHTemp.value = response.data
       })
       .catch((err) => {
         console.error(err)
@@ -475,7 +489,10 @@ export const useEtudiant = defineStore('Etudiant', () => {
     listDeliberation,
     statusDeliberation,
     ListeEtudiantRH,
+    ListeEtudiantRHTemp,
+    searchalueRH,
     getEtudiantByIdAu,
+    searchRH,
     createEtudiant,
     setValiditeInscriptionEtudiant,
     getAllEtudiantBysemestre,
