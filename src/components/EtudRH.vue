@@ -92,7 +92,7 @@ defineProps({
               </div>
               <div class="text-xs flex">
                 <p v-if="etud.status_etud === 1" class="text-green-600">Passant &nbsp;</p>
-                <p v-if="etud.status_etud === 0" class="text-blue-600">Redoublant &nbsp;</p>
+                <p v-if="etud.status_etud === 0" class="text-red-600">Redoublant &nbsp;</p>
                 <p>({{ etud.semestre[0].parcour.abr_parcours }})</p>
               </div>
             </div>

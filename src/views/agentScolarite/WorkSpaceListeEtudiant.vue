@@ -234,7 +234,11 @@
         </div>
         <div :key="index" v-for="(etd, index) in etudiant.listdefinitive">
           <div :class="theme.theme === 'light' ? 'body' : 'body !text-gray-200'">
-            <li class="widthvaluenom">{{ etd.nomComplet_etud }}</li>
+            <div class="widthvaluenom">
+              <p v-if="etd.status_etud === 1"  class="text-xs text-green-500 font-bold ">Passant</p>
+              <p v-if="etd.status_etud === 0"  class="text-xs text-red-500 font-bold ">Passant</p>
+              <p>{{ etd.nomComplet_etud }}</p>
+            </div>
             <li class="widthvalueemail">{{ etd.user.email }}</li>
             <li class="widthvalueemails">
               <p>{{ etd.telephone_etud }}</p>
