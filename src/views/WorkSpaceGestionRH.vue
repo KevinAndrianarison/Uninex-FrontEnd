@@ -155,6 +155,9 @@ function putUser(formData, id) {
       if (roleSelected.value === 'AS') {
         agentscolarite.getAllAS()
       }
+      if (roleSelected.value === 'Etudiant') {
+        etudiant.getEtudiantByIdAu()
+      }
     })
     .catch((err) => {
       console.error(err)

@@ -173,7 +173,7 @@ defineProps({
               <font-awesome-icon class="cursor-pointer mr-2" :icon="['fas', 'circle-info']" />
               Plus d'informations
             </h1>
-            <div class="flex flex-col gap-2 mt-2">
+            <div class="flex flex-col gap-2 mt-2 text-xs">
               <p><b>Adresse :</b> {{ etud.adresse_etud ? etud.adresse_etud : '...' }}</p>
               <p>
                 <b>Date de naissance :</b>
@@ -191,8 +191,10 @@ defineProps({
               </p>
               <div class="flex items-center gap-2">
                 <p class="font-bold">Inscription :</p>
-                <p v-if="etud.photoBordereaux_name" class="text-green-500">Déjas inscris</p>
-                <p v-if="!etud.photoBordereaux_name" class="text-red-500">Pas encore inscris</p>
+                <p v-if="etud.validiter_inscri === 'true'" class="text-green-500">Déjas inscris</p>
+                <p v-if="etud.validiter_inscri !== 'true'" class="text-red-500">
+                  Pas encore inscris
+                </p>
               </div>
             </div>
           </div>
@@ -209,8 +211,8 @@ defineProps({
             v-if="etud.user.validiter_compte !== 'true'"
             class="bg-white border border-yellow-500 mt-4 w-full py-2 rounded text-yellow-500 flex justify-center items-center"
           >
-            <font-awesome-icon class="cursor-pointer mr-2" :icon="['fas', 'unlock']" />Activer ou re-activer le
-            compte
+            <font-awesome-icon class="cursor-pointer mr-2" :icon="['fas', 'unlock']" />Activer ou
+            re-activer le compte
           </button>
         </SheetContent>
       </Sheet>
