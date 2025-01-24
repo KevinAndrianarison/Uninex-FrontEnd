@@ -16,6 +16,7 @@ import { ref } from 'vue'
 import { useAgentscolarite } from '@/stores/Agentscolarite'
 
 const idAS = ref('')
+const idUserAS = ref('')
 
 const URL = useUrl().url
 const messages = useMessages()
@@ -28,9 +29,35 @@ function handleCtgSelection(valeur) {
   putAS(formData, idAS.value)
 }
 
+function handleRoleSelection(valeur) {
+  let formData = new FormData()
+  formData.append('status_user', valeur)
+  formData.append('_method', 'PUT')
+  putUser(formData, idUserAS.value)
+}
+
 function putAS(formData, id) {
   axios
     .put(`${URL}/api/agentscolarite/${id}`, formData)
+    .then((response) => {
+      agentscolarite.getAllAS()
+    })
+    .catch((err) => {
+      console.error(err)
+      messages.messageError = 'Modification échoué !'
+      setTimeout(() => {
+        messages.messageError = ''
+      }, 3000)
+    })
+}
+
+function putUser(formData, id) {
+  axios
+    .post(`${URL}/api/user/setuser/${id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
     .then((response) => {
       agentscolarite.getAllAS()
     })
@@ -100,6 +127,7 @@ defineProps({
             @click="
               () => {
                 idAS = agent.id
+                idUserAS = agent.user.id
               }
             "
             ><font-awesome-icon class="cursor-pointer" :icon="['fas', 'circle-info']" /> Voir
@@ -140,10 +168,10 @@ defineProps({
               </div>
               <div class="text-xs flex">
                 <p v-if="agent.user.status_user === 'SECPAL'" class="text-green-600">
-                   Sécretaire principale &nbsp;
+                  Sécretaire principale &nbsp;
                 </p>
                 <p v-if="agent.user.status_user === 'AS'" class="text-blue-600">
-                   Agent de la scolarité &nbsp;
+                  Agent de la scolarité &nbsp;
                 </p>
                 <p>({{ agent.categorie_scol }})</p>
               </div>
@@ -241,7 +269,7 @@ defineProps({
           <div class="bg-blue-100 mt-4 p-2 pb-4 rounded">
             <h1 class="font-bold flex items-center">
               <font-awesome-icon class="cursor-pointer mr-2" :icon="['fas', 'gear']" />Modifier
-              (catégorie)
+              (catégorie/rôle)
             </h1>
             <div class="flex flex-col gap-2 mt-2">
               <Select @update:modelValue="handleCtgSelection">
@@ -252,6 +280,17 @@ defineProps({
                   <SelectGroup>
                     <SelectItem value="Permanent"> Permanent</SelectItem>
                     <SelectItem value="Vacataire"> Vacataire </SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              <Select @update:modelValue="handleRoleSelection">
+                <SelectTrigger class="w-full select-trigger">
+                  <SelectValue class="focus:outline-none" placeholder="Rôle" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="AS"> Agent de scolarité</SelectItem>
+                    <SelectItem value="SECPAL"> Sécrétaire principale </SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>

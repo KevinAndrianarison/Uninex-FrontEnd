@@ -252,7 +252,6 @@ export const useEtudiant = defineStore('Etudiant', () => {
     axios
       .get(`${URL}/api/etudiant/getByAuId/${au.idAU}`)
       .then((response) => {
-        console.log(response.data, 'ETD')
         ListeEtudiantRH.value = response.data
         ListeEtudiantRHTemp.value = response.data
       })
