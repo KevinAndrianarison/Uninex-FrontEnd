@@ -343,7 +343,7 @@ function onFileChange(event) {
             /></Tooltip>
           </p>
         </li>
-        <div v-if="category.listCategorie.length === 0" class="text-gray-500 text-xs mt-2">
+        <div v-if="category.listCategorie.length === 0" class="text-gray-400 text-xs mt-2">
           La liste est vide...
         </div>
       </div>

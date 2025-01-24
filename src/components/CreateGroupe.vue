@@ -119,7 +119,7 @@ function createGroupe() {
         <input
           type="text"
           v-model="searchQuery"
-          :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+          :class="theme.theme === 'light' ? 'bg-gray-200' : '!bg-gray-300'"
           class="text-black w-full rounded-xl px-3 py-2 mt-2 text-xs focus:outline-none"
           placeholder="Rechercher"
         />

@@ -117,7 +117,7 @@ function removeMember(id) {
           <div
             :key="index"
             v-for="(membre, index) in groupe.membres"
-            class="flex text-sm items-center justify-between hover:bg-blue-100 p-2 px-4 rounded-2xl"
+            class="flex text-sm items-center justify-between hover:bg-blue-200 hover:text-black p-2 px-4 rounded-2xl"
           >
             <p>{{ membre.email }}</p>
             <Tooltip content="Retirer">

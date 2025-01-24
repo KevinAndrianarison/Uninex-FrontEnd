@@ -71,7 +71,7 @@
               ></textarea>
             </div>
             <p    
-            :class="theme.theme === 'light' ? '' : 'text-gray-100'"
+            :class="theme.theme === 'light' ? '' : '!text-gray-200'"
             class="text-gray-500 text-sm" v-else>
               {{ ann.description }}
             </p>
@@ -83,7 +83,7 @@
                       'background-size': 'cover',
                       'background-position': 'center'
                     }"
-                    class="h-[50vh]"
+                    class="h-[40vh]"
                   ></div>
                 <p class="font-bold text-blue-500 mr-2 mt-1 underline text-xs">
                   {{ ann.fichier_nom }}

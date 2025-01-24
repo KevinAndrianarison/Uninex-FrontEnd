@@ -50,7 +50,7 @@
       </div>
       <div 
         :class="{
-          'text-gray-900 text-xs truncate': true, 
+          ' text-xs truncate': true, 
           'font-bold text-gray-900': user.lastMessage && user.lastMessage.receiver_id === localUserId,
           'italic': user.lastMessage && !user.lastMessage.message && user.lastMessage.fichierName && user.lastMessage.sender_id === localUserId,
           'italic font-bold text-gray-900': user.lastMessage && !user.lastMessage.message && user.lastMessage.fichierName && user.lastMessage.receiver_id === localUserId,
@@ -97,7 +97,7 @@
       </p>
     </div>
   </div>
-  <div v-if="groupe.groupes.length === 0 && !groupe.isSuspense" class="mt-5 text-center text-xs text-gray-500" >
+  <div v-if="groupe.groupes.length === 0 && !groupe.isSuspense" class="mt-5 text-center text-xs text-gray-400" >
   Aucune groupe trouvé 🙁☁️
 </div>
 </div>
@@ -138,9 +138,11 @@
               <font-awesome-icon  :icon="['fas', 'ban']" class="text-yellow-500 mr-2 "  />Bloquer les messages</li>
             <li @click="handleUnBlockUser" v-if="isBlocked && isCanBlocOrUnBloc" class="px-4 py-2   cursor-pointer border-t border-l border-r ">
               <font-awesome-icon  :icon="['fas', 'lock-open']" class="text-yellow-500 mr-2 "  />Débloquer les messages</li>
-            <li @click="()=> showConfirmModal = true" class="px-4 py-2  cursor-pointer border-t border-l border-r border-b "><font-awesome-icon  :icon="['fas', 'trash']" class="text-red-500 mr-2"  />
+            <li @click="showSuppr"
+              class="px-4 py-2  cursor-pointer border-t border-l border-r border-b "><font-awesome-icon  :icon="['fas', 'trash']" class="text-red-500 mr-2"  />
               Supprimer la discussion</li> 
             </ul>
+
             <ConfirmDelMessageModal 
             v-if="showConfirmModal" 
             :show="showConfirmModal" 
@@ -305,7 +307,7 @@
 
 <script setup>
 import Tooltip from '../components/Tooltip.vue'
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted  } from 'vue'
 import axios from 'axios'
 import Pusher from 'pusher-js'
 import { useUrl } from '@/stores/url'
@@ -516,6 +518,13 @@ onMounted(() => {
   updateTime()
   fetchUsers()
 })
+
+function showSuppr(){
+  showConfirmModal.value = true
+  console.log(showConfirmModal.value );
+  
+  
+}
 
 
 function goBack() {

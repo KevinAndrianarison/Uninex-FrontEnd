@@ -1,6 +1,6 @@
 <template>
   <div :class="theme.theme === 'light' ? '' : ' !bg-gray-600 !text-white'">
-    <p>
+    <p v-if="etudiant.listNote.length !== 0">
       <font-awesome-icon class="mr-2 cursor-pointer" :icon="['fas', 'list-check']" />Liste de mes
       notes pour cette année universitaire
       <b v-if="etudiant.listNote.length !== 0"
@@ -8,11 +8,13 @@
       >
     </p>
     <div
-    :class="theme.theme === 'light' ? '' : '!bg-gray-600 !border-gray-400'"
-     class="border-2 rounded bg-white h-[80vh] mt-2">
+      :class="theme.theme === 'light' ? '' : '!bg-gray-600 !border-gray-400'"
+      class="border-2 rounded bg-white h-[80vh] mt-2"
+    >
       <div
-      :class="theme.theme === 'light' ? '' : '!border-b-gray-400'"
-      class="flex list-none text-sm p-2 border-b-2">
+        :class="theme.theme === 'light' ? '' : '!border-b-gray-400'"
+        class="flex list-none text-sm p-2 border-b-2"
+      >
         <li class="w-[30%] font-bold">Nom EC</li>
         <li class="w-[30%] font-bold">Nom UE</li>
         <li class="w-[20%] font-bold">Semestre</li>
@@ -25,8 +27,9 @@
         class="max-h-[70vh] overflow-y-auto"
       >
         <div
-        :class="theme.theme === 'light' ? '' : '!border-b-gray-400'"
-         class="flex list-none text-xs p-1 border-b-2 px-2">
+          :class="theme.theme === 'light' ? '' : '!border-b-gray-400'"
+          class="flex list-none text-xs p-1 border-b-2 px-2"
+        >
           <li class="w-[30%]">{{ etd.nom_ec }}</li>
           <li class="w-[30%]">{{ etd.ue.nom_ue }}</li>
           <li class="w-[20%]">{{ etd.ue.semestre.nom_semestre }}</li>
@@ -49,6 +52,9 @@
           </li>
         </div>
       </div>
+      <div class="Empty h-full" v-if="etudiant.listNote.length === 0">
+          <div class="gif"></div>
+        </div>
     </div>
   </div>
 </template>
@@ -72,4 +78,4 @@ onBeforeMount(() => {
 })
 </script>
 
-<style scoped></style>
+<style scoped src="../../styles/GestionAgentScol.css"></style>
