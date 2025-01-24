@@ -19,7 +19,7 @@
       <div class="profil">
         <div
           :style="{
-            'background-image': `url(${URL}/storage/users/${infosheader.photo})`
+            'background-image': `url(${URL}/storage/users/${infosheader.photo || 'téléchargement-removebg-preview.png'})`
           }"
           class="image"
         ></div>

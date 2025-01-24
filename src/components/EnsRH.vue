@@ -74,7 +74,7 @@ defineProps({
     <div class="w-[90%] flex gap-4 items-center">
       <div
         :style="{
-          'background-image': 'url(' + `${URL}/storage/users/${ens.user.photo_name} ` + ')',
+          'background-image': 'url(' + `${URL}/storage/users/${ens.user.photo_name || 'téléchargement-removebg-preview.png'} ` + ')',
           'background-size': 'cover',
           'background-position': 'center'
         }"
@@ -118,7 +118,7 @@ defineProps({
           <div class="flex items-center gap-4 mt-4">
             <div
               :style="{
-                'background-image': 'url(' + `${URL}/storage/users/${ens.user.photo_name} ` + ')',
+                'background-image': 'url(' + `${URL}/storage/users/${ens.user.photo_name || 'téléchargement-removebg-preview.png'} ` + ')',
                 'background-size': 'cover',
                 'background-position': 'center'
               }"

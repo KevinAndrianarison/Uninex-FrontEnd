@@ -42,7 +42,7 @@
             :style="{
               'background-image': `url(${URL}/storage/users/${
                 ann.user.photo_name ||
-                'depositphotos_35717211-stock-illustration-vector-user-icon-removebg-preview.png'
+                'téléchargement-removebg-preview.png'
               })`,
               'background-size': 'cover',
               'background-position': 'center'
@@ -160,7 +160,7 @@
                <div class="flex items-center">
                <div
                 :style="{
-                'background-image': `url(${URL}/storage/users/${lk.user.photo_name})`,
+                'background-image': `url(${URL}/storage/users/${lk.user.photo_name || 'téléchargement-removebg-preview.png'})`,
                 'background-size': 'cover',
                 'background-position': 'center'
               }"
@@ -203,7 +203,7 @@
               :style="{
                 'background-image': `url(${URL}/storage/users/${
                   coms.user.photo_name ||
-                  'depositphotos_35717211-stock-illustration-vector-user-icon-removebg-preview.png'
+                  'téléchargement-removebg-preview.png'
                 })`,
                 'background-size': 'cover',
                 'background-position': 'center'

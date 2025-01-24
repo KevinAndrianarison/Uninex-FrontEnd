@@ -66,7 +66,7 @@
           >
             <div
               :style="{
-                'background-image': 'url(' + `${URL}/storage/users/${trans.user.photo_name} ` + ')',
+                'background-image': 'url(' + `${URL}/storage/users/${trans.user.photo_name || 'téléchargement-removebg-preview.png'} ` + ')',
                 'background-size': 'cover',
                 'background-position': 'center'
               }"

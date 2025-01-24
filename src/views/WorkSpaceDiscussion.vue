@@ -42,7 +42,7 @@
   :class="theme.theme === 'light' ? 'cursor-pointer mt-2 w-full flex hover:bg-gray-100 hover:rounded-3xl' : 
   'cursor-pointer mt-2 w-full flex hover:bg-gray-500 hover:rounded-3xl'"
    v-if="Users.user.id !== user.id" >
-    <div :style="{ 'background-image': `url(${URL}/storage/users/${user.photo_name || 'depositphotos_35717211-stock-illustration-vector-user-icon-removebg-preview.png'})`, 'background-size': 'cover', 'background-position': 'center' }" class="logo w-[48px] h-[50px] rounded-3xl"></div>
+    <div :style="{ 'background-image': `url(${URL}/storage/users/${user.photo_name || 'téléchargement-removebg-preview.png'})`, 'background-size': 'cover', 'background-position': 'center' }" class="logo w-[48px] h-[50px] rounded-3xl"></div>
     <div class="px-3 w-[80%] flex flex-col justify-center">
       <div class="flex justify-between items-center">
         <p>{{ user.email }}</p>
@@ -115,7 +115,7 @@
           :style="{
             'background-image': `url(${URL}/storage/users/${
               selectedUser.photo_name ||
-              'depositphotos_35717211-stock-illustration-vector-user-icon-removebg-preview.png'
+              'téléchargement-removebg-preview.png'
             })`,
             'background-size': 'cover',
             'background-position': 'center'
@@ -162,7 +162,7 @@
               :style="{
                 'background-image': `url(${URL}/storage/users/${
                   selectedUser.photo_name ||
-                  'depositphotos_35717211-stock-illustration-vector-user-icon-removebg-preview.png'
+                  'téléchargement-removebg-preview.png'
                 })`,
                 'background-size': 'cover',
                 'background-position': 'center'
@@ -237,7 +237,7 @@
               :style="{
                 'background-image': `url(${URL}/storage/users/${
                   Users.user.photo_name ||
-                  'depositphotos_35717211-stock-illustration-vector-user-icon-removebg-preview.png'
+                  'téléchargement-removebg-preview.png'
                 })`,
                 'background-size': 'cover',
                 'background-position': 'center'

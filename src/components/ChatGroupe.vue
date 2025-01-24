@@ -81,7 +81,7 @@
               :style="{
                 'background-image': `url(${URL}/storage/users/${
                   message.user.photo_name ||
-                  'depositphotos_35717211-stock-illustration-vector-user-icon-removebg-preview.png'
+                  'téléchargement-removebg-preview.png'
                 })`,
                 'background-size': 'cover',
                 'background-position': 'center'
@@ -154,7 +154,7 @@
               :style="{
                 'background-image': `url(${URL}/storage/users/${
                   message.user.photo_name ||
-                  'depositphotos_35717211-stock-illustration-vector-user-icon-removebg-preview.png'
+                  'téléchargement-removebg-preview.png'
                 })`,
                 'background-size': 'cover',
                 'background-position': 'center'
