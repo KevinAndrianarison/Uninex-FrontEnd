@@ -14,9 +14,10 @@ import axios from 'axios'
 import { useMessages } from '@/stores/messages'
 import { ref } from 'vue'
 import { useEnseignant } from '@/stores/Enseignant'
+import { useTheme } from '@/stores/Theme'
 
 const idEns = ref('')
-
+const theme = useTheme()
 const URL = useUrl().url
 const messages = useMessages()
 const enseignant = useEnseignant()
@@ -70,11 +71,17 @@ defineProps({
     :key="index"
     v-for="(ens, index) in enseignants"
     class="border mt-4 flex h-24 bg-white rounded-lg items-center px-2"
+    :class="theme.theme === 'light' ? '' : '!bg-gray-500 border-none'"
   >
     <div class="w-[90%] flex gap-4 items-center">
       <div
         :style="{
-          'background-image': 'url(' + `${URL}/storage/users/${ens.user.photo_name || 'téléchargement-removebg-preview.png'} ` + ')',
+          'background-image':
+            'url(' +
+            `${URL}/storage/users/${
+              ens.user.photo_name || 'téléchargement-removebg-preview.png'
+            } ` +
+            ')',
           'background-size': 'cover',
           'background-position': 'center'
         }"
@@ -95,7 +102,12 @@ defineProps({
           >
             Chef de parcours
           </p>
-          <p class="bg-gray-200 text-xs text-center font-bold p-1 px-1.5 rounded-md">Enseignant</p>
+          <p
+            :class="theme.theme === 'light' ? '' : '!text-gray-500'"
+            class="bg-gray-200 text-xs text-center font-bold p-1 px-1.5 rounded-md"
+          >
+            Enseignant
+          </p>
         </div>
       </div>
     </div>
@@ -113,12 +125,17 @@ defineProps({
             ><font-awesome-icon class="cursor-pointer" :icon="['fas', 'circle-info']" /> Voir
           </Button>
         </SheetTrigger>
-        <SheetContent>
+        <SheetContent :class="theme.theme === 'light' ? '' : '!bg-gray-300'">
           <SheetTitle>Informations sur l'utilisateur</SheetTitle>
           <div class="flex items-center gap-4 mt-4">
             <div
               :style="{
-                'background-image': 'url(' + `${URL}/storage/users/${ens.user.photo_name || 'téléchargement-removebg-preview.png'} ` + ')',
+                'background-image':
+                  'url(' +
+                  `${URL}/storage/users/${
+                    ens.user.photo_name || 'téléchargement-removebg-preview.png'
+                  } ` +
+                  ')',
                 'background-size': 'cover',
                 'background-position': 'center'
               }"
@@ -147,7 +164,7 @@ defineProps({
                 </p>
               </div>
               <div class="text-xs flex">
-                <p>Enseignant &nbsp;</p>
+                <p :class="theme.theme === 'light' ? '' : '!text-gray-500'">Enseignant &nbsp;</p>
                 <p v-if="ens.chefParcours_status === '1'" class="text-green-600">
                   - Chef de parcours &nbsp;
                 </p>
@@ -260,10 +277,13 @@ defineProps({
             </h1>
             <div class="flex flex-col gap-2 mt-2">
               <Select @update:modelValue="handleCtgSelection">
-                <SelectTrigger class="w-full select-trigger">
+                <SelectTrigger
+                  :class="theme.theme === 'light' ? '' : '!bg-gray-100 '"
+                  class="w-full select-trigger"
+                >
                   <SelectValue class="focus:outline-none" placeholder="Nouvelle catégorie" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent :class="theme.theme === 'light' ? '' : '!bg-gray-100 '">
                   <SelectGroup>
                     <SelectItem value="Permanent"> Permanent</SelectItem>
                     <SelectItem value="Vacataire"> Vacataire </SelectItem>
@@ -271,10 +291,13 @@ defineProps({
                 </SelectContent>
               </Select>
               <Select @update:modelValue="handleGradeSelection">
-                <SelectTrigger class="w-full select-trigger">
+                <SelectTrigger
+                  :class="theme.theme === 'light' ? '' : '!bg-gray-100 '"
+                  class="w-full select-trigger"
+                >
                   <SelectValue class="focus:outline-none" placeholder="Grade" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent :class="theme.theme === 'light' ? '' : '!bg-gray-100 '">
                   <SelectGroup>
                     <SelectItem value="Ingénieur"> Ingénieur</SelectItem>
                     <SelectItem value="Docteur"> Docteur </SelectItem>

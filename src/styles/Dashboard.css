@@ -1,12 +1,10 @@
 .profil {
     display: flex;
     align-items: center;
-    width: 185px;
     margin-right: 15px;
 }
 
 .nom {
-    width: 130px;
     text-align: left;
     padding-left: 10px;
 }

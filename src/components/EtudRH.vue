@@ -2,8 +2,12 @@
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { useUrl } from '@/stores/url'
+import { useTheme } from '@/stores/Theme'
+
 
 const URL = useUrl().url
+const theme = useTheme()
+
 
 defineProps({
   etudiants: {
@@ -24,6 +28,8 @@ defineProps({
     :key="index"
     v-for="(etud, index) in etudiants"
     class="border mt-4 flex h-24 bg-white rounded-lg items-center px-2"
+    :class="theme.theme === 'light' ? '' : '!bg-gray-500 border-none'"
+
   >
     <div class="w-[90%] flex gap-4 items-center">
       <div
@@ -57,7 +63,7 @@ defineProps({
             ><font-awesome-icon class="cursor-pointer" :icon="['fas', 'circle-info']" /> Voir
           </Button>
         </SheetTrigger>
-        <SheetContent>
+        <SheetContent :class="theme.theme === 'light' ? '' : '!bg-gray-300'">
           <SheetTitle>Informations sur l'utilisateur</SheetTitle>
           <div class="flex items-center gap-4 mt-4">
             <div

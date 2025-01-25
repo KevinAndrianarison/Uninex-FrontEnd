@@ -26,6 +26,7 @@ import { ref } from 'vue'
 import { useShow } from '@/stores/Show'
 import { useUser } from '@/stores/User'
 import { useEtudiant } from '@/stores/Etudiant'
+import { useTheme } from '@/stores/Theme'
 
 const enseignant = useEnseignant()
 const agentscolarite = useAgentscolarite()
@@ -34,6 +35,7 @@ const URL = useUrl().url
 const show = useShow()
 const user = useUser()
 const etudiant = useEtudiant()
+const theme = useTheme()
 
 const roleSelected = ref('Enseignant')
 
@@ -215,7 +217,13 @@ function putAS(formData, id) {
 </script>
 
 <template>
-  <div class="max-h-[85vh] overflow-y-auto">
+  <div
+    :class="
+      theme.theme === 'light'
+        ? 'max-h-[85vh] overflow-y-auto'
+        : 'max-h-[85vh] overflow-y-auto !bg-gray-600 !text-white'
+    "
+  >
     <h1 class="titre font-bold">
       <UserGroupIcon class="h-7 w-7 mr-5" />
       Gestion RH
@@ -229,10 +237,18 @@ function putAS(formData, id) {
     </div>
     <div class="mt-4 focus:outline-none flex items-center justify-center gap-4">
       <Select @update:modelValue="handleRoleSelection">
-        <SelectTrigger class="w-[250px] select-trigger">
+        <SelectTrigger
+          :class="
+            theme.theme === 'light'
+              ? 'w-[250px] select-trigger'
+              : 'w-[250px] select-trigger border-none !bg-gray-500 !text-white'
+          "
+        >
           <SelectValue class="font-bold focus:outline-none" placeholder="Selectionner le rôle" />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent
+          :class="theme.theme === 'light' ? '' : 'border-none !bg-gray-500 !text-white'"
+        >
           <SelectGroup>
             <SelectItem value="Enseignant"> Enseignant</SelectItem>
             <SelectItem value="AS"> Agent de la scolarité </SelectItem>
@@ -248,6 +264,7 @@ function putAS(formData, id) {
           />
         </p>
         <input
+          :class="theme.theme === 'light' ? '' : '!bg-gray-300 border-none text-black'"
           class="focus:outline-none px-2 w-[300px] animation focus:border focus:border-blue-500"
           placeholder="Rechercher ici"
           @input="enseignant.search(enseignant.searchalue)"
@@ -263,6 +280,7 @@ function putAS(formData, id) {
           />
         </p>
         <input
+          :class="theme.theme === 'light' ? '' : '!bg-gray-300 border-none text-black'"
           class="focus:outline-none px-2 w-[300px] animation focus:border focus:border-blue-500"
           placeholder="Rechercher ici"
           @input="agentscolarite.search(agentscolarite.searchalue)"
@@ -278,6 +296,7 @@ function putAS(formData, id) {
           />
         </p>
         <input
+          :class="theme.theme === 'light' ? '' : '!bg-gray-300 border-none text-black'"
           class="focus:outline-none px-2 w-[300px] animation focus:border focus:border-blue-500"
           placeholder="Rechercher ici"
           @input="etudiant.searchRH(etudiant.searchalueRH)"

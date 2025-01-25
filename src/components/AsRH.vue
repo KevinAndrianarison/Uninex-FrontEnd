@@ -14,10 +14,11 @@ import axios from 'axios'
 import { useMessages } from '@/stores/messages'
 import { ref } from 'vue'
 import { useAgentscolarite } from '@/stores/Agentscolarite'
+import { useTheme } from '@/stores/Theme'
 
 const idAS = ref('')
 const idUserAS = ref('')
-
+const theme = useTheme()
 const URL = useUrl().url
 const messages = useMessages()
 const agentscolarite = useAgentscolarite()
@@ -90,6 +91,7 @@ defineProps({
     :key="index"
     v-for="(agent, index) in agentscolarites"
     class="border mt-4 flex h-24 bg-white rounded-lg items-center px-2"
+    :class="theme.theme === 'light' ? '' : '!bg-gray-500 border-none'"
   >
     <div class="w-[90%] flex gap-4 items-center">
       <div
@@ -138,7 +140,7 @@ defineProps({
             ><font-awesome-icon class="cursor-pointer" :icon="['fas', 'circle-info']" /> Voir
           </Button>
         </SheetTrigger>
-        <SheetContent>
+        <SheetContent :class="theme.theme === 'light' ? '' : '!bg-gray-300'">
           <SheetTitle>Informations sur l'utilisateur</SheetTitle>
           <div class="flex items-center gap-4 mt-4">
             <div
@@ -283,10 +285,13 @@ defineProps({
             </h1>
             <div class="flex flex-col gap-2 mt-2">
               <Select @update:modelValue="handleCtgSelection">
-                <SelectTrigger class="w-full select-trigger">
+                <SelectTrigger
+                  :class="theme.theme === 'light' ? '' : '!bg-gray-100 '"
+                  class="w-full select-trigger"
+                >
                   <SelectValue class="focus:outline-none" placeholder="Nouvelle catégorie" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent :class="theme.theme === 'light' ? '' : '!bg-gray-100 '">
                   <SelectGroup>
                     <SelectItem value="Permanent"> Permanent</SelectItem>
                     <SelectItem value="Vacataire"> Vacataire </SelectItem>
@@ -294,10 +299,13 @@ defineProps({
                 </SelectContent>
               </Select>
               <Select @update:modelValue="handleRoleSelection">
-                <SelectTrigger class="w-full select-trigger">
+                <SelectTrigger
+                  :class="theme.theme === 'light' ? '' : '!bg-gray-100 '"
+                  class="w-full select-trigger"
+                >
                   <SelectValue class="focus:outline-none" placeholder="Rôle" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent :class="theme.theme === 'light' ? '' : '!bg-gray-100 '">
                   <SelectGroup>
                     <SelectItem value="AS"> Agent de scolarité</SelectItem>
                     <SelectItem value="SECPAL"> Sécrétaire principale </SelectItem>
