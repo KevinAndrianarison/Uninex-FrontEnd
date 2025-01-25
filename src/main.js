@@ -12,6 +12,13 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import 'tippy.js/dist/tippy.css'
 
+import Notiflix from 'notiflix';
+
+Notiflix.Notify.init({
+  position: 'right-top', 
+  timeout: 3000,        
+});
+
 import {
   faUserTie,
   faPersonChalkboard,

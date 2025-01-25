@@ -521,9 +521,6 @@ onMounted(() => {
 
 function showSuppr(){
   showConfirmModal.value = true
-  console.log(showConfirmModal.value );
-  
-  
 }
 
 
