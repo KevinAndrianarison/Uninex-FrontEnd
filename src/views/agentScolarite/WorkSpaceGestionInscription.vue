@@ -1,4 +1,4 @@
-<template>
+cre<template>
   <div :class="theme.theme === 'light' ? 'inscr' : 'inscr !bg-gray-600 !text-white'">
     <h1 class="titre">
       <font-awesome-icon class="h-7 w-7 mr-5" :icon="['fas', 'paperclip']" /> Inscriptions et
@@ -224,14 +224,8 @@
           </div>
         </div>
 
-        <div class="divbtn text-black sm:col-span-3">
+        <div v-if="semestre.semestreNom" class="divbtn text-black sm:col-span-3">
           <Button
-            :disabled="
-              !user.email ||
-              !etudiant.nomComplet_etud ||
-              !semestre.semestreNom ||
-              show.showMessageErrorEmail
-            "
             @click="etudiant.createEtudiant()"
             class="btn font-bold"
           >
@@ -340,6 +334,7 @@ import { useNiveau } from '@/stores/Niveau'
 import { useEtudiant } from '@/stores/Etudiant'
 import Tooltip from '../../components/Tooltip.vue'
 import { useTheme } from '@/stores/Theme'
+
 
 import {
   RadioGroup,

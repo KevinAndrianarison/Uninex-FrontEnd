@@ -52,6 +52,9 @@ export const useUser = defineStore('User', () => {
         }
         if (user_status.value === 'Etudiant') {
           etudiant.getAllEtudiantBysemestre()
+          if (show.showNavBarDir) {
+            etudiant.getEtudiantByIdAu()
+          }
         }
         messages.messageSucces = 'Compte supprimé !'
         setTimeout(() => {
@@ -190,7 +193,7 @@ export const useUser = defineStore('User', () => {
       })
       .then((response) => {
         photo.value = null
-        photoName.value = ""
+        photoName.value = ''
         let user = localStorage.getItem('user')
         user = JSON.parse(user)
         infosheader.photo = response.data[0].photo_name
@@ -244,7 +247,7 @@ export const useUser = defineStore('User', () => {
     axios
       .get(`${URL}/api/users`)
       .then((response) => {
-        listUser.value = response.data        
+        listUser.value = response.data
       })
       .catch((err) => {
         console.error(err)

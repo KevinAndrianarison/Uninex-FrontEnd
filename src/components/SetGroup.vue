@@ -84,7 +84,7 @@ function putGroupe(formData) {
           v-model="groupe.groupeNameToPUT"
           @blur="putNomAdmin"
           :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
-          class="text-black focus:outline-none border w-full mt-2 px-4 p-2 text-sm rounded-2xl focus:border-2 transition border-blue-500"
+          class="text-black focus:outline-none border w-full mt-2 px-4 py-1 text-sm rounded-2xl focus:border-2 transition border-blue-500"
         />
         <div class="flex flex-col">
           <label class="text-sm mt-4">

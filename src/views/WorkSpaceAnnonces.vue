@@ -60,7 +60,7 @@
                 autofocus
               />
             </div>
-            <p  v-else>{{ ann.titre }}</p>
+            <p class="font-bold"  v-else>{{ ann.titre }}</p>
 
             <div v-if="editableId === ann.id && isEditingDescription">
               <textarea
@@ -76,7 +76,7 @@
               {{ ann.description }}
             </p>
             <div class="mt-1 flex">
-              <div class="w-full">
+              <div v-if="ann.fichier_nom" class="w-full ">
                   <div v-if="isImageFile(ann.fichier_nom)"
                     :style="{
                       'background-image': `url(${URL}/storage/annonce/${ann.fichier_nom})`,

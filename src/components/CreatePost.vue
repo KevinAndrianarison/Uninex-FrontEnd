@@ -9,6 +9,7 @@ import { useMessages } from '@/stores/messages'
 import { useCategory } from '@/stores/Category'
 import { useAnnonce } from '@/stores/Annonce'
 import { useTheme } from '@/stores/Theme'
+import Notiflix from 'notiflix'
 
 const file = ref(null)
 const fileName = ref('')
@@ -41,33 +42,36 @@ function closeCreatePost() {
 function postAnnonce() {
   const userString = localStorage.getItem('user')
   const user = JSON.parse(userString)
-  show.showSpinner = true
   let formData = new FormData()
   formData.append('titre', titreAnnonce.value || '')
   formData.append('description', descriptionAnnonce.value || '')
   formData.append('fichier', file.value || '')
   formData.append('categori_id', Number(idCategorie.value) || null)
   formData.append('user_id', Number(user.user.id) || null)
-
-  axios
-    .post(`${URL}/api/annonce`, formData)
-    .then((response) => {
-      annonce.getAllAnnonce()
-      messages.messageSucces = 'Annonce publie avec succès !'
-      titreAnnonce.value = ''
-      descriptionAnnonce.value = ''
-      file.value = null
-      fileName.value = ''
-      idCategorie.value = null
-      show.showCreatePost = false
-      show.showSpinner = false
-      setTimeout(() => {
-        messages.messageSucces = ''
-      }, 3000)
-    })
-    .catch((err) => {
-      show.showSpinner = false
-    })
+  if (titreAnnonce.value && idCategorie.value) {
+    show.showSpinner = true
+    axios
+      .post(`${URL}/api/annonce`, formData)
+      .then((response) => {
+        annonce.getAllAnnonce()
+        messages.messageSucces = 'Annonce publie avec succès !'
+        titreAnnonce.value = ''
+        descriptionAnnonce.value = ''
+        file.value = null
+        fileName.value = ''
+        idCategorie.value = null
+        show.showCreatePost = false
+        show.showSpinner = false
+        setTimeout(() => {
+          messages.messageSucces = ''
+        }, 3000)
+      })
+      .catch((err) => {
+        show.showSpinner = false
+      })
+  } else {
+    Notiflix.Notify.warning('La "catégorie" et le "titre" doivent être remplis')
+  }
 }
 
 function openCreateCategory() {
@@ -266,7 +270,6 @@ function onFileChange(event) {
         </div>
         <button
           @click="postAnnonce()"
-          :disabled="!titreAnnonce || !idCategorie || !file"
           class="focus:outline-none bg-green-500 font-bold rounded w-full px-3 mt-2 py-2 text-sm cursor-pointer"
         >
           Publier

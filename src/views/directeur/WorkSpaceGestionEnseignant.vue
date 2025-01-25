@@ -201,19 +201,7 @@
         </div>
 
         <div class="divbtn text-black sm:col-span-3 mt-3 ml-4">
-          <Button
-            :disabled="
-              !user.photo ||
-              !user.email ||
-              !enseignant.nomComplet_ens ||
-              !enseignant.categorie_ens ||
-              show.showMessageErrorEmail
-            "
-            @click="showMdp()"
-            class="btn font-bold mb-1"
-          >
-            Valider</Button
-          >
+          <Button @click="showMdp()" class="btn font-bold mb-1"> Valider</Button>
         </div>
       </div>
     </div>
@@ -265,6 +253,7 @@ import { onBeforeMount } from 'vue'
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import { useTheme } from '@/stores/Theme'
+import Notiflix from 'notiflix'
 
 const user = useUser()
 const regex = useRegex()
@@ -278,8 +267,12 @@ const grades = ['Ingénieur', 'Docteur', 'Professeur']
 const categories = ['Permanent', 'Vacataire']
 
 function showMdp() {
-  password.generatePassword()
-  show.showMdpENS = true
+  if (user.email && enseignant.nomComplet_ens && !show.showMessageErrorEmail) {
+    password.generatePassword()
+    show.showMdpENS = true
+  } else {
+    Notiflix.Notify.warning('"Nom complet" et "Adresse email" doivent être remplis')
+  }
 }
 
 function showdelete(id) {

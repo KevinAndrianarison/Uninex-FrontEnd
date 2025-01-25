@@ -12,6 +12,7 @@ import { useInfossetup } from '@/stores/Infossetup'
 import { useDirecteur } from '@/stores/Directeur'
 import { useAu } from '@/stores/Au'
 import { useParcour } from '@/stores/Parcour'
+import Notiflix from 'notiflix'
 
 export const useEtudiant = defineStore('Etudiant', () => {
   const user = useUser()
@@ -137,69 +138,73 @@ export const useEtudiant = defineStore('Etudiant', () => {
   }
 
   function createEtudiant() {
-    show.showSpinner = true
     let formData = {
       email: user.email,
       status_user: 'Etudiant',
       validiter_compte: false
     }
 
-    axios
-      .post(`${URL}/api/user/createEtudiant`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
-      .then((response) => {
-        let formDataEtudiant = {
-          user_id: response.data.id,
-          nomComplet_etud: nomComplet_etud.value,
-          validiter_inscri: false,
-          status_etud: 1,
-          au_id: au.idAU
-        }
-        axios
-          .post(`${URL}/api/etudiant`, formDataEtudiant, {
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            }
-          })
-          .then((response) => {
-            let formDataToSemestre = {
-              etudiant_id: response.data.id,
-              semestre_ids: semestre.semestreIds
-            }
+    if (nomComplet_etud.value && !show.showMessageErrorEmail && user.email) {
+      show.showSpinner = true
+      axios
+        .post(`${URL}/api/user/createEtudiant`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        .then((response) => {
+          let formDataEtudiant = {
+            user_id: response.data.id,
+            nomComplet_etud: nomComplet_etud.value,
+            validiter_inscri: false,
+            status_etud: 1,
+            au_id: au.idAU
+          }
+          axios
+            .post(`${URL}/api/etudiant`, formDataEtudiant, {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            })
+            .then((response) => {
+              let formDataToSemestre = {
+                etudiant_id: response.data.id,
+                semestre_ids: semestre.semestreIds
+              }
 
-            axios
-              .post(`${URL}/api/semestres/addEtudiant`, formDataToSemestre, {
-                headers: {
-                  'Content-Type': 'multipart/form-data'
-                }
-              })
-              .then((response) => {
-                user.email = ''
-                nomComplet_etud.value = ''
-                getAllEtudiantBysemestre()
-                messages.messageSucces = response.data.message
-                show.showSpinner = false
-                setTimeout(() => {
-                  messages.messageSucces = ''
-                }, 3000)
-              })
-              .catch((err) => {
-                console.error(err)
-                show.showSpinner = false
-              })
-          })
-          .catch((err) => {
-            console.error(err)
-            show.showSpinner = false
-          })
-      })
-      .catch((err) => {
-        console.error(err)
-        show.showSpinner = false
-      })
+              axios
+                .post(`${URL}/api/semestres/addEtudiant`, formDataToSemestre, {
+                  headers: {
+                    'Content-Type': 'multipart/form-data'
+                  }
+                })
+                .then((response) => {
+                  user.email = ''
+                  nomComplet_etud.value = ''
+                  getAllEtudiantBysemestre()
+                  messages.messageSucces = response.data.message
+                  show.showSpinner = false
+                  setTimeout(() => {
+                    messages.messageSucces = ''
+                  }, 3000)
+                })
+                .catch((err) => {
+                  console.error(err)
+                  show.showSpinner = false
+                })
+            })
+            .catch((err) => {
+              console.error(err)
+              show.showSpinner = false
+            })
+        })
+        .catch((err) => {
+          console.error(err)
+          show.showSpinner = false
+        })
+    } else {
+      Notiflix.Notify.warning('"Nom complet" et "Adresse email" doivent être remplis')
+    }
   }
 
   function getAllEtudiantBysemestre() {

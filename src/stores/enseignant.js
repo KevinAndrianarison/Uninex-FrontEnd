@@ -104,6 +104,7 @@ export const useEnseignant = defineStore('Enseignant', () => {
     axios
       .get(`${URL}/api/enseignant`)
       .then((response) => {
+        ListeENS.value = []
         if (response.data.length !== 0) {
           ListeENS.value = response.data
           ListeChefMention.value = filterByMention(response.data)
