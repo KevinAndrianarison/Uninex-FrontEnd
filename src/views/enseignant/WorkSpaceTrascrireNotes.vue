@@ -234,7 +234,7 @@
                       <li
                         v-if="EC.enseignant_id !== null && EC.enseignant.user.id === user.user.id"
                         :class="[
-                          ec.ecNom === EC.nom_ec ? 'bg-amber-100 text-amber-900' : '',
+                          ec.ecNomBySemestre === EC.nom_ec ? 'bg-amber-100 text-amber-900' : '',
                           'relative cursor-default select-none py-2 pl-10 pr-4'
                         ]"
                       >

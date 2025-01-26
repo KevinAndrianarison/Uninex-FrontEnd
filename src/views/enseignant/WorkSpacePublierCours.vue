@@ -181,7 +181,7 @@
         </div>
 
         <div class="divbtns text-black sm:col-span-3 font-bold mt-1">
-          <Button class="btn mb-1" :disabled="!cours.cours" @click="cours.publierCours()">
+          <Button class="btn mb-1"  @click="cours.publierCours()">
             Enregistrer</Button
           >
         </div>
@@ -202,9 +202,11 @@
         <div
         :class="theme.theme === 'light' ? 'body' : 'body !text-gray-200'" 
         class="body" :key="index" v-for="(crs, index) in cours.ListeCours">
-          <li class="widthvaluenom">{{ crs.nom_cours }}</li>
-          <li class="widthvalueemail">{{ crs.description_cours }}</li>
-          <li class="widthvalue">{{ crs.categorie_cours }}</li>
+          <li class="widthvaluenom overflow-hidden text-ellipsis whitespace-nowrap">{{ crs.nom_cours }}</li>
+          <li class="widthvalueemail overflow-hidden text-ellipsis whitespace-nowrap"
+          >{{ crs.description_cours }}</li>
+          <li class="widthvalue ">
+            {{ crs.categorie_cours === 'Enseignement Théorique' ? 'ET': 'ED' }}</li>
           <Tooltip content="Télécharger ">
             <ArrowDownTrayIcon
               @click="telechargerCours(crs.cours_name)"

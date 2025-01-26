@@ -5,6 +5,8 @@ import { useUrl } from '@/stores/url'
 import { useMessages } from '@/stores/messages'
 import { useShow } from '@/stores/Show'
 import axios from 'axios'
+import Notiflix from 'notiflix'
+
 
 export const useCours = defineStore('Cours', () => {
   const nom_cours = ref('')
@@ -20,31 +22,36 @@ export const useCours = defineStore('Cours', () => {
   const messages = useMessages()
 
   function publierCours() {
-    show.showSpinner = true
     let formData = new FormData()
     formData.append('cours', cours.value || '')
     formData.append('nom_cours', nom_cours.value || '')
     formData.append('description_cours', description_cours.value || '')
     formData.append('categorie_cours', categorie_cours.value || '')
     formData.append('ec_id', ec.idEC || '')
-    axios
-      .post(`${URL}/api/cours`, formData)
-      .then((response) => {
-        messages.messageSucces = 'Cours publié !'
-        nom_cours.value = ''
-        description_cours.value = ''
-        show.showSpinner = false
-        getAllCours()
-        setTimeout(() => {
-          messages.messageSucces = ''
-        }, 3000)
-      })
-      .catch((err) => {
-        console.error(err)
-        show.showSpinner = false
-      })
+    if (cours.value) {
+      show.showSpinner = true
+      axios
+        .post(`${URL}/api/cours`, formData)
+        .then((response) => {
+          messages.messageSucces = 'Cours publié !'
+          nom_cours.value = ''
+          description_cours.value = ''
+          show.showSpinner = false
+          getAllCours()
+          setTimeout(() => {
+            messages.messageSucces = ''
+          }, 3000)
+        })
+        .catch((err) => {
+          console.error(err)
+          show.showSpinner = false
+        })
       cours.value = null
       fileName.value = ''
+    }
+    else{
+    Notiflix.Notify.warning('Le cours est requis !')
+    }
   }
 
   function getAllCours() {
