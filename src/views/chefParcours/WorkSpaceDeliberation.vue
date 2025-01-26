@@ -710,9 +710,9 @@
                 v-if="
                   etd.moyenne_generale < 10 && etd.worstNote >= noteElim && etd.status_etud === 1
                 "
-                class="text-red-500"
+                class="text-yellow-500"
               >
-                Redoublement
+                Autorisé à redoubler
               </p>
             </li>
             <li class="widthvalueemails">
@@ -897,7 +897,7 @@ const countRedouble = computed(() => {
 
 const countElimine = computed(() => {
   return etudiant.listdefinitive.filter(
-    (etd) => etd.moyenne_generale < 10 || etd.worstNote < noteElim.value
+    (etd) => etd.moyenne_generale < 10 && etd.worstNote < noteElim.value
   ).length
 })
 
