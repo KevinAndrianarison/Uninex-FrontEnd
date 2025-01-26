@@ -260,8 +260,8 @@ function onFileChange(event) {
             📂 Importer un fichier
           </div>
         </div>
-        <div v-if="fileName" class="flex text-xs">
-          <p class="text-blue-500 mr-2">{{ fileName }}</p>
+        <div v-if="fileName" class="flex text-xs ">
+          <p class="text-blue-500 mr-2 break-words  max-w-full">{{ fileName }}</p>
           <font-awesome-icon
             @click="removeFile"
             class="text-red-500 cursor-pointer w-5 h-4"

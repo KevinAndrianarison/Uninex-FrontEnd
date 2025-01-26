@@ -46,7 +46,7 @@
     <div class="px-3 w-[80%] flex flex-col justify-center">
       <div class="flex justify-between items-center">
         <p>{{ user.email }}</p>
-        <p class=" text-xs">{{ user.lastMessage ? user.lastMessage.timeAgo : '' }}</p>
+        <p class=" text-xs text-center ">{{ user.lastMessage ? user.lastMessage.timeAgo : '' }}</p>
       </div>
       <div 
         :class="{

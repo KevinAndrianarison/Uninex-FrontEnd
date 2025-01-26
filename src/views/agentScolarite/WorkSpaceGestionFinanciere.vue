@@ -30,7 +30,7 @@
           >
             <p class="text-xs font-bold text-red-500">- Ar {{ depense.montant }}</p>
             <p class="w-[50px] h-[50px] depense mt-2"></p>
-            <p class="text-yellow-500 text-sm mt-2">{{ depense.categorie }}</p>
+            <p class="text-yellow-500 text-sm mt-2 text-center">{{ depense.categorie }}</p>
           </div>
           <div
             v-for="recette in transaction.listRecette"
@@ -39,7 +39,7 @@
           >
             <p class="text-xs font-bold text-green-500">+ Ar {{ recette.montant }}</p>
             <p class="w-[50px] h-[50px] recette mt-2"></p>
-            <p class="text-yellow-500 text-sm mt-2">{{ recette.categorie }}</p>
+            <p class="text-yellow-500 text-sm mt-2 text-center">{{ recette.categorie }}</p>
           </div>
         </div>
         <div class="mt-4 text-sm font-bold">
@@ -66,7 +66,12 @@
           >
             <div
               :style="{
-                'background-image': 'url(' + `${URL}/storage/users/${trans.user.photo_name || 'téléchargement-removebg-preview.png'} ` + ')',
+                'background-image':
+                  'url(' +
+                  `${URL}/storage/users/${
+                    trans.user.photo_name || 'téléchargement-removebg-preview.png'
+                  } ` +
+                  ')',
                 'background-size': 'cover',
                 'background-position': 'center'
               }"
@@ -253,7 +258,6 @@
         <div class="sm:col-span-3 mt-5 mx-4">
           <Button
             @click="postTransaction()"
-            :disabled="!montant || !typeValue"
             class="btn bg-blue-500 w-full text-white py-2 rounded cursor-pointer"
           >
             Valider</Button
@@ -289,6 +293,7 @@ import { useTransaction } from '@/stores/Transaction'
 import { Chart, registerables } from 'chart.js'
 import Tooltip from '../../components/Tooltip.vue'
 import { useTheme } from '@/stores/Theme'
+import Notiflix from 'notiflix'
 
 Chart.register(...registerables)
 
@@ -466,7 +471,6 @@ function postTransaction() {
   const dateActuelle = new Date()
   const dateFormatee = dateActuelle.toLocaleDateString('fr-FR')
 
-  show.showSpinner = true
   const userString = localStorage.getItem('user')
   const user = JSON.parse(userString)
   let formData = {
@@ -478,22 +482,28 @@ function postTransaction() {
     au_id: au.idAU,
     date: dateFormatee
   }
-  axios
-    .post(`${URL}/api/transaction`, formData)
-    .then((response) => {
-      transaction.getByIdAU()
-      messages.messageSucces = 'Transaction réussi !'
-      montant.value = null
-      motif.value = ''
-      show.showSpinner = false
-      setTimeout(() => {
-        messages.messageSucces = ''
-      }, 3000)
-    })
-    .catch((err) => {
-      console.error(err)
-      show.showSpinner = false
-    })
+
+  if (motif.value && montant.value) {
+    show.showSpinner = true
+    axios
+      .post(`${URL}/api/transaction`, formData)
+      .then((response) => {
+        transaction.getByIdAU()
+        messages.messageSucces = 'Transaction réussi !'
+        montant.value = null
+        motif.value = ''
+        show.showSpinner = false
+        setTimeout(() => {
+          messages.messageSucces = ''
+        }, 3000)
+      })
+      .catch((err) => {
+        console.error(err)
+        show.showSpinner = false
+      })
+  } else {
+    Notiflix.Notify.warning('Tout les champs" doivent être remplis')
+  }
 }
 </script>
 

@@ -129,8 +129,8 @@
                 :class="theme.theme === 'light' ? '' : 'text-white'"
                 class="text-gray-500">{{ ann.timeAgo }}</p>
               </div>
-              <div v-if="ann.user.id === user.user.id" class="flex">
-                <p v-if="editableId !== ann.id" class="font-bold mr-4">
+              <div class="flex">
+                <p v-if="editableId !== ann.id && ann.user.id === user.user.id" class="font-bold mr-4">
                   <Tooltip content="Modifier le titre et la description">
                     <font-awesome-icon
                       @click.stop="toggleEditPost(ann)"
@@ -138,7 +138,7 @@
                       :icon="['fas', 'pen']"
                   /></Tooltip>
                 </p>
-                <p class="font-bold">
+                <p v-if="ann.user.id === user.user.id || show.showNavBarDir" class="font-bold">
                   <Tooltip content="Supprimer">
                     <font-awesome-icon
                       class="iconadd text-gray-500 cursor-pointer text-red-500"
@@ -225,11 +225,11 @@
 
               <div class="mt-2 flex items-center justify-between w-full">
                 <p class="text-gray-500 text-xs">{{ coms.timeAgo }}</p>
-                <div v-if="coms.user.id === user.user.id" class="flex justify-end">
-                  <p v-if="editableComId !== coms.id" class="font-bold mr-2">
+                <div class="flex justify-end">
+                  <p v-if="editableComId !== coms.id && coms.user.id === user.user.id" class="font-bold mr-2">
                     <Tooltip content="Modifier"><font-awesome-icon @click.stop="editComment(coms)" class="iconadd cursor-pointer text-yellow-500" :icon="['fas', 'pen']"/></Tooltip>
                   </p>
-                  <p class="font-bold">
+                  <p v-if="coms.user.id === user.user.id || show.showNavBarDir" class="font-bold">
                     <Tooltip content="Supprimer">
                       <font-awesome-icon
                         @click="deleteComs(coms.id)"

@@ -173,6 +173,7 @@ function close() {
           </div>
         </div>
         <button
+          v-if="etudiant.moyenneGen"
           @click="genererReleve"
           class="bg-blue-400 rounded text-black text-xs font-bold px-5 py-2 mt-3 cursoir-pointer"
         >

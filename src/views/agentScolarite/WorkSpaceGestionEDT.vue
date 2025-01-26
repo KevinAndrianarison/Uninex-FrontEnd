@@ -287,7 +287,7 @@
                 leave-to-class="opacity-0"
               >
                 <ListboxOptions
-                :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
+                  :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
                   class="z-10 absolute mt-1 max-h-40 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                 >
                   <ListboxOption
@@ -505,7 +505,7 @@
           </Listbox>
         </div>
         <button
-          :disabled="!ec.nomECEDT || !edt.heures"
+          v-if="ec.nomECEDT && edt.heures"
           @click="addDays()"
           class="px-5 py-1.5 mt-2 bg-yellow-500 text-black font-bold text-xs rounded"
         >
@@ -536,7 +536,7 @@
       </div>
       <div class="mt-2 flex justify-center">
         <button
-          :disabled="ListeEDT.length === 0"
+          v-if="ListeEDT.length !== 0"
           @click="postEDT()"
           class="px-5 py-2 bg-blue-500 text-white rounded text-xs"
         >
@@ -644,15 +644,17 @@
       class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-10"
     >
       <div
-      
-      :class="theme.theme === 'light' ? '' : '!bg-gray-600'"
-      class="bg-white p-6 rounded-lg shadow-lg w-80">
+        :class="theme.theme === 'light' ? '' : '!bg-gray-600'"
+        class="bg-white p-6 rounded-lg shadow-lg w-80"
+      >
         <div class="flex justify-between items-center mb-4">
           <h2 class="text-md font-bold">Créer un horaire</h2>
           <button @click="isModalOpen = false">
-            <font-awesome-icon :icon="['fas', 'times']"
-            :class="theme.theme === 'light' ? '' : '!text-red-500'"
-             class="text-gray-500" />
+            <font-awesome-icon
+              :icon="['fas', 'times']"
+              :class="theme.theme === 'light' ? '' : '!text-red-500'"
+              class="text-gray-500"
+            />
           </button>
         </div>
         <div class="mb-4">
