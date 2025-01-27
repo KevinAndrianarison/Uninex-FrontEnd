@@ -98,6 +98,7 @@ export const useMention = defineStore('Mention', () => {
     axios
       .get(`${URL}/api/mention/getById/${niveau.niveau.id_niveau}`)
       .then((response) => {
+        ListMention.value = []
         if (response.data.length !== 0) {
           ListMention.value = response.data
           mentionParcours.nom = ListMention.value[0].nom_mention

@@ -854,6 +854,7 @@ import { useEnseignant } from '@/stores/Enseignant'
 import { onBeforeMount } from 'vue'
 import { useTheme } from '@/stores/Theme'
 
+
 const semestre = useSemestre()
 const ue = useUe()
 const ec = useEc()

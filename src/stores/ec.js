@@ -10,6 +10,7 @@ import { useUrl } from '@/stores/url'
 import { useCours } from '@/stores/Cours'
 import { useAu } from '@/stores/Au'
 import { useEtudiant } from '@/stores/Etudiant'
+import Notiflix from 'notiflix'
 
 export const useEc = defineStore('Ec', () => {
   const ue = useUe()
@@ -73,6 +74,7 @@ export const useEc = defineStore('Ec', () => {
     axios
       .get(`${URL}/api/ec/getById/${ue.id}`)
       .then((response) => {
+        ListeEC.value = []
         if (response.data.length !== 0) {
           ListeEC.value = response.data
           id.value = response.data[0].id
@@ -187,10 +189,12 @@ export const useEc = defineStore('Ec', () => {
   }
 
   function deleteEC() {
+    
     show.showSpinner = true
     axios
       .delete(`${URL}/api/ec/${id.value}`)
       .then((response) => {
+
         getAllECBySemestre()
         messages.messageSucces = 'EC supprimé !'
         show.showSpinner = false
@@ -240,6 +244,7 @@ export const useEc = defineStore('Ec', () => {
       .catch((err) => {
         console.error(err)
         show.showSpinner = false
+        Notiflix.Notify.warning("Aucun étudiant n'est encore inscrit dans ce semestre !")
       })
   }
 
