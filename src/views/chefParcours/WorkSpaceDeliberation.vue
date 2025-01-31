@@ -864,6 +864,10 @@ function fetch(user_id, email, nomComplet_etud, Semestre, status, idAU) {
             })
             .catch((err) => {
               console.error(err)
+              messages.messageError = err.response.data.message
+              setTimeout(() => {
+              messages.messageError = ''
+            }, 3000)
               show.showSpinner = false
             })
         })
