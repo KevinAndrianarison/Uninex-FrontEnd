@@ -43,6 +43,11 @@ export const useEdt = defineStore('Edt', () => {
           heures.value = response.data[0].valeur
           idheures.value = response.data[0].id
         }
+        if (response.data.length === 0) {
+          listHeures.value = []
+          heures.value = ""
+          idheures.value = null
+        }
       })
       .catch((err) => {
         console.error(err)

@@ -43,7 +43,7 @@
         <Button class="btn mt-[8%]" :disabled="!user.email || !user.password" @click="user.login()"
           >Connexion</Button
         >
-        <p class="text mt-5">Mot de passe oublié ?</p>
+        <p class="text mt-5 ">Mot de passe oublié ?</p>
       </div>
     </div>
   </div>

@@ -5,7 +5,7 @@
       Mentions
     </h1>
     <div :class="theme.theme === 'light' ? 'createMention' : '!bg-gray-600 !text-gray-200'">
-      <h1 class="create pl-5 mt-2">Ajouter une nouelle Mention :</h1>
+      <h1 class="create pl-5 mt-2">Ajouter une nouvelle Mention :</h1>
       <div class="class formInput border-gray-900/10 pb-5 pl-5">
         <div class="sm:col-span-3 mt-2 mr-4">
           <label class="block text-sm font-medium leading-6 ">Nom de la mention</label>
@@ -72,7 +72,7 @@
             v-if="activeDisclosure === niv.id"
             class="DisclosurePanel mt-2 text-sm "
           >
-            <div class="listNiv" :key="index" v-for="(mnt, index) in mention.ListMention">
+            <div class="listNiv truncate" :key="index" v-for="(mnt, index) in mention.ListMention">
               {{ mnt.nom_mention }} / {{ mnt.abr_mention }}
               <TrashIcon
                 class="deletes h-6 w-5 ml-3 pb-1"

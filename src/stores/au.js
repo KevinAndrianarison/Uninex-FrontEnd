@@ -77,6 +77,7 @@ export const useAu = defineStore('Au', () => {
 
   watch(oneAU, (newValue, oldValue) => {
     if (newValue) {
+      
       mention.mentionParcours.nom = ''
       ShowIdAU()
       if (show.showNavBarEtud === false) {

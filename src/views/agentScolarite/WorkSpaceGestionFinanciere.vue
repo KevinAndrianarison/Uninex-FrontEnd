@@ -77,7 +77,7 @@
               }"
               class="w-[30px] h-[30px] rounded-3xl"
             ></div>
-            <div class="text-gray-500 w-[20%]">{{ trans.user.email }}</div>
+            <div class="text-gray-500 w-[20%] truncate">{{ trans.user.email }}</div>
             <div class="text-gray-500 w-[20%]">{{ trans.type }}</div>
             <div class="text-gray-500 w-[20%]">{{ trans.date || 'Inconnue' }}</div>
             <div
@@ -87,7 +87,8 @@
                   : 'font-bold text-red-500 w-[15%] flex'
               "
             >
-              <p v-if="trans.type === 'Recette'">+</p>
+
+            <p v-if="trans.type === 'Recette'">+</p>
               <p v-if="trans.type === 'Dépense'">-</p>
 
               Ar {{ trans.montant }}

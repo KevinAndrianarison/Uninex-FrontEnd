@@ -98,7 +98,7 @@ function closeCreateNiveau() {
               />
             </DisclosureButton>
             <DisclosurePanel class="DisclosurePanel mt-2 text-sm">
-              <div class="listNiv" :key="index" v-for="(niv, index) in niveau.ListNiveau">
+              <div class="listNiv truncate" :key="index" v-for="(niv, index) in niveau.ListNiveau">
                 {{ niv.nom_niveau }}
                 <TrashIcon
                   @click="deleteNiveau(niv.nom_niveau, niv.id)"

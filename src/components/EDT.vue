@@ -4,6 +4,9 @@ import { useEdt } from '@/stores/Edt'
 import { useEtablissement } from '@/stores/Etablissement'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
 import { useTheme } from '@/stores/Theme'
+import {
+  SparklesIcon
+} from '@heroicons/vue/24/outline'
 
 const show = useShow()
 const edt = useEdt()
@@ -57,9 +60,11 @@ function closeEDT() {
                 show.showEDTpdf = true
               }
             "
-            class="border px-5 py-2 rounded text-white bg-blue-500"
+            class="border px-5 py-2 flex gap-2 rounded text-white bg-blue-500"
           >
-            ✨ Génerer un PDF
+          <SparklesIcon
+                class="text-yellow-400 h-4 w-4"
+            /> Génerer un PDF
           </button>
         </div>
       </div>

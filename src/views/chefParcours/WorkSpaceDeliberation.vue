@@ -742,8 +742,12 @@ import { useAu } from '@/stores/Au'
 import { useUrl } from '@/stores/url'
 import axios from 'axios'
 import { useTheme } from '@/stores/Theme'
+import { useShow } from '@/stores/Show'
+import { useMessages } from '@/stores/messages'
+
 
 const niveau = useNiveau()
+const show = useShow()
 const semestre = useSemestre()
 const parcour = useParcour()
 const etudiant = useEtudiant()
@@ -754,6 +758,8 @@ const listeRed = ref([])
 const directeur = useDirecteur()
 const theme = useTheme()
 const URL = useUrl().url
+const messages = useMessages()
+
 
 function setIdParcours(id, name) {
   parcour.parcours_id = id
@@ -799,10 +805,12 @@ function delibRed() {
 }
 
 function fetch(user_id, email, nomComplet_etud, Semestre, status, idAU) {
+  show.showSpinner = true
   let formData = {
     password: '',
     validiter_compte: 'false'
   }
+
   axios
     .put(`${URL}/api/user/setup/${user_id}`, formData)
     .then((response) => {
@@ -817,7 +825,7 @@ function fetch(user_id, email, nomComplet_etud, Semestre, status, idAU) {
             'Content-Type': 'multipart/form-data'
           }
         })
-        .then((responseUser) => {
+        .then((responseUser) => {          
           let formDataEtudiant = {
             user_id: responseUser.data.id,
             nomComplet_etud: nomComplet_etud,
@@ -842,21 +850,31 @@ function fetch(user_id, email, nomComplet_etud, Semestre, status, idAU) {
                     'Content-Type': 'multipart/form-data'
                   }
                 })
-                .then((response) => {})
+                .then((response) => {
+                  messages.messageSucces = 'Etudiants déliberés !'
+                  show.showSpinner = false
+                  setTimeout(() => {
+                  messages.messageSucces = ''
+                  }, 3000)
+                })
                 .catch((err) => {
                   console.error(err)
+                  show.showSpinner = false
                 })
             })
             .catch((err) => {
               console.error(err)
+              show.showSpinner = false
             })
         })
         .catch((err) => {
           console.error(err)
+          show.showSpinner = false
         })
     })
     .catch((err) => {
       console.error(err)
+      show.showSpinner = false
     })
 }
 
@@ -874,13 +892,16 @@ function RedoubleList() {
   etudiant.listDeliberation = etudiant.listdefinitive.filter(
     (etd) => etd.moyenne_generale < 10 && etd.worstNote >= noteElim.value
   )
-}
+  directeur.isListeEtudDelib = true
+  directeur.getFirst()}
 
 function ElimineList() {
   etudiant.statusDeliberation = 'ELIMINE'
   etudiant.listDeliberation = etudiant.listdefinitive.filter(
     (etd) => etd.moyenne_generale < 10 || etd.worstNote < noteElim.value
   )
+  directeur.isListeEtudDelib = true
+  directeur.getFirst()
 }
 
 const countAdmis = computed(() => {

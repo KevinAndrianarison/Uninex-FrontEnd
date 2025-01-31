@@ -26,7 +26,7 @@
           :key="ctg.id"
           v-for="(ctg, index) in category.listCategorie"
           @click="setActiveCategory(ctg.id)"
-          :class="['flex', isActive === ctg.id ? 'text-blue-500 font-bold' : 'hover:text-blue-500']"
+          :class="['flex truncate', isActive === ctg.id ? 'text-blue-500 font-bold' : 'hover:text-blue-500']"
         >
           {{ ctg.titre }}
         </div>

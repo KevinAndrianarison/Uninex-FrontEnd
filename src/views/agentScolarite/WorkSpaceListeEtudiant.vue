@@ -236,7 +236,7 @@
           <div :class="theme.theme === 'light' ? 'body' : 'body !text-gray-200'">
             <div class="widthvaluenom">
               <p v-if="etd.status_etud === 1"  class="text-xs text-green-500 font-bold ">Passant</p>
-              <p v-if="etd.status_etud === 0"  class="text-xs text-red-500 font-bold ">Passant</p>
+              <p v-if="etd.status_etud === 0"  class="text-xs text-red-500 font-bold ">Redoublant</p>
               <p>{{ etd.nomComplet_etud }}</p>
             </div>
             <li class="widthvalueemail">{{ etd.user.email }}</li>

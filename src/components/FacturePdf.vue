@@ -1,46 +1,43 @@
 <template>
-  <div class="body">
-    <div class="element px-20 bg-white" ref="elementToPrint">
-      <div class="mt-10 img"></div>
-      <b class="mt-4 pb-1 text-lg"
-        >Facture N° : {{ transaction.listTrans[transaction.listTrans.length - 1].id + 1 }}</b
-      >
-
-      <div class="mt-2 px-1 pb-3 flex justify-between border border-black">
-        <div class="w-[300px] text-xs">
-          <b>{{ transaction.oneFacture.au.etablissement.nom_etab }}</b>
-          <p>
-            Année universitaire : {{ transaction.oneFacture.au.annee_debut }} -
-            {{ transaction.oneFacture.au.annee_fin }}
-          </p>
-          <p>
-            {{ transaction.oneFacture.au.etablissement.codePostal_etab }}
-            - {{ transaction.oneFacture.au.etablissement.ville_etab }} -
-            {{ transaction.oneFacture.au.etablissement.pays_etab }}
-          </p>
-          <!-- <p>032 52 819 36</p> -->
+  <div class="flex justify-center items-center min-h-screen bg-gray-100 p-6">
+    <div class="bg-white shadow-xl rounded-lg p-6 w-full max-w-3xl" ref="elementToPrint">
+      <div class="flex justify-between items-center border-b pb-4 mb-4">
+        <div>
+          <h2 class="text-xl font-bold text-gray-800">Facture</h2>
+          <p class="text-sm text-gray-600">N° : {{ transaction.listTrans[transaction.listTrans.length - 1].id + 1 }}</p>
+        </div>
+        <div class="text-right text-sm text-gray-600">
+          <p>Aujourd'hui le {{ formattedDate }}</p>
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-2 gap-4 text-sm border-b pb-4 mb-4">
+        <div>
+          <p class="font-bold">{{ transaction.oneFacture.au.etablissement.nom_etab }}</p>
+          <p>Année universitaire : {{ transaction.oneFacture.au.annee_debut }} - {{ transaction.oneFacture.au.annee_fin }}</p>
+          <p>{{ transaction.oneFacture.au.etablissement.codePostal_etab }} - {{ transaction.oneFacture.au.etablissement.ville_etab }}, {{ transaction.oneFacture.au.etablissement.pays_etab }}</p>
           <p>{{ transaction.oneFacture.au.etablissement.email_etab }}</p>
         </div>
-        <div class="w-[300px] text-xs">
+        <div class="text-right">
           <p>{{ transaction.oneFacture.user.agentscolarite[0].nomComplet_scol }}</p>
           <p>{{ transaction.oneFacture.user.agentscolarite[0].telephone_scol }}</p>
           <p>{{ transaction.oneFacture.user.email }}</p>
         </div>
       </div>
-      <p class="font-bold text-sm pb-2 px-1">{{ transaction.oneFacture.categorie }}</p>
-      <div class=" px-2 pb-4 whitespace-pre-line text-xs">
-        - {{ transaction.oneFacture.description }}
+      
+      <div class="mb-4">
+        <p class="font-bold text-gray-800 text-sm">{{ transaction.oneFacture.categorie }}</p>
+        <p class="text-gray-600 text-sm">{{ transaction.oneFacture.description }}</p>
       </div>
-      <div class="border border-black text-xs pb-3 px-1">
-        Montant : <b class="text-sm">Ar {{ transaction.oneFacture.montant }}</b>
+      
+      <div class="border rounded-lg p-4 pb-8 text-lg font-semibold text-gray-800 bg-gray-100 text-center">
+        Montant : <span class="text-green-600">Ar {{ transaction.oneFacture.montant }}</span>
       </div>
-      <div class="flex justify-end mt-2 text-xs">
-        <div>
-          <p class="text-center">
-            Fait a {{ transaction.oneFacture.au.etablissement.ville_etab }}, le
-            {{ transaction.oneFacture.date }}
-          </p>
-          <p class="text-center mt-10 pb-2">Le responsable, {{ user.nomComplet_scol }}</p>
+      
+      <div class="flex justify-end mt-6 text-sm text-gray-600">
+        <div class="text-center">
+          <p>Fait à {{ transaction.oneFacture.au.etablissement.ville_etab }}, le {{ transaction.oneFacture.date }}</p>
+          <p class="mt-10 font-bold">Le responsable, {{ user.nomComplet_scol }}</p>
         </div>
       </div>
     </div>
@@ -56,11 +53,18 @@ import { useTransaction } from '@/stores/Transaction'
 const userString = localStorage.getItem('user')
 const user = JSON.parse(userString)
 const elementToPrint = ref(null)
+const formattedDate = ref('')
 const htmltopdf = useHtml2pdf()
 const show = useShow()
 const transaction = useTransaction()
 
 onMounted(() => {
+  const date = new Date(Date.now())
+  formattedDate.value = date.toLocaleDateString('fr-FR', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric'
+  })
   setTimeout(() => {
     htmltopdf.setElement(elementToPrint.value)
     htmltopdf.downloadFacture()
@@ -70,11 +74,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.img {
-  height: 85px;
-  width: 100px;
-  background-image: url('../assets/logo_espa-removebg-preview.png');
-  background-repeat: no-repeat;
-  background-size: cover;
+th, td {
+  text-align: center;
 }
 </style>

@@ -4,8 +4,11 @@ import { useUser } from '@/stores/User'
 import { useRouter } from 'vue-router'
 import { useInfossetup } from '@/stores/Infossetup'
 import { useTheme } from '@/stores/Theme'
+import { useAu } from '@/stores/Au'
+
 
 const show = useShow()
+const au = useAu()
 const user = useUser()
 const router = useRouter()
 const infossetup = useInfossetup()
@@ -24,6 +27,13 @@ function deconnexion() {
   const userString = localStorage.getItem('user')
   show.showDeconnexion = false
   show.showAdmin = false
+  // ----------------------------------------
+  au.oneAU = ""
+  au.oneAUSelectFind = ""
+  au.nomAUDelib = ""
+  au.nomAUDelibRed = ""
+  // ----------------------------------------
+
   const users = JSON.parse(userString)
   if (users.user.status_user === 'Directeur') {
     show.showNavBarDir = false

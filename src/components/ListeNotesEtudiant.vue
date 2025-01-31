@@ -4,6 +4,9 @@ import { useEtudiant } from '@/stores/Etudiant'
 import { useDirecteur } from '@/stores/Directeur'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
 import { useTheme } from '@/stores/Theme'
+import {
+  SparklesIcon
+} from '@heroicons/vue/24/outline'
 
 const show = useShow()
 const directeur = useDirecteur()
@@ -162,7 +165,7 @@ function close() {
               </p>
             </div>
           </div>
-          <div class="flex items-end">
+          <div class="flex items-end ">
             <p class="mr-2 font-bold">Note éliminatoire :</p>
             <input
               type="text"
@@ -175,9 +178,11 @@ function close() {
         <button
           v-if="etudiant.moyenneGen"
           @click="genererReleve"
-          class="bg-blue-400 rounded text-black text-xs font-bold px-5 py-2 mt-3 cursoir-pointer"
+          class="bg-blue-400 flex gap-2 rounded text-white text-xs px-5 py-2 mt-3 cursoir-pointer"
         >
-          ✨ Génerer un relevé des notes
+        <SparklesIcon
+                class="text-yellow-400 h-4 w-4"
+            /> Génerer un relevé des notes
         </button>
       </div>
     </div>

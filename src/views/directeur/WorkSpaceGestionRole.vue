@@ -367,8 +367,8 @@
           :key="index"
           v-for="(mnt, index) in mention.ListMention"
         >
-          <li class="widthvaluenom">{{ mnt.nom_mention }} / {{ mnt.abr_mention }}</li>
-          <li class="widthvalueemails" v-if="mnt.enseignant !== null">
+          <li class="widthvaluenom truncate">{{ mnt.nom_mention }} / {{ mnt.abr_mention }}</li>
+          <li class="widthvalueemails truncate" v-if="mnt.enseignant !== null">
             {{ mnt.enseignant.nomComplet_ens }}
           </li>
           <li class="widthe">

@@ -103,7 +103,7 @@ function createSalle() {
               />
             </DisclosureButton>
             <DisclosurePanel class="DisclosurePanel mt-2 text-sm">
-              <div class="listNiv" :key="index" v-for="(salle, index) in salles.listSalle">
+              <div class="listNiv truncate" :key="index" v-for="(salle, index) in salles.listSalle">
                 {{ salle.nom_salle }}
                 <TrashIcon
                   @click="deleteSalle(salle.nom_salle, salle.id)"

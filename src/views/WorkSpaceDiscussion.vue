@@ -37,23 +37,23 @@
       </div>
 
 <div class="max-h-[75%] overflow-y-auto" v-if="isUser">
-  <div  v-if="!isSuspense" v-for="user in users" :key="user.id" @click="selectUser(user)">
+  <div v-if="!isSuspense" v-for="user in users" :key="user.id" @click="selectUser(user)">
   <div
   :class="theme.theme === 'light' ? 'cursor-pointer mt-2 w-full flex hover:bg-gray-100 hover:rounded-3xl' : 
   'cursor-pointer mt-2 w-full flex hover:bg-gray-500 hover:rounded-3xl'"
    v-if="Users.user.id !== user.id" >
     <div :style="{ 'background-image': `url(${URL}/storage/users/${user.photo_name || 'téléchargement-removebg-preview.png'})`, 'background-size': 'cover', 'background-position': 'center' }" class="logo w-[48px] h-[50px] rounded-3xl"></div>
-    <div class="px-3 w-[80%] flex flex-col justify-center">
+    <div class="px-3 w-[80%] flex flex-col justify-center ">
       <div class="flex justify-between items-center">
-        <p>{{ user.email }}</p>
-        <p class=" text-xs text-center ">{{ user.lastMessage ? user.lastMessage.timeAgo : '' }}</p>
+        <p class="truncate">{{ user.email }}</p>
+        <p class=" text-xs text-center  ">{{ user.lastMessage ? user.lastMessage.timeAgo : '' }}</p>
       </div>
       <div 
         :class="{
           ' text-xs truncate': true, 
-          'font-bold text-gray-900': user.lastMessage && user.lastMessage.receiver_id === localUserId,
+          'font-bold ': user.lastMessage && user.lastMessage.receiver_id === localUserId,
           'italic': user.lastMessage && !user.lastMessage.message && user.lastMessage.fichierName && user.lastMessage.sender_id === localUserId,
-          'italic font-bold text-gray-900': user.lastMessage && !user.lastMessage.message && user.lastMessage.fichierName && user.lastMessage.receiver_id === localUserId,
+          'italic font-bold': user.lastMessage && !user.lastMessage.message && user.lastMessage.fichierName && user.lastMessage.receiver_id === localUserId,
           'font-bold': !user.lastMessage || (!user.lastMessage.message && !user.lastMessage.fichierName)
         }"
         style="max-height: 1.5rem; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"
@@ -66,7 +66,7 @@
               ? (user.lastMessage.sender_id === localUserId 
                   ? '📎 Vous avez envoyé un fichier' 
                   : '📎 Vous avez reçu un fichier')
-              : '✨ Démarrer la discussion') 
+              : 'Démarrer la discussion') 
         }}
       </div>
     </div>
@@ -81,18 +81,18 @@
 <div 
       v-for="grp in groupe.groupes" :key="grp.id" @click="showChatGroupFunct(grp.id, grp.name, grp.user_id)" 
       :class="theme.theme === 'light' ? 'hover:bg-gray-100 mt-2 flex items-center h-12 px-5 rounded-3xl cursor-pointer' :
-       'hover:bg-gray-500 mt-2 flex items-center h-12 px-5 rounded-3xl cursor-pointer'"
+       'hover:bg-gray-500 mt-2 flex items-center  h-12 px-5 rounded-3xl cursor-pointer'"
       >
     <font-awesome-icon :icon="['fas', 'users']" 
       :class="theme.theme === 'light' ? 'text-gray-500 mr-5' : 'text-white'"
       class="text-gray-500 mr-5"
      />
     <div>
-      <p>{{ grp.name }}</p>
+      <p class="truncate">{{ grp.name }}</p>
       <p class="font-bold text-xs truncate w-60">
         <span v-if="grp.lastMessageUserId === localUserId" class="font-normal">Vous : </span>
         <span :class="grp.lastMessageUserId === localUserId ? 'font-normal' : 'font-bold'">
-          {{ grp.lastMessage || '✨ Démarrer la discussion' }}
+          {{ grp.lastMessage || 'Démarrer la discussion' }}
         </span>
       </p>
     </div>
@@ -247,9 +247,12 @@
           </div>
         </div>
         <div v-if="messages.length === 0" class="h-full">
-          <p class="text-gray-500 text-center py-1">
-            Nouvelle discussion, commencer à envoyer des messages ✨!
-          </p>
+          <div class="text-gray-500 flex gap-2 justify-center text-center py-1">
+            <p>Nouvelle discussion, commencer à envoyer des messages </p>
+            <SparklesIcon
+                class="text-yellow-500 h-4 w-4"
+            />!
+          </div>
         </div>
       </div>
       <div v-if="!isBlocked" 
@@ -319,6 +322,9 @@ import { useUser } from '@/stores/User'
 import { useGroupe } from '../stores/groupe'
 import ChatGroupe from '../components/ChatGroupe.vue'
 import { useTheme } from '@/stores/Theme'
+import {
+  SparklesIcon
+} from '@heroicons/vue/24/outline'
 
 
 

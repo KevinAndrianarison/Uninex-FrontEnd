@@ -228,8 +228,8 @@
           :key="index"
           v-for="(ens, index) in enseignant.ListeENS"
         >
-          <li class="widthvaluenom">{{ ens.nomComplet_ens }}</li>
-          <li class="widthvalueemail">{{ ens.user.email }}</li>
+          <li class="widthvaluenom truncate">{{ ens.nomComplet_ens }}</li>
+          <li class="widthvalueemail truncate">{{ ens.user.email }}</li>
           <li class="widthvalue">{{ ens.telephone_ens }}</li>
           <li class="widthvalue">{{ ens.categorie_ens }}</li>
           <TrashIcon @click="showdelete(ens.user_id)" class="delete h-5 w-5" />

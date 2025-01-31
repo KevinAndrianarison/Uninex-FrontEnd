@@ -231,8 +231,8 @@
           :key="index"
           v-for="(as, index) in agentscolarite.ListeAS"
         >
-          <li class="widthvaluenom">{{ as.nomComplet_scol }}</li>
-          <li class="widthvalueemail">{{ as.user.email }}</li>
+          <li class="widthvaluenom truncate">{{ as.nomComplet_scol }}</li>
+          <li class="widthvalueemail truncate">{{ as.user.email }}</li>
           <li class="widthvalue">{{ as.telephone_scol }}</li>
           <li class="widthvalue">
             {{

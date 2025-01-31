@@ -163,9 +163,11 @@
             ></div>
           </div>
         </div>
-        <p v-if="groupe.messages.length === 0" class="text-gray-500 text-center py-1 h-full">
-          Nouvelle discussion, commencer à envoyer des messages ✨!
-        </p>
+        <div v-if="groupe.messages.length === 0" class="text-gray-500 flex gap-1 justify-center py-1 h-full">
+          <p>Nouvelle discussion, commencer à envoyer des messages</p> <SparklesIcon
+                class="text-yellow-500 h-4 w-4"
+            />!
+        </div>
       </div>
       <div 
       :class="theme.theme === 'light' ? '' : '!bg-gray-200'" 
@@ -223,7 +225,9 @@ import { useUser } from '@/stores/User'
 import axios from 'axios'
 import Pusher from 'pusher-js'
 import { useTheme } from '@/stores/Theme'
-
+import {
+  SparklesIcon
+} from '@heroicons/vue/24/outline'
 
 
 

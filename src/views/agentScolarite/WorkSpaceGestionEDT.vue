@@ -507,9 +507,9 @@
         <button
           v-if="ec.nomECEDT && edt.heures"
           @click="addDays()"
-          class="px-5 py-1.5 mt-2 bg-yellow-500 text-black font-bold text-xs rounded"
+          class="px-3 py-1.5 mt-2 bg-yellow-500 flex items-center text-black font-bold text-xs rounded"
         >
-          Ajouter
+        <font-awesome-icon class="mr-2" :icon="['fas', 'circle-plus']" />  Ajouter
         </button>
       </div>
       <div class="mt-2 flex flex-wrap max-h-[75px] oerflow-y-auto">

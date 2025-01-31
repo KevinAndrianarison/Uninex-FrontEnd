@@ -277,7 +277,7 @@ export const useEtudiant = defineStore('Etudiant', () => {
               isCompensation.value = true
             }
             ue.ecs.forEach((ec) => {
-              if (ec.noteEc < noteElim.value) {
+              if (Number(ec.noteEc) < noteElim.value) {
                 isElimination.value = true
               }
             })

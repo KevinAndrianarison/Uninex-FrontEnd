@@ -278,8 +278,8 @@ cre<template>
           :key="index"
           v-for="(etd, index) in etudiant.ListeEtudiant"
         >
-          <li class="widthvaluenom">{{ etd.nomComplet_etud }}</li>
-          <li class="widthvalueemail">{{ etd.user.email }}</li>
+          <li class="widthvaluenom truncate">{{ etd.nomComplet_etud }}</li>
+          <li class="widthvalueemail truncate">{{ etd.user.email }}</li>
           <li class="widthvalueemails">
             <Tooltip content="Générer un mot de passe">
               <SparklesIcon
