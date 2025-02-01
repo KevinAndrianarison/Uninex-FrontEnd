@@ -81,17 +81,17 @@ export const useGroupe = defineStore('Groupe', () => {
     const diffInYears = Math.floor(diffInDays / 365)
 
     if (diffInSeconds < 60) {
-      return `${diffInSeconds} seconde${diffInSeconds > 1 ? 's' : ''}`
+      return `${diffInSeconds} s${diffInSeconds > 1 ? '' : ''}`
     } else if (diffInMinutes < 60) {
-      return `${diffInMinutes} minute${diffInMinutes > 1 ? 's' : ''}`
+      return `${diffInMinutes} min${diffInMinutes > 1 ? '' : ''}`
     } else if (diffInHours < 24) {
-      return `${diffInHours} heure${diffInHours > 1 ? 's' : ''}`
+      return `${diffInHours} h${diffInHours > 1 ? '' : ''}`
     } else if (diffInDays < 30) {
-      return `${diffInDays} jour${diffInDays > 1 ? 's' : ''}`
+      return `${diffInDays} j${diffInDays > 1 ? '' : ''}`
     } else if (diffInMonths < 12) {
       return `${diffInMonths} mois`
     } else {
-      return `${diffInYears} an${diffInYears > 1 ? 's' : ''}`
+      return `${diffInYears} an${diffInYears > 1 ? '' : ''}`
     }
   }
 
