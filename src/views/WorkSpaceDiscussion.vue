@@ -127,7 +127,7 @@
         <p class="font-bold text-sm">{{ selectedUser.email }}</p>
         <div class="relative"> 
           <Tooltip content="Options"> 
-          <font-awesome-icon v-if="messages.length !== 0" class="iconadd text-blue-500 cursor-pointer h-6 w-4" :icon="['fas', 'bars-staggered']" @click.stop="toggleDropdown" />
+          <font-awesome-icon v-if="messages.length !== 0" class="iconadd text-blue-500 cursor-pointer h-6 w-4" :icon="['fas', 'bars']" @click.stop="toggleDropdown" />
          </Tooltip>
           <div v-if="showDropdown"
           :class="theme.theme === 'light' ? '' : '!bg-gray-400 text-white'" 
@@ -393,7 +393,6 @@ function addEmoji(event) {
     input.focus();
   }, 0);
 
-  showEmojiMessage.value = false;
 }
 
 

@@ -22,7 +22,7 @@
           <Tooltip content="Options">
             <font-awesome-icon
               class="iconadd text-blue-500 cursor-pointer h-6 w-4"
-              :icon="['fas', 'bars-staggered']"
+              :icon="['fas', 'bars']"
               @click.stop="toggleDropdown"
           /></Tooltip>
           <div
@@ -296,7 +296,6 @@ function addEmoji(event) {
     input.focus();
   }, 0);
 
-  showEmojiMessage.value = false;
 }
 
 function mergeUserIntoMessage(data) {

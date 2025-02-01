@@ -7,6 +7,9 @@ import { useUrl } from '@/stores/url'
 import axios from 'axios'
 import { useMessages } from '@/stores/messages'
 import { useTheme } from '@/stores/Theme'
+import Notiflix from 'notiflix'
+import "emoji-picker-element"
+
 
 const show = useShow()
 const groupe = useGroupe()
@@ -14,10 +17,32 @@ const URL = useUrl().url
 const messages = useMessages()
 const theme = useTheme()
 
+
+const showEmojiPicker = ref(false) 
 let nomAdmin = ref('')
+let nomGRPInput = ref('')
+
 
 function closeSetgroup() {
   show.showSetGroup = false
+  showEmojiPicker.value = false
+}
+
+function handleInputChange() {
+  showEmojiPicker.value = false
+}
+
+function addEmoji(event) {
+  const input = nomGRPInput.value;
+  const emoji = event.detail.unicode;
+  const start = input.selectionStart;
+  const end = input.selectionEnd;
+  groupe.groupeNameToPUT = groupe.groupeNameToPUT.substring(0, start) + emoji + groupe.groupeNameToPUT.substring(end);
+  setTimeout(() => {
+    input.selectionStart = input.selectionEnd = start + emoji.length;
+    input.focus();
+  }, 0);
+
 }
 
 function putAdmin(id) {
@@ -27,6 +52,11 @@ function putAdmin(id) {
   putGroupe(formData)
 }
 
+function toggleEmojiPicker() {
+  showEmojiPicker.value = !showEmojiPicker.value
+}
+
+
 function putNomAdmin() {
   let formData = {
     name: groupe.groupeNameToPUT
@@ -35,7 +65,6 @@ function putNomAdmin() {
 }
 
 function putGroupe(formData) {
-  show.showSpinner = true
   axios
     .put(`${URL}/api/putgroups/${groupe.groupeId}`, formData, {
       headers: {
@@ -46,15 +75,9 @@ function putGroupe(formData) {
       groupe.groupeName = response.data.name
       groupe.groupeNameToPUT = response.data.name
       groupe.idAdmin = response.data.user_id
-      messages.messageSucces = 'Modification succés !'
-      setTimeout(() => {
-        messages.messageSucces = ''
-      }, 3000)
-      show.showSpinner = false
     })
     .catch((error) => {
       console.error(error)
-      show.showSpinner = false
     })
 }
 </script>
@@ -78,14 +101,28 @@ function putGroupe(formData) {
           />
           Modifier votre groupe
         </h1>
+        <div class="relative" >
         <input
           type="text"
           placeholder="Nom du groupe"
           v-model="groupe.groupeNameToPUT"
+          ref="nomGRPInput"
           @blur="putNomAdmin"
+          @input="handleInputChange"
           :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
           class="text-black focus:outline-none border w-full mt-2 px-4 py-1 text-sm rounded-2xl focus:border-2 transition border-blue-500"
         />
+        <Tooltip content="Emoji">
+          <font-awesome-icon
+            @click="toggleEmojiPicker"
+            :class="theme.theme === 'light' ? 'text-gray-500 cursor-pointer' : 'text-gray-500 cursor-pointer'"
+            :icon="['fas', 'smile']"
+            class="absolute right-3 bottom-0 transform -translate-y-1/2"
+          /></Tooltip>
+          <div v-if="showEmojiPicker" class="emoji-picker-modal absolute top-full left-0 mt-2">
+            <emoji-picker :class="theme.theme === 'light' ? 'light' : 'dark'" @emoji-click="addEmoji"></emoji-picker>
+          </div>
+        </div>
         <div class="flex flex-col">
           <label class="text-sm mt-4">
             <font-awesome-icon
@@ -99,7 +136,7 @@ function putGroupe(formData) {
             @change="() => putAdmin(nomAdmin)"
             v-model="nomAdmin"
             :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
-            class="text-black py-2 px-4 mt-2 rounded-2xl border focus:outline-none text-xs"
+            class="text-black py-2 px-4 mt-2 rounded border focus:outline-none text-xs"
           >
             <option
               v-for="(membre, index) in groupe.membresForAdmin"

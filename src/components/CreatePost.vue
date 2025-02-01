@@ -207,7 +207,6 @@ function addEmoji(event) {
     input.focus();
   }, 0);
 
-  showEmojiPicker.value = false;
 }
 
 function addEmojiCtg(event) {
@@ -221,7 +220,6 @@ function addEmojiCtg(event) {
     input.focus();
   }, 0);
 
-  showEmojiCtg.value = false;
 }
 
 function addEmojiDecr(event) {
@@ -235,7 +233,6 @@ function addEmojiDecr(event) {
     input.focus();
   }, 0);
 
-  showEmojiPickerDescr.value = false;
 }
 
 function handleInputChange() {

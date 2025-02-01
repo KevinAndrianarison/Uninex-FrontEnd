@@ -346,7 +346,6 @@ function addEmojiComs(event) {
     input.focus();
   }, 0);
 
-  showEmojiComs.value = false;
 }
 
 function handleInputChangeComs() {

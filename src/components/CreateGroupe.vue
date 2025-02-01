@@ -43,7 +43,6 @@ function addEmojiGRP(event) {
     input.focus();
   }, 0);
 
-  showEmojiPickerGRP.value = false;
 }
 
 const selectedMembres = ref([])
