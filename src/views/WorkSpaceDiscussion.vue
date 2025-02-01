@@ -156,6 +156,9 @@
       :class="theme.theme === 'light' ? '' : '!bg-gray-200'" 
       class="h-[78%] max-h-[78%] overflow-y-auto bg-gray-100 px-5 chat-container"
       >
+      <div v-if=isSending class="w-full flex justify-end p-2">
+        <font-awesome-icon :icon="['fas', 'spinner']" class="animate-spin text-blue-500 w-6 h-6" />
+        </div>
         <div :key="index" v-for="(message, index) in messages">
           <div v-if="Number(message.sender_id) !== localUserId" class="w-[50%] mt-2 flex items-end">
             <div
@@ -365,7 +368,9 @@ const isUser = ref(true)
 const isGroup = ref(false)
 const searchUser = ref("")
 const showEmojiMessage = ref(false) 
-const messageInput = ref(false) 
+const messageInput = ref(false)
+const isSending = ref(false);
+
 
 
 const show = useShow()
@@ -657,6 +662,7 @@ function selectUser(user) {
 
 
 function sendMessage() {
+  isSending.value = true;
   let formData = new FormData();
   formData.append('sender_id', localUserId.value || '');
   formData.append('receiver_id', selectedUser.value.id || '');
@@ -670,10 +676,11 @@ function sendMessage() {
   axios
     .post(`${URL}/api/send-message`, formData)
     .then((response) => {
-
+      isSending.value = false;
     })
     .catch((error) => {
       console.error( error);
+      isSending.value = false;
     });
 }
 
@@ -818,6 +825,19 @@ function removeFile() {
   flex-direction: column-reverse;
   overflow-y: auto;
   height: 100%;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .emoji-picker-modal {

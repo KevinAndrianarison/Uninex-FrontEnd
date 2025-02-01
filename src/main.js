@@ -83,7 +83,8 @@ import {
   faStar,
   faCircle,
   faSmile,
-  faBars
+  faBars,
+  faSpinner
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -150,7 +151,8 @@ library.add(
   faStar,
   faCircle,
   faSmile,
-  faBars
+  faBars,
+  faSpinner
 )
 
 import App from './App.vue'

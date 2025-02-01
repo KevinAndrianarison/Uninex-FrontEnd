@@ -75,6 +75,9 @@
       <div
       :class="theme.theme === 'light' ? '' : '!bg-gray-200'"
       class="boder h-[78%] max-h-[78%] bg-gray-100 chat-container px-4">
+        <div v-if=isSending class="w-full flex justify-end p-2">
+        <font-awesome-icon :icon="['fas', 'spinner']" class="animate-spin text-blue-500 w-6 h-6" />
+        </div>
         <div :key="index" v-for="(message, index) in groupe.messages">
           <div v-if="Number(message.user_id) !== localUserId" class="w-[50%] mt-2 flex items-end">
             <div
@@ -253,6 +256,8 @@ const messageSend = ref('')
 const idMessage = ref(null)
 const showEmojiMessage = ref(false) 
 const messageInput = ref(false) 
+const isSending = ref(false);
+
 
 
 
@@ -307,6 +312,7 @@ function mergeUserIntoMessage(data) {
 }
 
 function sendMessage() {
+  isSending.value = true;
   const userString = localStorage.getItem('user')
   const user = JSON.parse(userString)
   let formData = new FormData()
@@ -320,9 +326,11 @@ function sendMessage() {
   axios
     .post(`${URL}/api/groups/${groupe.groupeId}/messages`, formData)
     .then((response) => {
+      isSending.value = false;
     })
     .catch((error) => {
       console.error(error)
+      isSending.value = false;
     })
 }
 
@@ -442,6 +450,19 @@ function deleteGroupe() {
   flex-direction: column-reverse;
   overflow-y: auto;
   height: 100%;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>
 
