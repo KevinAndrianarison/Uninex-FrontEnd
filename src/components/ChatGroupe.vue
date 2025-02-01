@@ -1,11 +1,11 @@
 <template>
   <div class="px-4 h-full">
-    <div @click="hideDropdown" 
-    :class="theme.theme === 'light' ? '' : '!bg-gray-200'" 
+    <div @click="hideDropdown"
+    :class="theme.theme === 'light' ? '' : '!bg-gray-200'"
     class="border h-full bg-gray-100 rounded-xl"
     >
-      <div 
-      :class="theme.theme === 'light' ? '' : '!bg-gray-300'" 
+      <div
+      :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
       class="h-[8%] border-b bg-white rounded-t-xl flex items-center justify-between px-4"
       >
         <font-awesome-icon
@@ -27,7 +27,7 @@
           /></Tooltip>
           <div
             v-if="showDropdown"
-            :class="theme.theme === 'light' ? '' : '!bg-gray-400 text-white'" 
+            :class="theme.theme === 'light' ? '' : '!bg-gray-400 text-white'"
             class="text-xs border absolute bg-white border shadow-lg mt-2 w-48 right-5"
           >
             <ul>
@@ -72,8 +72,8 @@
           </div>
         </div>
       </div>
-      <div 
-      :class="theme.theme === 'light' ? '' : '!bg-gray-200'" 
+      <div
+      :class="theme.theme === 'light' ? '' : '!bg-gray-200'"
       class="boder h-[78%] max-h-[78%] bg-gray-100 chat-container px-4">
         <div :key="index" v-for="(message, index) in groupe.messages">
           <div v-if="Number(message.user_id) !== localUserId" class="w-[50%] mt-2 flex items-end">
@@ -89,15 +89,15 @@
               class="rounded-3xl logo w-[50px] h-[50px] mr-2"
             ></div>
             <div class="w-[80%]">
-              <p class="borderRadius bg-white border p-3">
+              <p class="borderRadius bg-white border p-3 whitespace-pre-wrap">
                 {{ message.content }}
-                <p 
+                <p
                 v-if="isImageFile(message.fichierName)"
                 :style="{
                       'background-image': `url(${URL}/storage/messageGroup/${message.fichierName})`,
                       'background-size': 'cover',
                       'background-position': 'center'
-                        }" 
+                        }"
                 class=" h-[20vh] my-2  bg-white"></p>
                 <Tooltip content="Télecharger">
                 <div v-if="message.fichierName" class="flex text-white items-center bg-green-500 text-xs rounded py-1 px-2 border" >
@@ -117,15 +117,15 @@
             class="w-[full] mt-2 flex justify-end items-end cursor-pointer"
           >
             <div class="w-[45%] mr-2">
-              <p class="borderRadiusReverse bg-blue-500 text-white border p-3">
+              <p class="borderRadiusReverse bg-blue-500 text-white border whitespace-pre-wrap p-3">
                 {{ message.content }}
-                <p 
+                <p
                 v-if="isImageFile(message.fichierName)"
                 :style="{
                       'background-image': `url(${URL}/storage/messageGroup/${message.fichierName})`,
                       'background-size': 'cover',
                       'background-position': 'center'
-                        }" 
+                        }"
                 class=" h-[20vh] my-2  bg-white"></p>
                 <Tooltip content="Télecharger">
                 <div v-if="message.fichierName" class="flex  text-xs items-center bg-white text-gray-900 rounded py-1 px-2 border" >
@@ -169,15 +169,26 @@
             />!
         </div>
       </div>
-      <div 
-      :class="theme.theme === 'light' ? '' : '!bg-gray-200'" 
-      class="h-[12%] flex justify-between items-center py-10 px-3 rounded-b-xl bg-gray-100">
+      <div
+      :class="theme.theme === 'light' ? '' : '!bg-gray-200'"
+      class="h-[12%] flex justify-between items-center py-10 px-3 rounded-b-xl bg-gray-100 relative">
         <textarea
         :class="theme.theme === 'light' ? '' : '!bg-gray-200'"
           class="min-h-[50%] border focus:border-2 border-yellow-500 rounded-xl p-2 w-[90%] focus:outline-none"
           placeholder="Écrire ici..."
           v-model="messageSend"
+          @input="handleInputChange"
+          ref="messageInput"
         ></textarea>
+        <Tooltip content="Emoji">
+          <font-awesome-icon
+            @click="toggleEmojiMessage"
+            :icon="['fas', 'smile']"
+            class="iconadd text-blue-500 cursor-pointer hover:bg-gray-200 rounded-3xl p-2 px-3 h-6 w-5"
+          /></Tooltip>
+          <div v-if="showEmojiMessage" class="emoji-picker-modal absolute bottom-full right-0 mb-2 z-50">
+            <emoji-picker :class="theme.theme === 'light' ? 'light' : 'dark'" @emoji-click="addEmoji"></emoji-picker>
+          </div>
         <div class="relative inline-block">
           <Tooltip content="Joindre un fichier">
             <font-awesome-icon
@@ -215,6 +226,7 @@
   </div>
 </template>
 
+
 <script setup>
 import { ref } from 'vue'
 import Tooltip from '../components/Tooltip.vue'
@@ -228,6 +240,8 @@ import { useTheme } from '@/stores/Theme'
 import {
   SparklesIcon
 } from '@heroicons/vue/24/outline'
+import "emoji-picker-element";
+
 
 
 
@@ -237,6 +251,10 @@ const showDropdown = ref(false)
 const fileName = ref('')
 const messageSend = ref('')
 const idMessage = ref(null)
+const showEmojiMessage = ref(false) 
+const messageInput = ref(false) 
+
+
 
 
 const URL = useUrl().url
@@ -259,7 +277,27 @@ channel.bind('message-deleted', (data) => {
   }
 });
 
+function toggleEmojiMessage() {
+  showEmojiMessage.value = !showEmojiMessage.value
+}
 
+function handleInputChange() {
+  showEmojiMessage.value = false
+}
+
+function addEmoji(event) {
+  const input = messageInput.value;
+  const emoji = event.detail.unicode;
+  const start = input.selectionStart;
+  const end = input.selectionEnd;
+  messageSend.value = messageSend.value.substring(0, start) + emoji + messageSend.value.substring(end);
+  setTimeout(() => {
+    input.selectionStart = input.selectionEnd = start + emoji.length;
+    input.focus();
+  }, 0);
+
+  showEmojiMessage.value = false;
+}
 
 function mergeUserIntoMessage(data) {
     if (data.message && data.user) {
@@ -396,6 +434,10 @@ function deleteGroupe() {
   color: blue;
 }
 
+.emoji-picker-modal {
+  z-index: 1000;
+}
+
 .chat-container {
   display: flex;
   flex-direction: column-reverse;
@@ -403,3 +445,4 @@ function deleteGroupe() {
   height: 100%;
 }
 </style>
+

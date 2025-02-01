@@ -452,6 +452,8 @@ export const useEtudiant = defineStore('Etudiant', () => {
     fileName.value = ''
   }
 
+  
+
   return {
     nomComplet_etud,
     ListeEtudiant,

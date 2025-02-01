@@ -170,7 +170,7 @@
               class="rounded-3xl logo w-[50px] h-[50px] mr-2"
             ></div>
             <div class="w-[80%]">
-              <p class="borderRadius bg-white border p-3">
+              <p class="borderRadius bg-white border whitespace-pre-wrap p-3">
                 {{ message.message }}
                 <p 
                 v-if="isImageFile(message.fichierName)"
@@ -198,7 +198,7 @@
             @click.stop="setIdMessage(message.id)"
           >
             <div class="w-[45%] mr-2">
-              <p class="borderRadiusReverse bg-blue-500 text-white border p-3">
+              <p class="borderRadiusReverse whitespace-pre-wrap bg-blue-500 text-white border p-3">
                 {{ message.message }}
                 <p 
                 v-if="isImageFile(message.fichierName)"
@@ -264,7 +264,18 @@
           class="min-h-[60%] border focus:border-2 border-yellow-500 rounded-xl p-2 w-[90%] focus:outline-none"
           placeholder="Écrire ici..."
           :class="theme.theme === 'light' ? '' : '!bg-gray-200'"
+          ref="messageInput"
+          @input="handleInputChange"
         ></textarea>
+        <Tooltip content="Emoji">
+          <font-awesome-icon
+            @click="toggleEmojiMessage"
+            :icon="['fas', 'smile']"
+            class="iconadd text-blue-500 cursor-pointer hover:bg-gray-200 rounded-3xl p-2 px-3 h-6 w-5"
+          /></Tooltip>
+          <div v-if="showEmojiMessage" class="emoji-picker-modal right-0 mb-2 z-50">
+            <emoji-picker :class="theme.theme === 'light' ? 'light' : 'dark'" @emoji-click="addEmoji"></emoji-picker>
+          </div>
         <div class="relative inline-block">
           <Tooltip content="Joindre un fichier">
             <font-awesome-icon
@@ -325,6 +336,7 @@ import { useTheme } from '@/stores/Theme'
 import {
   SparklesIcon
 } from '@heroicons/vue/24/outline'
+import "emoji-picker-element";
 
 
 
@@ -352,12 +364,37 @@ const isCanBlocOrUnBloc = ref(true)
 const isUser = ref(true)
 const isGroup = ref(false)
 const searchUser = ref("")
+const showEmojiMessage = ref(false) 
+const messageInput = ref(false) 
 
 
 const show = useShow()
 const Message = useMessages()
 const groupe = useGroupe()
 const theme = useTheme()
+
+
+function toggleEmojiMessage() {
+  showEmojiMessage.value = !showEmojiMessage.value
+}
+
+function handleInputChange() {
+  showEmojiMessage.value = false
+}
+
+function addEmoji(event) {
+  const input = messageInput.value;
+  const emoji = event.detail.unicode;
+  const start = input.selectionStart;
+  const end = input.selectionEnd;
+  newMessage.value = newMessage.value.substring(0, start) + emoji + newMessage.value.substring(end);
+  setTimeout(() => {
+    input.selectionStart = input.selectionEnd = start + emoji.length;
+    input.focus();
+  }, 0);
+
+  showEmojiMessage.value = false;
+}
 
 
 function toggleDropdown() {
@@ -782,5 +819,11 @@ function removeFile() {
   flex-direction: column-reverse;
   overflow-y: auto;
   height: 100%;
+}
+
+.emoji-picker-modal {
+  position: absolute;
+  top: calc(30%); 
+  z-index: 50;
 }
 </style>

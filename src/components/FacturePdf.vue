@@ -27,7 +27,7 @@
       
       <div class="mb-4">
         <p class="font-bold text-gray-800 text-sm">{{ transaction.oneFacture.categorie }}</p>
-        <p class="text-gray-600 text-sm">{{ transaction.oneFacture.description }}</p>
+        <p class="text-gray-600 text-sm whitespace-pre-wrap">{{ transaction.oneFacture.description }}</p>
       </div>
       
       <div class="border rounded-lg p-4 pb-8 text-lg font-semibold text-gray-800 bg-gray-100 text-center">

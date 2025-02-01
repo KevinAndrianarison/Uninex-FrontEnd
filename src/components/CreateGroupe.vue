@@ -8,6 +8,13 @@ import { useMessages } from '@/stores/messages'
 import { useUrl } from '@/stores/url'
 import { useGroupe } from '../stores/groupe'
 import { useTheme } from '@/stores/Theme'
+import "emoji-picker-element";
+import Tooltip from '../components/Tooltip.vue'
+
+
+const showEmojiPickerGRP = ref(false) 
+const GRPInput = ref(null);
+
 
 const show = useShow()
 const user = useUser()
@@ -18,6 +25,25 @@ const theme = useTheme()
 
 function closeCreateGroup() {
   show.showCreateGroup = false
+  showEmojiPickerGRP.value = false
+}
+
+function toggleEmojiPickerGRP() {
+  showEmojiPickerGRP.value = !showEmojiPickerGRP.value
+}
+
+function addEmojiGRP(event) {
+  const input = GRPInput.value;
+  const emoji = event.detail.unicode;
+  const start = input.selectionStart;
+  const end = input.selectionEnd;
+  nomGroup.value = nomGroup.value.substring(0, start) + emoji + nomGroup.value.substring(end);
+  setTimeout(() => {
+    input.selectionStart = input.selectionEnd = start + emoji.length;
+    input.focus();
+  }, 0);
+
+  showEmojiPickerGRP.value = false;
 }
 
 const selectedMembres = ref([])
@@ -108,13 +134,26 @@ function createGroupe() {
         <p class="font-bold">
           <font-awesome-icon :icon="['fas', 'users']" class="text-gray-500 mr-2" />Nouveau groupe :
         </p>
+        <div class="relative">
         <input
           type="text"
           v-model="nomGroup"
           :class="theme.theme === 'light' ? '' : '!bg-gray-600'"
           class="mt-4 focus:outline-none border-b-2 py-1.5 border-b-blue-500 w-full text-sm"
           placeholder="Nom du groupe"
+          ref='GRPInput'
         />
+        <Tooltip content="Emoji">
+          <font-awesome-icon
+            @click="toggleEmojiPickerGRP"
+            :class="theme.theme === 'light' ? 'text-gray-500 cursor-pointer' : 'text-gray-500 cursor-pointer'"
+            :icon="['fas', 'smile']"
+            class="absolute right-3 bottom-1 transform -translate-y-1/2"
+          /></Tooltip>
+          <div v-if="showEmojiPickerGRP" class="emoji-picker-modal absolute top-full left-0 mt-2">
+            <emoji-picker :class="theme.theme === 'light' ? 'light' : 'dark'" @emoji-click="addEmojiGRP"></emoji-picker>
+          </div>
+        </div>
         <div class="mt-4 text-xs text-blue-500">({{ selectedMembres.length }}) séléctionné(s)</div>
         <input
           type="text"

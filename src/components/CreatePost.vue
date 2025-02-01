@@ -10,6 +10,7 @@ import { useCategory } from '@/stores/Category'
 import { useAnnonce } from '@/stores/Annonce'
 import { useTheme } from '@/stores/Theme'
 import Notiflix from 'notiflix'
+import "emoji-picker-element";
 
 const file = ref(null)
 const fileName = ref('')
@@ -18,6 +19,9 @@ const descriptionAnnonce = ref('')
 const idCategorie = ref(null)
 const showCreateCategory = ref(false)
 const showListeCategory = ref(false)
+const showEmojiPicker = ref(false) 
+const showEmojiCtg = ref(false) 
+const showEmojiPickerDescr = ref(false) 
 const newCategory = reactive({
   emoji: '',
   title: ''
@@ -30,6 +34,9 @@ const show = useShow()
 const category = useCategory()
 const userString = localStorage.getItem('user')
 const user = JSON.parse(userString)
+const titreAnnonceInput = ref(null);
+const descriptionAnnonceInput = ref(null);
+const newCategoryEmojiInput = ref(null);
 
 function closeCreatePost() {
   titreAnnonce.value = ''
@@ -37,6 +44,8 @@ function closeCreatePost() {
   file.value = null
   fileName.value = null
   show.showCreatePost = false
+  showEmojiPicker.value = false
+  showEmojiPickerDescr.value = false
 }
 
 function postAnnonce() {
@@ -86,6 +95,7 @@ function closeCreateCategory() {
   newCategory.emoji = ''
   newCategory.title = ''
   showCreateCategory.value = false
+  showEmojiCtg.value = false
 }
 
 function closeListeCategory() {
@@ -173,6 +183,72 @@ function onFileChange(event) {
   file.value = event.target.files[0]
   fileName.value = event.target.files[0].name
 }
+
+function toggleEmojiPicker() {
+  showEmojiPicker.value = !showEmojiPicker.value
+}
+
+function toggleEmojiCtg() {
+  showEmojiCtg.value = !showEmojiCtg.value
+}
+
+function toggleEmojiPickerDescr() {
+  showEmojiPickerDescr.value = !showEmojiPickerDescr.value
+}
+
+function addEmoji(event) {
+  const input = titreAnnonceInput.value;
+  const emoji = event.detail.unicode;
+  const start = input.selectionStart;
+  const end = input.selectionEnd;
+  titreAnnonce.value = titreAnnonce.value.substring(0, start) + emoji + titreAnnonce.value.substring(end);
+  setTimeout(() => {
+    input.selectionStart = input.selectionEnd = start + emoji.length;
+    input.focus();
+  }, 0);
+
+  showEmojiPicker.value = false;
+}
+
+function addEmojiCtg(event) {
+  const input = newCategoryEmojiInput.value;
+  const emoji = event.detail.unicode;
+  const start = input.selectionStart;
+  const end = input.selectionEnd;
+  newCategory.emoji = newCategory.emoji.substring(0, start) + emoji + newCategory.emoji.substring(end);
+  setTimeout(() => {
+    input.selectionStart = input.selectionEnd = start + emoji.length;
+    input.focus();
+  }, 0);
+
+  showEmojiCtg.value = false;
+}
+
+function addEmojiDecr(event) {
+  const input = descriptionAnnonceInput.value;
+  const emoji = event.detail.unicode;
+  const start = input.selectionStart;
+  const end = input.selectionEnd;
+  descriptionAnnonce.value = descriptionAnnonce.value.substring(0, start) + emoji + descriptionAnnonce.value.substring(end);
+  setTimeout(() => {
+    input.selectionStart = input.selectionEnd = start + emoji.length;
+    input.focus();
+  }, 0);
+
+  showEmojiPickerDescr.value = false;
+}
+
+function handleInputChange() {
+  showEmojiPicker.value = false
+}
+
+function handleInputChangeCtg() {
+  showEmojiCtg.value = false
+}
+
+function handleInputChangeDescr() {
+  showEmojiPickerDescr.value = false
+}
 </script>
 
 <template>
@@ -185,13 +261,27 @@ function onFileChange(event) {
           </button>
         </div>
         <h1 class="font-bold text-md">Créér une annonce :</h1>
-        <input
-          type="text"
-          placeholder="Titre"
-          v-model="titreAnnonce"
-          :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
-          class="text-black focus:outline-none focus:border-2 border border-green-400 rounded w-full px-3 text-sm mt-2 py-2"
-        />
+        <div class="relative">
+          <input
+            type="text"
+            ref="titreAnnonceInput"
+            placeholder="Titre"
+            v-model="titreAnnonce"
+            :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+            class="text-black focus:outline-none focus:border-2 border border-green-400 rounded w-full px-3 text-sm mt-2 py-2 pr-10"
+            @input="handleInputChange"
+          />
+          <Tooltip content="Emoji">
+          <font-awesome-icon
+            @click="toggleEmojiPicker"
+            :class="theme.theme === 'light' ? 'text-gray-500 cursor-pointer' : 'text-gray-500 cursor-pointer'"
+            :icon="['fas', 'smile']"
+            class="absolute right-3 bottom-1 transform -translate-y-1/2"
+          /></Tooltip>
+          <div v-if="showEmojiPicker" class="emoji-picker-modal absolute top-full left-0 mt-2">
+            <emoji-picker :class="theme.theme === 'light' ? 'light' : 'dark'" @emoji-click="addEmoji"></emoji-picker>
+          </div>
+        </div>
         <div class="mt-2 flex items-end justify-between">
           <div class="flex items-left w-full flex-col">
             <label class="text-xs mt-2">Choisissez une catégorie :</label>
@@ -240,12 +330,26 @@ function onFileChange(event) {
             /></Tooltip>
           </div>
         </div>
-        <textarea
+        <div class="relative">
+          <textarea
           placeholder="Description"
+          ref='descriptionAnnonceInput'
           v-model="descriptionAnnonce"
+          @input="handleInputChangeDescr"
           :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
           class="text-black text-sm min-h-[100px] focus:border-2 border border-green-400 focus:outline-none border rounded w-full px-3 mt-4 py-2"
         ></textarea>
+        <Tooltip content="Emoji">
+          <font-awesome-icon
+            @click="toggleEmojiPickerDescr"
+            :class="theme.theme === 'light' ? 'text-gray-500 cursor-pointer' : 'text-gray-500 cursor-pointer'"
+            :icon="['fas', 'smile']"
+            class="absolute right-3 bottom-1 transform -translate-y-1/2"
+          /></Tooltip>
+          <div v-if="showEmojiPickerDescr" class="emoji-picker-modal absolute top-full left-0 mt-2">
+            <emoji-picker :class="theme.theme === 'light' ? 'light' : 'dark'" @emoji-click="addEmojiDecr"></emoji-picker>
+          </div>
+        </div>
         <div class="relative flex items-center">
           <input
             @change="onFileChange"
@@ -289,13 +393,28 @@ function onFileChange(event) {
           </button>
         </div>
         <h1 class="font-bold text-sm">Créer une nouvelle catégorie :</h1>
+        <div class="relative">
         <input
           v-model="newCategory.emoji"
+          @input="handleInputChangeCtg"
+          ref="newCategoryEmojiInput"
           type="text"
           placeholder="Emoji (e.g., 📚)"
           :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
           class="focus:outline-none border-2 text-xs rounded w-full px-3 mt-5 py-2 text-black"
         />
+        <Tooltip content="Emoji">
+          <font-awesome-icon
+            @click="toggleEmojiCtg"
+            :class="theme.theme === 'light' ? 'text-gray-500 cursor-pointer' : 'text-gray-500 cursor-pointer'"
+            :icon="['fas', 'smile']"
+            class="absolute right-3 bottom-1 transform -translate-y-1/2"
+          />
+          </Tooltip>
+          <div v-if="showEmojiCtg" class="emoji-picker-modal absolute top-full left-0 mt-2">
+            <emoji-picker :class="theme.theme === 'light' ? 'light' : 'dark'" @emoji-click="addEmojiCtg"></emoji-picker>
+          </div>
+          </div>
         <input
           v-model="newCategory.title"
           type="text"
@@ -355,3 +474,8 @@ function onFileChange(event) {
 </template>
 
 <style scoped src="../styles/Modale.css"></style>
+<style scoped>
+.emoji-picker-modal {
+  z-index: 1000;
+}
+</style>

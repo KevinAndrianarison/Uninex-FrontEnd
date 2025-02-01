@@ -61,7 +61,6 @@
               />
             </div>
             <p class="font-bold"  v-else>{{ ann.titre }}</p>
-
             <div v-if="editableId === ann.id && isEditingDescription">
               <textarea
                 v-model="ann.editableDescription"
@@ -72,8 +71,8 @@
             </div>
             <p    
             :class="theme.theme === 'light' ? '' : '!text-gray-200'"
-            class="text-gray-500 text-sm" v-else>
-              {{ ann.description }}
+             v-html="highlightHashtags(ann.description)"
+            class="text-gray-500 text-sm whitespace-pre-wrap" v-else>
             </p>
             <div class="mt-1 flex">
               <div v-if="ann.fichier_nom" class="w-full ">
@@ -183,12 +182,25 @@
         <h1 class="font-bold">Commentaires :</h1>
         <textarea
           placeholder="Ecrire ici..."
+          ref="newComsEmojiInput"
+          @input="handleInputChangeComs"
           v-model="coms"
           :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
           class="text-black border-2 focus:border-yellow-500 rounded w-full min-h-[50px] focus:outline-none p-1"
         >
         </textarea>
         <div class="relative bottom-8 right-3 text-end">
+
+        <Tooltip content="Emoji">
+          <font-awesome-icon
+            @click="toggleEmojiCtg"
+            :class="theme.theme === 'light' ? 'text-gray-500 cursor-pointer' : 'text-gray-500 cursor-pointer'"
+            :icon="['fas', 'smile']"
+            class="mr-1"
+          /></Tooltip>
+          <div v-if="showEmojiComs" class="emoji-picker-modal absolute top-full left-0 mt-2">
+            <emoji-picker :class="theme.theme === 'light' ? 'light' : 'dark'" @emoji-click="addEmojiComs"></emoji-picker>
+          </div>
           <Tooltip content="Envoyer">
             <font-awesome-icon
               @click="sendMsg()"
@@ -221,8 +233,7 @@
                   autofocus
                 ></textarea>
               </div>
-              <p v-else>{{ coms.contenu }}</p>
-
+              <p v-html="highlightHashtags(coms.contenu )" class='whitespace-pre-wrap' v-else></p>
               <div class="mt-2 flex items-center justify-between w-full">
                 <p class="text-gray-500 text-xs">{{ coms.timeAgo }}</p>
                 <div class="flex justify-end">
@@ -299,6 +310,8 @@ import { onBeforeMount, onMounted, ref, watch } from 'vue'
 import { useUrl } from '@/stores/url'
 import { useTheme } from '@/stores/Theme'
 import axios from 'axios'
+import "emoji-picker-element";
+
 
 const show = useShow()
 const theme = useTheme()
@@ -319,6 +332,26 @@ const isComs = ref(false)
 const editableComId = ref(null)
 const showLikesModal = ref(false)
 const listReacteur = ref([])
+const showEmojiComs = ref(false) 
+const newComsEmojiInput = ref(null);
+
+function addEmojiComs(event) {
+  const input = newComsEmojiInput.value;
+  const emoji = event.detail.unicode;
+  const start = input.selectionStart;
+  const end = input.selectionEnd;
+  coms.value = coms.value.substring(0, start) + emoji + coms.value.substring(end);
+  setTimeout(() => {
+    input.selectionStart = input.selectionEnd = start + emoji.length;
+    input.focus();
+  }, 0);
+
+  showEmojiComs.value = false;
+}
+
+function handleInputChangeComs() {
+  showEmojiComs.value = false
+}
 
 watch(findBy, (newValue, oldValue) => {
   if (newValue === 'Toutes') {
@@ -328,6 +361,23 @@ watch(findBy, (newValue, oldValue) => {
     annonces.getAnnonceByIdUser(user.user.id)
   }
 })
+
+function highlightHashtags(text) {
+  if (text) {
+        if (text.includes('#')) {
+          text = text.replace(/#(\w+)/g, '<span class="text-blue-500 font-bold">#$1</span>');
+        }
+        if (text.includes('@')) {
+          text = text.replace(/@(\w+)/g, '<span class="font-bold">@$1</span>');
+        }
+      }
+      return text;
+}
+
+function toggleEmojiCtg() {
+  showEmojiComs.value = !showEmojiComs.value
+}
+  
 
 function toggleEditPost(ann) {
   if (editableId.value === ann.id) {
