@@ -46,7 +46,7 @@
           <font-awesome-icon
             class="iconadd text-gray-800 cursor-pointer mr-2"
             :icon="['fas', 'clock-rotate-left']"
-          />Historique des transitions :
+          />Historique des transactions :
         </div>
         <div class="flex items-center gap-4 mt-4 text-xs border-l-4 pl-2 border-yellow-500">
           <label for="searchDate" class="font-bold text-gray-700">Filtrer par date :</label>
