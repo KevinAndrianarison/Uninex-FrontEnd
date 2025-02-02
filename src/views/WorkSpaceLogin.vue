@@ -21,6 +21,7 @@
             type="text"
             v-model="user.email"
             placeholder="Adresse email"
+            @keyup.enter="user.login()"
             class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
           />
         </div>
@@ -29,6 +30,7 @@
             placeholder="Mot de passe"
             v-model="user.password"
             :type="show.showPassword ? 'text' : 'password'"
+            @keyup.enter="user.login()"
             class="pl-3 pr-10 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
           />
           <button
@@ -40,7 +42,7 @@
             <EyeSlashIcon v-else class="h-5 w-5" />
           </button>
         </div>
-        <Button class="btn mt-[8%]" :disabled="!user.email || !user.password" @click="user.login()"
+        <Button class="btn mt-[8%] cursor-pointer" :disabled="!user.email || !user.password" @click="user.login()"
           >Connexion</Button
         >
         <p class="text mt-5 ">Mot de passe oublié ?</p>
