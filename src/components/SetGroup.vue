@@ -110,7 +110,7 @@ function putGroupe(formData) {
           @blur="putNomAdmin"
           @input="handleInputChange"
           :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
-          class="text-black focus:outline-none border w-full mt-2 px-4 py-1 text-sm rounded-2xl focus:border-2 transition border-blue-500"
+          class="text-black focus:outline-none border w-full mt-2 px-4 py-1 text-sm rounded focus:border-2 transition border-blue-500"
         />
         <Tooltip content="Emoji">
           <font-awesome-icon

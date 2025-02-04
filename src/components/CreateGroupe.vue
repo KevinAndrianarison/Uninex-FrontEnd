@@ -158,18 +158,18 @@ function createGroupe() {
           type="text"
           v-model="searchQuery"
           :class="theme.theme === 'light' ? 'bg-gray-200' : '!bg-gray-300'"
-          class="text-black w-full rounded-xl px-3 py-2 mt-2 text-xs focus:outline-none"
+          class="text-black w-full rounded px-3 py-2 mt-2 text-xs focus:outline-none"
           placeholder="Rechercher"
         />
         <ul
           v-if="searchQuery && filteredMembres.length"
           :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
-          class="bg-white text-black border rounded-xl mt-1 max-h-40 overflow-auto text-xs max-h-[150px] overflow-y-auto"
+          class="bg-white text-black border rounded mt-1 max-h-40 overflow-auto text-xs max-h-[150px] overflow-y-auto"
         >
           <li
             v-for="(membre, index) in filteredMembres"
             :key="membre.id"
-            class="p-2 hover:bg-gray-100 cursor-pointer"
+            class="p-2 hover:bg-gray-100  cursor-pointer"
             @click="addMembre(membre)"
           >
             {{ membre.email }}

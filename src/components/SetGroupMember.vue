@@ -97,7 +97,7 @@ function removeMember(id) {
           placeholder="Nouveau membre"
           v-model="searchQuery"
           :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
-          class="text-black focus:outline-none border w-full mt-4 px-4 p-1.5 text-sm rounded-2xl focus:border-2 transition border-blue-500"
+          class="text-black focus:outline-none border w-full mt-4 px-4 p-1.5 text-sm rounded focus:border-2 transition border-blue-500"
         />
         <ul
           v-if="searchQuery && filteredMembres.length"
