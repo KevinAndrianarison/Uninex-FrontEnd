@@ -9,6 +9,16 @@ import { useMessages } from '@/stores/messages'
 import { useTheme } from '@/stores/Theme'
 import Notiflix from 'notiflix'
 import "emoji-picker-element"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import NProgress from 'nprogress';
 
 
 const show = useShow()
@@ -26,6 +36,11 @@ let nomGRPInput = ref('')
 function closeSetgroup() {
   show.showSetGroup = false
   showEmojiPicker.value = false
+}
+
+function handleSelection(valeur){
+  nomAdmin.value = valeur
+  putAdmin(valeur)
 }
 
 function handleInputChange() {
@@ -65,6 +80,7 @@ function putNomAdmin() {
 }
 
 function putGroupe(formData) {
+NProgress.start(); 
   axios
     .put(`${URL}/api/putgroups/${groupe.groupeId}`, formData, {
       headers: {
@@ -72,12 +88,15 @@ function putGroupe(formData) {
       }
     })
     .then((response) => {
+      console.log(response);
       groupe.groupeName = response.data.name
       groupe.groupeNameToPUT = response.data.name
       groupe.idAdmin = response.data.user_id
+       NProgress.done()
     })
     .catch((error) => {
       console.error(error)
+      NProgress.done()
     })
 }
 </script>
@@ -132,25 +151,28 @@ function putGroupe(formData) {
             />
             Changer l'administrateur du groupe :
           </label>
-          <select
-            @change="() => putAdmin(nomAdmin)"
-            v-model="nomAdmin"
-            :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
-            class="text-black py-2 px-4 mt-2 rounded border focus:outline-none text-xs"
+        <Select @update:modelValue="handleSelection">
+        <SelectTrigger
+          :class="theme.theme === 'light' ? '' : '!bg-gray-300 '"
+          class="w-full mt-2 py-0 select-trigger"
           >
-            <option
-              v-for="(membre, index) in groupe.membresForAdmin"
-              :key="membre.id"
-              :value="membre.id"
-              class="text-sm overflow-y-auto max-h-[100px]"
-            >
-              {{ membre.email }}
-            </option>
-          </select>
+        <SelectValue class="focus:outline-none" placeholder="Séléctionnez ici" />
+        </SelectTrigger>
+        <SelectContent :class="theme.theme === 'light' ? '' : '!bg-gray-300'">
+            <SelectGroup>
+                    <SelectItem               
+                    v-for="(membre, index) in groupe.membresForAdmin"
+                    :key="membre.id"
+                    :value="membre.id">{{ membre.email }}</SelectItem>
+            </SelectGroup>
+        </SelectContent>
+        </Select>
         </div>
       </div>
     </div>
   </Transition>
 </template>
 
-<style scoped src="../styles/Modale.css"></style>
+<style scoped src="../styles/Modale.css">
+
+</style>

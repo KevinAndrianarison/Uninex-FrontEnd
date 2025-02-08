@@ -33,6 +33,7 @@
     "laravel-echo": "^1.16.1",
     "lucide-vue-next": "^0.473.0",
     "notiflix": "^3.2.8",
+    "nprogress": "^0.2.0",
     "pinia": "^2.1.6",
     "pusher-js": "^8.4.0-rc2",
     "qrcode": "^1.5.4",

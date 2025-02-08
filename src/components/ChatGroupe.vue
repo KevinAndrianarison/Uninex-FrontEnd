@@ -259,9 +259,6 @@ const messageInput = ref(false)
 const isSending = ref(false);
 
 
-
-
-
 const URL = useUrl().url
 const groupe = useGroupe()
 const show = useShow()

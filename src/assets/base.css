@@ -82,6 +82,11 @@ body {
   
 }
 
+#nprogress .bar {
+  background: rgba(0, 184, 148, 1.0) !important;
+  height: 4px !important;
+}
+
 ::-webkit-scrollbar {
   width: 12px;
 }

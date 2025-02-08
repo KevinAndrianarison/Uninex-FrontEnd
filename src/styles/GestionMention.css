@@ -55,12 +55,8 @@
 }
 
 .listNiv {
-    padding: 5px 5px 5px 15px;
     border-radius: 2px;
     border: 1px solid rgba(128, 128, 128, 0.311);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 
 }
 

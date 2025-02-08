@@ -2,13 +2,16 @@
   <header class="header">
     <div class="left">
       <div
+      @click="()=>{
+        router.push('/')
+      }"
         :style="{
           'background-image':
             'url(' +
             `${URL}/storage/etablissement/${etablissement.etablissement.nomlogo_etab} ` +
             ')'
         }"
-        class="logo ml-5"
+        class="logo ml-5 cursor-pointer"
       ></div>
       <h1>{{ etablissement.etablissement.abr_etab }}</h1>
     </div>
@@ -123,6 +126,8 @@ import { useInfosheader } from '@/stores/Infosheader'
 import { useEtablissement } from '@/stores/Etablissement'
 import { useTheme } from '@/stores/Theme'
 import Tooltip from './Tooltip.vue'
+import { useRouter } from 'vue-router'
+
 
 const theme = useTheme()
 const au = useAu()
@@ -131,6 +136,7 @@ const show = useShow()
 const infosheader = useInfosheader()
 const URL = useUrl().url
 const etablissement = useEtablissement()
+const router = useRouter()
 const enabled = ref(false)
 
 function createPost() {

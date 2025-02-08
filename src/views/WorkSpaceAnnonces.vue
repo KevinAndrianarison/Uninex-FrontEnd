@@ -1,20 +1,24 @@
 <template>
     <div :class="theme.theme === 'light' ? 'body bg-white border pb-5 rounded-lg min-h-[80vh]' : 'body bg-white pb-5 rounded-lg min-h-[80vh] !text-white !bg-gray-600 !border-gray-200'">
-    <div class="head flex justify-center items-center mt-2 text-black">
-      <div>
-        <select
-          v-model="findBy"
-          :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
-          class="mr-2 w-40 p-1.5 px-2 rounded border-2 focus:outline-none text-xs"
-        >
-          <option value="Toutes" class="text-sm">Toutes</option>
-          <option value="Mes annonces" class="text-sm">Mes annonces</option>
-        </select>
-      </div>
+    <div class="head flex justify-center items-center gap-4 mt-2 text-black">
+    <Select @update:modelValue="handleSelection">
+        <SelectTrigger
+          :class="theme.theme === 'light' ? '' : '!bg-gray-300 '"
+          class="w-40 py-0 select-trigger"
+          >
+        <SelectValue class="focus:outline-none" placeholder="Trier par" />
+        </SelectTrigger>
+        <SelectContent :class="theme.theme === 'light' ? '' : '!bg-gray-300'">
+            <SelectGroup>
+                    <SelectItem value="Toutes">Toutes</SelectItem>
+                    <SelectItem value="Mes annonces">Mes annonce</SelectItem>
+            </SelectGroup>
+        </SelectContent>
+        </Select>
       <input
         type="search"
         :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
-        class="py-2 text-center px-1 w-60 rounded border focus:outline-none text-xs focus:border-green-500 border-2"
+        class="py-1.5 text-center px-1 w-60 rounded border focus:outline-none focus:border-green-500 border-2"
         placeholder="🔍 Recherche par titre"
         @input="annonces.search(annonces.searchalue)"
         v-model="annonces.searchalue"
@@ -228,7 +232,7 @@
               <div v-if="editableComId === coms.id">
                 <textarea
                   v-model="coms.editableContenu"
-                  class="border w-full focus:outline-none rounded min-h-[50px] p-1"
+                  class="border w-full focus:outline-none rounded min-h-[50px] mt-1 p-1"
                   @blur="saveCommentChanges(coms)"
                   autofocus
                 ></textarea>
@@ -311,7 +315,15 @@ import { useUrl } from '@/stores/url'
 import { useTheme } from '@/stores/Theme'
 import axios from 'axios'
 import "emoji-picker-element";
-
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 const show = useShow()
 const theme = useTheme()
@@ -346,6 +358,10 @@ function addEmojiComs(event) {
     input.focus();
   }, 0);
 
+}
+
+function handleSelection(valeur){
+  findBy.value = valeur
 }
 
 function handleInputChangeComs() {
@@ -599,6 +615,11 @@ onBeforeMount(() => {
   width: 30px;
   height: 30px;
   border-radius: 50%;
+}
+
+.select-trigger:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 .titre {

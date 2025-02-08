@@ -11,6 +11,15 @@ import { useAnnonce } from '@/stores/Annonce'
 import { useTheme } from '@/stores/Theme'
 import Notiflix from 'notiflix'
 import "emoji-picker-element";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 const file = ref(null)
 const fileName = ref('')
@@ -47,6 +56,11 @@ function closeCreatePost() {
   showEmojiPicker.value = false
   showEmojiPickerDescr.value = false
 }
+
+function handleSelection(valeur){
+  idCategorie.value = valeur
+}
+
 
 function postAnnonce() {
   const userString = localStorage.getItem('user')
@@ -265,7 +279,7 @@ function handleInputChangeDescr() {
             placeholder="Titre"
             v-model="titreAnnonce"
             :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
-            class="text-black focus:outline-none focus:border-2 border border-green-400 rounded w-full px-3 text-sm mt-2 py-2 pr-10"
+            class="text-black focus:outline-none focus:border-2 border border-gray-200 rounded w-full px-3 text-sm mt-2 py-2 pr-10"
             @input="handleInputChange"
           />
           <Tooltip content="Emoji">
@@ -279,31 +293,27 @@ function handleInputChangeDescr() {
             <emoji-picker :class="theme.theme === 'light' ? 'light' : 'dark'" @emoji-click="addEmoji"></emoji-picker>
           </div>
         </div>
-        <div class="mt-2 flex items-end justify-between">
-          <div class="flex items-left w-full flex-col">
-            <label class="text-xs mt-2">Choisissez une catégorie :</label>
-            <select
-              v-model="idCategorie"
-              :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
-              class="mr-2 py-2 px-2 mt-1 rounded border focus:outline-none text-xs text-black"
-            >
-              <option
-                class="text-sm overflow-y-auto max-h-[100px]"
-                :key="ctg.id"
-                v-for="(ctg, index) in category.listCategorie"
-                :value="ctg.id"
-              >
-                {{ ctg.titre }}
-              </option>
-              <option
-                disabled
-                class="text-xs text-gray-500"
-                v-if="category.listCategorie.length === 0"
-              >
-                Aucune catégorie trouvée...
-              </option>
-            </select>
-          </div>
+        <div class="mt-2 flex items-end gap-2 justify-between">
+        <Select @update:modelValue="handleSelection">
+        <SelectTrigger
+          :class="theme.theme === 'light' ? '' : '!bg-gray-300 '"
+          class="w-full py-0 select-trigger"
+          >
+        <SelectValue class="focus:outline-none " placeholder="Choisissez une catégorie" />
+        </SelectTrigger>
+        <SelectContent :class="theme.theme === 'light' ? '' : '!bg-gray-300'">
+            <SelectGroup>
+                    <SelectItem                 
+                    :key="ctg.id"
+                    v-for="(ctg, index) in category.listCategorie"
+                    :value="ctg.id" 
+                    >
+                    {{ ctg.titre }}
+                    </SelectItem>
+                    <SelectItem v-if="category.listCategorie.length === 0" disabled value="Mes annonces">Aucune catégorie trouvée...</SelectItem>
+            </SelectGroup>
+        </SelectContent>
+        </Select>
           <div v-if="show.showNavBarDir" class="flex flex-col justify-center">
             <Tooltip content="Créer une nouvelle catégorie">
               <font-awesome-icon
@@ -320,10 +330,10 @@ function handleInputChangeDescr() {
                 @click="openListeCategory"
                 :class="
                   theme.theme === 'light'
-                    ? 'iconadd text-gray-800 cursor-pointer h-4 w-3'
-                    : 'iconadd text-gray-200 cursor-pointer h-4 w-3'
+                    ? 'text-gray-500 cursor-pointer h-4 w-4'
+                    : 'text-gray-500 cursor-pointer h-4 w-4'
                 "
-                :icon="['fas', 'bars-staggered']"
+                :icon="['fas', 'bars']"
             /></Tooltip>
           </div>
         </div>
@@ -334,7 +344,7 @@ function handleInputChangeDescr() {
           v-model="descriptionAnnonce"
           @input="handleInputChangeDescr"
           :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
-          class="text-black text-sm min-h-[100px] focus:border-2 border border-green-400 focus:outline-none border rounded w-full px-3 mt-4 py-2"
+          class="text-black text-sm min-h-[100px] focus:border-2 border border-gray-200 focus:outline-none border rounded w-full px-3 mt-4 py-2"
         ></textarea>
         <Tooltip content="Emoji">
           <font-awesome-icon
@@ -474,5 +484,10 @@ function handleInputChangeDescr() {
 <style scoped>
 .emoji-picker-modal {
   z-index: 1000;
+}
+
+.select-trigger:focus {
+  outline: none;
+  box-shadow: none;
 }
 </style>

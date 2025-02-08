@@ -102,7 +102,7 @@ function removeMember(id) {
         <ul
           v-if="searchQuery && filteredMembres.length"
           :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
-          class="text-black bg-white border rounded-2xl mt-1 max-h-40 overflow-auto text-sm max-h-[150px] overflow-y-auto"
+          class="text-black bg-white border rounded mt-1 max-h-40 overflow-auto text-sm max-h-[150px] overflow-y-auto"
         >
           <li
             v-for="(membre, index) in filteredMembres"

@@ -39,6 +39,11 @@
     width: 300px;
 }
 
+.select-trigger:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
 .formInput {
     display: flex;
     flex-wrap: wrap;

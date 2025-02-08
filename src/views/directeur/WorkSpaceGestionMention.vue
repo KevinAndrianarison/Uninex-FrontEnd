@@ -72,10 +72,10 @@
             v-if="activeDisclosure === niv.id"
             class="DisclosurePanel mt-2 text-sm "
           >
-            <div class="listNiv truncate" :key="index" v-for="(mnt, index) in mention.ListMention">
-              {{ mnt.nom_mention }} / {{ mnt.abr_mention }}
+            <div class="flex listNiv py-1 gap-2 items-center justify-center   " :key="index" v-for="(mnt, index) in mention.ListMention">
+              <p class="truncate">{{ mnt.nom_mention }} / {{ mnt.abr_mention }}</p>
               <TrashIcon
-                class="deletes h-6 w-5 ml-3 pb-1"
+                class=" h-5 w-4 text-red-500 "
                 @click="deleteMention(mnt.abr_mention, mnt.id)"
               />
             </div>

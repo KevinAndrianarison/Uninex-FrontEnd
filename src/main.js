@@ -157,8 +157,11 @@ library.add(
 
 import App from './App.vue'
 import routes from './router/index'
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
 
 const app = createApp(App)
+NProgress.configure({ showSpinner: false });
 app.component('font-awesome-icon', FontAwesomeIcon)
 app.use(createPinia())
 app.use(routes)

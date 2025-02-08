@@ -132,6 +132,14 @@
 
           <div class="sm:col-span-3 mr-4 mt-2">
             <label class="block text-sm font-medium leading-6">Votre logo</label>
+            <div 
+          :style="{
+          'background-image':
+            'url(' +
+            `${URL}/storage/etablissement/${etablissement.etablissement.nomlogo_etab} ` +
+            ')'
+        }" 
+        class="image w-20 h-20 p-5"></div>
             <div class="mt-2">
               <div class="relative flex items-center">
                 <input
@@ -162,21 +170,27 @@
               </div>
             </div>
           </div>
-
-          <div class="sm:col-span-3 mt-2 divbtn">
+          <div class="sm:col-span-3 mt-2 flex items-end">
             <Button
               :disabled="show.showMessageErrorEmailDir || !etablissement.etablissement.email_etab"
-              class="btns"
+              class="btns "
               @click="etablissement.modifierEtabissement()"
             >
-              Modifier</Button
+              Enregistrer les modifications</Button
             >
           </div>
         </div>
 
         <h1 class="create pl-5 mt-2">Modifier vos informations personnelles :</h1>
-        <div class="class formInputs border-gray-900/10 pb-5 pl-5">
-          <div class="sm:col-span-3 mt-2 mr-4">
+        <div class="class flex gap-5 formInputs border-gray-900/10 p-5 pl-5">
+        <div
+        :style="{
+            'background-image': `url(${URL}/storage/users/${infosheader.photo || 'téléchargement-removebg-preview.png'})`
+          }"
+          class='image ring ring-blue-400 h-[200px] w-[200px] rounded-full'>
+        </div>
+        <div class='flex flex-wrap w-[70%] gap-4' >
+          <div class="sm:col-span-3">
             <label class="block text-sm font-medium leading-6 ">Nom complet</label>
             <div class="mt-2">
               <input
@@ -187,7 +201,7 @@
               />
             </div>
           </div>
-          <div class="sm:col-span-3 mt-2 mr-4">
+          <div class="sm:col-span-3">
             <label class="block text-sm font-medium leading-6">Adresse email</label>
             <div class="mt-2">
               <input
@@ -200,7 +214,7 @@
               <p class="err" v-if="show.showMessageErrorEmail">Adresse email invalide</p>
             </div>
           </div>
-          <div class="sm:col-span-3 mt-2 mr-4">
+          <div class="sm:col-span-3">
             <label class="block text-sm font-medium leading-6"
               >Numéro téléphone</label
             >
@@ -213,7 +227,7 @@
               />
             </div>
           </div>
-          <div v-if="show.showNavBarDir" class="sm:col-span-3 mt-2 mr-4">
+          <div v-if="show.showNavBarDir" class="sm:col-span-3">
             <label class="block text-sm font-medium leading-6"
               >Titre académique</label
             >
@@ -273,7 +287,7 @@
               </Listbox>
             </div>
           </div>
-          <div class="sm:col-span-3 mt-2 mr-4 file">
+          <div class="sm:col-span-3 file">
             <label class="block text-sm font-medium leading-6 ">Photo</label>
             <div class="mt-1">
               <div class="relative flex items-center">
@@ -305,11 +319,12 @@
               />
             </div>
           </div>
-
-          <div class="sm:col-span-3 mt-4">
+          <div class="sm:col-span-3 mt-2 ">
             <label class="block text-sm font-medium leading-6 text-gray-900">&nbsp;</label>
-            <Button @click="modifier()" class="btns mb-1"> Modifier</Button>
+            <Button @click="modifier()" class="btns mb-1"> Enregistrer les modifications</Button>
           </div>
+        </div>
+        
         </div>
 
         <h1 class="create pl-5 mt-2">Changer de mot de passe :</h1>
@@ -411,10 +426,13 @@ import { useAgentscolarite } from '@/stores/Agentscolarite'
 import { useEtudiant } from '@/stores/Etudiant'
 import { useEnseignant } from '@/stores/Enseignant'
 import { useInfossetup } from '@/stores/Infossetup'
+import { useInfosheader } from '@/stores/Infosheader'
 import { onBeforeMount } from 'vue'
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import { useTheme } from '@/stores/Theme'
+import { useUrl } from '@/stores/url'
+
 
 const user = useUser()
 const regex = useRegex()
@@ -425,7 +443,10 @@ const etudiant = useEtudiant()
 const infossetup = useInfossetup()
 const directeur = useDirecteur()
 const agentscolarite = useAgentscolarite()
+const infosheader = useInfosheader()
 const theme = useTheme()
+const URL = useUrl().url
+
 
 const grades = ['Ingénieur', 'Docteur', 'Professeur']
 
@@ -471,6 +492,7 @@ onBeforeMount(() => {
     infossetup.telephone = users.telephone_ens
     enseignant.id_ens = users.id
   }
+
 })
 
 function modifier() {
@@ -509,4 +531,6 @@ function onPhotoFileChange(event) {
 }
 </script>
 
-<style scoped src="../styles/Configuration.css"></style>
+<style scoped src="../styles/Configuration.css">
+
+</style>
