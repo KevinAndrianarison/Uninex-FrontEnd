@@ -37,18 +37,14 @@ function closeCreateAU() {
       <div :class="theme.theme === 'light' ? 'formModal' : 'formModal !bg-gray-600 !text-white'">
         <div class="divbtn">
           <button type="button" class="Annullers" @click="closeCreateAU()">
-            <XMarkIcon
-            :class="theme.theme === 'light' ? '' : '!text-red-500'"
-             class="h-6 w-6" />
+            <XMarkIcon :class="theme.theme === 'light' ? '' : '!text-red-500'" class="h-6 w-6" />
           </button>
         </div>
         <p class="infos">Nouvelle année universitaire :</p>
         <div class="class formInput mt-4">
           <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div class="sm:col-span-3">
-              <label class="block text-sm font-medium leading-6"
-                >Année de début</label
-              >
+              <label class="block text-sm font-medium leading-6">Année de début</label>
               <div class="mt-2">
                 <input
                   type="number"
