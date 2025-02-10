@@ -60,6 +60,8 @@ export const useShow = defineStore('Show', () => {
   const showSetGroupMember = ref(false)
   const showSetGroup = ref(false)
   const showQuitGroup = ref(false)
+  const isLandingPage = ref(true)
+  const isSingIn = ref(false)
 
 
 
@@ -135,6 +137,8 @@ export const useShow = defineStore('Show', () => {
     showSetGroup,
     showQuitGroup,
     showUserList,
+    isLandingPage,
+    isSingIn,
     toggleCreatePasswordVisibility,
     togglePasswordVisibility,
     toggleVerifyPasswordVisibility

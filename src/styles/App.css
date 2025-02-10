@@ -2,7 +2,7 @@
   font-family: 'Nunito';
   background-color: var(--color-background-main);
   overflow-y: none;
-  height: 100vh;
+  /* height: 100vh; */
   overflow-y: hidden;
   overflow-x: hidden;
 }
