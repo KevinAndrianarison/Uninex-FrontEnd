@@ -62,6 +62,7 @@ import {
   faTrash,
   faImages,
   faChevronLeft,
+  faChevronRight,
   faBan,
   faLockOpen,
   faUsers,
@@ -87,7 +88,9 @@ import {
   faSpinner, 
   faHome,
   faPodcast,
-  faAngleUp
+  faAngleUp,
+  faGraduationCap,
+  faEnvelope
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -158,7 +161,10 @@ library.add(
   faSpinner,
   faHome,
   faPodcast,
-  faAngleUp
+  faAngleUp,
+  faGraduationCap,
+  faEnvelope,
+  faChevronRight
 
 )
 

@@ -82,6 +82,10 @@ body {
   
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 #nprogress .bar {
   background: rgba(0, 184, 148, 1.0) !important;
   height: 4px !important;
