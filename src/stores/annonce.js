@@ -14,11 +14,8 @@ export const useAnnonce = defineStore('Annonce', () => {
   const show = useShow()
 
   function getAllAnnonce() {
-    const userString = localStorage.getItem('user')
-    const user = JSON.parse(userString)
-
     axios
-      .get(`${URL}/api/annonce`, { params: { user_id: user.user.id } })
+      .get(`${URL}/api/annonce`)
       .then((response) => {
         isSveletron.value = false
         listAnnonce.value = response.data.reverse()

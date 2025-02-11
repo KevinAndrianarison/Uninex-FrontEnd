@@ -1,5 +1,5 @@
 <template>
-  <div class="app ">
+  <div class="app">
     <Transition>
       <WorkSpaceHome v-if="show.showHome" />
     </Transition>
@@ -159,7 +159,7 @@ import ListeNotesEtudiant from './components/ListeNotesEtudiant.vue'
 import ReleveNotePdf from './components/ReleveNotePdf.vue'
 import RapportCaissePdf from './components/RapportCaissePdf.vue'
 import Overlay from './components/Overlay.vue'
-import { onBeforeMount } from 'vue'
+import { onBeforeMount, onMounted } from 'vue'
 import { useShow } from '@/stores/Show'
 import { useEtablissement } from '@/stores/Etablissement'
 import CreateGroupe from './components/CreateGroupe.vue'
@@ -167,14 +167,53 @@ import DeleteGroup from './components/delete/DeleteGroup.vue'
 import SetGroupMember from './components/SetGroupMember.vue'
 import SetGroup from './components/SetGroup.vue'
 import QuitterGroup from './components/QuitterGroup.vue'
+import { useAnnonce } from '@/stores/Annonce'
 
 const show = useShow()
 const etablissement = useEtablissement()
+const annonces = useAnnonce()
 
-onBeforeMount(() => {
-  etablissement.getEtab()
+onMounted(() => {
+  setInterval(updateTime, 9000)
+  updateTime()
 })
+
+function updateTime() {
+  annonces.listAnnonce.forEach((ann) => {
+    ann.timeAgo = timeAgo(new Date(ann.created_at))
+  })
+}
+
+function timeAgo(date) {
+  const now = new Date()
+  const diffInSeconds = Math.floor((now - date) / 1000)
+  const diffInMinutes = Math.floor(diffInSeconds / 60)
+  const diffInHours = Math.floor(diffInMinutes / 60)
+  const diffInDays = Math.floor(diffInHours / 24)
+  const diffInMonths = Math.floor(diffInDays / 30)
+  const diffInYears = Math.floor(diffInDays / 365)
+
+  if (diffInSeconds < 60) {
+    return `${diffInSeconds} s${diffInSeconds > 1 ? '' : ''}`
+  } else if (diffInMinutes < 60) {
+    return `${diffInMinutes} min${diffInMinutes > 1 ? '' : ''}`
+  } else if (diffInHours < 24) {
+    return `${diffInHours} h${diffInHours > 1 ? '' : ''}`
+  } else if (diffInDays < 30) {
+    return `${diffInDays} j${diffInDays > 1 ? '' : ''}`
+  } else if (diffInMonths < 12) {
+    return `${diffInMonths} mois`
+  } else {
+    return `${diffInYears} an${diffInYears > 1 ? 's' : ''}`
+  }
+}
+
+onBeforeMount(
+  async () => {
+    updateTime();
+    await Promise.all([annonces.getAllAnnonce(), etablissement.getEtab()])
+  }
+)
 </script>
 
 <style scoped src="./styles/App.css"></style>
-

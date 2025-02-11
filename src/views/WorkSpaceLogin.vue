@@ -2,16 +2,15 @@
   <header class="header" :class="{ active: isHeaderActive }" data-header>
     <div class="container">
       <a class="logo flex items-center gap-2">
-        <img src="../assets/logo_espa-removebg-preview.png" class="h-20 w-20" alt="EduWeb logo" />
+        <img src="../assets/logo_espa-removebg-preview.png" class="h-20 w-20" />
       </a>
 
       <nav class="navbar" :class="{ active: isNavbarActive }" data-navbar>
         <div class="wrapper">
           <a class="logo">
             <img
-              src="../assets/logo_espa-removebg-preview.png"
+              :src="`${URL}/storage/etablissement/${etablissement.etablissement.nomlogo_etab}`"
               class="h-20 w-20"
-              alt="EduWeb logo"
             />
           </a>
           <button class="nav-close-btn" aria-label="close menu" @click="toggleNavbar"></button>
@@ -61,8 +60,12 @@
           <div class="flex justify-center">
             <div>
               <div>
-                <h1 class="text-2xl logoESP mt-10">Ecole supérieur polytechnique d'Antsiranana</h1>
-                <p class="mt-2 text-gray-500">« Polyvalence par excelence »</p>
+                <h1 class="text-2xl logoESP mt-10">
+                  {{ etablissement.etablissement.nom_etab }} d'{{
+                    etablissement.etablissement.ville_etab
+                  }}
+                </h1>
+                <p class="mt-2 text-gray-500">« {{ etablissement.etablissement.slogan_etab }} »</p>
               </div>
               <div class="mt-10">
                 <figure class="hero-banner">
@@ -71,7 +74,6 @@
                       src="./assets/images/hero-banner-1.jpg"
                       width="270"
                       height="300"
-                      alt="hero banner"
                       class="img-cover"
                     />
                   </div>
@@ -80,7 +82,6 @@
                       src="./assets/images/hero-banner-2.jpg"
                       width="240"
                       height="370"
-                      alt="hero banner"
                       class="img-cover"
                     />
                   </div>
@@ -94,7 +95,6 @@
                     <img
                       src="../assets/depositphotos_35717211-stock-illustration-vector-user-icon-removebg-preview.png"
                       class="h-20 w-20"
-                      alt="EduWeb logo"
                     />
                   </div>
                   <div class="text-center text-xl logoESP mt-5">Connectez-vous !</div>
@@ -151,7 +151,6 @@
                     width="40"
                     height="40"
                     loading="lazy"
-                    alt="Online Degree Programs"
                     class="img"
                   />
                 </div>
@@ -165,7 +164,6 @@
                     width="40"
                     height="40"
                     loading="lazy"
-                    alt="Online Degree Programs"
                     class="img"
                   />
                 </div>
@@ -179,7 +177,6 @@
                     width="40"
                     height="40"
                     loading="lazy"
-                    alt="Online Degree Programs"
                     class="img"
                   />
                 </div>
@@ -193,7 +190,6 @@
                     width="40"
                     height="40"
                     loading="lazy"
-                    alt="Online Degree Programs"
                     class="img"
                   />
                 </div>
@@ -213,8 +209,7 @@
                   width="520"
                   height="370"
                   loading="lazy"
-                  alt="about banner"
-                  class="img-cover "
+                  class="img-cover"
                 />
               </div>
               <img
@@ -222,17 +217,16 @@
                 width="722"
                 height="528"
                 loading="lazy"
-                alt=""
                 class="shape about-shape-3"
               />
             </figure>
             <div class="about-content">
               <div class="flex items-center gap-4 logoESP">
                 <p class="text-2xl font-bold border-t-0 border-x-0 border-4 border-b-blue-500 py-4">
-                  ESP
+                  {{ etablissement.etablissement.abr_etab }}
                 </p>
                 <p class="text-2xl font-bold border-t-0 border-x-0 border-4 py-4 border-b-gray-50">
-                  Antsiranana
+                  {{ etablissement.etablissement.ville_etab }}
                 </p>
               </div>
               <h2 class="text-sm section-title mt-4">
@@ -258,7 +252,6 @@
                 width="100"
                 height="100"
                 loading="lazy"
-                alt=""
                 class="shape about-shape-4"
               />
             </div>
@@ -277,114 +270,38 @@
             </div>
             <ul class="grid-list">
               <li>
-                <div class="course-card">
+                <div :key="ann.id" v-for="(ann, index) in annonces.listAnnonce" class="course-card">
                   <figure class="card-banner img-holder">
                     <img
-                      src="./assets/images/course-1.jpg"
+                      :src="`${URL}/storage/annonce/${ann.fichier_nom}`"
                       width="370"
                       height="220"
                       loading="lazy"
-                      alt="Build Responsive Real- World Websites with HTML and CSS"
                       class="img-cover"
                     />
                   </figure>
                   <div class="abs-badge">
-                    <span class="span">3 Weeks</span>
+                    <span class="span">{{ ann.timeAgo }}</span>
                   </div>
                   <div class="card-content">
-                    <span class="badge">Beginner</span>
+                    <span class="badge">{{ ann.user.email }}</span>
                     <h3 class="h3">
-                      <a class="card-title text-lg font-bold"
-                        >Build Responsive Real- World Websites with HTML and CSS</a
-                      >
+                      <a class="card-title text-lg font-bold">{{ ann.titre }}</a>
                     </h3>
                     <div class="wrapper">
-                      <p class="card-text text-sm">
-                        Lorem Ipsum Dolor Sit Amet Cons Tetur Adipisicing Sed.
-                      </p>
+                      <p
+                        v-html="highlightHashtags(ann.description)"
+                        class="card-text text-sm whitespace-pre-wrap"
+                      ></p>
                     </div>
                     <ul class="card-meta-list mt-4">
-                      <li class="card-meta-item">
-                        <span class="text-sm">8 Lessons</span>
-                      </li>
-                      <li class="card-meta-item">
-                        <span class="text-sm">20 Students</span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="course-card">
-                  <figure class="card-banner img-holder">
-                    <img
-                      src="./assets/images/course-2.jpg"
-                      width="370"
-                      height="220"
-                      loading="lazy"
-                      alt="Build Responsive Real- World Websites with HTML and CSS"
-                      class="img-cover"
-                    />
-                  </figure>
-                  <div class="abs-badge">
-                    <span class="span">3 Weeks</span>
-                  </div>
-                  <div class="card-content">
-                    <span class="badge">Beginner</span>
-                    <h3 class="h3">
-                      <a class="card-title text-lg font-bold"
-                        >Build Responsive Real- World Websites with HTML and CSS</a
-                      >
-                    </h3>
-                    <div class="wrapper">
-                      <p class="card-text text-sm">
-                        Lorem Ipsum Dolor Sit Amet Cons Tetur Adipisicing Sed.
-                      </p>
-                    </div>
-                    <ul class="card-meta-list mt-4">
-                      <li class="card-meta-item">
-                        <span class="text-sm">8 Lessons</span>
-                      </li>
-                      <li class="card-meta-item">
-                        <span class="text-sm">20 Students</span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="course-card">
-                  <figure class="card-banner img-holder">
-                    <img
-                      src="./assets/images/course-3.jpg"
-                      width="370"
-                      height="220"
-                      loading="lazy"
-                      alt="Build Responsive Real- World Websites with HTML and CSS"
-                      class="img-cover"
-                    />
-                  </figure>
-                  <div class="abs-badge">
-                    <span class="span">3 Weeks</span>
-                  </div>
-                  <div class="card-content">
-                    <span class="badge">Beginner</span>
-                    <h3 class="h3">
-                      <a class="card-title text-lg font-bold"
-                        >Build Responsive Real- World Websites with HTML and CSS</a
-                      >
-                    </h3>
-                    <div class="wrapper">
-                      <p class="card-text text-sm">
-                        Lorem Ipsum Dolor Sit Amet Cons Tetur Adipisicing Sed.
-                      </p>
-                    </div>
-                    <ul class="card-meta-list mt-4">
-                      <li class="card-meta-item">
-                        <span class="text-sm">8 Lessons</span>
-                      </li>
-                      <li class="card-meta-item">
-                        <span class="text-sm">20 Students</span>
+                      <li class="card-meta-item flex justify-between items-center w-full">
+                        <span class="text-sm">{{ ann.likes_count }} J'aime</span>
+                        <font-awesome-icon
+                          @click="telecharger(ann.fichier_nom)"
+                          class="cursor-pointer text-blue-500 bg-blue-200 py-1.5 p-2 rounded-full relative overflow-hidden transition duration-500 ease-in-out hover:bg-yellow-400 hover:text-white hover:shadow-lg before:absolute before:inset-0 before:-left-full before:bg-white/30 before:w-full before:h-full before:transition before:duration-700 hover:before:left-full"
+                          :icon="['fas', 'arrow-down']"
+                        />
                       </li>
                     </ul>
                   </div>
@@ -532,9 +449,8 @@
           <div class="footer-brand">
             <a class="logo">
               <img
-                src="../assets/logo_espa-removebg-preview.png"
+                :src="`${URL}/storage/etablissement/${etablissement.etablissement.nomlogo_etab}`"
                 class="h-20 w-20"
-                alt="EduWeb logo"
               />
             </a>
             <div class="pt-5 flex flex-col gap-2">
@@ -542,7 +458,11 @@
                 <span class="span"
                   ><font-awesome-icon class="cursor-pointer" :icon="['fas', 'home']"
                 /></span>
-                <address class="address">70-80 Upper St Norwich NR2</address>
+                <address class="address">
+                  {{ etablissement.etablissement.codePostal_etab }}-{{
+                    etablissement.etablissement.ville_etab
+                  }}-{{ etablissement.etablissement.pays_etab }}
+                </address>
               </div>
               <div class="wrapper">
                 <span class="span"
@@ -554,7 +474,7 @@
                 <span class="span"
                   ><font-awesome-icon class="cursor-pointer" :icon="['fas', 'envelope']"
                 /></span>
-                <a href="mailto:info@eduweb.com">info@eduweb.com</a>
+                <a href="mailto:info@eduweb.com">{{ etablissement.etablissement.email_etab }}</a>
               </div>
             </div>
           </div>
@@ -608,8 +528,9 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import Inscription from './Inscription.vue'
+import { useAnnonce } from '@/stores/Annonce'
 
-const annonces = ref([
+const Listeannonces = ref([
   // { id: 1, titre: 'Annonce 1', categorie: 'Immobilier', date: '2024-12-15' },
 ])
 const categories = ['Tout', 'Immobilier', 'Emploi', 'Véhicules', 'Multimédia', 'Services', 'Maison']
@@ -630,9 +551,33 @@ const URL = useUrl().url
 const isMainPage = ref(true)
 const isSingUp = ref(false)
 const isAllAnnonce = ref(false)
+const annonces = useAnnonce()
 
 function handlePage(valeur) {
   annoncesParPage.value = valeur
+}
+
+function telecharger(nom) {
+  const url = `${URL}/api/annonce/files/${nom}`
+  const link = document.createElement('a')
+  link.href = url
+  link.download = nom
+  link.style.display = 'none'
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+}
+
+function highlightHashtags(text) {
+  if (text) {
+    if (text.includes('#')) {
+      text = text.replace(/#(\w+)/g, '<span class="text-blue-500 font-bold">#$1</span>')
+    }
+    if (text.includes('@')) {
+      text = text.replace(/@(\w+)/g, '<span class="font-bold">@$1</span>')
+    }
+  }
+  return text
 }
 
 function handleDate(valeur) {
@@ -654,7 +599,7 @@ onUnmounted(() => {
 })
 
 const annoncesFiltrees = computed(() => {
-  let result = annonces.value
+  let result = Listeannonces.value
 
   if (filtreCategorie.value !== 'Tout') {
     result = result.filter((a) => a.categorie === filtreCategorie.value)
