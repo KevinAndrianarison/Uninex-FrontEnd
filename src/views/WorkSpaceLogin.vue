@@ -21,7 +21,7 @@
           <li class="navbar-item" @click="switchToMain">
             <a href="#acceuil" class="navbar-link" @click="closeNavbar"
               ><font-awesome-icon
-                class="navbar-links cursor-pointer text-gray-500 mr-2"
+                class="navbar-links cursor-pointer mb-0.5 text-gray-500 mr-2"
                 :icon="['fas', 'home']"
               />Acceuil</a
             >
@@ -39,7 +39,7 @@
               <font-awesome-icon
                 class="navbar-links cursor-pointer text-gray-500 mr-2"
                 :icon="['fas', 'podcast']"
-              />Actualité</a
+              />Actualités</a
             >
           </li>
           <li @click="switchToInsccr" class="navbar-item">
@@ -55,9 +55,9 @@
     </div>
   </header>
   <div class="site-container">
-    <main v-if="isMainPage">
+    <main v-if="isMainPage" class="mainComponent">
       <article>
-        <div class="heros" id="acceuil" aria-label="home">
+        <div v-if="!isAllAnnonce" class="heros" id="acceuil" aria-label="home">
           <div class="flex justify-center">
             <div>
               <div>
@@ -126,11 +126,13 @@
                       <EyeSlashIcon v-else class="h-6 w-5" />
                     </button>
                   </div>
-                  <p class="cursor-pointer text-blue-500 mt-5 text-right text-xs">Mot de passe oublié ?</p>
+                  <p class="cursor-pointer text-blue-500 mt-5 text-right text-xs">
+                    Mot de passe oublié ?
+                  </p>
                   <Button
                     :disabled="!user.email || !user.password"
                     @click="user.login()"
-                    class="w-72 border btns text-white mt-[8%] py-2 rounded cursor-pointer"
+                    class="w-72 border btns text-white mt-[8%] py-2 !block rounded cursor-pointer"
                     >Connexion</Button
                   >
                 </div>
@@ -139,7 +141,7 @@
           </div>
         </div>
 
-        <section class="section category mt-20" aria-label="category">
+        <section v-if="!isAllAnnonce" class="section category mt-20" aria-label="category">
           <div class="container">
             <ul class="grid-list">
               <div class="category-card">
@@ -202,7 +204,7 @@
           </div>
         </section>
 
-        <section class="section about" id="apropos" aria-label="about">
+        <section v-if="!isAllAnnonce" class="section about" id="apropos" aria-label="about">
           <div class="container">
             <figure class="about-banner">
               <div class="img-holder">
@@ -263,14 +265,14 @@
           </div>
         </section>
 
-        <section class="section course" id="actualite" aria-label="course">
+        <section v-if="!isAllAnnonce" class="section course" id="actualite" aria-label="course">
           <div class="container">
             <div class="py-10">
               <p class="text-lg text-center logoESP text-green-500">
                 <font-awesome-icon
                   class="cursor-pointer text-green-500 mr-2"
                   :icon="['fas', 'podcast']"
-                />Dernières actualités
+                />Dernières annonces
               </p>
             </div>
             <ul class="grid-list">
@@ -389,16 +391,134 @@
                 </div>
               </li>
             </ul>
-            <a class="btn has-before cursor-pointer ">
+            <a @click="toogleAnnonce" class="btn has-before cursor-pointer">
               <span class="flex items-center"
-                >Voir plus <font-awesome-icon
-                  class="ml-2"
-                  :icon="['fas', 'chevron-right']"
-                /></span
-              >
+                >Voir plus <font-awesome-icon class="ml-2" :icon="['fas', 'chevron-right']"
+              /></span>
             </a>
           </div>
         </section>
+        <div v-if="isAllAnnonce">
+          <div class="heros">
+            <div class="py-10">
+              <p class="text-lg text-center logoESP text-green-500">
+                <font-awesome-icon
+                  class="cursor-pointer text-green-500 mr-2"
+                  :icon="['fas', 'podcast']"
+                />Toutes les annonces
+              </p>
+            </div>
+            <div class="flex items-center justify-center gap-4">
+              <div class="relative" ref="menuRef">
+                <button
+                  @click="showCategorieMenu = !showCategorieMenu"
+                  class="px-4 py-2 rounded flex gap-2 items-center text-gray-600 !bg-gray-200"
+                >
+                  Catégories <font-awesome-icon class="cursor-pointer" :icon="['fas', 'filter']" />
+                </button>
+
+                <div
+                  v-if="showCategorieMenu"
+                  class="absolute left-0 top-full mt-1 bg-white border h-40 overflow-y-auto shadow-lg rounded w-48 p-2 z-10"
+                >
+                  <p
+                    v-for="cat in categories"
+                    :key="cat"
+                    class="flex items-center cursor-pointer hover:bg-gray-100 p-1 px-2 rounded"
+                  >
+                    <span class="!flex gap-2">
+                      <input
+                        type="radio"
+                        :value="cat"
+                        v-model="filtreCategorie"
+                        class="cursor-pointer"
+                      />{{ cat }}</span
+                    >
+                  </p>
+                </div>
+              </div>
+              <div class="flex">
+                <input
+                  type="text"
+                  v-model="recherche"
+                  placeholder="Rechercher une annonce..."
+                  class="!w-60 py-2 pl-2 focus:outline-none !bg-white"
+                />
+                <p class="bg-blue-500 px-4 flex items-center rounded-r bg-white justify-center">
+                  <font-awesome-icon
+                    class="cursor-pointer text-blue-500 "
+                    :icon="['fas', 'magnifying-glass']"
+                  />
+                </p>
+              </div>
+              <Select @update:modelValue="handleDate">
+                <SelectTrigger class="w-40 text-center select-trigger !bg-gray-200 !text-gray-600">
+                  <SelectValue class="focus:outline-none" placeholder="Filtrer par date" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem v-for="option in dateFiltreOptions" :value="option" :key="option">
+                      {{ option }}</SelectItem
+                    >
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 px-10 mt-10">
+              <div
+                v-for="annonce in annoncesAffichees"
+                :key="annonce.id"
+                class="p-4 bg-gray-100 rounded-lg shadow-sm transition-transform transform hover:scale-105 hover:shadow-md"
+              >
+                <h3 class="font-semibold text-lg">{{ annonce.titre }}</h3>
+                <p class="text-gray-500">{{ annonce.categorie }} - {{ annonce.date }}</p>
+              </div>
+            </div>
+            <div class="flex items-center justify-center flex-col">
+              <div
+                class="h-20 w-36 bg-[url('../assets/pngtree-empty-box-icon-for-your-project-png-image_1533458-removebg-preview.png')] bg-cover bg-center"
+              ></div>
+              <p class="text-xs font-bold mt-2">Aucune annonce trouvée</p>
+            </div>
+            <div class="flex items-center justify-center gap-4 mt-10">
+              <p class="text-xs font-bold">Affichage :</p>
+              <Select @update:modelValue="handlePage">
+                <SelectTrigger class="w-40 text-center select-trigger !bg-white">
+                  <SelectValue class="focus:outline-none" placeholder="10" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="10"> 10 par page</SelectItem>
+                    <SelectItem value="20"> 20 par page</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+
+              <div class="flex space-x-2">
+                <button
+                  @click="pageActuelle--"
+                  :disabled="pageActuelle === 1"
+                  class="px-3 py-1 !bg-blue-500 text-white flex items-center !text-xs rounded disabled:opacity-50"
+                >
+                  Précédent
+                </button>
+                <span class="px-4 py-2 rounded">{{ pageActuelle }} / {{ totalPages }}</span>
+                <button
+                  @click="pageActuelle++"
+                  :disabled="pageActuelle >= totalPages"
+                  class="px-3 py-1 !bg-blue-500 text-white flex items-center !text-xs rounded disabled:opacity-50"
+                >
+                  Suivant
+                </button>
+              </div>
+
+              <span class="text-sm text-gray-600 text-xs"
+                >({{ annoncesAffichees.length }} / {{ annoncesFiltrees.length }}) annonces
+                affichées</span
+              >
+            </div>
+          </div>
+        </div>
       </article>
     </main>
     <div v-if="isSingUp" id="inscription" class="insccription">
@@ -470,14 +590,34 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/solid'
 import { useShow } from '@/stores/Show'
 import { useEtablissement } from '@/stores/Etablissement'
 import { onBeforeMount } from 'vue'
 import { useUrl } from '@/stores/url'
 import { useUser } from '@/stores/User'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
 
+const annonces = ref([
+  // { id: 1, titre: 'Annonce 1', categorie: 'Immobilier', date: '2024-12-15' },
+])
+const categories = ['Tout', 'Immobilier', 'Emploi', 'Véhicules', 'Multimédia', 'Services', 'Maison']
+const dateFiltreOptions = ['Ce mois', '3 derniers mois', '6 derniers mois', '1 an']
+const menuRef = ref(null)
+const filtreCategorie = ref('Tout')
+const recherche = ref('')
+const filtreDate = ref('')
+const annoncesParPage = ref(10)
+const pageActuelle = ref(1)
+const showCategorieMenu = ref(false)
 const isNavbarActive = ref(false)
 const isHeaderActive = ref(false)
 const show = useShow()
@@ -486,17 +626,90 @@ const user = useUser()
 const URL = useUrl().url
 const isMainPage = ref(true)
 const isSingUp = ref(false)
+const isAllAnnonce = ref(false)
+
+function handlePage(valeur) {
+  annoncesParPage.value = valeur
+}
+
+function handleDate(valeur) {
+  filtreDate.value = valeur
+}
+
+const handleClickOutside = (event) => {
+  if (menuRef.value && !menuRef.value.contains(event.target)) {
+    showCategorieMenu.value = false
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside)
+})
+
+const annoncesFiltrees = computed(() => {
+  let result = annonces.value
+
+  if (filtreCategorie.value !== 'Tout') {
+    result = result.filter((a) => a.categorie === filtreCategorie.value)
+  }
+
+  if (recherche.value) {
+    result = result.filter((a) => a.titre.toLowerCase().includes(recherche.value.toLowerCase()))
+  }
+
+  if (filtreDate.value) {
+    const now = new Date()
+    result = result.filter((a) => {
+      const annonceDate = new Date(a.date)
+      switch (filtreDate.value) {
+        case 'Ce mois':
+          return (
+            now.getMonth() === annonceDate.getMonth() &&
+            now.getFullYear() === annonceDate.getFullYear()
+          )
+        case '3 derniers mois':
+          return (now - annonceDate) / (1000 * 60 * 60 * 24) <= 90
+        case '6 derniers mois':
+          return (now - annonceDate) / (1000 * 60 * 60 * 24) <= 180
+        case '1 an':
+          return now.getFullYear() === annonceDate.getFullYear()
+        default:
+          return true
+      }
+    })
+  }
+
+  return result
+})
+
+const totalPages = computed(() => Math.ceil(annoncesFiltrees.value.length / annoncesParPage.value))
+const annoncesAffichees = computed(() =>
+  annoncesFiltrees.value.slice(
+    (pageActuelle.value - 1) * annoncesParPage.value,
+    pageActuelle.value * annoncesParPage.value
+  )
+)
 
 onBeforeMount(() => {
   etablissement.getEtab()
 })
 
+function toogleAnnonce() {
+  isAllAnnonce.value = !isAllAnnonce.value
+}
+
 function switchToMain() {
   isSingUp.value = false
+  isAllAnnonce.value = false
   isMainPage.value = true
 }
 
 function switchToInsccr() {
+  isSingUp.value = false
   isMainPage.value = false
   isSingUp.value = true
 }

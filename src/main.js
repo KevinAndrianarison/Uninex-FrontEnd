@@ -90,7 +90,9 @@ import {
   faPodcast,
   faAngleUp,
   faGraduationCap,
-  faEnvelope
+  faEnvelope,
+  faFilter,
+  faCalendar
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -164,8 +166,9 @@ library.add(
   faAngleUp,
   faGraduationCap,
   faEnvelope,
-  faChevronRight
-
+  faChevronRight,
+  faFilter,
+  faCalendar
 )
 
 import App from './App.vue'

@@ -12,6 +12,16 @@ button {
   display: block;
 }
 
+.select-trigger:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+ button[data-v-1b340c9e] {
+    display: flex;
+}
+
+
 a {
   color: inherit;
   text-decoration: none;
@@ -24,6 +34,10 @@ a {
 }
 
 .insccription{
+  flex : 1
+}
+
+.mainComponent{
   flex : 1
 }
 
