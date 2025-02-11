@@ -50,6 +50,7 @@ import {
   faPen,
   faXmark,
   faArrowDown,
+  faArrowRight,
   faListCheck,
   faEye,
   faCircleXmark,
@@ -168,7 +169,8 @@ library.add(
   faEnvelope,
   faChevronRight,
   faFilter,
-  faCalendar
+  faCalendar,
+  faArrowRight
 )
 
 import App from './App.vue'

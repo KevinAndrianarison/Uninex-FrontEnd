@@ -8,6 +8,17 @@
 
 }
 
+.titreS{
+    font-size: 26px;
+    font-family: 'oswald', 'sans-serif' !important;
+    display: flex;
+    align-items: center;
+    background-image: url("../views/assets/images/about-shape-3.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 .titre {
     font-size: 26px;
     font-family: 'Montserrat', 'sans-serif';

@@ -214,7 +214,7 @@
                   height="370"
                   loading="lazy"
                   alt="about banner"
-                  class="img-cover"
+                  class="img-cover "
                 />
               </div>
               <img
@@ -446,7 +446,7 @@
                 />
                 <p class="bg-blue-500 px-4 flex items-center rounded-r bg-white justify-center">
                   <font-awesome-icon
-                    class="cursor-pointer text-blue-500 "
+                    class="cursor-pointer text-blue-500"
                     :icon="['fas', 'magnifying-glass']"
                   />
                 </p>
@@ -522,7 +522,9 @@
       </article>
     </main>
     <div v-if="isSingUp" id="inscription" class="insccription">
-      <p class="heros">Insccription</p>
+      <p class="heros mt-10">
+        <Inscription />
+      </p>
     </div>
     <footer class="bg-gray-500 text-white mt-20 pt-5">
       <div class="footer-top section">
@@ -605,6 +607,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
+import Inscription from './Inscription.vue'
 
 const annonces = ref([
   // { id: 1, titre: 'Annonce 1', categorie: 'Immobilier', date: '2024-12-15' },
