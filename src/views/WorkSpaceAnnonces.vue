@@ -141,7 +141,7 @@
                       :icon="['fas', 'pen']"
                   /></Tooltip>
                 </p>
-                <p v-if="ann.user.id === user.user.id || show.showNavBarDir" class="font-bold">
+                <p v-if="ann.user.id === user.user.id || show.showNavBarAdmin" class="font-bold">
                   <Tooltip content="Supprimer">
                     <font-awesome-icon
                       class="iconadd text-gray-500 cursor-pointer text-red-500"
@@ -244,7 +244,7 @@
                   <p v-if="editableComId !== coms.id && coms.user.id === user.user.id" class="font-bold mr-2">
                     <Tooltip content="Modifier"><font-awesome-icon @click.stop="editComment(coms)" class="iconadd cursor-pointer text-yellow-500" :icon="['fas', 'pen']"/></Tooltip>
                   </p>
-                  <p v-if="coms.user.id === user.user.id || show.showNavBarDir" class="font-bold">
+                  <p v-if="coms.user.id === user.user.id || show.showNavBarAdmin" class="font-bold">
                     <Tooltip content="Supprimer">
                       <font-awesome-icon
                         @click="deleteComs(coms.id)"

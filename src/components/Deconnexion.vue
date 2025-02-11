@@ -39,6 +39,10 @@ function deconnexion() {
     show.showNavBarDir = false
     localStorage.removeItem('user')
   }
+  if (users.user.status_user === 'ADMIN') {
+    show.showNavBarAdmin = false
+    localStorage.removeItem('user')
+  }
   if (users.user.status_user === 'AS') {
     show.showNavBarAS = false
     localStorage.removeItem('user')

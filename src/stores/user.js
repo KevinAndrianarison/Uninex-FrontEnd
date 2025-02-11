@@ -94,6 +94,21 @@ export const useUser = defineStore('User', () => {
               console.error(err)
             })
         }
+        if (response.data.user.status_user === 'ADMIN') {
+          localStorage.setItem('auth_token', response.data.access_token)
+          axios
+            .get(`${URL}/api/admin/getById/${response.data.user.id}`)
+            .then((response) => {
+              localStorage.setItem('user', JSON.stringify(response.data[0]))
+              email.value = ''
+              password.value = ''
+              show.showNavBarAdmin = true
+              show.showAdmin = true
+            })
+            .catch((err) => {
+              console.error(err)
+            })
+        }
         if (response.data.user.status_user === 'AS') {
           localStorage.setItem('auth_token', response.data.access_token)
           axios

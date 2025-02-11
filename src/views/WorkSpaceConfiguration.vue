@@ -9,10 +9,10 @@
       "
     >
       <div class="CONTENT">
-        <h1 class="create pl-5 mt-2" v-if="show.showNavBarDir">
+        <h1 class="create pl-5 mt-2" v-if="show.showNavBarAdmin">
           Modifier les informations de votre établissement :
         </h1>
-        <div v-if="show.showNavBarDir" class="class formInputs border-gray-900/10 pb-5 pl-5">
+        <div v-if="show.showNavBarAdmin" class="class formInputs border-gray-900/10 pb-5 pl-5">
           <div class="sm:col-span-3 mt-2 mr-4">
             <label class="block text-sm font-medium leading-6">Nom de l'établissement</label>
             <div class="mt-2">
@@ -432,8 +432,12 @@ import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headless
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import { useTheme } from '@/stores/Theme'
 import { useUrl } from '@/stores/url'
+import { useAdmin } from '@/stores/Admin'
 
 
+
+
+const admin = useAdmin()
 const user = useUser()
 const regex = useRegex()
 const show = useShow()
@@ -477,6 +481,11 @@ onBeforeMount(() => {
     infossetup.telephone = users.telephone_scol
     agentscolarite.id_scol = users.id
   }
+  if (users.user.status_user === 'ADMIN') {
+    infossetup.nom = users.nomComplet_admin
+    infossetup.telephone = users.telephone_admin
+    agentscolarite.id_scol = users.id
+  }
   if (users.user.status_user === 'SECPAL') {
     infossetup.nom = users.nomComplet_scol
     infossetup.telephone = users.telephone_scol
@@ -501,6 +510,9 @@ function modifier() {
   if (infossetup.nom || infossetup.telephone || infossetup.grade) {
     if (users.user.status_user === 'Directeur') {
       directeur.setDirecteur()
+    }
+    if (users.user.status_user === 'ADMIN') {
+      admin.setAdmin()
     }
     if (users.user.status_user === 'AS') {
       agentscolarite.setAS()

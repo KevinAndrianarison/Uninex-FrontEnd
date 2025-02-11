@@ -195,6 +195,9 @@ export const useEtablissement = defineStore('Etablissement', () => {
           if (user.user.status_user === 'Directeur') {
             show.showNavBarDir = true
           }
+          if (user.user.status_user === 'ADMIN') {
+            show.showNavBarAdmin = true
+          }
           if (user.user.status_user === 'ENS') {
             show.showNavBarEns = true
           }

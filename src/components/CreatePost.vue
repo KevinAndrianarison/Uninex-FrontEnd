@@ -314,7 +314,7 @@ function handleInputChangeDescr() {
             </SelectGroup>
         </SelectContent>
         </Select>
-          <div v-if="show.showNavBarDir" class="flex flex-col justify-center">
+          <div v-if="show.showNavBarAdmin" class="flex flex-col justify-center">
             <Tooltip content="Créer une nouvelle catégorie">
               <font-awesome-icon
                 @click="openCreateCategory"

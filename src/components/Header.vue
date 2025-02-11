@@ -2,9 +2,11 @@
   <header class="header">
     <div class="left">
       <div
-      @click="()=>{
-        router.push('/')
-      }"
+        @click="
+          () => {
+            router.push('/')
+          }
+        "
         :style="{
           'background-image':
             'url(' +
@@ -22,7 +24,9 @@
       <div class="profil">
         <div
           :style="{
-            'background-image': `url(${URL}/storage/users/${infosheader.photo || 'téléchargement-removebg-preview.png'})`
+            'background-image': `url(${URL}/storage/users/${
+              infosheader.photo || 'téléchargement-removebg-preview.png'
+            })`
           }"
           class="image"
         ></div>
@@ -33,7 +37,7 @@
       >
       <div class="w-50" v-if="!show.showNavBarEtud && au.listeAU.length !== 0">
         <Listbox v-model="au.oneAU">
-          <div class="relative ">
+          <div class="relative">
             <ListboxButton
               class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
             >
@@ -70,7 +74,7 @@
                       :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']"
                       >{{ AU.annee_debut }} - {{ AU.annee_fin }}
                       <TrashIcon
-                        v-if="show.showNavBarDir"
+                        v-if="show.showNavBarAdmin"
                         class="delete h-6 w-5 ml-3 pb-1"
                         @click="showDeleteAU()"
                       />
@@ -88,7 +92,7 @@
         </Listbox>
       </div>
       <Tooltip content="Nouvelle AU ">
-        <button class="ml-1" v-if="show.showNavBarDir">
+        <button class="ml-1" v-if="show.showNavBarAdmin">
           <font-awesome-icon
             @click="createAU()"
             class="iconadd h-7 w-5"
@@ -128,7 +132,6 @@ import { useTheme } from '@/stores/Theme'
 import Tooltip from './Tooltip.vue'
 import { useRouter } from 'vue-router'
 
-
 const theme = useTheme()
 const au = useAu()
 const category = useCategory()
@@ -145,9 +148,9 @@ function createPost() {
 }
 
 const isDarkMode = computed({
-    get: () => theme.theme === 'dark',
-    set: () => theme.toggleTheme()
-});
+  get: () => theme.theme === 'dark',
+  set: () => theme.toggleTheme()
+})
 
 onBeforeMount(() => {
   const userString = localStorage.getItem('user')
@@ -155,6 +158,12 @@ onBeforeMount(() => {
   if (user.user.status_user === 'Directeur') {
     infosheader.status = user.user.status_user
     infosheader.nom = user.nomComplet_dir
+    infosheader.photo = user.user.photo_name
+  }
+
+  if (user.user.status_user === 'ADMIN') {
+    infosheader.status = user.user.status_user
+    infosheader.nom = user.nomComplet_admin
     infosheader.photo = user.user.photo_name
   }
   if (user.user.status_user === 'ENS') {

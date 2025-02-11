@@ -11,6 +11,8 @@
       <NavBarRespMention v-if="show.showNavBarRespMention" />
       <NavBarRespParcours v-if="show.showNavBarRespParcours" />
       <NavBarEns v-if="show.showNavBarEns" />
+      <NavBarAdmin v-if="show.showNavBarAdmin" />
+
 
       <RouterLink to="/Discussion">
         <li><ChatBubbleLeftRightIcon class="h-5 w-5 mr-2" /> Discussions</li>
@@ -43,6 +45,8 @@ import NavBarRespMention from './navbar/NavBarRespMention.vue'
 import NavBarRespParcours from './navbar/NavBarRespParcours.vue'
 import NavBarEns from './navbar/NavBarEns.vue'
 import { useTheme } from '@/stores/Theme'
+import NavBarAdmin from './navbar/NavBarAdmin.vue'
+
 
 
 const theme = useTheme()
