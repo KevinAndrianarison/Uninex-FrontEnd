@@ -5,7 +5,7 @@
       annonces
     </p>
   </div>
-  <div class="flex items-center justify-center gap-4">
+  <div class="flex items-center justify-center text-xs gap-4">
     <div class="relative" ref="menuRef">
       <button
         @click="showCategorieMenu = !showCategorieMenu"
@@ -59,7 +59,7 @@
       </p>
     </div>
     <Select @update:modelValue="handleDate">
-      <SelectTrigger class="w-40 text-center select-trigger !bg-gray-200 !text-gray-600">
+      <SelectTrigger class="w-40 text-center select-trigger !bg-gray-200 h-8 !text-gray-600">
         <SelectValue class="focus:outline-none" placeholder="Filtrer par date" />
       </SelectTrigger>
       <SelectContent>
@@ -75,7 +75,7 @@
     :class="
       theme.theme === 'light'
         ? 'body pb-5 rounded-lg max-h-[60vh] overflow-y-auto mt-5'
-        : 'body overflow-y-auto  pb-5 rounded-lg max-h-[60vh] !text-white !bg-gray-600'
+        : 'body overflow-y-auto  pb-5 rounded-lg max-h-[60vh] mt-5 !text-white !bg-gray-600'
     "
   >
     <!-- <div class="head flex justify-center items-center gap-4 mt-2 text-black">
@@ -393,14 +393,31 @@
               />
             </figure>
             <div class="abs-badge">
-              <span class="span">{{ ann.timeAgo }}</span>
+              <span class="span text-xs">{{ ann.timeAgo }}</span>
             </div>
             <div class="flex flex-col justify-between p-4">
-              <span class="badge">{{ ann.user.email }}</span>
-              <h3 class="h3">
-                <a class="card-title text-lg font-bold">{{ ann.titre }}</a>
+              <span class="badge text-xs">{{ ann.user.email }}</span>
+              <div v-if="editableId === ann.id && isEditingTitle">
+                <input
+                  v-model="ann.editableTitre"
+                  :class="theme.theme === 'light' ? '' : 'text-black !bg-gray-300'"
+                  class="ring mt-2 p-1 w-full focus:outline-none text-sm"
+                  @blur="saveChanges(ann, 'titre')"
+                  autofocus
+                />
+              </div>
+              <h3 class="h3" v-else>
+                <a class="card-title text-sm font-bold">{{ ann.titre }}</a>
               </h3>
-              <div class="wrapper">
+              <div v-if="editableId === ann.id && isEditingDescription">
+                <textarea
+                  v-model="ann.editableDescription"
+                  :class="theme.theme === 'light' ? '' : 'text-black !bg-gray-300'"
+                  class="ring mt-2 text-sm p-1 w-full min-h-[50px] focus:outline-none"
+                  @blur="saveChanges(ann, 'description')"
+                ></textarea>
+              </div>
+              <div class="wrapper" v-else>
                 <p
                   v-html="highlightHashtags(ann.description)"
                   class="card-text text-sm whitespace-pre-wrap truncate"
@@ -408,18 +425,91 @@
               </div>
               <ul class="card-meta-list mt-4">
                 <li class="card-meta-item flex justify-between items-center w-full">
-                  <span class="text-sm">{{ ann.likes_count }} J'aime</span>
-                  <font-awesome-icon
-                    @click="telecharger(ann.fichier_nom)"
-                    class="cursor-pointer text-blue-500 bg-blue-200 py-1.5 p-2 rounded-full relative overflow-hidden transition duration-500 ease-in-out hover:bg-yellow-400 hover:text-white hover:shadow-lg before:absolute before:inset-0 before:-left-full before:bg-white/30 before:w-full before:h-full before:transition before:duration-700 hover:before:left-full"
-                    :icon="['fas', 'arrow-down']"
-                  />
+                  <div class="flex items-center gap-2">
+                    <span class="text-sm !flex gap-2">
+                      <p class="cursor-pointer" @click="openLikesModal(ann.likes)">{{ ann.likes_count }}</p>
+                      <p
+                        :class="
+                          ann.likes.some((item) => item.user_id === user.user.id)
+                            ? 'text-blue-500 cursor-pointer'
+                            : ' cursor-pointer'
+                        "
+                        @click="toggleLike(ann)"
+                      >
+                        {{
+                          ann.likes.some((item) => item.user_id === user.user.id)
+                            ? "Je n'aime plus"
+                            : "J'aime"
+                        }}
+                      </p></span
+                    >
+                    <font-awesome-icon
+                      class="iconadd text-gray-500 cursor-pointer text-gray-900/20 mr-1"
+                      :icon="['fas', 'comment-dots']"
+                    />
+                  </div>
+                  <div class="flex items-center space-x-2">
+                    <div v-if="showOptions === ann.id" class="flex items-center space-x-2">
+                      <font-awesome-icon
+                        v-if="ann.user.id !== user.user.id || show.showNavBarAdmin"
+                        @click="telecharger(ann.fichier_nom)"
+                        class="cursor-pointer text-blue-500 bg-blue-200 py-1.5 p-2 rounded-full relative overflow-hidden transition duration-500 ease-in-out hover:bg-yellow-400 hover:text-white hover:shadow-lg before:absolute before:inset-0 before:-left-full before:bg-white/30 before:w-full before:h-full before:transition before:duration-700 hover:before:left-full"
+                        :icon="['fas', 'arrow-down']"
+                      />
+                      <font-awesome-icon
+                        v-if="editableId !== ann.id && ann.user.id === user.user.id"
+                        @click.stop="toggleEditPost(ann)"
+                        class="cursor-pointer text-yellow-500 bg-yellow-200 py-2 p-2 rounded-full relative overflow-hidden transition duration-500 ease-in-out hover:bg-blue-400 hover:text-white hover:shadow-lg before:absolute before:inset-0 before:-left-full before:bg-white/30 before:w-full before:h-full before:transition before:duration-700 hover:before:left-full"
+                        :icon="['fas', 'pen']"
+                      />
+                      <font-awesome-icon
+                        v-if="ann.user.id === user.user.id || show.showNavBarAdmin"
+                        class="cursor-pointer text-red-500 bg-red-200 py-1.5 p-2 rounded-full relative overflow-hidden transition duration-500 ease-in-out hover:bg-red-400 hover:text-white hover:shadow-lg before:absolute before:inset-0 before:-left-full before:bg-white/30 before:w-full before:h-full before:transition before:duration-700 hover:before:left-full"
+                        :icon="['fas', 'xmark']"
+                        @click="showDeletePost(ann.id)"
+                      />
+                    </div>
+                    <font-awesome-icon
+                      @click="toggleOptions(ann.id)"
+                      class="cursor-pointer text-gray-500 bg-gray-200 py-1.5 p-3 rounded-full relative overflow-hidden transition duration-500 ease-in-out hover:bg-gray-400 hover:text-white hover:shadow-lg before:absolute before:inset-0 before:-left-full before:bg-white/30 before:w-full before:h-full before:transition before:duration-700 hover:before:left-full"
+                      :icon="['fas', 'ellipsis-v']"
+                    />
+                  </div>
                 </li>
               </ul>
             </div>
           </div>
         </li>
       </ul>
+      <div
+        v-if="showLikesModal"
+        class="fixed inset-0 bg-black z-10 bg-opacity-50 flex justify-center items-center"
+        @click.self="closeLikesModal"
+      >
+        <div
+          :class="theme.theme === 'light' ? '' : '!bg-gray-600'"
+          class="bg-white p-5 rounded-lg w-1/3 overflow-y-auto max-h-[80vh]"
+        >
+          <h2 class="text-md font-bold mb-3">❤️ Les réacteurs :</h2>
+          <ul>
+            <li :key="lk.id" v-for="(lk, index) in listReacteur" class="py-1">
+              <div class="flex items-center">
+                <div
+                  :style="{
+                    'background-image': `url(${URL}/storage/users/${
+                      lk.user.photo_name || 'téléchargement-removebg-preview.png'
+                    })`,
+                    'background-size': 'cover',
+                    'background-position': 'center'
+                  }"
+                  class="w-10 h-10 rounded-full mr-3"
+                ></div>
+                <p>{{ lk.user.email }}</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
       <div v-if="annoncesAffichees.length === 0" class="flex items-center justify-center flex-col">
         <div
           class="h-20 w-36 bg-[url('../assets/pngtree-empty-box-icon-for-your-project-png-image_1533458-removebg-preview.png')] bg-cover bg-center"
@@ -428,7 +518,10 @@
       </div>
     </div>
   </div>
-  <div v-if="annoncesAffichees.length !== 0" class="flex items-center justify-center gap-4 mt-5">
+  <div
+    v-if="annoncesAffichees.length !== 0"
+    class="flex text-xs items-center justify-center gap-4 mt-5"
+  >
     <p class="text-xs font-bold">Affichage :</p>
     <Select @update:modelValue="handlePage">
       <SelectTrigger class="w-40 text-center select-trigger !bg-white">
@@ -495,6 +588,7 @@ const recherche = ref('')
 const filtreDate = ref('')
 const pageActuelle = ref(1)
 const annoncesParPage = ref(10)
+const showOptions = ref(null)
 const dateFiltreOptions = [
   'Ce mois',
   'Il y a 1 mois',
@@ -506,6 +600,14 @@ const dateFiltreOptions = [
 const handleClickOutside = (event) => {
   if (menuRef.value && !menuRef.value.contains(event.target)) {
     showCategorieMenu.value = false
+  }
+}
+
+const toggleOptions = (id) => {
+  if (showOptions.value === id) {
+    showOptions.value = null
+  } else {
+    showOptions.value = id
   }
 }
 
@@ -563,13 +665,12 @@ const annoncesFiltrees = computed(() => {
   }
 
   if (recherche.value) {
-  result = result.filter(
-    (a) =>
-      (a.titre && a.titre.toLowerCase().includes(recherche.value.toLowerCase())) ||
-      (a.description && a.description.toLowerCase().includes(recherche.value.toLowerCase()))
-  );
-}
-
+    result = result.filter(
+      (a) =>
+        (a.titre && a.titre.toLowerCase().includes(recherche.value.toLowerCase())) ||
+        (a.description && a.description.toLowerCase().includes(recherche.value.toLowerCase()))
+    )
+  }
 
   if (filtreDate.value) {
     const now = new Date()

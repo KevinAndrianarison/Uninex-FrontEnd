@@ -96,7 +96,8 @@ import {
   faCalendar,
   faQuoteLeft,
   faQuoteRight,
-  faTerminal
+  faTerminal,
+  faEllipsisV
 
 } from '@fortawesome/free-solid-svg-icons'
 
@@ -177,7 +178,8 @@ library.add(
   faArrowRight,
   faQuoteLeft,
   faQuoteRight,
-  faTerminal
+  faTerminal,
+  faEllipsisV
 )
 
 import App from './App.vue'

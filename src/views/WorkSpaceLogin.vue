@@ -310,9 +310,9 @@
                     <span class="span text-xs">{{ ann.timeAgo }}</span>
                   </div>
                   <div class="flex flex-col justify-between p-4">
-                    <span class="badge">{{ ann.user.email }}</span>
+                    <span class="badge text-xs">{{ ann.user.email }}</span>
                     <h3 class="h3">
-                      <a class="card-title text-lg font-bold">{{ ann.titre }}</a>
+                      <a class="card-title text-sm font-bold">{{ ann.titre }}</a>
                     </h3>
                     <div class="wrapper">
                       <p
@@ -351,7 +351,7 @@
                 />Toutes les annonces
               </p>
             </div>
-            <div class="flex items-center justify-center flex-wrap gap-4">
+            <div class="flex items-center justify-center text-xs flex-wrap gap-4">
               <div class="relative" ref="menuRef">
                 <button
                   @click="showCategorieMenu = !showCategorieMenu"
@@ -405,7 +405,7 @@
                 </p>
               </div>
               <Select @update:modelValue="handleDate">
-                <SelectTrigger class="w-40 text-center select-trigger !bg-gray-200 !text-gray-600">
+                <SelectTrigger class="w-40 text-center select-trigger h-8 !bg-gray-200 !text-gray-600">
                   <SelectValue class="focus:outline-none" placeholder="Filtrer par date" />
                 </SelectTrigger>
                 <SelectContent>
@@ -433,9 +433,9 @@
                     <span class="span text-xs">{{ ann.timeAgo }}</span>
                   </div>
                   <div class="flex flex-col justify-between p-4">
-                    <span class="badge">{{ ann.user.email }}</span>
+                    <span class="badge text-xs">{{ ann.user.email }}</span>
                     <h3 class="h3">
-                      <a class="card-title text-lg font-bold">{{ ann.titre }}</a>
+                      <a class="card-title text-sm font-bold">{{ ann.titre }}</a>
                     </h3>
                     <div class="wrapper">
                       <p
@@ -466,7 +466,7 @@
               ></div>
               <p class="text-xs font-bold mt-2">Aucune annonce trouvée</p>
             </div>
-            <div v-if="annoncesAffichees.length !== 0" class="flex items-center justify-center flex-wrap gap-4 mt-10">
+            <div v-if="annoncesAffichees.length !== 0" class="flex text-xs items-center justify-center flex-wrap gap-4 mt-10">
               <p class="text-xs font-bold">Affichage :</p>
               <Select @update:modelValue="handlePage">
                 <SelectTrigger class="w-40 text-center select-trigger !bg-white">
@@ -512,7 +512,7 @@
         <Inscription />
       </p>
     </div>
-    <footer class="bg-gray-500 text-white mt-20 pt-5">
+    <footer class="bg-gray-500 text-white text-xs mt-20 pt-5">
       <div class="footer-top section">
         <div class="flex flex-row-reverse items-top justify-evenly gap-5 flex-wrap">
           <div class="footer-brand">
@@ -550,7 +550,7 @@
 
           <div class="footer-list px-2">
             <p class="footer-list-title logoESP">Contact</p>
-            <p class="footer-list-text">Écrivez dans le champ ci-dessus pour nous contacter</p>
+            <p class="footer-list-text mt-5">Écrivez dans le champ ci-dessus pour nous contacter</p>
             <form action="" class="newsletter-form">
               <textarea
                 type="email"
