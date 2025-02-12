@@ -65,7 +65,17 @@
                     etablissement.etablissement.ville_etab
                   }}
                 </h1>
-                <p class="mt-2 text-gray-500">« {{ etablissement.etablissement.slogan_etab }} »</p>
+                <p class="mt-2 text-gray-500">
+                  <font-awesome-icon
+                    class="cursor-pointer text-gray-500"
+                    :icon="['fas', 'quote-left']"
+                  />
+                  {{ etablissement.etablissement.slogan_etab }}
+                  <font-awesome-icon
+                    class="cursor-pointer text-gray-500"
+                    :icon="['fas', 'quote-right']"
+                  />
+                </p>
               </div>
               <div class="mt-10">
                 <figure class="hero-banner">
@@ -88,7 +98,7 @@
                 </figure>
               </div>
             </div>
-            <div class="flex justify-center items-center w-[50%]">
+            <div class="flex justify-center items-center w-[40%]">
               <div class="form bg-white rounded-xl px-10 rounded-sm pb-10 rounded-sm">
                 <div>
                   <div class="flex justify-center mt-5">
@@ -144,7 +154,10 @@
         <section v-if="!isAllAnnonce" class="section category mt-20" aria-label="category">
           <div class="container">
             <ul class="grid-list">
-              <div class="category-card">
+              <div
+                class="category-card opacity-0 translate-y-10 transition-all duration-1000 ease-in-out"
+                data-animate="fade-in"
+              >
                 <div class="card-icon !bg-gray-200">
                   <img
                     src="./assets/images/category-1.svg"
@@ -157,7 +170,10 @@
                 <p class="font-bold text-lg">Online Degree Programs</p>
                 <p class="card-text">Lorem ipsum dolor consec tur elit adicing sed umod tempor.</p>
               </div>
-              <div class="category-card">
+              <div
+                class="category-card opacity-0 translate-y-10 transition-all duration-1000 ease-in-out"
+                data-animate="fade-in"
+              >
                 <div class="card-icon !bg-gray-200">
                   <img
                     src="./assets/images/category-2.svg"
@@ -170,7 +186,10 @@
                 <p class="font-bold text-lg">Online Degree Programs</p>
                 <p class="card-text">Lorem ipsum dolor consec tur elit adicing sed umod tempor.</p>
               </div>
-              <div class="category-card">
+              <div
+                class="category-card opacity-0 translate-y-10 transition-all duration-1000 ease-in-out"
+                data-animate="fade-in"
+              >
                 <div class="card-icon !bg-gray-200">
                   <img
                     src="./assets/images/category-3.svg"
@@ -183,7 +202,10 @@
                 <p class="font-bold text-lg">Online Degree Programs</p>
                 <p class="card-text">Lorem ipsum dolor consec tur elit adicing sed umod tempor.</p>
               </div>
-              <div class="category-card">
+              <div
+                class="category-card opacity-0 translate-y-10 transition-all duration-1000 ease-in-out"
+                data-animate="fade-in"
+              >
                 <div class="card-icon !bg-gray-200">
                   <img
                     src="./assets/images/category-4.svg"
@@ -229,22 +251,26 @@
                   {{ etablissement.etablissement.ville_etab }}
                 </p>
               </div>
-              <h2 class="text-sm section-title mt-4">
-                Over 10 Years in <span class="span">Distant learning</span> for Skill Development
-              </h2>
-              <p class="mt-4 text-gray-500 text-sm">
-                Lorem ipsum dolor sit amet consectur adipiscing elit sed eiusmod ex tempor
-                incididunt labore dolore magna aliquaenim ad minim.
-              </p>
-              <ul class="about-list flex flex-col gap-4 mt-5">
-                <li class="text-sm text-yellow-400 font-bold">
-                  <span class="font-bold">Expert Trainers</span>
+              <ul class="mt-10 flex flex-col gap-4">
+                <li
+                  class="opacity-0 translate-y-10 transition-all duration-1000 ease-in-out"
+                  data-animate="counter"
+                >
+                  <font-awesome-icon
+                    class="cursor-pointer text-black mr-2"
+                    :icon="['fas', 'terminal']"
+                  />
+                  <b class="text-3xl text-black mr-2 logoESP">110</b> Enseignants
                 </li>
-                <li class="text-sm text-yellow-400">
-                  <span class="font-bold">Expert Trainers</span>
-                </li>
-                <li class="text-sm text-yellow-400">
-                  <span class="font-bold">Expert Trainers</span>
+                <li
+                  class="opacity-0 translate-y-10 transition-all duration-1000 ease-in-out"
+                  data-animate="counter"
+                >
+                  <font-awesome-icon
+                    class="cursor-pointer text-black mr-2"
+                    :icon="['fas', 'terminal']"
+                  />
+                  <b class="text-3xl text-black mr-2 logoESP">4010</b> Etudiants
                 </li>
               </ul>
               <img
@@ -574,7 +600,6 @@ import Inscription from './Inscription.vue'
 import { useAnnonce } from '@/stores/Annonce'
 import { useCategory } from '@/stores/Category'
 
-const categories = ['Tout', 'Immobilier', 'Emploi', 'Véhicules', 'Multimédia', 'Services', 'Maison']
 const dateFiltreOptions = [
   'Ce mois',
   'Il y a 1 mois',
@@ -640,6 +665,35 @@ const handleClickOutside = (event) => {
 
 onMounted(() => {
   document.addEventListener('click', handleClickOutside)
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.remove('opacity-0', 'translate-y-10')
+        entry.target.classList.add('opacity-100', 'translate-y-0')
+        if (entry.target.getAttribute('data-animate') === 'counter') {
+          const counter = entry.target.querySelector('b')
+          const targetNumber = parseInt(counter.textContent, 10)
+          let currentNumber = 0
+          const increment = targetNumber / 100
+          const interval = setInterval(() => {
+            currentNumber += increment
+            if (currentNumber >= targetNumber) {
+              currentNumber = targetNumber
+              clearInterval(interval)
+            }
+            counter.textContent = Math.round(currentNumber)
+          }, 30)
+        }
+      }
+    })
+  })
+
+  const fadeInElements = document.querySelectorAll('[data-animate="fade-in"]')
+  const counterElements = document.querySelectorAll('[data-animate="counter"]')
+
+  fadeInElements.forEach((el) => observer.observe(el))
+  counterElements.forEach((el) => observer.observe(el))
 })
 
 onUnmounted(() => {

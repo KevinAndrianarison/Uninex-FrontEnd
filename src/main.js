@@ -93,7 +93,11 @@ import {
   faGraduationCap,
   faEnvelope,
   faFilter,
-  faCalendar
+  faCalendar,
+  faQuoteLeft,
+  faQuoteRight,
+  faTerminal
+
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -170,7 +174,10 @@ library.add(
   faChevronRight,
   faFilter,
   faCalendar,
-  faArrowRight
+  faArrowRight,
+  faQuoteLeft,
+  faQuoteRight,
+  faTerminal
 )
 
 import App from './App.vue'
