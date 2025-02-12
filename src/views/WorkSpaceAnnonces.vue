@@ -1,6 +1,84 @@
 <template>
-    <div :class="theme.theme === 'light' ? 'body bg-white border pb-5 rounded-lg min-h-[80vh]' : 'body bg-white pb-5 rounded-lg min-h-[80vh] !text-white !bg-gray-600 !border-gray-200'">
-    <div class="head flex justify-center items-center gap-4 mt-2 text-black">
+  <div class="pb-5">
+    <p class="text-lg text-center logoESP text-green-500">
+      <font-awesome-icon class="cursor-pointer text-green-500 mr-2" :icon="['fas', 'podcast']" />Les
+      annonces
+    </p>
+  </div>
+  <div class="flex items-center justify-center gap-4">
+    <div class="relative" ref="menuRef">
+      <button
+        @click="showCategorieMenu = !showCategorieMenu"
+        class="px-4 py-2 rounded flex gap-2 items-center text-gray-600 !bg-gray-200"
+      >
+        Catégories <font-awesome-icon class="cursor-pointer" :icon="['fas', 'filter']" />
+      </button>
+
+      <div
+        v-if="showCategorieMenu"
+        class="absolute left-0 top-full mt-1 bg-white border max-h-40 overflow-y-auto shadow-lg rounded w-48 p-2 z-10"
+      >
+        <p class="flex items-center cursor-pointer hover:bg-gray-100 p-1 px-2 rounded">
+          <span class="!flex gap-2">
+            <input
+              type="radio"
+              value="Tout"
+              v-model="filtreCategorie"
+              class="cursor-pointer"
+            />Tout</span
+          >
+        </p>
+        <p
+          v-for="cat in category.listCategorie"
+          :key="cat"
+          class="flex items-center cursor-pointer hover:bg-gray-100 p-1 px-2 rounded"
+        >
+          <span class="!flex gap-2">
+            <input
+              type="radio"
+              :value="cat.titre"
+              v-model="filtreCategorie"
+              class="cursor-pointer"
+            />{{ cat.titre }}</span
+          >
+        </p>
+      </div>
+    </div>
+    <div class="flex">
+      <input
+        type="text"
+        v-model="recherche"
+        placeholder="Rechercher une annonce..."
+        class="!w-60 py-2 pl-2 focus:outline-none !bg-white"
+      />
+      <p class="bg-blue-500 px-4 flex items-center rounded-r bg-white justify-center">
+        <font-awesome-icon
+          class="cursor-pointer text-blue-500"
+          :icon="['fas', 'magnifying-glass']"
+        />
+      </p>
+    </div>
+    <Select @update:modelValue="handleDate">
+      <SelectTrigger class="w-40 text-center select-trigger !bg-gray-200 !text-gray-600">
+        <SelectValue class="focus:outline-none" placeholder="Filtrer par date" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          <SelectItem v-for="option in dateFiltreOptions" :value="option" :key="option">
+            {{ option }}</SelectItem
+          >
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  </div>
+  <div
+    :class="
+      theme.theme === 'light'
+        ? 'body pb-5 rounded-lg max-h-[60vh] overflow-y-auto mt-5'
+        : 'body overflow-y-auto  pb-5 rounded-lg max-h-[60vh] !text-white !bg-gray-600'
+    "
+  >
+    <!-- <div class="head flex justify-center items-center gap-4 mt-2 text-black">
     <Select @update:modelValue="handleSelection">
         <SelectTrigger
           :class="theme.theme === 'light' ? '' : '!bg-gray-300 '"
@@ -300,7 +378,91 @@
           <p class="h-2 bg-gray-300 rounded-sm max-w-[320px] mb-2.5"></p>
         </div>
       </div>
+    </div> -->
+    <div>
+      <ul class="flex justify-center flex-wrap gap-10">
+        <li class="w-[350px]" :key="ann.id" v-for="(ann, index) in annoncesAffichees">
+          <div class="course-card">
+            <figure class="card-banner img-holder h-[200px]">
+              <img
+                :src="`${URL}/storage/annonce/${ann.fichier_nom}`"
+                width="370"
+                height="220"
+                loading="lazy"
+                class="img-cover"
+              />
+            </figure>
+            <div class="abs-badge">
+              <span class="span">{{ ann.timeAgo }}</span>
+            </div>
+            <div class="flex flex-col justify-between p-4">
+              <span class="badge">{{ ann.user.email }}</span>
+              <h3 class="h3">
+                <a class="card-title text-lg font-bold">{{ ann.titre }}</a>
+              </h3>
+              <div class="wrapper">
+                <p
+                  v-html="highlightHashtags(ann.description)"
+                  class="card-text text-sm whitespace-pre-wrap truncate"
+                ></p>
+              </div>
+              <ul class="card-meta-list mt-4">
+                <li class="card-meta-item flex justify-between items-center w-full">
+                  <span class="text-sm">{{ ann.likes_count }} J'aime</span>
+                  <font-awesome-icon
+                    @click="telecharger(ann.fichier_nom)"
+                    class="cursor-pointer text-blue-500 bg-blue-200 py-1.5 p-2 rounded-full relative overflow-hidden transition duration-500 ease-in-out hover:bg-yellow-400 hover:text-white hover:shadow-lg before:absolute before:inset-0 before:-left-full before:bg-white/30 before:w-full before:h-full before:transition before:duration-700 hover:before:left-full"
+                    :icon="['fas', 'arrow-down']"
+                  />
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <div v-if="annoncesAffichees.length === 0" class="flex items-center justify-center flex-col">
+        <div
+          class="h-20 w-36 bg-[url('../assets/pngtree-empty-box-icon-for-your-project-png-image_1533458-removebg-preview.png')] bg-cover bg-center"
+        ></div>
+        <p class="text-xs font-bold mt-2">Aucune annonce trouvée</p>
+      </div>
     </div>
+  </div>
+  <div v-if="annoncesAffichees.length !== 0" class="flex items-center justify-center gap-4 mt-5">
+    <p class="text-xs font-bold">Affichage :</p>
+    <Select @update:modelValue="handlePage">
+      <SelectTrigger class="w-40 text-center select-trigger !bg-white">
+        <SelectValue class="focus:outline-none" placeholder="10" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          <SelectItem value="10"> 10 par page</SelectItem>
+          <SelectItem value="20"> 20 par page</SelectItem>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+
+    <div class="flex space-x-2">
+      <button
+        @click="pageActuelle--"
+        :disabled="pageActuelle === 1"
+        class="px-3 py-1 !bg-blue-500 text-white flex items-center !text-xs rounded disabled:opacity-50"
+      >
+        Précédent
+      </button>
+      <span class="px-4 py-2 rounded">{{ pageActuelle }} / {{ totalPages }}</span>
+      <button
+        @click="pageActuelle++"
+        :disabled="pageActuelle >= totalPages"
+        class="px-3 py-1 !bg-blue-500 text-white flex items-center !text-xs rounded disabled:opacity-50"
+      >
+        Suivant
+      </button>
+    </div>
+
+    <span class="text-sm text-gray-600 text-xs"
+      >({{ annoncesAffichees.length }} / {{ annoncesFiltrees.length }}) annonces affichées</span
+    >
   </div>
 </template>
 
@@ -310,11 +472,11 @@ import { useShow } from '@/stores/Show'
 import { useCategory } from '@/stores/Category'
 import { useAnnonce } from '@/stores/Annonce'
 import { useCom } from '@/stores/Com'
-import { onBeforeMount, onMounted, ref, watch } from 'vue'
+import { computed, onBeforeMount, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useUrl } from '@/stores/url'
 import { useTheme } from '@/stores/Theme'
 import axios from 'axios'
-import "emoji-picker-element";
+import 'emoji-picker-element'
 import {
   Select,
   SelectContent,
@@ -322,9 +484,132 @@ import {
   SelectItem,
   SelectLabel,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from '@/components/ui/select'
 
+// ---------------------------------------------------------------------------------------------------------
+const showCategorieMenu = ref(false)
+const menuRef = ref(null)
+const filtreCategorie = ref('Tout')
+const recherche = ref('')
+const filtreDate = ref('')
+const pageActuelle = ref(1)
+const annoncesParPage = ref(10)
+const dateFiltreOptions = [
+  'Ce mois',
+  'Il y a 1 mois',
+  'Il y a 3 mois',
+  'Il y a 6 mois',
+  'Plus de 1 an'
+]
+// ---------------------------------------------------------------------------------------------------------
+const handleClickOutside = (event) => {
+  if (menuRef.value && !menuRef.value.contains(event.target)) {
+    showCategorieMenu.value = false
+  }
+}
+
+const totalPages = computed(() => Math.ceil(annoncesFiltrees.value.length / annoncesParPage.value))
+
+const annoncesAffichees = computed(() =>
+  annoncesFiltrees.value.slice(
+    (pageActuelle.value - 1) * annoncesParPage.value,
+    pageActuelle.value * annoncesParPage.value
+  )
+)
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside)
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.remove('opacity-0', 'translate-y-10')
+        entry.target.classList.add('opacity-100', 'translate-y-0')
+        if (entry.target.getAttribute('data-animate') === 'counter') {
+          const counter = entry.target.querySelector('b')
+          const targetNumber = parseInt(counter.textContent, 10)
+          let currentNumber = 0
+          const increment = targetNumber / 100
+          const interval = setInterval(() => {
+            currentNumber += increment
+            if (currentNumber >= targetNumber) {
+              currentNumber = targetNumber
+              clearInterval(interval)
+            }
+            counter.textContent = Math.round(currentNumber)
+          }, 30)
+        }
+      }
+    })
+  })
+
+  const fadeInElements = document.querySelectorAll('[data-animate="fade-in"]')
+  const counterElements = document.querySelectorAll('[data-animate="counter"]')
+
+  fadeInElements.forEach((el) => observer.observe(el))
+  counterElements.forEach((el) => observer.observe(el))
+})
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside)
+})
+
+const annoncesFiltrees = computed(() => {
+  let result = annonces.listAnnonce
+
+  if (filtreCategorie.value !== 'Tout') {
+    result = result.filter((a) => a.categori.titre === filtreCategorie.value)
+  }
+
+  if (recherche.value) {
+  result = result.filter(
+    (a) =>
+      (a.titre && a.titre.toLowerCase().includes(recherche.value.toLowerCase())) ||
+      (a.description && a.description.toLowerCase().includes(recherche.value.toLowerCase()))
+  );
+}
+
+
+  if (filtreDate.value) {
+    const now = new Date()
+    const oneYearAgo = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate())
+
+    result = result.filter((a) => {
+      const annonceDate = new Date(a.created_at)
+      const monthsAgo = (date) => {
+        const d = new Date(date)
+        d.setMonth(now.getMonth() - d.getMonth())
+        return d
+      }
+
+      switch (filtreDate.value.trim()) {
+        case 'Il y a 1 mois':
+          return annonceDate <= monthsAgo(1) && annonceDate > oneYearAgo
+        case 'Il y a 3 mois':
+          return annonceDate <= monthsAgo(3) && annonceDate > oneYearAgo
+        case 'Il y a 6 mois':
+          return annonceDate <= monthsAgo(6) && annonceDate > oneYearAgo
+        case 'Plus de 1 an':
+          return annonceDate <= oneYearAgo
+        default:
+          return true
+      }
+    })
+  }
+
+  return result
+})
+
+function handlePage(valeur) {
+  annoncesParPage.value = valeur
+}
+
+function handleDate(valeur) {
+  filtreDate.value = valeur
+}
+
+// -----------------------------------------------------------------------------------------------------------
 const show = useShow()
 const theme = useTheme()
 const commmentaire = useCom()
@@ -344,23 +629,22 @@ const isComs = ref(false)
 const editableComId = ref(null)
 const showLikesModal = ref(false)
 const listReacteur = ref([])
-const showEmojiComs = ref(false) 
-const newComsEmojiInput = ref(null);
+const showEmojiComs = ref(false)
+const newComsEmojiInput = ref(null)
 
 function addEmojiComs(event) {
-  const input = newComsEmojiInput.value;
-  const emoji = event.detail.unicode;
-  const start = input.selectionStart;
-  const end = input.selectionEnd;
-  coms.value = coms.value.substring(0, start) + emoji + coms.value.substring(end);
+  const input = newComsEmojiInput.value
+  const emoji = event.detail.unicode
+  const start = input.selectionStart
+  const end = input.selectionEnd
+  coms.value = coms.value.substring(0, start) + emoji + coms.value.substring(end)
   setTimeout(() => {
-    input.selectionStart = input.selectionEnd = start + emoji.length;
-    input.focus();
-  }, 0);
-
+    input.selectionStart = input.selectionEnd = start + emoji.length
+    input.focus()
+  }, 0)
 }
 
-function handleSelection(valeur){
+function handleSelection(valeur) {
   findBy.value = valeur
 }
 
@@ -379,20 +663,19 @@ watch(findBy, (newValue, oldValue) => {
 
 function highlightHashtags(text) {
   if (text) {
-        if (text.includes('#')) {
-          text = text.replace(/#(\w+)/g, '<span class="text-blue-500 font-bold">#$1</span>');
-        }
-        if (text.includes('@')) {
-          text = text.replace(/@(\w+)/g, '<span class="font-bold">@$1</span>');
-        }
-      }
-      return text;
+    if (text.includes('#')) {
+      text = text.replace(/#(\w+)/g, '<span class="text-blue-500 font-bold">#$1</span>')
+    }
+    if (text.includes('@')) {
+      text = text.replace(/@(\w+)/g, '<span class="font-bold">@$1</span>')
+    }
+  }
+  return text
 }
 
 function toggleEmojiCtg() {
   showEmojiComs.value = !showEmojiComs.value
 }
-  
 
 function toggleEditPost(ann) {
   if (editableId.value === ann.id) {
@@ -608,8 +891,8 @@ onBeforeMount(() => {
 })
 </script>
 
-<style scoped>
-.image {
+<style scoped src="../styles/Login.css">
+/* .image {
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -622,5 +905,5 @@ onBeforeMount(() => {
 
 .titre {
   font-size: 21px;
-}
+} */
 </style>

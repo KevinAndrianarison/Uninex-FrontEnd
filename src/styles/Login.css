@@ -1,4 +1,3 @@
-
 li {
   list-style: none;
 }
@@ -17,10 +16,13 @@ button {
   box-shadow: none;
 }
 
- button[data-v-1b340c9e] {
-    display: flex;
+button[data-v-1b340c9e] {
+  display: flex;
 }
 
+button[data-v-6cb900f7] {
+  display: flex;
+}
 
 a {
   color: inherit;
@@ -33,12 +35,12 @@ a {
   min-height: 100vh;
 }
 
-.insccription{
-  flex : 1
+.insccription {
+  flex: 1;
 }
 
-.mainComponent{
-  flex : 1
+.mainComponent {
+  flex: 1;
 }
 
 img {

@@ -57,8 +57,8 @@
     <main v-if="isMainPage" class="mainComponent">
       <article>
         <div v-if="!isAllAnnonce" class="heros" id="acceuil" aria-label="home">
-          <div class="flex justify-center">
-            <div>
+          <div class="flex justify-center flex-wrap gap-10">
+            <div class="px-2">
               <div>
                 <h1 class="text-2xl logoESP mt-10">
                   {{ etablissement.etablissement.nom_etab }} d'{{
@@ -247,7 +247,7 @@
                 <p class="text-2xl font-bold border-t-0 border-x-0 border-4 border-b-blue-500 py-4">
                   {{ etablissement.etablissement.abr_etab }}
                 </p>
-                <p class="text-2xl font-bold border-t-0 border-x-0 border-4 py-4 border-b-gray-50">
+                <p class="text-2xl font-bold border-t-0 border-x-0 border-4 py-4 border-b-gray-100/20">
                   {{ etablissement.etablissement.ville_etab }}
                 </p>
               </div>
@@ -295,9 +295,9 @@
               </p>
             </div>
             <ul class="grid-list">
-              <li :key="ann.id" v-for="(ann, index) in annonces.listAnnonce">
-                <div class="course-card h-full">
-                  <figure class="card-banner img-holder h-[60%]">
+              <li :key="ann.id" v-for="(ann, index) in annonces.listAnnonce.slice(0, 3)">
+                <div class="course-card">
+                  <figure class="card-banner img-holder h-[200px]">
                     <img
                       :src="`${URL}/storage/annonce/${ann.fichier_nom}`"
                       width="370"
@@ -307,9 +307,9 @@
                     />
                   </figure>
                   <div class="abs-badge">
-                    <span class="span">{{ ann.timeAgo }}</span>
+                    <span class="span text-xs">{{ ann.timeAgo }}</span>
                   </div>
-                  <div class="flex flex-col justify-between p-4 h-[40%]">
+                  <div class="flex flex-col justify-between p-4">
                     <span class="badge">{{ ann.user.email }}</span>
                     <h3 class="h3">
                       <a class="card-title text-lg font-bold">{{ ann.titre }}</a>
@@ -343,7 +343,7 @@
         </section>
         <div v-if="isAllAnnonce">
           <div class="heros">
-            <div class="py-10">
+            <div class="pb-5">
               <p class="text-lg text-center logoESP text-green-500">
                 <font-awesome-icon
                   class="cursor-pointer text-green-500 mr-2"
@@ -351,7 +351,7 @@
                 />Toutes les annonces
               </p>
             </div>
-            <div class="flex items-center justify-center gap-4">
+            <div class="flex items-center justify-center flex-wrap gap-4">
               <div class="relative" ref="menuRef">
                 <button
                   @click="showCategorieMenu = !showCategorieMenu"
@@ -417,10 +417,10 @@
                 </SelectContent>
               </Select>
             </div>
-            <ul class="flex justify-center flex-wrap gap-10 mt-10">
+            <ul class="flex justify-center flex-wrap gap-10 mt-10 px-5">
               <li class="w-[350px]" :key="ann.id" v-for="(ann, index) in annoncesAffichees">
-                <div class="course-card h-full">
-                  <figure class="card-banner img-holder h-[60%]">
+                <div class="course-card">
+                  <figure class="card-banner img-holder h-[200px]">
                     <img
                       :src="`${URL}/storage/annonce/${ann.fichier_nom}`"
                       width="370"
@@ -430,9 +430,9 @@
                     />
                   </figure>
                   <div class="abs-badge">
-                    <span class="span">{{ ann.timeAgo }}</span>
+                    <span class="span text-xs">{{ ann.timeAgo }}</span>
                   </div>
-                  <div class="flex flex-col justify-between p-4 h-[40%]">
+                  <div class="flex flex-col justify-between p-4">
                     <span class="badge">{{ ann.user.email }}</span>
                     <h3 class="h3">
                       <a class="card-title text-lg font-bold">{{ ann.titre }}</a>
@@ -466,7 +466,7 @@
               ></div>
               <p class="text-xs font-bold mt-2">Aucune annonce trouvée</p>
             </div>
-            <div class="flex items-center justify-center gap-4 mt-10">
+            <div v-if="annoncesAffichees.length !== 0" class="flex items-center justify-center flex-wrap gap-4 mt-10">
               <p class="text-xs font-bold">Affichage :</p>
               <Select @update:modelValue="handlePage">
                 <SelectTrigger class="w-40 text-center select-trigger !bg-white">
@@ -514,7 +514,7 @@
     </div>
     <footer class="bg-gray-500 text-white mt-20 pt-5">
       <div class="footer-top section">
-        <div class="flex flex-row-reverse items-top justify-evenly">
+        <div class="flex flex-row-reverse items-top justify-evenly gap-5 flex-wrap">
           <div class="footer-brand">
             <a class="logo">
               <img
@@ -548,7 +548,7 @@
             </div>
           </div>
 
-          <div class="footer-list">
+          <div class="footer-list px-2">
             <p class="footer-list-title logoESP">Contact</p>
             <p class="footer-list-text">Écrivez dans le champ ci-dessus pour nous contacter</p>
             <form action="" class="newsletter-form">
@@ -708,12 +708,13 @@ const annoncesFiltrees = computed(() => {
   }
 
   if (recherche.value) {
-    result = result.filter(
-      (a) =>
-        a.titre.toLowerCase().includes(recherche.value.toLowerCase()) ||
-        a.description.toLowerCase().includes(recherche.value.toLowerCase())
-    )
-  }
+  result = result.filter(
+    (a) =>
+      (a.titre && a.titre.toLowerCase().includes(recherche.value.toLowerCase())) ||
+      (a.description && a.description.toLowerCase().includes(recherche.value.toLowerCase()))
+  );
+}
+
 
   if (filtreDate.value) {
     const now = new Date()

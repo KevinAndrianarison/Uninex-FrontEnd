@@ -17,7 +17,6 @@ export const useAnnonce = defineStore('Annonce', () => {
     axios
       .get(`${URL}/api/annonce`)
       .then((response) => {
-        console.log(response.data);
         isSveletron.value = false
         listAnnonce.value = response.data.reverse()
         listAnnonceTemp.value = response.data

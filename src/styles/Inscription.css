@@ -65,3 +65,9 @@
     transition: all 0.2s ease-in-out;
     margin-right: 15px;
 }
+
+@media (max-width: 992px) {
+    .titreHidden {
+      display: none;
+    }
+  }

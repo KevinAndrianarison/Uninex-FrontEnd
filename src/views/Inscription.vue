@@ -1,10 +1,10 @@
 <template>
   <div class="flex px-5">
-    <h1 class="titreS flex flex-col items-center w-full justify-center">
+    <h1 class="titreS flex titreHidden flex-col items-center w-full justify-center">
       <b>Inscription</b> ou <b>Réinscription</b>
     </h1>
-    <div>
-      <div class="flex flex-col border w-[90%] bg-white rounded-lg items-center pt-10 pb-5 ">
+    <div class="flex items-center justify-center">
+      <div class="flex flex-col border w-[90%] bg-white px-2 rounded-lg items-center pt-10 pb-5 ">
         <div class="formInput gap-4 flex justify-center items-center">
           <div class="w-52 sm:col-span-3">
             <label class="block text-sm font-medium leading-6">Nom complet</label>
