@@ -161,7 +161,7 @@ function submitCategory() {
   }
   if (newCategory.emoji === '') {
     formData = {
-      titre: `📂 ${newCategory.title}`
+      titre: `${newCategory.title}`
     }
   }
 
@@ -408,14 +408,14 @@ function handleInputChangeDescr() {
           type="text"
           placeholder="Emoji (e.g., 📚)"
           :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
-          class="focus:outline-none border-2 text-xs rounded w-full px-3 mt-5 py-2 text-black"
+          class="focus:outline-none hidden border-2 text-xs rounded w-full px-3 mt-5 py-2 text-black"
         />
         <Tooltip content="Emoji">
           <font-awesome-icon
             @click="toggleEmojiCtg"
             :class="theme.theme === 'light' ? 'text-gray-500 cursor-pointer' : 'text-gray-500 cursor-pointer'"
             :icon="['fas', 'smile']"
-            class="absolute right-3 bottom-1 transform -translate-y-1/2"
+            class="absolute right-3 bottom-1 hidden transform -translate-y-1/2"
           />
           </Tooltip>
           <div v-if="showEmojiCtg" class="emoji-picker-modal absolute top-full left-0 mt-2">

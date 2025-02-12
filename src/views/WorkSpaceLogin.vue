@@ -269,9 +269,9 @@
               </p>
             </div>
             <ul class="grid-list">
-              <li>
-                <div :key="ann.id" v-for="(ann, index) in annonces.listAnnonce" class="course-card">
-                  <figure class="card-banner img-holder">
+              <li :key="ann.id" v-for="(ann, index) in annonces.listAnnonce">
+                <div class="course-card h-full">
+                  <figure class="card-banner img-holder h-[60%]">
                     <img
                       :src="`${URL}/storage/annonce/${ann.fichier_nom}`"
                       width="370"
@@ -283,7 +283,7 @@
                   <div class="abs-badge">
                     <span class="span">{{ ann.timeAgo }}</span>
                   </div>
-                  <div class="card-content">
+                  <div class="flex flex-col justify-between p-4 h-[40%]">
                     <span class="badge">{{ ann.user.email }}</span>
                     <h3 class="h3">
                       <a class="card-title text-lg font-bold">{{ ann.titre }}</a>
@@ -291,7 +291,7 @@
                     <div class="wrapper">
                       <p
                         v-html="highlightHashtags(ann.description)"
-                        class="card-text text-sm whitespace-pre-wrap"
+                        class="card-text text-sm whitespace-pre-wrap truncate"
                       ></p>
                     </div>
                     <ul class="card-meta-list mt-4">
@@ -336,20 +336,30 @@
 
                 <div
                   v-if="showCategorieMenu"
-                  class="absolute left-0 top-full mt-1 bg-white border h-40 overflow-y-auto shadow-lg rounded w-48 p-2 z-10"
+                  class="absolute left-0 top-full mt-1 bg-white border max-h-40 overflow-y-auto shadow-lg rounded w-48 p-2 z-10"
                 >
+                  <p class="flex items-center cursor-pointer hover:bg-gray-100 p-1 px-2 rounded">
+                    <span class="!flex gap-2">
+                      <input
+                        type="radio"
+                        value="Tout"
+                        v-model="filtreCategorie"
+                        class="cursor-pointer"
+                      />Tout</span
+                    >
+                  </p>
                   <p
-                    v-for="cat in categories"
+                    v-for="cat in category.listCategorie"
                     :key="cat"
                     class="flex items-center cursor-pointer hover:bg-gray-100 p-1 px-2 rounded"
                   >
                     <span class="!flex gap-2">
                       <input
                         type="radio"
-                        :value="cat"
+                        :value="cat.titre"
                         v-model="filtreCategorie"
                         class="cursor-pointer"
-                      />{{ cat }}</span
+                      />{{ cat.titre }}</span
                     >
                   </p>
                 </div>
@@ -381,17 +391,50 @@
                 </SelectContent>
               </Select>
             </div>
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 px-10 mt-10">
-              <div
-                v-for="annonce in annoncesAffichees"
-                :key="annonce.id"
-                class="p-4 bg-gray-100 rounded-lg shadow-sm transition-transform transform hover:scale-105 hover:shadow-md"
-              >
-                <h3 class="font-semibold text-lg">{{ annonce.titre }}</h3>
-                <p class="text-gray-500">{{ annonce.categorie }} - {{ annonce.date }}</p>
-              </div>
-            </div>
-            <div class="flex items-center justify-center flex-col">
+            <ul class="flex justify-center flex-wrap gap-10 mt-10">
+              <li class="w-[350px]" :key="ann.id" v-for="(ann, index) in annoncesAffichees">
+                <div class="course-card h-full">
+                  <figure class="card-banner img-holder h-[60%]">
+                    <img
+                      :src="`${URL}/storage/annonce/${ann.fichier_nom}`"
+                      width="370"
+                      height="220"
+                      loading="lazy"
+                      class="img-cover"
+                    />
+                  </figure>
+                  <div class="abs-badge">
+                    <span class="span">{{ ann.timeAgo }}</span>
+                  </div>
+                  <div class="flex flex-col justify-between p-4 h-[40%]">
+                    <span class="badge">{{ ann.user.email }}</span>
+                    <h3 class="h3">
+                      <a class="card-title text-lg font-bold">{{ ann.titre }}</a>
+                    </h3>
+                    <div class="wrapper">
+                      <p
+                        v-html="highlightHashtags(ann.description)"
+                        class="card-text text-sm whitespace-pre-wrap truncate"
+                      ></p>
+                    </div>
+                    <ul class="card-meta-list mt-4">
+                      <li class="card-meta-item flex justify-between items-center w-full">
+                        <span class="text-sm">{{ ann.likes_count }} J'aime</span>
+                        <font-awesome-icon
+                          @click="telecharger(ann.fichier_nom)"
+                          class="cursor-pointer text-blue-500 bg-blue-200 py-1.5 p-2 rounded-full relative overflow-hidden transition duration-500 ease-in-out hover:bg-yellow-400 hover:text-white hover:shadow-lg before:absolute before:inset-0 before:-left-full before:bg-white/30 before:w-full before:h-full before:transition before:duration-700 hover:before:left-full"
+                          :icon="['fas', 'arrow-down']"
+                        />
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <div
+              v-if="annoncesAffichees.length === 0"
+              class="flex items-center justify-center flex-col"
+            >
               <div
                 class="h-20 w-36 bg-[url('../assets/pngtree-empty-box-icon-for-your-project-png-image_1533458-removebg-preview.png')] bg-cover bg-center"
               ></div>
@@ -529,12 +572,16 @@ import {
 } from '@/components/ui/select'
 import Inscription from './Inscription.vue'
 import { useAnnonce } from '@/stores/Annonce'
+import { useCategory } from '@/stores/Category'
 
-const Listeannonces = ref([
-  // { id: 1, titre: 'Annonce 1', categorie: 'Immobilier', date: '2024-12-15' },
-])
 const categories = ['Tout', 'Immobilier', 'Emploi', 'Véhicules', 'Multimédia', 'Services', 'Maison']
-const dateFiltreOptions = ['Ce mois', '3 derniers mois', '6 derniers mois', '1 an']
+const dateFiltreOptions = [
+  'Ce mois',
+  'Il y a 1 mois',
+  'Il y a 3 mois',
+  'Il y a 6 mois',
+  'Plus de 1 an'
+]
 const menuRef = ref(null)
 const filtreCategorie = ref('Tout')
 const recherche = ref('')
@@ -552,6 +599,7 @@ const isMainPage = ref(true)
 const isSingUp = ref(false)
 const isAllAnnonce = ref(false)
 const annonces = useAnnonce()
+const category = useCategory()
 
 function handlePage(valeur) {
   annoncesParPage.value = valeur
@@ -599,32 +647,41 @@ onUnmounted(() => {
 })
 
 const annoncesFiltrees = computed(() => {
-  let result = Listeannonces.value
+  let result = annonces.listAnnonce
 
   if (filtreCategorie.value !== 'Tout') {
-    result = result.filter((a) => a.categorie === filtreCategorie.value)
+    result = result.filter((a) => a.categori.titre === filtreCategorie.value)
   }
 
   if (recherche.value) {
-    result = result.filter((a) => a.titre.toLowerCase().includes(recherche.value.toLowerCase()))
+    result = result.filter(
+      (a) =>
+        a.titre.toLowerCase().includes(recherche.value.toLowerCase()) ||
+        a.description.toLowerCase().includes(recherche.value.toLowerCase())
+    )
   }
 
   if (filtreDate.value) {
     const now = new Date()
+    const oneYearAgo = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate())
+
     result = result.filter((a) => {
-      const annonceDate = new Date(a.date)
-      switch (filtreDate.value) {
-        case 'Ce mois':
-          return (
-            now.getMonth() === annonceDate.getMonth() &&
-            now.getFullYear() === annonceDate.getFullYear()
-          )
-        case '3 derniers mois':
-          return (now - annonceDate) / (1000 * 60 * 60 * 24) <= 90
-        case '6 derniers mois':
-          return (now - annonceDate) / (1000 * 60 * 60 * 24) <= 180
-        case '1 an':
-          return now.getFullYear() === annonceDate.getFullYear()
+      const annonceDate = new Date(a.created_at)
+      const monthsAgo = (date) => {
+        const d = new Date(date)
+        d.setMonth(now.getMonth() - d.getMonth())
+        return d
+      }
+
+      switch (filtreDate.value.trim()) {
+        case 'Il y a 1 mois':
+          return annonceDate <= monthsAgo(1) && annonceDate > oneYearAgo
+        case 'Il y a 3 mois':
+          return annonceDate <= monthsAgo(3) && annonceDate > oneYearAgo
+        case 'Il y a 6 mois':
+          return annonceDate <= monthsAgo(6) && annonceDate > oneYearAgo
+        case 'Plus de 1 an':
+          return annonceDate <= oneYearAgo
         default:
           return true
       }

@@ -168,10 +168,14 @@ import SetGroupMember from './components/SetGroupMember.vue'
 import SetGroup from './components/SetGroup.vue'
 import QuitterGroup from './components/QuitterGroup.vue'
 import { useAnnonce } from '@/stores/Annonce'
+import { useCategory } from '@/stores/Category'
+
 
 const show = useShow()
 const etablissement = useEtablissement()
 const annonces = useAnnonce()
+const category = useCategory()
+
 
 onMounted(() => {
   setInterval(updateTime, 9000)
@@ -211,7 +215,7 @@ function timeAgo(date) {
 onBeforeMount(
   async () => {
     updateTime();
-    await Promise.all([annonces.getAllAnnonce(), etablissement.getEtab()])
+    await Promise.all([annonces.getAllAnnonce(), etablissement.getEtab(), category.getAllCategorie()])
   }
 )
 </script>

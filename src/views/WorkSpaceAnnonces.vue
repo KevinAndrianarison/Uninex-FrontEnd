@@ -604,7 +604,6 @@ function updateTimeComs() {
 }
 
 onBeforeMount(() => {
-  category.getAllCategorie()
   updateTime()
 })
 </script>
