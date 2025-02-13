@@ -26,6 +26,13 @@ import Contacter from '@/views/etudiant/Contacter.vue'
 import Cours from '@/views/etudiant/Cours.vue'
 import Cursus from '@/views/etudiant/Cursus.vue'
 import Notes from '@/views/etudiant/Notes.vue'
+import EtatFinancier from '@/views/agentScolarite/EtatFinancier.vue'
+import Commande from '@/views/agentScolarite/Commande.vue'
+import Droits from '@/views/directeur/Droits.vue'
+import EtatFinancierDir from '@/views/directeur/EtatFinancierDir.vue'
+import RH from '@/views/directeur/RH.vue'
+import CongePermission from '@/views/directeur/CongePermission.vue'
+
 
 
 const router = createRouter({
@@ -97,6 +104,16 @@ const router = createRouter({
       component: WorkSpaceGestionEDP
     },
     {
+      path: '/agentScolarite/EtatsFinanciers',
+      name: 'EtatsFinanciersAS',
+      component: EtatFinancier
+    },
+    {
+      path: '/agentScolarite/Commande',
+      name: 'Commande',
+      component: Commande
+    },
+    {
       path: '/agentScolarite/GestionFinanciere',
       name: 'GestionFinanciere',
       component: WorkSpaceGestionFinanciere
@@ -145,6 +162,26 @@ const router = createRouter({
       path: '/directeur/GestionRole',
       name: 'GestionRole',
       component: WorkSpaceGestionRole
+    },
+    {
+      path: '/directeur/Droits',
+      name: 'Droits',
+      component: Droits
+    },
+    {
+      path: '/directeur/RH',
+      name: 'RH',
+      component: RH
+    },
+    {
+      path: '/directeur/CongePermission',
+      name: 'CongePermission',
+      component: CongePermission
+    },
+    {
+      path: '/directeur/EtatsFinanciers',
+      name: 'EtatsFinanciers',
+      component: EtatFinancierDir
     },
     {
       path: '/Discussion',

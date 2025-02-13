@@ -1,17 +1,17 @@
 <template>
   <div :class="theme.theme === 'light' ? 'body' : 'body !bg-gray-600 !text-white'">
-    <h1 class="text-2xl font-bold flex items-center">
-      <RectangleGroupIcon class="h-5 w-5 mr-2" />
+    <h1 class="text-2xl font-bold flex items-center mb-2">
+      <CalendarDaysIcon class="h-6 w-6 mr-2" />
       Emplois du temps
     </h1>
     <div
       :class="
         theme.theme === 'light'
-          ? 'border-2 rounded-lg bg-white px-3 py-2 pb-4'
+          ? 'border-2 rounded-lg bg-white px-3 py-2 pb-4 '
           : 'border-2 rounded-lg px-3 py-2 pb-4 !bg-gray-600 !text-gray-200 border-none'
       "
     >
-      <h1 class="font-bold">Créer un emploi du temps :</h1>
+      <h1>Créer un emploi du temps :</h1>
       <div class="flex flex-wrap items-end mt-2">
         <div class="mr-2 w-40" v-if="au.listeAU.length !== 0">
           <label>Année universitaire:</label>
@@ -507,9 +507,9 @@
         <button
           v-if="ec.nomECEDT && edt.heures"
           @click="addDays()"
-          class="px-3 py-1.5 mt-2 bg-yellow-500 flex items-center text-black font-bold text-xs rounded"
+          class="px-3 py-2 mt-2 bg-yellow-500 flex items-center text-black font-bold text-xs rounded"
         >
-        <font-awesome-icon class="mr-2" :icon="['fas', 'circle-plus']" />  Ajouter
+          <font-awesome-icon class="mr-2" :icon="['fas', 'circle-plus']" /> Ajouter
         </button>
       </div>
       <div class="mt-2 flex flex-wrap max-h-[75px] oerflow-y-auto">
@@ -546,7 +546,7 @@
     </div>
 
     <div class="flex items-end mt-2">
-      <p class="mr-2 font-bold"><font-awesome-icon :icon="['fas', 'sort']" /> Trier par :</p>
+      <p class="mr-2"><font-awesome-icon :icon="['fas', 'sort']" /> Trier par :</p>
       <Listbox v-model="au.oneAUSelectFind" v-if="au.listeAU.length !== 0">
         <div class="relative text-xs w-40">
           <ListboxButton
@@ -607,36 +607,38 @@
       :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
       class="bg-white border mt-1 max-h-[25vh] oerflow-y-auto"
     >
-      <div :key="EDT.id" v-for="EDT in edt.listEDT" class="list-none flex px-2 py-1 border">
-        <li class="font-bold w-[30%]">{{ EDT.au.annee_debut }} - {{ EDT.au.annee_fin }}</li>
+      <div :key="EDT.id" v-for="EDT in edt.listEDT" class="list-none flex px-4 py-1 border">
+        <li class="font-bold w-[35%]">{{ EDT.au.annee_debut }} - {{ EDT.au.annee_fin }}</li>
         <li class="w-[30%]">{{ EDT.parcour.abr_parcours }}</li>
         <li class="w-[30%]">{{ EDT.semestre.nom_semestre }}</li>
-        <li class="w-[5%]">
-          <Tooltip content="Visualiser">
-            <font-awesome-icon
-              @click="
-                () => {
-                  edt.oneEDT = transformData(EDT.edt)
-                  edt.AUedt = `${EDT.au.annee_debut} - ${EDT.au.annee_fin}`
-                  edt.parcoursEdt = EDT.parcour.abr_parcours
-                  edt.SemestreEdt = EDT.semestre.nom_semestre
-                  show.showEDT = true
-                }
-              "
-              class="text-yellow-500 cursor-pointer"
-              :icon="['fas', 'eye']"
-            />
-          </Tooltip>
-        </li>
-        <li class="w-[5%]">
-          <Tooltip content="Supprimer">
-            <font-awesome-icon
-              @click="deleteEDT(EDT.id)"
-              class="text-red-500 cursor-pointer"
-              :icon="['fas', 'trash-can']"
-            />
-          </Tooltip>
-        </li>
+        <div class="flex items-center w-[5%] justify-between">
+          <li class="flex justify-end">
+            <Tooltip content="Visualiser">
+              <font-awesome-icon
+                @click="
+                  () => {
+                    edt.oneEDT = transformData(EDT.edt)
+                    edt.AUedt = `${EDT.au.annee_debut} - ${EDT.au.annee_fin}`
+                    edt.parcoursEdt = EDT.parcour.abr_parcours
+                    edt.SemestreEdt = EDT.semestre.nom_semestre
+                    show.showEDT = true
+                  }
+                "
+                class="text-yellow-500 cursor-pointer"
+                :icon="['fas', 'eye']"
+              />
+            </Tooltip>
+          </li>
+          <li class="flex justify-end">
+            <Tooltip content="Supprimer">
+              <font-awesome-icon
+                @click="deleteEDT(EDT.id)"
+                class="text-red-500 cursor-pointer"
+                :icon="['fas', 'trash-can']"
+              />
+            </Tooltip>
+          </li>
+        </div>
       </div>
     </div>
     <div
@@ -689,7 +691,7 @@
 </template>
 
 <script setup>
-import { RectangleGroupIcon } from '@heroicons/vue/24/outline'
+import { CalendarDaysIcon } from '@heroicons/vue/24/outline'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import { useAu } from '@/stores/Au'
 import { useParcour } from '@/stores/Parcour'

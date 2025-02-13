@@ -22,15 +22,12 @@
       <MenuItems
         class="z-20 absolute ml-[80px] w-[200px] divide-gray-100 rounded-sm bg-white shadow-lg ring-1 ring-black/5 focus:outline-none"
       >
-      <div :class="theme.theme === 'light' ? 'px-1 py-1' : 'px-1 py-1  !bg-gray-500'">
-        <MenuItem v-slot="{ active }">
+        <div :class="theme.theme === 'light' ? 'px-1 py-1' : 'px-1 py-1  !bg-gray-500'">
+          <MenuItem v-slot="{ active }">
             <RouterLink to="/agentScolarite/GestionInscription">
               <button
                 class="btndrop"
-                :class="[
-                  active ? 'bg-[#FDCB6E]' : '',
-                  'w-[99%] rounded-sm px-2 py-2 text-sm'
-                ]"
+                :class="[active ? 'bg-[#FDCB6E]' : '', 'w-[99%] rounded-sm px-2 py-2 text-sm']"
               >
                 <EditIcon
                   :active="active"
@@ -46,10 +43,7 @@
             <RouterLink to="/ListeEtudiant">
               <button
                 class="btndrop"
-                :class="[
-                  active ? 'bg-[#FDCB6E]' : '',
-                  'w-[99%] rounded-sm px-2 py-2 text-sm'
-                ]"
+                :class="[active ? 'bg-[#FDCB6E]' : '', 'w-[99%] rounded-sm px-2 py-2 text-sm']"
               >
                 <DuplicateIcon
                   :active="active"
@@ -66,10 +60,7 @@
             <RouterLink to="/agentScolarite/GestionNotes">
               <button
                 class="btndrop"
-                :class="[
-                  active ? 'bg-[#FDCB6E]' : '',
-                  'w-[99%] rounded-sm px-2 py-2 text-sm'
-                ]"
+                :class="[active ? 'bg-[#FDCB6E]' : '', 'w-[99%] rounded-sm px-2 py-2 text-sm']"
               >
                 <DuplicateIcon
                   :active="active"
@@ -88,12 +79,18 @@
   </Menu>
   <li @click="showCreateSalle"><HomeModernIcon class="h-5 w-5 mr-2" /> Salles</li>
   <RouterLink to="/agentScolarite/GestionEDP">
-    <li><RectangleGroupIcon class="h-5 w-5 mr-2" /> Emplois du temps</li>
+    <li><CalendarDaysIcon class="h-5 w-5 mr-2" /> Emplois du temps</li>
   </RouterLink>
-  <RouterLink to="/agentScolarite/GestionFinanciere">
+  <RouterLink class="hidden" to="/agentScolarite/GestionFinanciere">
     <li v-if="show.showNavBarSECPAL">
       <PresentationChartLineIcon class="h-5 w-5 mr-2" /> Gestion financière
     </li>
+  </RouterLink>
+  <RouterLink to="/agentScolarite/Commande">
+    <li><InboxArrowDownIcon class="h-5 w-5 mr-2" /> Commandes</li>
+  </RouterLink>
+  <RouterLink to="/agentScolarite/EtatsFinanciers">
+    <li><PresentationChartLineIcon class="h-5 w-5 mr-2" /> États financiers</li>
   </RouterLink>
 </template>
 
@@ -101,14 +98,14 @@
 import {
   HomeModernIcon,
   BriefcaseIcon,
-  RectangleGroupIcon,
-  PresentationChartLineIcon
+  PresentationChartLineIcon,
+  CalendarDaysIcon,
+  InboxArrowDownIcon
 } from '@heroicons/vue/24/outline'
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { useShow } from '@/stores/Show'
 import { useSalle } from '@/stores/salle'
 import { useTheme } from '@/stores/Theme'
-
 
 const show = useShow()
 const salles = useSalle()
