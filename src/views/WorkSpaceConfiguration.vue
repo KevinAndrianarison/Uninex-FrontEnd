@@ -484,7 +484,7 @@ onBeforeMount(() => {
   if (users.user.status_user === 'ADMIN') {
     infossetup.nom = users.nomComplet_admin
     infossetup.telephone = users.telephone_admin
-    agentscolarite.id_scol = users.id
+    admin.id_admin = users.id
   }
   if (users.user.status_user === 'SECPAL') {
     infossetup.nom = users.nomComplet_scol
@@ -504,7 +504,7 @@ onBeforeMount(() => {
 
 })
 
-function modifier() {
+function modifier() {  
   const userString = localStorage.getItem('user')
   const users = JSON.parse(userString)
   if (infossetup.nom || infossetup.telephone || infossetup.grade) {

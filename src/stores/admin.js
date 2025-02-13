@@ -17,8 +17,6 @@ export const useAdmin = defineStore('Admin', () => {
   const infosheader = useInfosheader()
   const infossetup = useInfossetup()
 
-
-
   function setAdmin() {
     show.showSpinner = true
     let formData = {
@@ -31,7 +29,7 @@ export const useAdmin = defineStore('Admin', () => {
       .then((response) => {
         let user = localStorage.getItem('user')
         user = JSON.parse(user)
-        if (user.user.status_user === 'Directeur') {
+        if (user.user.status_user === 'ADMIN') {
           infosheader.nom = response.data.nomComplet_admin
           infossetup.nom = response.data.nomComplet_admin
           infossetup.telephone_admin = response.data.telephone_admin
@@ -56,6 +54,6 @@ export const useAdmin = defineStore('Admin', () => {
     setAdmin,
     id_admin,
     nomComplet_admin,
-    telephone_admin,
+    telephone_admin
   }
 })

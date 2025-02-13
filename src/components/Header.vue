@@ -36,7 +36,7 @@
         ><font-awesome-icon class="mr-2" :icon="['fas', 'circle-plus']" />Publier</Button
       >
       <div class="w-50" v-if="!show.showNavBarEtud && au.listeAU.length !== 0">
-        <Listbox v-model="au.oneAU">
+        <Listbox>
           <div class="relative">
             <ListboxButton
               class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"

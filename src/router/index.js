@@ -22,6 +22,10 @@ import WorkSpacePublierCours from '../views/enseignant/WorkSpacePublierCours.vue
 import WorkSpaceTrascrireNotes from '../views/enseignant/WorkSpaceTrascrireNotes.vue'
 import WorkSpaceDeliberation from '../views/chefParcours/WorkSpaceDeliberation.vue'
 import WorkSpaceGestionRH from '../views/WorkSpaceGestionRH.vue'
+import Contacter from '@/views/etudiant/Contacter.vue'
+import Cours from '@/views/etudiant/Cours.vue'
+import Cursus from '@/views/etudiant/Cursus.vue'
+import Notes from '@/views/etudiant/Notes.vue'
 
 
 const router = createRouter({
@@ -54,13 +58,33 @@ const router = createRouter({
     },
     {
       path: '/etudiant/Notes',
+      name: 'notes',
+      component: Notes
+    },
+    {
+      path: '/etudiant/NotesEtudiant',
       name: 'Notes',
       component: WorkSpaceNotes
     },
     {
-      path: '/etudiant/Cours',
+      path: '/etudiant/contacter',
+      name: 'contacter',
+      component: Contacter
+    },
+    {
+      path: '/etudiant/CoursEtudiant',
       name: 'Cours',
       component: WorkSpaceCours
+    },
+    {
+      path: '/etudiant/Cursus',
+      name: 'Cursus',
+      component: Cursus
+    },
+    {
+      path: '/etudiant/Cours',
+      name: 'cours',
+      component: Cours
     },
     {
       path: '/etudiant/Inscription',
