@@ -13,11 +13,9 @@
 
 .titre {
   font-size: 26px;
-  font-family: 'Montserrat', 'sans-serif';
+  font-family: 'nunito', 'sans-serif';
   display: flex;
   align-items: center;
-  width: 90%;
-  margin: 0 auto;
 }
 
 .responsableEC {
@@ -38,6 +36,11 @@
   background-color: white;
   margin-top: 5px;
   border: 2px solid rgba(128, 128, 128, 0.127);
+  width: 90%;
+  margin: 0 auto;
+}
+
+.chooseSemestreECs {
   width: 90%;
   margin: 0 auto;
 }
@@ -128,11 +131,11 @@
   width: 50%;
 }
 
-.widthvalueRESP{
+.widthvalueRESP {
   width: 40%;
 }
 
-.RESP{
+.RESP {
   font-weight: bold;
 }
 

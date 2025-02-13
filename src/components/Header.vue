@@ -32,10 +32,10 @@
         ></div>
         <p class="nom font-bold">{{ infosheader.nom }}</p>
       </div>
-      <Button @click="createPost()" class="btn font-bold"
+      <Button v-if="!show.showNavBarEtud" @click="createPost()" class="btn font-bold"
         ><font-awesome-icon class="mr-2" :icon="['fas', 'circle-plus']" />Publier</Button
       >
-      <div class="w-50" v-if="!show.showNavBarEtud && au.listeAU.length !== 0">
+      <div class="w-50" v-if="show.showNavBarAdmin && au.listeAU.length !== 0">
         <Listbox>
           <div class="relative">
             <ListboxButton

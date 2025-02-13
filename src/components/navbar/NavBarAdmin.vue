@@ -56,6 +56,23 @@
                 </button>
               </RouterLink>
             </MenuItem>
+            <MenuItem v-slot="{ active }">
+              <RouterLink to="/Utilisateurs">
+                <button
+                  class="btndrop"
+                  :class="[active ? 'bg-[#FDCB6E]' : '', 'w-[99%] rounded-sm px-2 py-2 text-sm']"
+                >
+                  <DuplicateIcon
+                    :active="active"
+                    class="mr-2 h-5 w-5 text-violet-400"
+                    aria-hidden="true"
+                  />
+                  <font-awesome-icon :icon="['fas', 'users']" class="h-4 w-5 mr-2" />
+  
+                  Utilisateurs
+                </button>
+              </RouterLink>
+            </MenuItem>
           </div>
         </MenuItems>
       </transition>
@@ -163,7 +180,7 @@
   </template>
   
   <script setup>
-  import { CheckBadgeIcon, AcademicCapIcon, UserCircleIcon } from '@heroicons/vue/24/outline'
+  import { CheckBadgeIcon, AcademicCapIcon, UserCircleIcon, UserGroupIcon } from '@heroicons/vue/24/outline'
   import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
   import { useNiveau } from '@/stores/Niveau'
   import { useShow } from '@/stores/Show'

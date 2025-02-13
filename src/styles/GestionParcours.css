@@ -1,169 +1,160 @@
 .parcours {
-    height: 83vh;
-    font-weight: bold;
-    color: var(--color-text-main);
+  height: 83vh;
+  font-weight: bold;
+  color: var(--color-text-main);
 }
 
 .createParcours {
-    background-color: white;
-    margin-top: 5px;
-    border-radius: 10px;
-    border: 2px solid rgba(128, 128, 128, 0.127);
-    width: 80%;
-    margin: 0 auto;
+  background-color: white;
+  margin-top: 5px;
+  border-radius: 10px;
+  border: 2px solid rgba(128, 128, 128, 0.127);
+  width: 80%;
+  margin: 0 auto;
+}
 
+.createParcour {
+  width: 80%;
+  margin: 0 auto;
 }
 
 .listParcours {
-    height: 42vh;
-    background-color: white;
-    border-radius: 10px;
-    border: 2px solid rgba(128, 128, 128, 0.127);
-    margin-top: 5px;
-    width: 80%;
-    margin: 0 auto;
-
+  height: 42vh;
+  background-color: white;
+  border-radius: 10px;
+  border: 2px solid rgba(128, 128, 128, 0.127);
+  margin-top: 5px;
+  width: 80%;
+  margin: 0 auto;
 }
 
 .listRole {
-    height: 34vh;
-    background-color: white;
-    border-radius: 10px;
-    border: 2px solid rgba(128, 128, 128, 0.127);
-    margin-top: 5px;
-    width: 80%;
-    margin: 0 auto;
-
+  height: 34vh;
+  background-color: white;
+  border-radius: 10px;
+  border: 2px solid rgba(128, 128, 128, 0.127);
+  margin-top: 5px;
+  width: 80%;
+  margin: 0 auto;
 }
 
 .mention {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
-
 
 .delete {
-    color: red;
-    cursor: pointer;
+  color: red;
+  cursor: pointer;
 }
 
-
 .widthemail {
-    width: 30%;
-    font-weight: 600;
+  width: 30%;
+  font-weight: 600;
 }
 
 .widthemails {
-    width: 40%;
-    font-weight: 600;
+  width: 40%;
+  font-weight: 600;
 }
 
 .red {
-    color: rgba(255, 0, 0, 0.67);
+  color: rgba(255, 0, 0, 0.67);
 }
 
 .widthe {
-    width: 10%;
-    font-weight: 600;
-    text-align: center;
-    cursor: pointer;
+  width: 10%;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
 }
 
 .widthvaluenom {
-    width: 50%;
+  width: 50%;
 }
 
 .widthvalueemail {
-    width: 30%;
-
+  width: 30%;
 }
 
 .widthvalueemails {
-    width: 40%;
-
+  width: 40%;
 }
 
 .widthvaluenom {
-    width: 50%;
+  width: 50%;
 }
-
-
 
 .btn {
-    background-color: var(--color-third);
-    padding: 5px 20px 5px 20px;
-    border: 2px var(--color-third) solid;
-    border-radius: 5px;
-    transition: all 0.2s ease-in-out;
-    margin-right: 15px;
+  background-color: var(--color-third);
+  padding: 5px 20px 5px 20px;
+  border: 2px var(--color-third) solid;
+  border-radius: 5px;
+  transition: all 0.2s ease-in-out;
+  margin-right: 15px;
 }
 
-
 .head {
-    padding-left: 20px;
-    padding-right: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 30px;
-    border-bottom: 2px solid rgba(128, 128, 128, 0.127);
-    list-style: none;
+  padding-left: 20px;
+  padding-right: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 30px;
+  border-bottom: 2px solid rgba(128, 128, 128, 0.127);
+  list-style: none;
 }
 
 .widthnom {
-    width: 50%;
-    font-weight: 600;
+  width: 50%;
+  font-weight: 600;
 }
 
 .body {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 40px;
-    padding-left: 20px;
-    padding-right: 20px;
-    border-bottom: 2px solid rgba(128, 128, 128, 0.127);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-bottom: 2px solid rgba(128, 128, 128, 0.127);
 }
-
 
 .listScolValue {
-    margin-top: 10px;
-    height: 90%;
-    overflow-y: scroll;
-    list-style: none;
+  margin-top: 10px;
+  height: 90%;
+  overflow-y: scroll;
+  list-style: none;
 }
 
-
 .formInput {
-    display: flex;
-    flex-wrap: wrap
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .divbtn {
-    display: flex;
-    align-items: end;
-    height: 60px;
+  display: flex;
+  align-items: end;
+  height: 60px;
 }
 
 .create {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .radio {
-    display: flex;
-    flex-direction: column;
-    justify-content: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
 }
 
 .titre {
-    font-size: 26px;
-    font-family: 'Montserrat', 'sans-serif';
-    display: flex;
-    align-items: center;
-    margin-left: 10%;
+  font-size: 26px;
+  font-family: 'nunito', 'sans-serif';
+  display: flex;
+  align-items: center;
 }
 
-
 .content {
-    display: flex;
+  display: flex;
 }

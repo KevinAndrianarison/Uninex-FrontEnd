@@ -98,7 +98,7 @@ export const useAu = defineStore('Au', () => {
       if (show.showNavBarSECPAL) {
         transaction.getByIdAU()
       }
-      if(show.showNavBarDir){
+      if(show.showNavBarAdmin){
         etudiant.getEtudiantByIdAu()
       }
 

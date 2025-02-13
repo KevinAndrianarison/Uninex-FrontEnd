@@ -40,7 +40,7 @@ function closeCreateAU() {
             <XMarkIcon :class="theme.theme === 'light' ? '' : '!text-red-500'" class="h-6 w-6" />
           </button>
         </div>
-        <p class="infos">Nouvelle année universitaire :</p>
+        <p class="font-bold">Nouvelle année universitaire :</p>
         <div class="class formInput mt-4">
           <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div class="sm:col-span-3">

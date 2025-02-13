@@ -6,7 +6,72 @@
         : 'list p-2 overflow-y-auto !bg-gray-600 !text-white'
     "
   >
-    <h1 class="titre"><FireIcon class="h-7 w-7 mr-2" /> Résultats finaux</h1>
+    <div class="flex items-center mb-2 justify-between">
+      <h1 class="titre font-bold"><FireIcon class="h-7 w-7 mr-2" /> Résultats finaux</h1>
+      <div class="flex items-center gap-2">
+        <p class="font-bold">Année universitaire :</p>
+        <Listbox v-model="au.oneAU">
+          <div class="relative w-40">
+            <ListboxButton
+              :class="theme.theme === 'light' ? '' : '!bg-gray-300 '"
+              class="text-black relative w-full border border-blue-300 cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+            >
+              <span class="block truncate">{{ au.oneAU }}</span>
+              <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+              </span>
+            </ListboxButton>
+
+            <transition
+              leave-active-class="transition duration-100 ease-in"
+              leave-from-class="opacity-100"
+              leave-to-class="opacity-0"
+            >
+              <ListboxOptions
+                :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
+                class="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+              >
+                <ListboxOption
+                  v-slot="{ active, selected }"
+                  :key="index"
+                  v-for="(AU, index) in au.listeAU"
+                  :value="AU.annee_debut + '-' + AU.annee_fin"
+                  as="template"
+                >
+                  <li
+                    class="leftLi"
+                    :class="[
+                      au.oneAU === AU.annee_debut + '-' + AU.annee_fin
+                        ? 'bg-amber-100 text-amber-900'
+                        : '',
+                      'relative cursor-default  text-center select-none py-2 '
+                    ]"
+                  >
+                    <span
+                      class="spanAU"
+                      :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']"
+                      >{{ AU.annee_debut }} - {{ AU.annee_fin }}
+                    </span>
+                    <span
+                      v-if="selected"
+                      class="absolute inset-y-0 left-0 flex items-left pl-3 text-amber-600"
+                    >
+                    </span>
+                    <span
+                      v-if="au.oneAU === AU.annee_debut + '-' + AU.annee_fin"
+                      class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
+                    >
+                      <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                    </span>
+                  </li>
+                </ListboxOption>
+              </ListboxOptions>
+            </transition>
+          </div>
+        </Listbox>
+      </div>
+    </div>
+
     <div class="flex">
       <div :class="theme.theme === 'light' ? '' : '!bg-gray-600'" class="chooseSemestre w-[50%]">
         <h1 class="create pl-5 mt-2" v-if="parcour.abreviationbyEns">Sélectionnez un semestre :</h1>
@@ -745,7 +810,6 @@ import { useTheme } from '@/stores/Theme'
 import { useShow } from '@/stores/Show'
 import { useMessages } from '@/stores/messages'
 
-
 const niveau = useNiveau()
 const show = useShow()
 const semestre = useSemestre()
@@ -759,7 +823,6 @@ const directeur = useDirecteur()
 const theme = useTheme()
 const URL = useUrl().url
 const messages = useMessages()
-
 
 function setIdParcours(id, name) {
   parcour.parcours_id = id
@@ -825,7 +888,7 @@ function fetch(user_id, email, nomComplet_etud, Semestre, status, idAU) {
             'Content-Type': 'multipart/form-data'
           }
         })
-        .then((responseUser) => {          
+        .then((responseUser) => {
           let formDataEtudiant = {
             user_id: responseUser.data.id,
             nomComplet_etud: nomComplet_etud,
@@ -854,7 +917,7 @@ function fetch(user_id, email, nomComplet_etud, Semestre, status, idAU) {
                   messages.messageSucces = 'Etudiants déliberés !'
                   show.showSpinner = false
                   setTimeout(() => {
-                  messages.messageSucces = ''
+                    messages.messageSucces = ''
                   }, 3000)
                 })
                 .catch((err) => {
@@ -866,8 +929,8 @@ function fetch(user_id, email, nomComplet_etud, Semestre, status, idAU) {
               console.error(err)
               messages.messageError = err.response.data.message
               setTimeout(() => {
-              messages.messageError = ''
-            }, 3000)
+                messages.messageError = ''
+              }, 3000)
               show.showSpinner = false
             })
         })
@@ -897,7 +960,8 @@ function RedoubleList() {
     (etd) => etd.moyenne_generale < 10 && etd.worstNote >= noteElim.value
   )
   directeur.isListeEtudDelib = true
-  directeur.getFirst()}
+  directeur.getFirst()
+}
 
 function ElimineList() {
   etudiant.statusDeliberation = 'ELIMINE'

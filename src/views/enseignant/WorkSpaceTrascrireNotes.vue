@@ -1,12 +1,76 @@
 <template>
-    <div :class="theme.theme === 'light' ? 'list' : 'list !bg-gray-600 !text-white'">
-    <h1 class="titre">
-      <font-awesome-icon class="h-7 w-7 mr-5" :icon="['fas', 'list-ul']" /> Listes
-      <h1 v-if="show.showNavBarAS">&nbsp;et cartes&nbsp;</h1>
-      de vos étudiants
-    </h1>
-    <div
-    :class="theme.theme === 'light' ? 'chooseSemestre' : '!bg-gray-600 !text-gray-200'" >
+  <div :class="theme.theme === 'light' ? 'list' : 'list !bg-gray-600 !text-white'">
+    <div class="flex items-center justify-between !mb-2">
+      <h1 class="titre font-bold">
+        <font-awesome-icon class="h-7 w-7 mr-5" :icon="['fas', 'list-ul']" /> Listes
+        <h1 v-if="show.showNavBarAS">&nbsp;et cartes&nbsp;</h1>
+        de vos étudiants
+      </h1>
+      <div class="flex items-center gap-2">
+        <p class="font-bold">Année universitaire :</p>
+        <Listbox v-model="au.oneAU">
+          <div class="relative w-40">
+            <ListboxButton
+              :class="theme.theme === 'light' ? '' : '!bg-gray-300 '"
+              class="text-black relative w-full border border-blue-300 cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+            >
+              <span class="block truncate">{{ au.oneAU }}</span>
+              <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+              </span>
+            </ListboxButton>
+
+            <transition
+              leave-active-class="transition duration-100 ease-in"
+              leave-from-class="opacity-100"
+              leave-to-class="opacity-0"
+            >
+              <ListboxOptions
+                :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
+                class="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+              >
+                <ListboxOption
+                  v-slot="{ active, selected }"
+                  :key="index"
+                  v-for="(AU, index) in au.listeAU"
+                  :value="AU.annee_debut + '-' + AU.annee_fin"
+                  as="template"
+                >
+                  <li
+                    class="leftLi"
+                    :class="[
+                      au.oneAU === AU.annee_debut + '-' + AU.annee_fin
+                        ? 'bg-amber-100 text-amber-900'
+                        : '',
+                      'relative cursor-default  text-center select-none py-2 '
+                    ]"
+                  >
+                    <span
+                      class="spanAU"
+                      :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']"
+                      >{{ AU.annee_debut }} - {{ AU.annee_fin }}
+                    </span>
+                    <span
+                      v-if="selected"
+                      class="absolute inset-y-0 left-0 flex items-left pl-3 text-amber-600"
+                    >
+                    </span>
+                    <span
+                      v-if="au.oneAU === AU.annee_debut + '-' + AU.annee_fin"
+                      class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
+                    >
+                      <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                    </span>
+                  </li>
+                </ListboxOption>
+              </ListboxOptions>
+            </transition>
+          </div>
+        </Listbox>
+      </div>
+    </div>
+
+    <div :class="theme.theme === 'light' ? 'chooseSemestre' : '!bg-gray-600 !text-gray-200'">
       <div class="radio px-4 mt-2 pb-2 ml-2">
         <div class="mt-2">
           <RadioGroup v-model="niveau.NiveauCheck">
@@ -76,7 +140,7 @@
             <Listbox v-model="parcour.parcours_nom">
               <div class="relative">
                 <ListboxButton
-                :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+                  :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
                   class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
                 >
                   <span class="block truncate">{{ parcour.parcours_nom }}</span>
@@ -93,7 +157,7 @@
                   leave-to-class="opacity-0"
                 >
                   <ListboxOptions
-                  :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
+                    :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
                     class="z-20 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                   >
                     <ListboxOption
@@ -140,7 +204,7 @@
             <Listbox v-model="semestre.semestreNom">
               <div class="relative">
                 <ListboxButton
-                :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+                  :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
                   class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
                 >
                   <span class="block truncate">{{ semestre.semestreNom }}</span>
@@ -157,7 +221,7 @@
                   leave-to-class="opacity-0"
                 >
                   <ListboxOptions
-                  :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
+                    :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
                     class="z-20 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                   >
                     <ListboxOption
@@ -198,14 +262,12 @@
           </div>
         </div>
         <div class="sm:col-span-3 mt-2 ctgr mr-4" v-if="ec.ecNomBySemestre">
-          <label class="block text-sm font-medium leading-6"
-            >Eléments constitutifs</label
-          >
+          <label class="block text-sm font-medium leading-6">Eléments constitutifs</label>
           <div class="w-52 mt-1">
             <Listbox v-model="ec.ecNomBySemestre">
               <div class="relative">
                 <ListboxButton
-                :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+                  :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
                   class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
                 >
                   <span class="block truncate">{{ ec.ecNomBySemestre }}</span>
@@ -222,7 +284,7 @@
                   leave-to-class="opacity-0"
                 >
                   <ListboxOptions
-                  :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
+                    :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
                     class="z-20 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
                   >
                     <ListboxOption
@@ -261,9 +323,10 @@
         </div>
       </div>
     </div>
-    <div 
-    :class="theme.theme === 'light' ? 'listEtud' : 'listEtud !bg-gray-600 !text-white'"
-     v-if="niveau.ListNiveau.length !== 0">
+    <div
+      :class="theme.theme === 'light' ? 'listEtud' : 'listEtud !bg-gray-600 !text-white'"
+      v-if="niveau.ListNiveau.length !== 0"
+    >
       <div class="header">
         <input
           placeholder="🔎 Recherche par nom"
@@ -275,8 +338,9 @@
         />
         <div class="sm:col-span-3 mt-2 ml-4" v-if="ec.isBtn" @click="exportPdfNoteEtud()">
           <div
-          :class="theme.theme === 'light' ? '' : 'bg-blue-500'"
-           class="file-label bg-blue-300 py-1 px-2 rounded-md border border-blue-300">
+            :class="theme.theme === 'light' ? '' : 'bg-blue-500'"
+            class="file-label bg-blue-300 py-1 px-2 rounded-md border border-blue-300"
+          >
             Exporter en PDF
             <font-awesome-icon class="h-4 w-4 ml-1 mt-1" :icon="['fas', 'print']" />
           </div>
@@ -290,9 +354,7 @@
           <li v-if="show.showNavBarAS" class="width">Carte d'étudiant</li>
         </div>
         <div :key="index" v-for="(etd, index) in ec.ListeEtudByEC.etudiants">
-          <div 
-          :class="theme.theme === 'light' ? 'body' : 'body !text-gray-200'"
-          class="body">
+          <div :class="theme.theme === 'light' ? 'body' : 'body !text-gray-200'" class="body">
             <li class="widthvaluenom">{{ etd.nomComplet_etud }}</li>
             <li
               v-if="etd.noteEc !== null && etd.noteEc >= 10"
@@ -354,10 +416,11 @@ import { useEc } from '@/stores/Ec'
 import axios from 'axios'
 import { useUrl } from '@/stores/url'
 import { useTheme } from '@/stores/Theme'
-
+import { useAu } from '@/stores/Au'
 
 const niveau = useNiveau()
 const semestre = useSemestre()
+const au = useAu()
 const theme = useTheme()
 const show = useShow()
 const parcour = useParcour()
@@ -381,8 +444,7 @@ function handleInputChange(note, id, idEC) {
   }
   axios
     .put(`${URL}/api/ec/${idEC}/etudiant/${id}/note`, formData)
-    .then((response) => {
-    })
+    .then((response) => {})
     .catch((err) => {
       console.error(err)
     })

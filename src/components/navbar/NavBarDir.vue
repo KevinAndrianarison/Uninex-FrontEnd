@@ -1,5 +1,5 @@
 <template>
-  <RouterLink to="/GestionRH">
+  <RouterLink class="hidden" to="/Utilisateurs">
     <li>
       <UserGroupIcon class="h-5 w-5 mr-2" />
       Gestion RH

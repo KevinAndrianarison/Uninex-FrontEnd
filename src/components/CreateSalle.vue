@@ -70,7 +70,7 @@ function createSalle() {
             <XMarkIcon :class="theme.theme === 'light' ? '' : 'text-red-500'" class="h-6 w-6" />
           </button>
         </div>
-        <p class="infos">Gérer les salles :</p>
+        <p class="font-bold">Gérer les salles :</p>
         <div class="class formInput mt-4">
           <label class="block text-sm font-medium leading-6">Nom de la salle</label>
           <input

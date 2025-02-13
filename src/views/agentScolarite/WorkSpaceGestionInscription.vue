@@ -1,9 +1,75 @@
-cre<template>
+cre
+<template>
   <div :class="theme.theme === 'light' ? 'inscr' : 'inscr !bg-gray-600 !text-white'">
-    <h1 class="titre">
-      <font-awesome-icon class="h-7 w-7 mr-5" :icon="['fas', 'paperclip']" /> Inscriptions et
-      comptes des étudiants
-    </h1>
+    <div class="flex items-center mb-2 justify-between ">
+      <h1 class="titre font-bold">
+        <font-awesome-icon class="h-7 w-7 mr-5" :icon="['fas', 'paperclip']" /> Inscriptions et
+        comptes des étudiants
+      </h1>
+      <div class="flex items-center gap-2">
+        <p class="font-bold">Année universitaire :</p>
+        <Listbox v-model="au.oneAU">
+          <div class="relative w-40">
+            <ListboxButton
+              :class="theme.theme === 'light' ? '' : '!bg-gray-300 '"
+              class="text-black relative w-full border border-blue-300 cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+            >
+              <span class="block truncate">{{ au.oneAU }}</span>
+              <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+              </span>
+            </ListboxButton>
+
+            <transition
+              leave-active-class="transition duration-100 ease-in"
+              leave-from-class="opacity-100"
+              leave-to-class="opacity-0"
+            >
+              <ListboxOptions
+                :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
+                class="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+              >
+                <ListboxOption
+                  v-slot="{ active, selected }"
+                  :key="index"
+                  v-for="(AU, index) in au.listeAU"
+                  :value="AU.annee_debut + '-' + AU.annee_fin"
+                  as="template"
+                >
+                  <li
+                    class="leftLi"
+                    :class="[
+                      au.oneAU === AU.annee_debut + '-' + AU.annee_fin
+                        ? 'bg-amber-100 text-amber-900'
+                        : '',
+                      'relative cursor-default  text-center select-none py-2 '
+                    ]"
+                  >
+                    <span
+                      class="spanAU"
+                      :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']"
+                      >{{ AU.annee_debut }} - {{ AU.annee_fin }}
+                    </span>
+                    <span
+                      v-if="selected"
+                      class="absolute inset-y-0 left-0 flex items-left pl-3 text-amber-600"
+                    >
+                    </span>
+                    <span
+                      v-if="au.oneAU === AU.annee_debut + '-' + AU.annee_fin"
+                      class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
+                    >
+                      <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                    </span>
+                  </li>
+                </ListboxOption>
+              </ListboxOptions>
+            </transition>
+          </div>
+        </Listbox>
+      </div>
+    </div>
+
     <div :class="theme.theme === 'light' ? 'createEtud' : '!bg-gray-600 !text-gray-200'">
       <div class="radio px-4 mt-2 pb-2 ml-2">
         <div class="mt-2">
@@ -225,12 +291,7 @@ cre<template>
         </div>
 
         <div v-if="semestre.semestreNom" class="divbtn text-black sm:col-span-3">
-          <Button
-            @click="etudiant.createEtudiant()"
-            class="btn font-bold"
-          >
-            Valider</Button
-          >
+          <Button @click="etudiant.createEtudiant()" class="btn font-bold"> Valider</Button>
         </div>
       </div>
     </div>
@@ -334,7 +395,7 @@ import { useNiveau } from '@/stores/Niveau'
 import { useEtudiant } from '@/stores/Etudiant'
 import Tooltip from '../../components/Tooltip.vue'
 import { useTheme } from '@/stores/Theme'
-
+import { useAu } from '@/stores/Au'
 
 import {
   RadioGroup,
@@ -345,6 +406,7 @@ import {
 import { onBeforeMount } from 'vue'
 
 const niveau = useNiveau()
+const au = useAu()
 const semestre = useSemestre()
 const user = useUser()
 const regex = useRegex()

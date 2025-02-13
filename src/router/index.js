@@ -152,7 +152,7 @@ const router = createRouter({
       component: WorkSpaceDiscussion
     },
     {
-      path: '/GestionRH',
+      path: '/Utilisateurs',
       name: 'GestionRH',
       component: WorkSpaceGestionRH
     },
