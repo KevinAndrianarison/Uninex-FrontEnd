@@ -88,7 +88,6 @@ NProgress.start();
       }
     })
     .then((response) => {
-      console.log(response);
       groupe.groupeName = response.data.name
       groupe.groupeNameToPUT = response.data.name
       groupe.idAdmin = response.data.user_id

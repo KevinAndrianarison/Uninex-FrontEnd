@@ -78,307 +78,6 @@
         : 'body overflow-y-auto  pb-5 rounded-lg max-h-[60vh] mt-5 !text-white !bg-gray-600'
     "
   >
-    <!-- <div class="head flex justify-center items-center gap-4 mt-2 text-black">
-    <Select @update:modelValue="handleSelection">
-        <SelectTrigger
-          :class="theme.theme === 'light' ? '' : '!bg-gray-300 '"
-          class="w-40 py-0 select-trigger"
-          >
-        <SelectValue class="focus:outline-none" placeholder="Trier par" />
-        </SelectTrigger>
-        <SelectContent :class="theme.theme === 'light' ? '' : '!bg-gray-300'">
-            <SelectGroup>
-                    <SelectItem value="Toutes">Toutes</SelectItem>
-                    <SelectItem value="Mes annonces">Mes annonce</SelectItem>
-            </SelectGroup>
-        </SelectContent>
-        </Select>
-      <input
-        type="search"
-        :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
-        class="py-1.5 text-center px-1 w-60 rounded border focus:outline-none focus:border-green-500 border-2"
-        placeholder="🔍 Recherche par titre"
-        @input="annonces.search(annonces.searchalue)"
-        v-model="annonces.searchalue"
-      />
-    </div>
-    <div v-if="!annonces.isSveletron" class="flex justify-evenly mt-2 ">
-      <div class="w-[20%] max-h-[200px] overflow-auto cursor-pointer ">
-        <div
-          :key="ctg.id"
-          v-for="(ctg, index) in category.listCategorie"
-          @click="setActiveCategory(ctg.id)"
-          :class="['flex truncate', isActive === ctg.id ? 'text-blue-500 font-bold' : 'hover:text-blue-500']"
-        >
-          {{ ctg.titre }}
-        </div>
-      </div>
-      <div class="w-[45%] overflow-y-auto max-h-[75vh] rounded px-4 ">
-        <div
-        :class="theme.theme === 'light' ? '' : '!bg-gray-500 border-none'"
-          class="flex py-2 border rounded mt-2 pr-8 "
-          :key="ann.id"
-          v-for="(ann, index) in annonces.listAnnonce"
-        >
-          <div
-            :style="{
-              'background-image': `url(${URL}/storage/users/${
-                ann.user.photo_name ||
-                'téléchargement-removebg-preview.png'
-              })`,
-              'background-size': 'cover',
-              'background-position': 'center'
-            }"
-            class="image ml-1"
-          ></div>
-          <div class="content w-[95%] pl-1" >
-            <h1 class="font-bold mb-2 ml-2">{{ ann.user.email }}</h1>
-            <div v-if="editableId === ann.id && isEditingTitle" >
-              <input
-                v-model="ann.editableTitre"
-                :class="theme.theme === 'light' ? '' : 'text-black !bg-gray-300'"
-                class="border p-1 w-full focus:outline-none text-sm"
-                @blur="saveChanges(ann, 'titre')"
-                autofocus
-              />
-            </div>
-            <p class="font-bold"  v-else>{{ ann.titre }}</p>
-            <div v-if="editableId === ann.id && isEditingDescription">
-              <textarea
-                v-model="ann.editableDescription"
-                :class="theme.theme === 'light' ? '' : 'text-black !bg-gray-300'"
-                class="border text-sm p-1 w-full min-h-[50px] focus:outline-none"
-                @blur="saveChanges(ann, 'description')"
-              ></textarea>
-            </div>
-            <p    
-            :class="theme.theme === 'light' ? '' : '!text-gray-200'"
-             v-html="highlightHashtags(ann.description)"
-            class="text-gray-500 text-sm whitespace-pre-wrap" v-else>
-            </p>
-            <div class="mt-1 flex">
-              <div v-if="ann.fichier_nom" class="w-full ">
-                  <div v-if="isImageFile(ann.fichier_nom)"
-                    :style="{
-                      'background-image': `url(${URL}/storage/annonce/${ann.fichier_nom})`,
-                      'background-size': 'cover',
-                      'background-position': 'center'
-                    }"
-                    class="h-[40vh]"
-                  ></div>
-                <p class="font-bold text-blue-500 mr-2 mt-1 underline text-xs">
-                  {{ ann.fichier_nom }}
-                  <Tooltip content="Télecharger">
-                    <font-awesome-icon
-                      @click="telecharger(ann.fichier_nom)"
-                      class="cursor-pointer text-blue-500"
-                      :icon="['fas', 'arrow-down']"
-                  /></Tooltip>
-                </p>
-              </div>
-            </div>
-            <div class="flex mt-2 justify-between">
-              <div class="flex">
-                <p class="font-bold mr-4 flex items-center " >
-                  <font-awesome-icon
-                  v-if="ann.liked_by_user "
-                    @click="toggleLike(ann)"
-                    class="iconadd text-gray-500 cursor-pointer text-red-500 mr-1"
-                    :icon="['fas', 'heart']"
-                  />
-                  <font-awesome-icon
-                  v-if="!ann.liked_by_user "
-
-                  @click="toggleLike(ann)"
-                    :class="theme.theme === 'light' ? '' : 'text-white'"
-                    class="iconadd text-gray-500 cursor-pointer text-gray-500 mr-1 "
-                    :icon="['fas', 'heart']"
-                  />
-                  <p class="mr-2 cursor-pointer" @click="openLikesModal(ann.likes)">{{ ann.likes_count }}</p>
-                  <p @click="toggleLike(ann)" :class="ann.liked_by_user ? 'mr-1 text-blue-500 cursor-pointer' : 'text-black mr-1 cursor-pointer'">{{ ann.liked_by_user ? "Je n'aime plus" : "J'aime" }}</p> 
-                </p>
-                <p class=" mr-4">
-                  <Tooltip content="Commentaires">
-                    <font-awesome-icon
-                      @click="showComs(ann.id)"
-                      :class="theme.theme === 'light' ? '' : 'text-white'"
-                      class="iconadd text-gray-500 cursor-pointer text-gray-500 mr-1"
-                      :icon="['fas', 'comment-dots']" /></Tooltip
-                  >{{ ann.com.length }}
-                </p>
-                <p 
-                :class="theme.theme === 'light' ? '' : 'text-white'"
-                class="text-gray-500">{{ ann.timeAgo }}</p>
-              </div>
-              <div class="flex">
-                <p v-if="editableId !== ann.id && ann.user.id === user.user.id" class="font-bold mr-4">
-                  <Tooltip content="Modifier le titre et la description">
-                    <font-awesome-icon
-                      @click.stop="toggleEditPost(ann)"
-                      class="iconadd cursor-pointer text-yellow-500"
-                      :icon="['fas', 'pen']"
-                  /></Tooltip>
-                </p>
-                <p v-if="ann.user.id === user.user.id || show.showNavBarAdmin" class="font-bold">
-                  <Tooltip content="Supprimer">
-                    <font-awesome-icon
-                      class="iconadd text-gray-500 cursor-pointer text-red-500"
-                      :icon="['fas', 'trash-can']"
-                      @click="showDeletePost(ann.id)"
-                  /></Tooltip>
-                </p>
-              </div>
-            </div>
-          </div>
-        <div v-if="showLikesModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center " @click.self="closeLikesModal">
-          <div
-          :class="theme.theme === 'light' ? '' : '!bg-gray-600'"
-           class="bg-white p-5 rounded-lg w-1/3 overflow-y-auto max-h-[80vh]">
-            <h2 class="text-md font-bold mb-3">❤️ Les réacteurs :</h2>
-            <ul>
-              <li  :key="lk.id"
-                  v-for="(lk, index) in listReacteur" class="py-1">
-               <div class="flex items-center">
-               <div
-                :style="{
-                'background-image': `url(${URL}/storage/users/${lk.user.photo_name || 'téléchargement-removebg-preview.png'})`,
-                'background-size': 'cover',
-                'background-position': 'center'
-              }"
-            class="w-10 h-10 rounded-full  mr-3"
-          ></div>
-          <p>{{ lk.user.email }}</p>
-          </div>
-          </li>
-         </ul>
-        </div>
-        </div>
-        </div>
-        <div v-if="annonces.listAnnonce.length === 0" class="text-center mt-5 text-xs">
-          Aucun poste trouvé 🙁☁️
-        </div>
-      </div>
-      <div v-if="isComs"         
-      :class="theme.theme === 'light' ? '' : '!bg-gray-500 border-none'"
-      class="w-[30%] h-[75vh] border rounded p-2">
-        <h1 class="font-bold">Commentaires :</h1>
-        <textarea
-          placeholder="Ecrire ici..."
-          ref="newComsEmojiInput"
-          @input="handleInputChangeComs"
-          v-model="coms"
-          :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
-          class="text-black border-2 focus:border-yellow-500 rounded w-full min-h-[50px] focus:outline-none p-1"
-        >
-        </textarea>
-        <div class="relative bottom-8 right-3 text-end">
-
-        <Tooltip content="Emoji">
-          <font-awesome-icon
-            @click="toggleEmojiCtg"
-            :class="theme.theme === 'light' ? 'text-gray-500 cursor-pointer' : 'text-gray-500 cursor-pointer'"
-            :icon="['fas', 'smile']"
-            class="mr-1"
-          /></Tooltip>
-          <div v-if="showEmojiComs" class="emoji-picker-modal absolute top-full left-0 mt-2">
-            <emoji-picker :class="theme.theme === 'light' ? 'light' : 'dark'" @emoji-click="addEmojiComs"></emoji-picker>
-          </div>
-          <Tooltip content="Envoyer">
-            <font-awesome-icon
-              @click="sendMsg()"
-              class="iconadd text-gray-500 cursor-pointer"
-              :icon="['fas', 'paper-plane']"
-            />
-          </Tooltip>
-        </div>
-        <div class="max-h-[350px] overflow-y-auto">
-          <di class="coms mt-2 w-full flex " :key="coms.id" v-for="(coms, index) in commmentaire.listComs">
-            <div
-              :style="{
-                'background-image': `url(${URL}/storage/users/${
-                  coms.user.photo_name ||
-                  'téléchargement-removebg-preview.png'
-                })`,
-                'background-size': 'cover',
-                'background-position': 'center'
-              }"
-              class="image mr-1 "
-            ></div>
-            <div  
-            :class="theme.theme === 'light' ? '' : 'bg-gray-300 border-none text-black'"
-            class="border w-[85%] p-1 px-2 rounded text-sm ">
-              <div v-if="editableComId === coms.id">
-                <textarea
-                  v-model="coms.editableContenu"
-                  class="border w-full focus:outline-none rounded min-h-[50px] mt-1 p-1"
-                  @blur="saveCommentChanges(coms)"
-                  autofocus
-                ></textarea>
-              </div>
-              <p v-html="highlightHashtags(coms.contenu )" class='whitespace-pre-wrap' v-else></p>
-              <div class="mt-2 flex items-center justify-between w-full">
-                <p class="text-gray-500 text-xs">{{ coms.timeAgo }}</p>
-                <div class="flex justify-end">
-                  <p v-if="editableComId !== coms.id && coms.user.id === user.user.id" class="font-bold mr-2">
-                    <Tooltip content="Modifier"><font-awesome-icon @click.stop="editComment(coms)" class="iconadd cursor-pointer text-yellow-500" :icon="['fas', 'pen']"/></Tooltip>
-                  </p>
-                  <p v-if="coms.user.id === user.user.id || show.showNavBarAdmin" class="font-bold">
-                    <Tooltip content="Supprimer">
-                      <font-awesome-icon
-                        @click="deleteComs(coms.id)"
-                        class="iconadd cursor-pointer text-red-500"
-                        :icon="['fas', 'trash-can']"
-                    /></Tooltip>
-                  </p>
-                </div>
-              </div>
-             </div>   
-          </di>
-          <p v-if="commmentaire.listComs.length === 0"
-            :class="theme.theme === 'light' ? '' : 'text-white'"
-            class="mt-1 text-center text-xs text-gray-500">
-            Aucun commentaire...
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <div v-if="annonces.isSveletron" class="flex justify-evenly mt-10">
-      <div role="status" class="max-w-sm animate-pulse">
-        <h3 class="h-3 bg-gray-300 rounded-lg w-48 mb-4"></h3>
-        <p class="h-2 bg-gray-300 rounded-lg max-w-[380px] mb-2.5"></p>
-        <p class="h-2 bg-gray-300 rounded-lg max-w-[340px] mb-2.5"></p>
-        <p class="h-2 bg-gray-300 rounded-lg max-w-[320px] mb-2.5"></p>
-      </div>
-      <div class="w-[50%]">
-        <div role="status" class="animate-pulse">
-          <h3 class="h-3 bg-gray-300 rounded-sm max-w-[340px] mb-4"></h3>
-          <div class="flex">
-            <p class="h-8 bg-gray-300 rounded-full w-8 mb-2.5 mr-2"></p>
-            <div>
-              <p class="h-2 bg-gray-300 rounded-full w-40 mb-2.5"></p>
-              <p class="h-2 bg-gray-300 rounded-full w-48 mb-2.5"></p>
-            </div>
-          </div>
-          <p class="h-4 bg-gray-300 rounded-sm max-w-[340px] mb-1"></p>
-          <p class="h-4 bg-gray-300 rounded-sm max-w-[250px] mb-4"></p>
-          <p class="h-2 bg-gray-300 rounded-sm max-w-[320px] mb-2.5"></p>
-        </div>
-        <div role="status" class="animate-pulse mt-20">
-          <h3 class="h-3 bg-gray-300 rounded-sm max-w-[340px] mb-4"></h3>
-          <div class="flex">
-            <p class="h-8 bg-gray-300 rounded-full w-8 mb-2.5 mr-2"></p>
-            <div>
-              <p class="h-2 bg-gray-300 rounded-full w-40 mb-2.5"></p>
-              <p class="h-2 bg-gray-300 rounded-full w-48 mb-2.5"></p>
-            </div>
-          </div>
-          <p class="h-4 bg-gray-300 rounded-sm max-w-[340px] mb-1"></p>
-          <p class="h-4 bg-gray-300 rounded-sm max-w-[250px] mb-4"></p>
-          <p class="h-2 bg-gray-300 rounded-sm max-w-[320px] mb-2.5"></p>
-        </div>
-      </div>
-    </div> -->
     <div>
       <ul class="flex justify-center flex-wrap gap-10">
         <li class="w-[350px]" :key="ann.id" v-for="(ann, index) in annoncesAffichees">
@@ -427,7 +126,9 @@
                 <li class="card-meta-item flex justify-between items-center w-full">
                   <div class="flex items-center gap-2">
                     <span class="text-sm !flex gap-2">
-                      <p class="cursor-pointer" @click="openLikesModal(ann.likes)">{{ ann.likes_count }}</p>
+                      <p class="cursor-pointer" @click="openLikesModal(ann.likes)">
+                        {{ ann.likes_count }}
+                      </p>
                       <p
                         :class="
                           ann.likes.some((item) => item.user_id === user.user.id)
@@ -444,6 +145,7 @@
                       </p></span
                     >
                     <font-awesome-icon
+                      @click="showComs(ann.id)"
                       class="iconadd text-gray-500 cursor-pointer text-gray-900/20 mr-1"
                       :icon="['fas', 'comment-dots']"
                     />
@@ -510,6 +212,121 @@
           </ul>
         </div>
       </div>
+      <!-- ------------------------------------------------------------------------------------------------------------------------------ -->
+      <div
+        v-if="isComs"
+        class="fixed inset-0 bg-black z-10 bg-opacity-50 flex justify-center items-center"
+        @click.self="closeLikesModal"
+      >
+        <div
+          :class="theme.theme === 'light' ? '' : '!bg-gray-600'"
+          class="bg-white p-8 rounded-lg w-1/3"
+        >
+          <h1 class="font-bold">Les commentaires :</h1>
+          <textarea
+            placeholder="Ecrire ici..."
+            ref="newComsEmojiInput"
+            @input="handleInputChangeComs"
+            v-model="coms"
+            :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+            class="text-black border focus:border-yellow-500 rounded mt-2 w-full min-h-[50px] focus:outline-none p-1"
+          >
+          </textarea>
+          <div class="relative bottom-8 right-3 text-end">
+            <Tooltip content="Emoji">
+              <font-awesome-icon
+                @click="toggleEmojiCtg"
+                :class="
+                  theme.theme === 'light'
+                    ? 'text-gray-500 cursor-pointer'
+                    : 'text-gray-500 cursor-pointer'
+                "
+                :icon="['fas', 'smile']"
+                class="mr-1"
+            /></Tooltip>
+            <div v-if="showEmojiComs" class="emoji-picker-modal absolute top-full left-0 mt-2">
+              <emoji-picker
+                :class="theme.theme === 'light' ? 'light' : 'dark'"
+                @emoji-click="addEmojiComs"
+              ></emoji-picker>
+            </div>
+            <Tooltip content="Envoyer">
+              <font-awesome-icon
+                @click="sendMsg()"
+                class="iconadd text-gray-500 cursor-pointer"
+                :icon="['fas', 'paper-plane']"
+              />
+            </Tooltip>
+          </div>
+          <div class="max-h-[350px] overflow-y-auto">
+            <di
+              class="coms mt-2 w-full flex"
+              :key="coms.id"
+              v-for="(coms, index) in commmentaire.listComs"
+            >
+              <div
+                :style="{
+                  'background-image': `url(${URL}/storage/users/${
+                    coms.user.photo_name || 'téléchargement-removebg-preview.png'
+                  })`,
+                  'background-size': 'cover',
+                  'background-position': 'center'
+                }"
+                class="image mr-1"
+              ></div>
+              <div
+                :class="theme.theme === 'light' ? '' : 'bg-gray-300 border-none text-black'"
+                class="border w-full p-1 px-2 rounded text-sm"
+              >
+                <div v-if="editableComId === coms.id">
+                  <textarea
+                    v-model="coms.editableContenu"
+                    class="ring w-full focus:outline-none rounded min-h-[50px] mt-1 p-1"
+                    @blur="saveCommentChanges(coms)"
+                    autofocus
+                  ></textarea>
+                </div>
+                <p v-html="highlightHashtags(coms.contenu)" class="whitespace-pre-wrap" v-else></p>
+                <div class="mt-2 flex items-center justify-between">
+                  <p class="text-gray-500 text-xs">{{ coms.timeAgo }}</p>
+                  <div class="flex justify-end">
+                    <p
+                      v-if="editableComId !== coms.id && coms.user.id === user.user.id"
+                      class="font-bold mr-2"
+                    >
+                      <Tooltip content="Modifier"
+                        ><font-awesome-icon
+                          @click.stop="editComment(coms)"
+                          class="iconadd cursor-pointer text-blue-500"
+                          :icon="['fas', 'pen']"
+                      /></Tooltip>
+                    </p>
+                    <p
+                      v-if="coms.user.id === user.user.id || show.showNavBarAdmin"
+                      class="font-bold"
+                    >
+                      <Tooltip content="Supprimer">
+                        <font-awesome-icon
+                          @click="deleteComs(coms.id)"
+                          class="iconadd cursor-pointer text-gray-500"
+                          :icon="['fas', 'trash-can']"
+                      /></Tooltip>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </di>
+            <p
+              v-if="commmentaire.listComs.length === 0"
+              :class="theme.theme === 'light' ? '' : 'text-white'"
+              class="mt-1 text-center text-xs text-gray-500"
+            >
+              Aucun commentaire...
+            </p>
+          </div>
+        </div>
+      </div>
+      <!-- ---------------------------------------------------------------------------------------------------------------------------------- -->
       <div v-if="annoncesAffichees.length === 0" class="flex items-center justify-center flex-col">
         <div
           class="h-20 w-36 bg-[url('../assets/pngtree-empty-box-icon-for-your-project-png-image_1533458-removebg-preview.png')] bg-cover bg-center"
@@ -798,6 +615,7 @@ function openLikesModal(list) {
 }
 function closeLikesModal() {
   showLikesModal.value = false
+  isComs.value = false
 }
 
 function editComment(com) {
@@ -992,19 +810,4 @@ onBeforeMount(() => {
 })
 </script>
 
-<style scoped src="../styles/Login.css">
-/* .image {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-}
-
-.select-trigger:focus {
-  outline: none;
-  box-shadow: none;
-}
-
-.titre {
-  font-size: 21px;
-} */
-</style>
+<style scoped src="../styles/Login.css"></style>
