@@ -38,6 +38,7 @@ export const useEnseignant = defineStore('Enseignant', () => {
   const grade_ens = ref('')
   const searchalue = ref('')
   const telephone_ens = ref(null)
+  
 
   function createEnseignant() {
     show.showSpinner = true

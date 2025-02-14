@@ -46,6 +46,9 @@ export const useAu = defineStore('Au', () => {
   const listeAUDelib = ref([])
   const listeAUDelibRed = ref([])
   const idAUDelib = ref(null)
+  const montant_releve = ref(0)
+  const montant_certificatScol = ref(0)
+
 
   function getallAU() {
     axios
@@ -210,7 +213,9 @@ export const useAu = defineStore('Au', () => {
     idAUDelib,
     nomAUDelib,
     listeAUDelibRed,
+    montant_releve,
     nomAUDelibRed,
+    montant_certificatScol,
     idAUDelibRed,
     createAU,
     getallAU,

@@ -19,6 +19,7 @@ export const useUser = defineStore('User', () => {
   const infosheader = useInfosheader()
 
   const email = ref('')
+  const emailDir = ref('')
   const status_user = ref('')
   const password = ref('')
   const oldpassword = ref('')

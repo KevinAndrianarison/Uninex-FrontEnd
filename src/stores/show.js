@@ -11,6 +11,7 @@ export const useShow = defineStore('Show', () => {
   const showMessageErrorConfirmMdp = ref(false)
   const showMessageErrorEmail = ref(false)
   const showMessageErrorEmailDir = ref(false)
+  const showMessageErrorEmailDirFirst = ref(false)
   const showLogin = ref(false)
   const showVerifyPassword = ref(false)
   const showPassword = ref(false)
@@ -141,6 +142,7 @@ export const useShow = defineStore('Show', () => {
     isLandingPage,
     isSingIn,
     showNavBarAdmin,
+    showMessageErrorEmailDirFirst,
     toggleCreatePasswordVisibility,
     togglePasswordVisibility,
     toggleVerifyPasswordVisibility

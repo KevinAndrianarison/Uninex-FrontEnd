@@ -22,7 +22,7 @@ export const useNiveau = defineStore('Niveau', () => {
 
   const abr_niveau = ref('')
   const nom_niveau = ref('')
-  const montant = ref('')
+  const montant = ref(0)
   const ListNiveau = ref([])
   const ListNiveauDelib = ref([])
   const ListNiveauDelibRed = ref([])

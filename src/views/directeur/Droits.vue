@@ -188,8 +188,6 @@ function switchToCertificat() {
 }
 
 function switchToReleve() {
-  console.log('A')
-
   isCertificatScol.value = false
   isScolarite.value = false
   isReleveNote.value = true
