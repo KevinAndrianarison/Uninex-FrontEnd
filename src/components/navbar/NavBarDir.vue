@@ -7,8 +7,8 @@
   </RouterLink>
   <RouterLink to="/directeur/Droits">
     <li>
-      <UserGroupIcon class="h-5 w-5 mr-2" />
-      Gestion des droits
+      <BanknotesIcon class="h-5 w-5 mr-2" />
+      Gestion des Frais
     </li>
   </RouterLink>
   <RouterLink to="/directeur/RH">
@@ -19,20 +19,20 @@
   </RouterLink>
   <RouterLink to="/directeur/EtatsFinanciers">
     <li>
-      <UserGroupIcon class="h-5 w-5 mr-2" />
-      Etats financiers
+      <PresentationChartLineIcon class="h-5 w-5 mr-2" />
+      États financiers
     </li>
   </RouterLink>
   <RouterLink to="/directeur/CongePermission">
     <li class="flex items-center">
-      <UserGroupIcon class="h-5 w-5 mr-2" />
-      Congés - Permissions
+      <ClipboardDocumentCheckIcon class="h-5 w-5 mr-2" />
+      Gestion d'absences
     </li>
   </RouterLink>
 </template>
 
 <script setup>
-import { UserGroupIcon } from '@heroicons/vue/24/outline'
+import { UserGroupIcon, PresentationChartLineIcon, BanknotesIcon, ClipboardDocumentCheckIcon } from '@heroicons/vue/24/outline'
 </script>
 
 <style scoped src="../../styles/Dashboard.css"></style>

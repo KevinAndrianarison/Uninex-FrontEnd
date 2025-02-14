@@ -71,7 +71,7 @@ function createSalle() {
           </button>
         </div>
         <p class="font-bold">Gérer les salles :</p>
-        <div class="class formInput mt-4">
+        <div class="class formInput mt-2">
           <label class="block text-sm font-medium leading-6">Nom de la salle</label>
           <input
             type="text"

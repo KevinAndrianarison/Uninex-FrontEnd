@@ -112,11 +112,6 @@ NProgress.start();
           </button>
         </div>
         <h1 class="font-bold">
-          <font-awesome-icon
-          :class="theme.theme === 'light' ? '' : '!text-white'"
-            class="iconadd text-gray-500 cursor-pointer mr-2"
-            :icon="['fas', 'gear']"
-          />
           Modifier votre groupe
         </h1>
         <div class="relative" >
@@ -128,14 +123,14 @@ NProgress.start();
           @blur="putNomAdmin"
           @input="handleInputChange"
           :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
-          class="text-black focus:outline-none border w-full mt-2 px-4 py-1 text-sm rounded focus:border-2 transition border-blue-500"
+          class="text-black focus:outline-none border w-full mt-2 px-4 py-2 text-sm rounded focus:border-2 transition border-blue-500"
         />
         <Tooltip content="Emoji">
           <font-awesome-icon
             @click="toggleEmojiPicker"
-            :class="theme.theme === 'light' ? 'text-gray-500 cursor-pointer' : 'text-gray-500 cursor-pointer'"
+            :class="theme.theme === 'light' ? 'text-gray-400 cursor-pointer' : 'text-gray-400 cursor-pointer'"
             :icon="['fas', 'smile']"
-            class="absolute right-3 bottom-0 transform -translate-y-1/2"
+            class="absolute right-3 bottom-1 transform -translate-y-1/2"
           /></Tooltip>
           <div v-if="showEmojiPicker" class="emoji-picker-modal absolute top-full left-0 mt-2">
             <emoji-picker :class="theme.theme === 'light' ? 'light' : 'dark'" @emoji-click="addEmoji"></emoji-picker>

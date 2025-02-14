@@ -7,16 +7,15 @@
     <div
       :class="
         theme.theme === 'light'
-          ? 'border-2 rounded-lg bg-white px-3 py-2 pb-4 '
+          ? 'border-2 rounded-lg bg-white px-5 py-2 pb-4 '
           : 'border-2 rounded-lg px-3 py-2 pb-4 !bg-gray-600 !text-gray-200 border-none'
       "
     >
-      <h1>Créer un emploi du temps :</h1>
-      <div class="flex flex-wrap items-end mt-2">
-        <div class="mr-2 w-40" v-if="au.listeAU.length !== 0">
+      <div class="flex gap-4 flex-wrap items-end mt-2">
+        <div class=" w-40" v-if="au.listeAU.length !== 0">
           <label>Année universitaire:</label>
           <Listbox v-model="au.oneAUSelectEDT">
-            <div class="relative text-xs">
+            <div class="relative text-xs mt-2">
               <ListboxButton
                 :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
                 class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none sm:text-sm"
@@ -70,10 +69,10 @@
             </div>
           </Listbox>
         </div>
-        <div class="mr-2 w-40" v-if="parcour.ListAllParcours.length !== 0">
+        <div class=" w-40" v-if="parcour.ListAllParcours.length !== 0">
           <label>Parcours :</label>
           <Listbox v-model="parcour.nomByAll">
-            <div class="relative text-xs">
+            <div class="relative text-xs mt-2">
               <ListboxButton
                 :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
                 class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none sm:text-sm"
@@ -133,10 +132,10 @@
             </div>
           </Listbox>
         </div>
-        <div class="mr-2 w-40" v-if="semestre.ListeSemestreEDT.length !== 0">
+        <div class=" w-40" v-if="semestre.ListeSemestreEDT.length !== 0">
           <label>Semestre :</label>
           <Listbox v-model="semestre.semestreNomEDT">
-            <div class="relative text-xs">
+            <div class="relative text-xs mt-2">
               <ListboxButton
                 :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
                 class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none sm:text-sm"
@@ -199,11 +198,11 @@
           </Listbox>
         </div>
       </div>
-      <div class="flex flex-wrap items-end mt-2">
+      <div class="flex flex-wrap gap-4 items-end mt-4">
         <div v-if="edt.listJour.length !== 0" class="mr-2 w-60">
           <label>Jour :</label>
           <Listbox v-model="edt.jour">
-            <div class="relative text-xs">
+            <div class="relative text-xs mt-2">
               <ListboxButton
                 :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
                 class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none sm:text-sm"
@@ -257,7 +256,7 @@
             </div>
           </Listbox>
         </div>
-        <div class="mr-2 w-40">
+        <div class=" w-40">
           <label class="flex"
             >Heures :
             <p class="ml-2">
@@ -270,7 +269,7 @@
               /></Tooltip></p
           ></label>
           <Listbox v-if="edt.listHeures.length !== 0" v-model="edt.heures">
-            <div class="relative text-xs">
+            <div class="relative text-xs mt-2">
               <ListboxButton
                 :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
                 class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none sm:text-sm"
@@ -332,10 +331,10 @@
             </div>
           </Listbox>
         </div>
-        <div class="mr-2 w-40" v-if="salle.listSalle.length !== 0">
+        <div class=" w-40" v-if="salle.listSalle.length !== 0">
           <label>Salles :</label>
           <Listbox v-model="salle.NomSalle">
-            <div class="relative text-xs">
+            <div class="relative text-xs mt-2">
               <ListboxButton
                 :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
                 class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none sm:text-sm"
@@ -389,10 +388,10 @@
             </div>
           </Listbox>
         </div>
-        <div class="mr-2 w-60" v-if="enseignant.ListeENSEDT.length !== 0">
+        <div class=" w-60" v-if="enseignant.ListeENSEDT.length !== 0">
           <label>Enseignant :</label>
           <Listbox v-model="enseignant.nom_ensEDT">
-            <div class="relative text-xs">
+            <div class="relative text-xs mt-2">
               <ListboxButton
                 :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
                 class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none sm:text-sm"
@@ -447,10 +446,10 @@
             </div>
           </Listbox>
         </div>
-        <div v-if="ec.ListeECByEnsEDT.length !== 0" class="mr-2 w-60">
+        <div v-if="ec.ListeECByEnsEDT.length !== 0" class=" w-60">
           <label>Matière :</label>
           <Listbox v-model="ec.nomECEDT">
-            <div class="relative text-xs">
+            <div class="relative text-xs mt-2">
               <ListboxButton
                 :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
                 class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none sm:text-sm"
@@ -507,7 +506,7 @@
         <button
           v-if="ec.nomECEDT && edt.heures"
           @click="addDays()"
-          class="px-3 py-2 mt-2 bg-yellow-500 flex items-center text-black font-bold text-xs rounded"
+          class="px-3 py-2 mt-2 bg-yellow-500 flex items-center text-white text-xs rounded"
         >
           <font-awesome-icon class="mr-2" :icon="['fas', 'circle-plus']" /> Ajouter
         </button>
@@ -517,7 +516,7 @@
           v-for="(list, index) in ListeEDT"
           :key="index"
           :class="theme.theme === 'light' ? '' : '!text-black'"
-          class="mr-2 border text-xs w-60 items-center bg-gray-300 rounded-xl flex justify-between px-3 py-1"
+          class="mr-2 border text-xs w-60 items-center bg-gray-300 rounded-lg flex justify-between px-3 py-2"
         >
           <div>
             <p class="font-bold">{{ list.jour.nom }}</p>
@@ -540,12 +539,12 @@
           @click="postEDT()"
           class="px-5 py-2 bg-blue-500 text-white rounded text-xs"
         >
-          Enregister les informations
+          ENREGISTRER
         </button>
       </div>
     </div>
 
-    <div class="flex items-end mt-2">
+    <div class="flex items-end mt-5">
       <p class="mr-2"><font-awesome-icon :icon="['fas', 'sort']" /> Trier par :</p>
       <Listbox v-model="au.oneAUSelectFind" v-if="au.listeAU.length !== 0">
         <div class="relative text-xs w-40">
@@ -605,9 +604,9 @@
     <div
       v-if="edt.listEDT.length !== 0"
       :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
-      class="bg-white border mt-1 max-h-[25vh] oerflow-y-auto"
+      class="bg-white border mt-5 max-h-[25vh] oerflow-y-auto"
     >
-      <div :key="EDT.id" v-for="EDT in edt.listEDT" class="list-none flex px-4 py-1 border">
+      <div :key="EDT.id" v-for="EDT in edt.listEDT" class="list-none flex px-4 py-2 border text-xs">
         <li class="font-bold w-[35%]">{{ EDT.au.annee_debut }} - {{ EDT.au.annee_fin }}</li>
         <li class="w-[30%]">{{ EDT.parcour.abr_parcours }}</li>
         <li class="w-[30%]">{{ EDT.semestre.nom_semestre }}</li>

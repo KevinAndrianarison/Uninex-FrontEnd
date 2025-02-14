@@ -229,7 +229,7 @@
             @input="handleInputChangeComs"
             v-model="coms"
             :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
-            class="text-black border focus:border-yellow-500 rounded mt-2 w-full min-h-[50px] focus:outline-none p-1"
+            class="text-black border focus:border-yellow-500 rounded mt-2 w-full min-h-[50px] focus:outline-none p-1 px-2"
           >
           </textarea>
           <div class="relative bottom-8 right-3 text-end">
@@ -238,11 +238,11 @@
                 @click="toggleEmojiCtg"
                 :class="
                   theme.theme === 'light'
-                    ? 'text-gray-500 cursor-pointer'
-                    : 'text-gray-500 cursor-pointer'
+                    ? 'text-gray-400 cursor-pointer'
+                    : 'text-gray-400 cursor-pointer'
                 "
                 :icon="['fas', 'smile']"
-                class="mr-1"
+                class="mr-2"
             /></Tooltip>
             <div v-if="showEmojiComs" class="emoji-picker-modal absolute top-full left-0 mt-2">
               <emoji-picker
@@ -253,7 +253,7 @@
             <Tooltip content="Envoyer">
               <font-awesome-icon
                 @click="sendMsg()"
-                class="iconadd text-gray-500 cursor-pointer"
+                class="iconadd text-gray-400 cursor-pointer"
                 :icon="['fas', 'paper-plane']"
               />
             </Tooltip>

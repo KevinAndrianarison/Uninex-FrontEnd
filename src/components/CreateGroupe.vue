@@ -131,21 +131,21 @@ function createGroupe() {
           </button>
         </div>
         <p class="font-bold">
-          <font-awesome-icon :icon="['fas', 'users']" class="text-gray-500 mr-2" />Nouveau groupe :
+          Nouveau groupe :
         </p>
         <div class="relative">
         <input
           type="text"
           v-model="nomGroup"
           :class="theme.theme === 'light' ? '' : '!bg-gray-600'"
-          class="mt-4 focus:outline-none border-b-2 py-1.5 border-b-blue-500 w-full text-sm"
+          class="mt-2 focus:outline-none border-b-2 py-1.5 border-b-blue-500 w-full text-sm"
           placeholder="Nom du groupe"
           ref='GRPInput'
         />
         <Tooltip content="Emoji">
           <font-awesome-icon
             @click="toggleEmojiPickerGRP"
-            :class="theme.theme === 'light' ? 'text-gray-500 cursor-pointer' : 'text-gray-500 cursor-pointer'"
+            :class="theme.theme === 'light' ? 'text-gray-400 cursor-pointer' : 'text-gray-400 cursor-pointer'"
             :icon="['fas', 'smile']"
             class="absolute right-3 bottom-1 transform -translate-y-1/2"
           /></Tooltip>
@@ -191,10 +191,10 @@ function createGroupe() {
         </div>
         <button
           :disabled="!nomGroup || selectedMembres.length === 0"
-          class="bg-blue-500 w-full mt-4 p-2 rounded font-bold"
+          class="bg-blue-500 w-full mt-4 p-2 rounded text-white"
           @click="createGroupe()"
         >
-          Créer
+          VALIDER
         </button>
       </div>
     </div>

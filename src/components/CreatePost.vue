@@ -271,7 +271,7 @@ function handleInputChangeDescr() {
             <XMarkIcon :class="theme.theme === 'light' ? 'h-6 w-6' : 'h-6 w-6 text-red-500'" />
           </button>
         </div>
-        <h1 class="font-bold text-md">Créér une annonce :</h1>
+        <h1 class="font-bold text-md">Nouvelle annonce :</h1>
         <div class="relative">
           <input
             type="text"
@@ -285,7 +285,7 @@ function handleInputChangeDescr() {
           <Tooltip content="Emoji">
           <font-awesome-icon
             @click="toggleEmojiPicker"
-            :class="theme.theme === 'light' ? 'text-gray-500 cursor-pointer' : 'text-gray-500 cursor-pointer'"
+            :class="theme.theme === 'light' ? 'text-gray-400 cursor-pointer' : 'text-gray-400 cursor-pointer'"
             :icon="['fas', 'smile']"
             class="absolute right-3 bottom-1 transform -translate-y-1/2"
           /></Tooltip>
@@ -320,8 +320,8 @@ function handleInputChangeDescr() {
                 @click="openCreateCategory"
                 :class="
                   theme.theme === 'light'
-                    ? 'text-gray-500 cursor-pointer w-4 h-4'
-                    : 'text-yellow-500 cursor-pointer w-4 h-4'
+                    ? 'text-gray-400 cursor-pointer w-4 h-4'
+                    : 'text-yellow-400 cursor-pointer w-4 h-4'
                 "
                 :icon="['fas', 'square-plus']"
             /></Tooltip>
@@ -330,8 +330,8 @@ function handleInputChangeDescr() {
                 @click="openListeCategory"
                 :class="
                   theme.theme === 'light'
-                    ? 'text-gray-500 cursor-pointer h-4 w-4'
-                    : 'text-gray-500 cursor-pointer h-4 w-4'
+                    ? 'text-gray-400 cursor-pointer h-4 w-4'
+                    : 'text-gray-400 cursor-pointer h-4 w-4'
                 "
                 :icon="['fas', 'bars']"
             /></Tooltip>
@@ -349,7 +349,7 @@ function handleInputChangeDescr() {
         <Tooltip content="Emoji">
           <font-awesome-icon
             @click="toggleEmojiPickerDescr"
-            :class="theme.theme === 'light' ? 'text-gray-500 cursor-pointer' : 'text-gray-500 cursor-pointer'"
+            :class="theme.theme === 'light' ? 'text-gray-400 cursor-pointer' : 'text-gray-400 cursor-pointer'"
             :icon="['fas', 'smile']"
             class="absolute right-3 bottom-1 transform -translate-y-1/2"
           /></Tooltip>
@@ -381,7 +381,7 @@ function handleInputChangeDescr() {
         </div>
         <button
           @click="postAnnonce()"
-          class="focus:outline-none bg-green-500 font-bold rounded w-full px-3 mt-2 py-2 text-sm cursor-pointer"
+          class="focus:outline-none bg-green-500 text-white rounded w-full px-3 mt-2 py-2 text-sm cursor-pointer"
         >
           Publier
         </button>
@@ -399,7 +399,7 @@ function handleInputChangeDescr() {
             />
           </button>
         </div>
-        <h1 class="font-bold text-sm">Créer une nouvelle catégorie :</h1>
+        <h1 class="font-bold text-sm">Nouvelle catégorie :</h1>
         <div class="relative">
         <input
           v-model="newCategory.emoji"
@@ -410,14 +410,14 @@ function handleInputChangeDescr() {
           :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
           class="focus:outline-none hidden border-2 text-xs rounded w-full px-3 mt-5 py-2 text-black"
         />
-        <Tooltip content="Emoji">
+        <!-- <Tooltip content="Emoji">
           <font-awesome-icon
             @click="toggleEmojiCtg"
             :class="theme.theme === 'light' ? 'text-gray-500 cursor-pointer' : 'text-gray-500 cursor-pointer'"
             :icon="['fas', 'smile']"
             class="absolute right-3 bottom-1 hidden transform -translate-y-1/2"
           />
-          </Tooltip>
+          </Tooltip> -->
           <div v-if="showEmojiCtg" class="emoji-picker-modal absolute top-full left-0 mt-2">
             <emoji-picker :class="theme.theme === 'light' ? 'light' : 'dark'" @emoji-click="addEmojiCtg"></emoji-picker>
           </div>
@@ -427,11 +427,11 @@ function handleInputChangeDescr() {
           type="text"
           placeholder="Titre"
           :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
-          class="focus:outline-none border-2 text-xs rounded w-full px-3 mt-2 py-2 text-black"
+          class="focus:outline-none border-2 mt-4 text-xs rounded w-full px-3 mt-2 py-2 text-black"
         />
         <button
           :disabled="!newCategory.title"
-          class="focus:outline-none text-xs bg-green-500 font-bold rounded w-full px-3 mt-5 py-2 cursor-pointer"
+          class="focus:outline-none text-xs bg-green-500 text-white rounded w-full px-3 mt-5 py-3 cursor-pointer"
           @click="submitCategory"
         >
           Enregistrer
@@ -449,14 +449,14 @@ function handleInputChangeDescr() {
         </div>
         <h1 class="font-bold text-sm mb-2">Liste des catégories :</h1>
         <li
-          class="px-1 py-1 justify-between border flex text-xs"
+          class="px-1 py-1 justify-between items-center border flex text-xs"
           :key="ctg.id"
           v-for="(ctg, index) in category.listCategorie"
         >
           <input
             :class="
               theme.theme === 'light'
-                ? 'w-60 focus:outline-none'
+                ? 'w-60 focus:outline-none px-2 py-1.5'
                 : 'w-60 focus:outline-none  !bg-gray-600 text-white'
             "
             type="text"
