@@ -12,12 +12,12 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import 'tippy.js/dist/tippy.css'
 
-import Notiflix from 'notiflix';
+import Notiflix from 'notiflix'
 
 Notiflix.Notify.init({
-  position: 'right-top', 
-  timeout: 3000,        
-});
+  position: 'right-top',
+  timeout: 3000
+})
 
 import {
   faUserTie,
@@ -86,7 +86,7 @@ import {
   faCircle,
   faSmile,
   faBars,
-  faSpinner, 
+  faSpinner,
   faHome,
   faPodcast,
   faAngleUp,
@@ -97,8 +97,8 @@ import {
   faQuoteLeft,
   faQuoteRight,
   faTerminal,
-  faEllipsisV
-
+  faEllipsisV,
+  faLock
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -179,16 +179,17 @@ library.add(
   faQuoteLeft,
   faQuoteRight,
   faTerminal,
-  faEllipsisV
+  faEllipsisV,
+  faLock
 )
 
 import App from './App.vue'
 import routes from './router/index'
-import NProgress from 'nprogress';
-import 'nprogress/nprogress.css';
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 const app = createApp(App)
-NProgress.configure({ showSpinner: false });
+NProgress.configure({ showSpinner: false })
 app.component('font-awesome-icon', FontAwesomeIcon)
 app.use(createPinia())
 app.use(routes)

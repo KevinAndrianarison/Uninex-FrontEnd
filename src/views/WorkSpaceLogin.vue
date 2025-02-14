@@ -284,7 +284,7 @@
           </div>
         </section>
 
-        <section v-if="!isAllAnnonce" class="section course" id="actualite" aria-label="course">
+        <section v-if="!isAllAnnonce && annonces.listAnnonce.length !== 0" class="section course" id="actualite" aria-label="course">
           <div class="container">
             <div class="py-10">
               <p class="text-lg text-center logoESP text-green-500">

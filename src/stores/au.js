@@ -14,7 +14,6 @@ import { useParcour } from '@/stores/Parcour'
 import { useSemestre } from '@/stores/Semestre'
 import { useEtudiant } from '@/stores/Etudiant'
 
-
 import axios from 'axios'
 
 export const useAu = defineStore('Au', () => {
@@ -48,12 +47,15 @@ export const useAu = defineStore('Au', () => {
   const idAUDelib = ref(null)
   const montant_releve = ref(0)
   const montant_certificatScol = ref(0)
-
+  const idDroit = ref(null)
 
   function getallAU() {
     axios
       .get(`${URL}/api/au`)
       .then((response) => {
+        montant_releve.value = response.data[0].montant_releve
+        montant_certificatScol.value = response.data[0].montant_certificatScol
+        idDroit.value = response.data[0].id
         idAUEDT.value = response.data[0].id
         idAU.value = response.data[0].id
         listeAU.value = response.data
@@ -80,7 +82,6 @@ export const useAu = defineStore('Au', () => {
 
   watch(oneAU, (newValue, oldValue) => {
     if (newValue) {
-      
       mention.mentionParcours.nom = ''
       ShowIdAU()
       if (show.showNavBarEtud === false) {
@@ -101,7 +102,7 @@ export const useAu = defineStore('Au', () => {
       if (show.showNavBarSECPAL) {
         transaction.getByIdAU()
       }
-      if(show.showNavBarAdmin){
+      if (show.showNavBarAdmin) {
         etudiant.getEtudiantByIdAu()
       }
 
@@ -152,7 +153,9 @@ export const useAu = defineStore('Au', () => {
     const formDataAu = {
       annee_debut: annee_debut.value,
       annee_fin: annee_fin.value,
-      etablissement_id: etablissement.etablissement_id
+      etablissement_id: etablissement.etablissement_id,
+      montant_releve: montant_releve.value,
+      montant_certificatScol: montant_certificatScol.value
     }
     axios
       .post(`${URL}/api/au`, formDataAu, {
@@ -217,6 +220,7 @@ export const useAu = defineStore('Au', () => {
     nomAUDelibRed,
     montant_certificatScol,
     idAUDelibRed,
+    idDroit,
     createAU,
     getallAU,
     ShowIdAU,

@@ -29,7 +29,8 @@
                   :key="index"
                   v-for="(AU, index) in au.listeAU"
                   :value="AU.annee_debut + '-' + AU.annee_fin"
-                  as="template"
+                  as="div"
+                  @click="changeAU(AU.id, AU.montant_releve, AU.montant_certificatScol)"
                 >
                   <li
                     class="leftLi"
@@ -100,7 +101,7 @@
           Modifier les frais de scolarité
           <p class="text-xs">({{ au.oneAU }})</p>
         </h1>
-        <div class="mt-5 list-none flex w-[75%] text-sm">
+        <div v-if="niveau.ListNiveau.length !== 0" class="mt-5 list-none flex w-[75%] text-sm">
           <li class="w-[30%] border-t border-l px-3 py-2 font-bold bg-gray-200">Niveau</li>
           <li class="w-[30%] border-l border-t px-3 py-2 font-bold bg-gray-200">Abréviation</li>
           <li class="w-[30%] border-l border-r border-t text-center py-2 font-bold bg-gray-200">
@@ -133,6 +134,15 @@
               />
             </li>
           </div>
+        </div>
+        <div
+          v-if="niveau.ListNiveau.length === 0"
+          class="flex items-center justify-center flex-col w-[75%] mt-5"
+        >
+          <div
+            class="h-20 w-36 bg-[url('../assets/pngtree-empty-box-icon-for-your-project-png-image_1533458-removebg-preview.png')] bg-cover bg-center"
+          ></div>
+          <p class="text-xs font-bold mt-2">Aucun niveau n'a encore été créé</p>
         </div>
       </div>
       <div v-if="isCertificatScol">
@@ -168,6 +178,12 @@ const messages = useMessages()
 const isScolarite = ref(true)
 const isCertificatScol = ref(false)
 const isReleveNote = ref(false)
+
+function changeAU(id, releve, certificat) {
+  au.montant_releve = releve
+  au.montant_certificatScol = certificat
+  au.idDroit = id
+}
 
 function deleteNiveau(nom, id) {
   niveau.niveau.nom_niveau = nom
