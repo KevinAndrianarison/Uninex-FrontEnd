@@ -32,7 +32,7 @@ function postTransaction() {
   let formData = {
     montant: niveau.NiveauCheck.montant_droit,
     type: 'Recette',
-    description: "Droit d'inscription",
+    description: `Droit d'inscription de Monsieur/Madame ${etudiant.etudnomComplet} en ${niveau.abr_niveau} pour l'année universitaire ${au.oneAU}`,
     categorie: 'Frais de scolarité',
     user_id: user.user.id,
     au_id: au.idAU,

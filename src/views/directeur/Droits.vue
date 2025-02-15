@@ -121,7 +121,7 @@
               type="number"
               v-model="niv.montant_droit"
               :class="theme.theme === 'light' ? '' : '!bg-gray-600'"
-              class="w-[30%] border-l border-r border-t text-center py-2 border-b focus:outline-none focus:ring-b cursor-pointer"
+              class="w-[30%] border-l border-r border-t text-center py-2 border-b focus:outline-none cursor-pointer"
               @blur="handleInputChange(niv.montant_droit, niv.id)"
             />
             <li
