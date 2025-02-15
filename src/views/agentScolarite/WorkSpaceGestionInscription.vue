@@ -80,7 +80,7 @@ cre
                 as="div"
                 v-for="(niv, index) in niveau.ListNiveau"
                 :key="index"
-                :value="{ id: niv.id, abr_niveau: niv.abr_niveau, nom_niveau: niv.nom_niveau }"
+                :value="{ id: niv.id, abr_niveau: niv.abr_niveau, nom_niveau: niv.nom_niveau, montant_droit: niv.montant_droit  }"
                 v-slot="{ active }"
               >
                 <div

@@ -23,7 +23,7 @@ export const useSemestre = defineStore('Semestre', () => {
   const ListeSemestre = ref([])
   const ListeSemestreDelib = ref([])
   const ListeSemestreDelibRed = ref([])
-  const semestreNomDelibRed = ref("")
+  const semestreNomDelibRed = ref('')
   const semestre = reactive({
     nom: '',
     id: ''
@@ -85,6 +85,8 @@ export const useSemestre = defineStore('Semestre', () => {
   }
 
   function getSemestreByParcour() {
+    ListeSemestre.value = []
+    semestreIds.value = []
     axios
       .get(`${URL}/api/semestre/getById/${parcour.parcours_id}`)
       .then((response) => {
