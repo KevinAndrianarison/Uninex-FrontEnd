@@ -30,7 +30,6 @@
                   v-for="(AU, index) in au.listeAU"
                   :value="AU.annee_debut + '-' + AU.annee_fin"
                   as="div"
-                  @click="changeAU(AU.id, AU.montant_releve, AU.montant_certificatScol)"
                 >
                   <li
                     class="leftLi"
@@ -119,9 +118,9 @@
         </div>
       </RadioGroup>
       <div class="mt-4 flex justify-between">
-        <div class="text-xl flex flex-col">
+        <div v-if="niveau.ListNiveau.length !== 0" class="text-xl flex flex-col">
           <p>Montant pour ce niveau :</p>
-          <b class="text-yellow-500 text-xs">(11 Ariary)</b>
+          <b class="text-yellow-500 text-xs">({{ totalMontantNiveau }} Ariary)</b>
         </div>
         <div class="flex gap-2 text-xs">
           <div class="relative" ref="menuRef">
@@ -219,7 +218,7 @@
           </div>
         </div>
         <div
-          v-if="filteredTransactions.length === 0"
+          v-if="filteredTransactions.length === 0 || niveau.ListNiveau.length === 0"
           class="flex items-center justify-center flex-col"
         >
           <div
@@ -228,7 +227,7 @@
           <p class="text-xs font-bold mt-2">Aucune transaction n'a été trouvée</p>
         </div>
       </div>
-      <div v-if="filteredTransactions.length !== 0" class="mt-5 flex items-end justify-between">
+      <div v-if="transaction.listTrans.length !== 0" class="mt-5 flex items-end justify-between">
         <div class="flex items-end">
           <p class="text-lg mr-2">Total annuel :</p>
           <p
@@ -301,6 +300,13 @@ const menuRef = ref(null)
 const filtreCategorie = ref('Tout')
 const selectedDateFilter = ref('Ce mois')
 
+watch(
+  () => au.oneAU,
+  () => {
+    transaction.listTrans = []
+  }
+)
+
 const filteredTransactions = computed(() => {
   const filtered = transaction.listTrans.filter((trans) => {
     const niveauMatch = niveau.NiveauCheck.id ? trans.niveau.id === niveau.NiveauCheck.id : true
@@ -312,22 +318,30 @@ const filteredTransactions = computed(() => {
   return filtered
 })
 
+const totalMontantNiveau = computed(() => {
+  const niveauId = niveau.NiveauCheck.id
+  return transaction.listTrans.reduce((total, trans) => {
+    if (trans.niveau.id === niveauId) {
+      return total + (trans.type === 'Recette' ? trans.montant : -trans.montant)
+    }
+    return total
+  }, 0)
+})
+
 const filterByDate = (date) => {
   const [day, month, year] = date.split('/').map(Number)
   const transDate = new Date(year, month - 1, day)
   const today = new Date()
+
   switch (selectedDateFilter.value) {
     case 'Ce mois':
       return (
         transDate.getMonth() === today.getMonth() && transDate.getFullYear() === today.getFullYear()
       )
     case 'Il y a 1 mois':
-      return (
-        transDate.getMonth() === today.getMonth() - 1 &&
-        transDate.getFullYear() === today.getFullYear()
-      )
+      return transDate < new Date(today.setMonth(today.getMonth() - 1))
     case 'Il y a 3 mois':
-      return transDate >= new Date(today.setMonth(today.getMonth() - 3))
+      return transDate < new Date(today.setMonth(today.getMonth() - 3))
     case 'Plus de 6 mois':
       return transDate < new Date(today.setMonth(today.getMonth() - 6))
     default:

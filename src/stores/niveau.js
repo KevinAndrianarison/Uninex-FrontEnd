@@ -108,6 +108,7 @@ export const useNiveau = defineStore('Niveau', () => {
 
   function getByAuId() {
     NiveauCheck.value = []
+    ListNiveau.value = []
     axios
       .get(`${URL}/api/niveau/getById/${au.idAU}`)
       .then((response) => {
