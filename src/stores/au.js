@@ -99,7 +99,7 @@ export const useAu = defineStore('Au', () => {
       if (users.user.status_user === 'ENS') {
         ec.getAllECByEns()
       }
-      if (show.showNavBarSECPAL) {
+      if (show.showNavBarSECPAL || show.showNavBarDir) {
         transaction.getByIdAU()
       }
       if (show.showNavBarAdmin) {

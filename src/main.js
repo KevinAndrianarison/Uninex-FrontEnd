@@ -98,7 +98,8 @@ import {
   faQuoteRight,
   faTerminal,
   faEllipsisV,
-  faLock
+  faLock,
+  faEyeSlash
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -180,7 +181,8 @@ library.add(
   faQuoteRight,
   faTerminal,
   faEllipsisV,
-  faLock
+  faLock,
+  faEyeSlash
 )
 
 import App from './App.vue'

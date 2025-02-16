@@ -81,7 +81,7 @@
   <RouterLink to="/agentScolarite/GestionEDP">
     <li><CalendarDaysIcon class="h-5 w-5 mr-2" /> Emplois du temps</li>
   </RouterLink>
-  <RouterLink to="/agentScolarite/GestionFinanciere">
+  <RouterLink class="hidden" to="/agentScolarite/GestionFinanciere">
     <li v-if="show.showNavBarSECPAL">
       <PresentationChartLineIcon class="h-5 w-5 mr-2" /> Gestion financière
     </li>

@@ -349,6 +349,11 @@ const filterByDate = (date) => {
   }
 }
 
+function generateFac(trans) {
+  transaction.oneFacture = trans
+  show.showFacturepdf = true
+}
+
 onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside)
 })
