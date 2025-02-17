@@ -247,7 +247,9 @@
                 <p class="text-2xl font-bold border-t-0 border-x-0 border-4 border-b-blue-500 py-4">
                   {{ etablissement.etablissement.abr_etab }}
                 </p>
-                <p class="text-2xl font-bold border-t-0 border-x-0 border-4 py-4 border-b-gray-100/20">
+                <p
+                  class="text-2xl font-bold border-t-0 border-x-0 border-4 py-4 border-b-gray-100/20"
+                >
                   {{ etablissement.etablissement.ville_etab }}
                 </p>
               </div>
@@ -284,7 +286,12 @@
           </div>
         </section>
 
-        <section v-if="!isAllAnnonce && annonces.listAnnonce.length !== 0" class="section course" id="actualite" aria-label="course">
+        <section
+          v-if="!isAllAnnonce && annonces.listAnnonce.length !== 0"
+          class="section course"
+          id="actualite"
+          aria-label="course"
+        >
           <div class="container">
             <div class="py-10">
               <p class="text-lg text-center logoESP text-green-500">
@@ -405,7 +412,9 @@
                 </p>
               </div>
               <Select @update:modelValue="handleDate">
-                <SelectTrigger class="w-40 text-center select-trigger h-8 !bg-gray-200 !text-gray-600">
+                <SelectTrigger
+                  class="w-40 text-center select-trigger h-8 !bg-gray-200 !text-gray-600"
+                >
                   <SelectValue class="focus:outline-none" placeholder="Filtrer par date" />
                 </SelectTrigger>
                 <SelectContent>
@@ -466,7 +475,10 @@
               ></div>
               <p class="text-xs font-bold mt-2">Aucune annonce trouvée</p>
             </div>
-            <div v-if="annoncesAffichees.length !== 0" class="flex text-xs items-center justify-center flex-wrap gap-4 mt-10">
+            <div
+              v-if="annoncesAffichees.length !== 0"
+              class="flex text-xs items-center justify-center flex-wrap gap-4 mt-10"
+            >
               <p class="text-xs font-bold">Affichage :</p>
               <Select @update:modelValue="handlePage">
                 <SelectTrigger class="w-40 text-center select-trigger !bg-white">
@@ -551,19 +563,20 @@
           <div class="footer-list px-2">
             <p class="footer-list-title logoESP">Contact</p>
             <p class="footer-list-text mt-5">Écrivez dans le champ ci-dessus pour nous contacter</p>
-            <form action="" class="newsletter-form">
+            <div class="newsletter-form">
               <textarea
                 type="email"
                 name="email_address"
                 placeholder="Votre message"
+                v-model="message"
                 required
                 class="input-field focus:outline-none text-black !w-80 !h-20"
               ></textarea>
 
-              <button type="submit" class="btn has-before">
+              <button :disabled="!message" @click="sendEmail" class="btn has-before">
                 <span class="span">Envoyer</span>
               </button>
-            </form>
+            </div>
           </div>
         </div>
       </div>
@@ -607,7 +620,9 @@ const dateFiltreOptions = [
   'Il y a 6 mois',
   'Plus de 1 an'
 ]
+
 const menuRef = ref(null)
+const message = ref('')
 const filtreCategorie = ref('Tout')
 const recherche = ref('')
 const filtreDate = ref('')
@@ -625,6 +640,14 @@ const isSingUp = ref(false)
 const isAllAnnonce = ref(false)
 const annonces = useAnnonce()
 const category = useCategory()
+
+const sendEmail = () => {
+  const subject = encodeURIComponent('Sujet de votre email')
+  const body = encodeURIComponent(message.value)
+  const mailtoLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${etablissement.etablissement.email_etab}&su=${subject}&body=${body}`
+  window.open(mailtoLink, '_blank')
+  message.value = ''
+}
 
 function handlePage(valeur) {
   annoncesParPage.value = valeur
@@ -708,13 +731,12 @@ const annoncesFiltrees = computed(() => {
   }
 
   if (recherche.value) {
-  result = result.filter(
-    (a) =>
-      (a.titre && a.titre.toLowerCase().includes(recherche.value.toLowerCase())) ||
-      (a.description && a.description.toLowerCase().includes(recherche.value.toLowerCase()))
-  );
-}
-
+    result = result.filter(
+      (a) =>
+        (a.titre && a.titre.toLowerCase().includes(recherche.value.toLowerCase())) ||
+        (a.description && a.description.toLowerCase().includes(recherche.value.toLowerCase()))
+    )
+  }
 
   if (filtreDate.value) {
     const now = new Date()

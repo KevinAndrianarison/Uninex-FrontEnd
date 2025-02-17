@@ -9,6 +9,7 @@ import { useInfossetup } from '@/stores/Infossetup'
 
 export const useAdmin = defineStore('Admin', () => {
   const nomComplet_admin = ref('')
+  const mailTo = ref('')
   const id_admin = ref('')
   const telephone_admin = ref(null)
   const URL = useUrl().url
@@ -16,6 +17,18 @@ export const useAdmin = defineStore('Admin', () => {
   const messages = useMessages()
   const infosheader = useInfosheader()
   const infossetup = useInfossetup()
+
+  function getFirst() {
+    axios
+      .get(`${URL}/api/admins/getFirst`)
+      .then((response) => {
+        nomComplet_admin.value = response.data.nomComplet_admin
+        mailTo.value = response.data.user.email
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  }
 
   function setAdmin() {
     show.showSpinner = true
@@ -52,8 +65,10 @@ export const useAdmin = defineStore('Admin', () => {
 
   return {
     setAdmin,
+    getFirst,
     id_admin,
     nomComplet_admin,
-    telephone_admin
+    telephone_admin,
+    mailTo
   }
 })

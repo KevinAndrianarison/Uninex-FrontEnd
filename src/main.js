@@ -99,7 +99,9 @@ import {
   faTerminal,
   faEllipsisV,
   faLock,
-  faEyeSlash
+  faEyeSlash,
+  faChalkboardTeacher,
+  faUsersRectangle
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -182,7 +184,9 @@ library.add(
   faTerminal,
   faEllipsisV,
   faLock,
-  faEyeSlash
+  faEyeSlash,
+  faChalkboardTeacher,
+  faUsersRectangle
 )
 
 import App from './App.vue'

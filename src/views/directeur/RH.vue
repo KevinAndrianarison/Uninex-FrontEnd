@@ -78,7 +78,7 @@ function showdeleteAS(id) {
         <div>
           <p class="text-lg">Personnel administratif et technique <b>(PAT)</b> :</p>
           <p class="mb-2 font-bold text-green-500 bg-green-200 w-28 py-1 text-center rounded">
-            {{ filteredAgents.length }} PERSONNEL(S)
+            {{ filteredAgents.length }} personnel(s)
           </p>
         </div>
       </div>
@@ -93,7 +93,7 @@ function showdeleteAS(id) {
         <div
           v-for="agent in filteredAgents"
           :key="agent.id"
-          class="flex items-center p-2 bg-white hover:bg-gray-100 transition cursor-pointer"
+          class="flex items-center p-2 bg-white transition cursor-pointer"
         >
           <div
             :style="{
@@ -111,7 +111,7 @@ function showdeleteAS(id) {
           <span class="w-1/4 px-2">{{ agent.nomComplet_scol }}</span>
           <span class="w-1/4 text-xs text-blue-500">{{ agent.user.email }}</span>
           <span class="w-1/4"> Sécretaire principale </span>
-          <span class="w-1/4 flex justify-end px-2">
+          <span class="w-1/4 flex justify-end">
             <button @click="() => showdeleteAS(agent.user.id)" class="text-red-500">
               <FontAwesomeIcon :icon="faTrash" class="bg-red-200 p-2 rounded-full" />
             </button>
@@ -139,7 +139,7 @@ function showdeleteAS(id) {
         <div>
           <p class="text-lg">Personnel enseignant <b>(PE)</b> :</p>
           <p class="mb-2 font-bold text-green-500 bg-green-200 w-28 py-1 text-center rounded">
-            {{ filteredEnseignants.length }} PERSONNEL(S)
+            {{ filteredEnseignants.length }} personnel(s)
           </p>
         </div>
       </div>
@@ -154,7 +154,7 @@ function showdeleteAS(id) {
         <div
           v-for="ens in filteredEnseignants"
           :key="ens.id"
-          class="flex items-center p-2 bg-white hover:bg-gray-100 transition cursor-pointer"
+          class="flex items-center p-2 bg-white transition cursor-pointer"
         >
           <div
             :style="{
@@ -178,7 +178,7 @@ function showdeleteAS(id) {
               Enseignant
             </span>
           </div>
-          <span class="w-1/4 flex justify-end px-2">
+          <span class="w-1/4 flex justify-end ">
             <button @click="() => showdelete(ens.user.id)" class="text-red-500">
               <FontAwesomeIcon :icon="faTrash" class="bg-red-200 p-2 rounded-full" />
             </button>

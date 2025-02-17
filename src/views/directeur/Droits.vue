@@ -121,12 +121,12 @@
               type="number"
               v-model="niv.montant_droit"
               :class="theme.theme === 'light' ? '' : '!bg-gray-600'"
-              class="w-[30%] border-l border-r border-t text-center py-2 border-b focus:outline-none cursor-pointer"
+              class="w-[30%] border-l border-r border-t text-center py-2 border-b focus:outline-none cursor-pointer bg-gray-100/20"
               @blur="handleInputChange(niv.montant_droit, niv.id)"
             />
             <li
               @click="deleteNiveau(niv.nom_niveau, niv.id)"
-              class="flex items-center justify-center w-[10%] border-t border-b border-r"
+              class="flex items-center justify-center w-[10%] border-t border-b border-r bg-white  rounded-r-lg"
             >
               <font-awesome-icon
                 class="text-gray-500 cursor-pointer text-red-500"

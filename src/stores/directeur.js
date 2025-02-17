@@ -10,6 +10,7 @@ import { useEtudiant } from '@/stores/Etudiant'
 
 export const useDirecteur = defineStore('Directeur', () => {
   const nomComplet_dir = ref('')
+  const mailTo = ref('')
   const id_dir = ref('')
   const grade_dir = ref('')
   const telephone_dir = ref(null)
@@ -29,8 +30,9 @@ export const useDirecteur = defineStore('Directeur', () => {
       .get(`${URL}/api/directeurs/getFirst`)
       .then((response) => {
         nomComplet_dir.value = response.data.nomComplet_dir
+        mailTo.value = response.data.user.email
         grade_dir.value = response.data.grade_dir
-        if (isListeEtud.value) {          
+        if (isListeEtud.value) {
           show.showListeEtudiantPdf = true
         }
         if (isListeEtudDelib.value) {
@@ -97,6 +99,7 @@ export const useDirecteur = defineStore('Directeur', () => {
     id_dir,
     isReleve,
     nomComplet_dir,
+    mailTo,
     isListeNote,
     grade_dir,
     telephone_dir,
