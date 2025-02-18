@@ -132,14 +132,15 @@
 
           <div class="sm:col-span-3 mr-4 mt-2">
             <label class="block text-sm font-medium leading-6">Votre logo</label>
-            <div 
-          :style="{
-          'background-image':
-            'url(' +
-            `${URL}/storage/etablissement/${etablissement.etablissement.nomlogo_etab} ` +
-            ')'
-        }" 
-        class="image w-20 h-20 p-5"></div>
+            <div
+              :style="{
+                'background-image':
+                  'url(' +
+                  `${URL}/storage/etablissement/${etablissement.etablissement.nomlogo_etab} ` +
+                  ')'
+              }"
+              class="image w-20 h-20 p-5"
+            ></div>
             <div class="mt-2">
               <div class="relative flex items-center">
                 <input
@@ -173,7 +174,7 @@
           <div class="sm:col-span-3 mt-2 flex items-end">
             <Button
               :disabled="show.showMessageErrorEmailDir || !etablissement.etablissement.email_etab"
-              class="btns "
+              class="btns"
               @click="etablissement.modifierEtabissement()"
             >
               Enregistrer les modifications</Button
@@ -183,156 +184,150 @@
 
         <h1 class="create pl-5 mt-2">Modifier vos informations personnelles :</h1>
         <div class="class flex gap-5 formInputs border-gray-900/10 p-5 pl-5">
-        <div
-        :style="{
-            'background-image': `url(${URL}/storage/users/${infosheader.photo || 'téléchargement-removebg-preview.png'})`
-          }"
-          class='image ring ring-blue-400 h-[200px] w-[200px] rounded-full'>
-        </div>
-        <div class='flex flex-wrap w-[70%] gap-4' >
-          <div class="sm:col-span-3">
-            <label class="block text-sm font-medium leading-6 ">Nom complet</label>
-            <div class="mt-2">
-              <input
-                type="text"
-                v-model="infossetup.nom"
-                :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
-                class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
-              />
-            </div>
-          </div>
-          <div class="sm:col-span-3">
-            <label class="block text-sm font-medium leading-6">Adresse email</label>
-            <div class="mt-2">
-              <input
-                type="email"
-                @input="regex.RegexEmail(user.email)"
-                v-model="user.email"
-                :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
-                class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
-              />
-              <p class="err" v-if="show.showMessageErrorEmail">Adresse email invalide</p>
-            </div>
-          </div>
-          <div class="sm:col-span-3">
-            <label class="block text-sm font-medium leading-6"
-              >Numéro téléphone</label
-            >
-            <div class="mt-2">
-              <input
-                type="number"
-                v-model="infossetup.telephone"
-                :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
-                class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
-              />
-            </div>
-          </div>
-          <div v-if="show.showNavBarDir" class="sm:col-span-3">
-            <label class="block text-sm font-medium leading-6"
-              >Titre académique</label
-            >
-            <div class="w-60">
-              <Listbox v-model="infossetup.grade">
-                <div class="relative mt-2">
-                  <ListboxButton
-                  :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
-                    class="text-black  relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
-                  >
-                    <span class="block truncate">{{ infossetup.grade }}</span>
-                    <span
-                      class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
-                    >
-                      <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
-                    </span>
-                  </ListboxButton>
-
-                  <transition
-                    leave-active-class="transition duration-100 ease-in"
-                    leave-from-class="opacity-100"
-                    leave-to-class="opacity-0"
-                  >
-                    <ListboxOptions
-                    :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
-
-                      class="z-10 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
-                    >
-                      <ListboxOption
-                        v-slot="{ active, selected }"
-                        v-for="grade in grades"
-                        :key="grade"
-                        :value="grade"
-                        as="template"
-                      >
-                        <li
-                          :class="[
-                            active ? 'bg-amber-100 text-amber-900' : '',
-                            'relative cursor-default select-none py-2 pl-10 pr-4'
-                          ]"
-                        >
-                          <span
-                            :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']"
-                            >{{ grade }}</span
-                          >
-                          <span
-                            v-if="selected"
-                            class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
-                          >
-                            <CheckIcon class="h-5 w-5" aria-hidden="true" />
-                          </span>
-                        </li>
-                      </ListboxOption>
-                    </ListboxOptions>
-                  </transition>
-                </div>
-              </Listbox>
-            </div>
-          </div>
-          <div class="sm:col-span-3 file">
-            <label class="block text-sm font-medium leading-6 ">Photo</label>
-            <div class="mt-1">
-              <div class="relative flex items-center">
+          <div
+            :style="{
+              'background-image': `url(${URL}/storage/users/${
+                infosheader.photo || 'téléchargement-removebg-preview.png'
+              })`
+            }"
+            class="image ring ring-blue-400 h-[200px] w-[200px] rounded-full"
+          ></div>
+          <div class="flex flex-wrap w-[70%] gap-4">
+            <div class="sm:col-span-3">
+              <label class="block text-sm font-medium leading-6">Nom complet</label>
+              <div class="mt-2">
                 <input
-                  @change="onPhotoFileChange"
-                  class="absolute inset-0 opacity-0 cursor-pointer"
-                  type="file"
-                  accept="image/jpeg, image/png"
+                  type="text"
+                  v-model="infossetup.nom"
+                  :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+                  class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
                 />
-                <div
-                :class="theme.theme === 'light' ? '' : 'bg-green-300'"
-                  class="file-label bg-green-100 text-green-800 py-2 px-1 rounded-md border border-green-300"
-                >
-                  📂 Choisissez une photo
-                </div>
               </div>
             </div>
-            <div v-if="user.photoName" class="flex text-xs">
-              <p class="text-blue-500 mr-2">{{ user.photoName }}</p>
-              <font-awesome-icon
-                class="text-red-500 cursor-pointer w-5 h-4"
-                :icon="['fas', 'xmark']"
-                @click="
-                  () => {
-                    user.photoName = ''
-                    user.photo = null
-                  }
-                "
-              />
+            <div class="sm:col-span-3">
+              <label class="block text-sm font-medium leading-6">Adresse email</label>
+              <div class="mt-2">
+                <input
+                  type="email"
+                  @input="regex.RegexEmail(user.email)"
+                  v-model="user.email"
+                  :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+                  class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
+                />
+                <p class="err" v-if="show.showMessageErrorEmail">Adresse email invalide</p>
+              </div>
+            </div>
+            <div class="sm:col-span-3">
+              <label class="block text-sm font-medium leading-6">Numéro téléphone</label>
+              <div class="mt-2">
+                <input
+                  type="number"
+                  v-model="infossetup.telephone"
+                  :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+                  class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
+                />
+              </div>
+            </div>
+            <div v-if="show.showNavBarDir" class="sm:col-span-3">
+              <label class="block text-sm font-medium leading-6">Titre académique</label>
+              <div class="w-60">
+                <Listbox v-model="infossetup.grade">
+                  <div class="relative mt-2">
+                    <ListboxButton
+                      :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+                      class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+                    >
+                      <span class="block truncate">{{ infossetup.grade }}</span>
+                      <span
+                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
+                      >
+                        <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+                      </span>
+                    </ListboxButton>
+
+                    <transition
+                      leave-active-class="transition duration-100 ease-in"
+                      leave-from-class="opacity-100"
+                      leave-to-class="opacity-0"
+                    >
+                      <ListboxOptions
+                        :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
+                        class="z-10 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+                      >
+                        <ListboxOption
+                          v-slot="{ active, selected }"
+                          v-for="grade in grades"
+                          :key="grade"
+                          :value="grade"
+                          as="template"
+                        >
+                          <li
+                            :class="[
+                              active ? 'bg-amber-100 text-amber-900' : '',
+                              'relative cursor-default select-none py-2 pl-10 pr-4'
+                            ]"
+                          >
+                            <span
+                              :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']"
+                              >{{ grade }}</span
+                            >
+                            <span
+                              v-if="selected"
+                              class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
+                            >
+                              <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                            </span>
+                          </li>
+                        </ListboxOption>
+                      </ListboxOptions>
+                    </transition>
+                  </div>
+                </Listbox>
+              </div>
+            </div>
+            <div class="sm:col-span-3 file">
+              <label class="block text-sm font-medium leading-6">Photo</label>
+              <div class="mt-1">
+                <div class="relative flex items-center">
+                  <input
+                    @change="onPhotoFileChange"
+                    class="absolute inset-0 opacity-0 cursor-pointer"
+                    type="file"
+                    accept="image/jpeg, image/png"
+                  />
+                  <div
+                    :class="theme.theme === 'light' ? '' : 'bg-green-300'"
+                    class="file-label bg-green-100 text-green-800 py-2 px-1 rounded-md border border-green-300"
+                  >
+                    📂 Choisissez une photo
+                  </div>
+                </div>
+              </div>
+              <div v-if="user.photoName" class="flex text-xs">
+                <p class="text-blue-500 mr-2">{{ user.photoName }}</p>
+                <font-awesome-icon
+                  class="text-red-500 cursor-pointer w-5 h-4"
+                  :icon="['fas', 'xmark']"
+                  @click="
+                    () => {
+                      user.photoName = ''
+                      user.photo = null
+                    }
+                  "
+                />
+              </div>
+            </div>
+            <div class="sm:col-span-3 mt-2">
+              <label class="block text-sm font-medium leading-6 text-gray-900">&nbsp;</label>
+              <Button @click="modifier()" class="btns mb-1"> Enregistrer les modifications</Button>
             </div>
           </div>
-          <div class="sm:col-span-3 mt-2 ">
-            <label class="block text-sm font-medium leading-6 text-gray-900">&nbsp;</label>
-            <Button @click="modifier()" class="btns mb-1"> Enregistrer les modifications</Button>
-          </div>
-        </div>
-        
         </div>
 
         <h1 class="create pl-5 mt-2">Changer de mot de passe :</h1>
         <div class="class formInput border-gray-900/10 pb-5 pl-5">
           <div class="sm:col-span-3 mt-2 mr-4">
-            <label class="block text-sm font-medium leading-6 "
-              >Ancien mot de passe</label
-            >
+            <label class="block text-sm font-medium leading-6">Ancien mot de passe</label>
             <div class="mt-2">
               <input
                 type="text"
@@ -344,9 +339,7 @@
           </div>
 
           <div class="w-52 sm:col-span-3 mr-4 mt-2">
-            <label class="block text-sm font-medium leading-6 "
-              >Créer un mot de passe</label
-            >
+            <label class="block text-sm font-medium leading-6">Créer un mot de passe</label>
             <div class="mt-2 relative">
               <input
                 @input="regex.RegexPassword(user.password)"
@@ -371,9 +364,7 @@
           </div>
 
           <div class="w-52 sm:col-span-3 mt-2 mr-4">
-            <label class="block text-sm font-medium leading-6 "
-              >Confirmer votre mot de passe</label
-            >
+            <label class="block text-sm font-medium leading-6">Confirmer votre mot de passe</label>
             <div class="mt-2 relative">
               <input
                 @input="user.verifierPasword()"
@@ -410,6 +401,12 @@
             >
           </div>
         </div>
+        <div class="p-2 px-4 border-t-2">
+          <ConfigAcceuil />
+        </div>
+        <div class="p-2 px-4">
+          <PhotoEtab />
+        </div>
       </div>
     </div>
   </div>
@@ -433,9 +430,8 @@ import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import { useTheme } from '@/stores/Theme'
 import { useUrl } from '@/stores/url'
 import { useAdmin } from '@/stores/Admin'
-
-
-
+import ConfigAcceuil from './ConfigAcceuil.vue'
+import PhotoEtab from './PhotoEtab.vue'
 
 const admin = useAdmin()
 const user = useUser()
@@ -450,7 +446,6 @@ const agentscolarite = useAgentscolarite()
 const infosheader = useInfosheader()
 const theme = useTheme()
 const URL = useUrl().url
-
 
 const grades = ['Ingénieur', 'Docteur', 'Professeur']
 
@@ -501,10 +496,9 @@ onBeforeMount(() => {
     infossetup.telephone = users.telephone_ens
     enseignant.id_ens = users.id
   }
-
 })
 
-function modifier() {  
+function modifier() {
   const userString = localStorage.getItem('user')
   const users = JSON.parse(userString)
   if (infossetup.nom || infossetup.telephone || infossetup.grade) {
@@ -543,6 +537,4 @@ function onPhotoFileChange(event) {
 }
 </script>
 
-<style scoped src="../styles/Configuration.css">
-
-</style>
+<style scoped src="../styles/Configuration.css"></style>

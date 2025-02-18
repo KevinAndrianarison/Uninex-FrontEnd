@@ -101,7 +101,12 @@ import {
   faLock,
   faEyeSlash,
   faChalkboardTeacher,
-  faUsersRectangle
+  faUsersRectangle,
+  faArrowUpFromBracket,
+  faPenToSquare,
+  faPlus,
+  faImage,
+  faArrowUp
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -186,7 +191,12 @@ library.add(
   faLock,
   faEyeSlash,
   faChalkboardTeacher,
-  faUsersRectangle
+  faUsersRectangle,
+  faArrowUpFromBracket,
+  faPenToSquare,
+  faPlus,
+  faImage,
+  faArrowUp
 )
 
 import App from './App.vue'
