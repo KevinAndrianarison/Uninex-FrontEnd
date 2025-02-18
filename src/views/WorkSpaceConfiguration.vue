@@ -401,10 +401,10 @@
             >
           </div>
         </div>
-        <div class="p-2 px-4 border-t-2">
+        <div v-if="show.showNavBarAdmin" class="p-2 px-4 border-t-2">
           <ConfigAcceuil />
         </div>
-        <div class="p-2 px-4">
+        <div v-if="show.showNavBarAdmin" class="p-2 px-4">
           <PhotoEtab />
         </div>
       </div>
