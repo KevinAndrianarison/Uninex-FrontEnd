@@ -46,7 +46,6 @@ export const useAcceuil = defineStore('Acceuil', () => {
       .then((response) => {
         if (response.data.length !== 0) {
           photoAcceuil.value = response.data[0]
-          console.log(response.data[0]);
         }
         if (response.data.length === 0) {
           postAcceuilPhoto()

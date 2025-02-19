@@ -81,18 +81,18 @@
                 <figure class="hero-banner">
                   <div class="img-holder one">
                     <img
-                      src="./assets/images/hero-banner-1.jpg"
+                      :src="`${URL}/storage/acceuil/${acceuil.photoAcceuil.photoNameOne}`"
                       width="270"
                       height="300"
-                      class="img-cover"
+                      class="img-cover !w-[270px] !h-[300px]"
                     />
                   </div>
                   <div class="img-holder two">
                     <img
-                      src="./assets/images/hero-banner-2.jpg"
+                      :src="`${URL}/storage/acceuil/${acceuil.photoAcceuil.photoNameTwo}`"
                       width="240"
                       height="370"
-                      class="img-cover"
+                      class="img-cover !w-[240px] !h-[370px]"
                     />
                   </div>
                 </figure>
@@ -153,70 +153,26 @@
 
         <section v-if="!isAllAnnonce" class="section category mt-20" aria-label="category">
           <div class="container">
-            <ul class="grid-list">
+            <ul class="flex justify-center flex-wrap gap-4 items-center">
               <div
-                class="category-card opacity-0 translate-y-10 transition-all duration-1000 ease-in-out"
+                v-for="mention in acceuil.listMention"
+                :key="mention.id"
+                class="category-card w-80"
                 data-animate="fade-in"
               >
                 <div class="card-icon !bg-gray-200">
                   <img
-                    src="./assets/images/category-1.svg"
+                    :src="`${URL}/storage/mentions/${mention.photo_name}`"
                     width="40"
                     height="40"
                     loading="lazy"
-                    class="img"
+                    class="img !w-[40px] !h-[40px]"
                   />
                 </div>
-                <p class="font-bold text-lg">Online Degree Programs</p>
-                <p class="card-text">Lorem ipsum dolor consec tur elit adicing sed umod tempor.</p>
-              </div>
-              <div
-                class="category-card opacity-0 translate-y-10 transition-all duration-1000 ease-in-out"
-                data-animate="fade-in"
-              >
-                <div class="card-icon !bg-gray-200">
-                  <img
-                    src="./assets/images/category-2.svg"
-                    width="40"
-                    height="40"
-                    loading="lazy"
-                    class="img"
-                  />
-                </div>
-                <p class="font-bold text-lg">Online Degree Programs</p>
-                <p class="card-text">Lorem ipsum dolor consec tur elit adicing sed umod tempor.</p>
-              </div>
-              <div
-                class="category-card opacity-0 translate-y-10 transition-all duration-1000 ease-in-out"
-                data-animate="fade-in"
-              >
-                <div class="card-icon !bg-gray-200">
-                  <img
-                    src="./assets/images/category-3.svg"
-                    width="40"
-                    height="40"
-                    loading="lazy"
-                    class="img"
-                  />
-                </div>
-                <p class="font-bold text-lg">Online Degree Programs</p>
-                <p class="card-text">Lorem ipsum dolor consec tur elit adicing sed umod tempor.</p>
-              </div>
-              <div
-                class="category-card opacity-0 translate-y-10 transition-all duration-1000 ease-in-out"
-                data-animate="fade-in"
-              >
-                <div class="card-icon !bg-gray-200">
-                  <img
-                    src="./assets/images/category-4.svg"
-                    width="40"
-                    height="40"
-                    loading="lazy"
-                    class="img"
-                  />
-                </div>
-                <p class="font-bold text-lg">Online Degree Programs</p>
-                <p class="card-text">Lorem ipsum dolor consec tur elit adicing sed umod tempor.</p>
+                <p class="font-bold text-lg">{{ mention.nomMention }}</p>
+                <p class="card-text text-sm !text-gray-600">
+                  {{ mention.descriptionMention }}
+                </p>
               </div>
             </ul>
           </div>
@@ -227,11 +183,11 @@
             <figure class="about-banner">
               <div class="img-holder">
                 <img
-                  src="./assets/images/about-banner.jpg"
+                  :src="`${URL}/storage/acceuil/${acceuil.photoAcceuil.photoNameThree}`"
                   width="520"
                   height="370"
                   loading="lazy"
-                  class="img-cover"
+                  class="img-cover !w-[520px] !h-[370px]"
                 />
               </div>
               <img
@@ -262,18 +218,22 @@
                     class="cursor-pointer text-black mr-2"
                     :icon="['fas', 'terminal']"
                   />
-                  <b class="text-3xl text-black mr-2 logoESP">110</b> Enseignants
+                  <b class="text-3xl text-black mr-2 logoESP">{{ enseignant.ListeENS.length }}</b>
+                  Enseignants
                 </li>
-                <li
-                  class="opacity-0 translate-y-10 transition-all duration-1000 ease-in-out"
-                  data-animate="counter"
-                >
+                <p class="text-gray-600 mt-2 text-sm">
+                  ✅ Nos
                   <font-awesome-icon
-                    class="cursor-pointer text-black mr-2"
-                    :icon="['fas', 'terminal']"
-                  />
-                  <b class="text-3xl text-black mr-2 logoESP">4010</b> Etudiants
-                </li>
+                    class="cursor-pointer text-gray-500"
+                    :icon="['fas', 'quote-left']"
+                  /><b> ENSEIGNANTS </b
+                  ><font-awesome-icon
+                    class="cursor-pointer text-gray-500"
+                    :icon="['fas', 'quote-right']"
+                  />, experts et expérimentés, offrent un <b>enseignement de qualité</b> alliant
+                  théorie et pratique. Leur pédagogie et leur engagement garantissent une
+                  <b>formation enrichissante</b> pour chaque apprenant.
+                </p>
               </ul>
               <img
                 src="./assets/images/about-shape-4.svg"
@@ -301,8 +261,12 @@
                 />Dernières annonces
               </p>
             </div>
-            <ul class="grid-list">
-              <li :key="ann.id" v-for="(ann, index) in annonces.listAnnonce.slice(0, 3)">
+            <ul class="flex justify-center items-center gap-10">
+              <li
+                class="w-80"
+                :key="ann.id"
+                v-for="(ann, index) in annonces.listAnnonce.slice(0, 3)"
+              >
                 <div class="course-card">
                   <figure class="card-banner img-holder h-[200px]">
                     <img
@@ -612,6 +576,9 @@ import {
 import Inscription from './Inscription.vue'
 import { useAnnonce } from '@/stores/Annonce'
 import { useCategory } from '@/stores/Category'
+import { useAcceuil } from '@/stores/Acceuil'
+import { useEnseignant } from '@/stores/Enseignant'
+import { useEtudiant } from '@/stores/Etudiant'
 
 const dateFiltreOptions = [
   'Ce mois',
@@ -640,6 +607,13 @@ const isSingUp = ref(false)
 const isAllAnnonce = ref(false)
 const annonces = useAnnonce()
 const category = useCategory()
+const acceuil = useAcceuil()
+const enseignant = useEnseignant()
+const etudiant = useEtudiant()
+
+onBeforeMount(async () => {
+  await Promise.all([acceuil.getPhotoAcceuil(), acceuil.getAllMention(), enseignant.getAllENS()])
+})
 
 const sendEmail = () => {
   const subject = encodeURIComponent('Sujet de votre email')

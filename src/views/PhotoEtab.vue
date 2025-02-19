@@ -314,7 +314,6 @@ function FetchPhoto(formData) {
   axios
     .put(`${URL}/api/acceuil/1`, formData)
     .then((response) => {
-      console.log(response.data)
       PhotoOne.value = null
       namePhotoOne.value = ''
       PhotoTwo.value = null
@@ -335,7 +334,6 @@ function fetchPhoto(formData) {
   axios
     .post(`${URL}/api/acceuil/1`, formData)
     .then((response) => {
-      console.log(response.data)
       PhotoOne.value = null
       namePhotoOne.value = ''
       PhotoTwo.value = null
