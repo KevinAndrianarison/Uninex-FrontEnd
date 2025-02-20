@@ -106,7 +106,8 @@ import {
   faPenToSquare,
   faPlus,
   faImage,
-  faArrowUp
+  faArrowUp,
+  faDownload
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -196,7 +197,8 @@ library.add(
   faPenToSquare,
   faPlus,
   faImage,
-  faArrowUp
+  faArrowUp,
+  faDownload
 )
 
 import App from './App.vue'
