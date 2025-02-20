@@ -5,16 +5,13 @@ import { useGroupe } from '../stores/groupe'
 import { ref } from 'vue'
 import { useUrl } from '@/stores/url'
 import axios from 'axios'
-import { useMessages } from '@/stores/messages'
 import { useTheme } from '@/stores/Theme'
-import Notiflix from 'notiflix'
 import "emoji-picker-element"
 import {
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
@@ -24,7 +21,6 @@ import NProgress from 'nprogress';
 const show = useShow()
 const groupe = useGroupe()
 const URL = useUrl().url
-const messages = useMessages()
 const theme = useTheme()
 
 

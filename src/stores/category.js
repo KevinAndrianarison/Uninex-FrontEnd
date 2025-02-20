@@ -6,6 +6,8 @@ import axios from 'axios'
 export const useCategory = defineStore('Category', () => {
   const URL = useUrl().url
   const listCategorie = ref([])
+  const listCategorieConge = ref([])
+
 
   function getAllCategorie() {
     axios
@@ -18,8 +20,21 @@ export const useCategory = defineStore('Category', () => {
       })
   }
 
+  function getAllCategorieConge() {
+    axios
+      .get(`${URL}/api/categorieconge`)
+      .then((response) => {
+        listCategorieConge.value = response.data
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  }
+
   return {
     listCategorie,
-    getAllCategorie
+    listCategorieConge,
+    getAllCategorie,
+    getAllCategorieConge
   }
 })
