@@ -32,6 +32,8 @@ import Droits from '@/views/directeur/Droits.vue'
 import EtatFinancierDir from '@/views/directeur/EtatFinancierDir.vue'
 import RH from '@/views/directeur/RH.vue'
 import CongePermission from '@/views/directeur/CongePermission.vue'
+import DemandeConge from '@/views/DemandeConge.vue'
+
 
 
 
@@ -127,6 +129,11 @@ const router = createRouter({
       path: '/agentScolarite/GestionNotes',
       name: 'GestionNotes',
       component: WorkSpaceGestionNotes
+    },
+    {
+      path: '/DemandeConge',
+      name: 'DemandeConge',
+      component: DemandeConge
     },
     {
       path: '/ListeEtudiant',

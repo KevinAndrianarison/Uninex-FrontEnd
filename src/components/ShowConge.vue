@@ -106,7 +106,10 @@ function valideConge(id) {
             class="rounded border h-[50vh] overflow-y-auto"
             frameborder="0"
           ></iframe>
-          <div class="text-xs">
+          <div
+            v-if="show.showNavBarDir"
+            class="text-xs"
+          >
             <button
               v-if="conge.oneConge.status === 'Réfusé' || conge.oneConge.status === 'En attente'"
               @click="valideConge(conge.oneConge.id)"

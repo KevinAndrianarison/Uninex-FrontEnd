@@ -8,10 +8,24 @@ export const useConge = defineStore('Conge', () => {
   const listConge = ref([])
   const oneConge = ref(null)
 
-
   function getAllCongepermission() {
+    listConge.value = []
+    const userString = localStorage.getItem('user')
+    const user = JSON.parse(userString)
     axios
-      .get(`${URL}/api/congepermission`)
+      .get(`${URL}/api/congepermissions/user/${user.user.id}`)
+      .then((response) => {
+        listConge.value = response.data
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  }
+
+  function getAllCongepermissionById(id) {
+    listConge.value = []
+    axios
+      .get(`${URL}/api/congepermissions/user/${id}`)
       .then((response) => {
         listConge.value = response.data
       })
@@ -23,6 +37,7 @@ export const useConge = defineStore('Conge', () => {
   return {
     listConge,
     oneConge,
-    getAllCongepermission
+    getAllCongepermission,
+    getAllCongepermissionById
   }
 })

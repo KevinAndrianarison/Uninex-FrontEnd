@@ -92,6 +92,9 @@
   <RouterLink to="/agentScolarite/EtatsFinanciers">
     <li><PresentationChartLineIcon class="h-5 w-5 mr-2" /> États financiers</li>
   </RouterLink>
+  <RouterLink to="/DemandeConge">
+    <li><ClipboardDocumentCheckIcon class="h-5 w-5 mr-2" />Demande de congé</li>
+  </RouterLink>
 </template>
 
 <script setup>
@@ -100,7 +103,8 @@ import {
   BriefcaseIcon,
   PresentationChartLineIcon,
   CalendarDaysIcon,
-  InboxArrowDownIcon
+  InboxArrowDownIcon,
+  ClipboardDocumentCheckIcon
 } from '@heroicons/vue/24/outline'
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { useShow } from '@/stores/Show'
