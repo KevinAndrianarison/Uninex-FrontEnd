@@ -6,12 +6,13 @@ import axios from 'axios'
 export const useConge = defineStore('Conge', () => {
   const URL = useUrl().url
   const listConge = ref([])
+  const oneConge = ref(null)
+
 
   function getAllCongepermission() {
     axios
       .get(`${URL}/api/congepermission`)
       .then((response) => {
-        console.log(response.data)
         listConge.value = response.data
       })
       .catch((err) => {
@@ -21,6 +22,7 @@ export const useConge = defineStore('Conge', () => {
 
   return {
     listConge,
+    oneConge,
     getAllCongepermission
   }
 })

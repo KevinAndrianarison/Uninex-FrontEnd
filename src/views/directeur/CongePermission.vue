@@ -231,6 +231,7 @@
             <li class="w-[15%] text-center flex justify-center gap-2">
               <p>
                 <font-awesome-icon
+                  @click="showModale(cng)"
                   :icon="['fas', 'eye']"
                   class="text-blue-500 border-2 border-blue-500 p-1 rounded-full cursor-pointer"
                 />
@@ -244,12 +245,6 @@
               </p>
             </li>
             <li class="w-[15%] text-center flex justify-center gap-1">
-              <p>
-                <font-awesome-icon
-                  :icon="['fas', 'pen']"
-                  class="text-green-500 border-2 border-green-500 p-1 rounded-full cursor-pointer"
-                />
-              </p>
               <p>
                 <font-awesome-icon
                   :icon="['fas', 'circle-check']"
@@ -338,6 +333,11 @@ watch(selectedType, (newValue) => {
     categorieName.value = ''
   }
 })
+
+function showModale(congeValue) {
+  conge.oneConge = congeValue
+  show.showConge = true
+}
 
 function telecharger(nom) {
   const url = `${URL}/api/congepermission/files/${nom}`

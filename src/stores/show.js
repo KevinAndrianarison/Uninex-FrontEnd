@@ -14,6 +14,7 @@ export const useShow = defineStore('Show', () => {
   const showMessageErrorEmailDirFirst = ref(false)
   const showLogin = ref(false)
   const showVerifyPassword = ref(false)
+  const showConge = ref(false)
   const showPassword = ref(false)
   const showAdmin = ref(false)
   const showDeconnexion = ref(false)
@@ -143,6 +144,7 @@ export const useShow = defineStore('Show', () => {
     isSingIn,
     showNavBarAdmin,
     showMessageErrorEmailDirFirst,
+    showConge,
     toggleCreatePasswordVisibility,
     togglePasswordVisibility,
     toggleVerifyPasswordVisibility
