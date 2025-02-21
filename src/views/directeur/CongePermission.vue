@@ -4,6 +4,36 @@
       <h1 class="text-lg font-bold flex items-center">
         <ClipboardDocumentCheckIcon class="h-5 w-5 mr-2" />Permissions - Congés
       </h1>
+      <div class="relative w-64 mt-5 text-xs">
+        <div class="relative w-64">
+          <input
+            v-model="searchQuery"
+            type="text"
+            class="w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none"
+            placeholder="Choisissez une personne"
+            @focus="isOpen = true"
+            @blur="closeDropdown"
+          />
+          <font-awesome-icon
+            class="absolute left-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500"
+            @click="toggleDropdown"
+            :icon="['fas', 'sort']"
+          />
+        </div>
+        <ul
+          v-if="isOpen && filteredOptions.length > 0"
+          class="absolute left-0 right-0 mt-1 bg-white border rounded-md shadow-lg max-h-40 overflow-auto z-10"
+        >
+          <li
+            v-for="(item, index) in filteredOptions"
+            :key="index"
+            @mousedown="selectOption(item.nomComplet)"
+            class="px-4 py-2 cursor-pointer hover:bg-gray-100"
+          >
+            {{ item.nomComplet }}
+          </li>
+        </ul>
+      </div>
       <div class="flex gap-5 mt-5">
         <span class="flex gap-2">
           <input type="radio" v-model="selectedType" value="Permission" />Permission
@@ -303,6 +333,8 @@ import { useMessages } from '@/stores/messages'
 import { useConge } from '@/stores/conge'
 import { useShow } from '@/stores/show'
 import NProgress from 'nprogress'
+import { useEnseignant } from '@/stores/Enseignant'
+import { useAgentscolarite } from '@/stores/Agentscolarite'
 
 const selectedType = ref('Permission')
 const filterType = ref('Tout')
@@ -320,6 +352,8 @@ const category = useCategory()
 const messages = useMessages()
 const conge = useConge()
 const show = useShow()
+const enseignant = useEnseignant()
+const agentscolarite = useAgentscolarite()
 
 const filteredList = computed(() => {
   if (filterType.value === 'Tout') {
@@ -351,7 +385,12 @@ function telecharger(nom) {
 }
 
 onBeforeMount(async () => {
-  await Promise.all([category.getAllCategorieConge(), conge.getAllCongepermission()])
+  await Promise.all([
+    category.getAllCategorieConge(),
+    conge.getAllCongepermission(),
+    enseignant.getAllENS(),
+    agentscolarite.getAllAS()
+  ])
 })
 
 function deleteCtg(id) {
@@ -535,6 +574,50 @@ onMounted(() => {
 onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside)
 })
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+const searchQuery = ref('')
+const isOpen = ref(false)
+const options = ref([
+  'Option 1',
+  'Option 2',
+  'Option 3',
+  'Option 4',
+  'Option 5',
+  'Option 6',
+  'Option 7'
+])
+
+const combinedList = computed(() => {
+  return [
+    ...enseignant.ListeENS.map((ens) => ({ nomComplet: ens.nomComplet_ens, user: ens.user })),
+    ...agentscolarite.ListeAS.map((agent) => ({
+      nomComplet: agent.nomComplet_scol,
+      user: agent.user
+    }))
+  ]
+})
+
+const filteredOptions = computed(() => {
+  return combinedList.value.filter((item) =>
+    item.nomComplet.toLowerCase().includes(searchQuery.value.toLowerCase())
+  )
+})
+
+const selectOption = (option) => {
+  searchQuery.value = option
+  isOpen.value = false
+}
+
+const closeDropdown = () => {
+  isOpen.value = false
+}
+
+const toggleDropdown = () => {
+  isOpen.value = !isOpen.value
+}
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 </script>
 
 <style scoped>
