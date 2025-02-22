@@ -263,6 +263,7 @@
               </p>
               <p>
                 <font-awesome-icon
+                  v-if="cng.status === 'En attente'"
                   @click="deleteConge(cng.id)"
                   :icon="['fas', 'trash']"
                   class="text-red-500 border-2 border-red-500 p-1 rounded-full cursor-pointer"

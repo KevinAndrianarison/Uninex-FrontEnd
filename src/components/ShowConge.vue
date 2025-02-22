@@ -25,7 +25,7 @@ function refuseConge(id) {
     .put(`${URL}/api/congepermission/${id}`, formData)
     .then((response) => {
       closeShowConge()
-      conge.getAllCongepermission()
+      conge.getAllCongepermissionById(conge.idUserStore)
       NProgress.done()
     })
     .catch((err) => {
@@ -43,7 +43,7 @@ function valideConge(id) {
     .put(`${URL}/api/congepermission/${id}`, formData)
     .then((response) => {
       closeShowConge()
-      conge.getAllCongepermission()
+      conge.getAllCongepermissionById(conge.idUserStore)
       NProgress.done()
     })
     .catch((err) => {
@@ -106,10 +106,7 @@ function valideConge(id) {
             class="rounded border h-[50vh] overflow-y-auto"
             frameborder="0"
           ></iframe>
-          <div
-            v-if="show.showNavBarDir"
-            class="text-xs"
-          >
+          <div v-if="show.showNavBarDir" class="text-xs">
             <button
               v-if="conge.oneConge.status === 'Réfusé' || conge.oneConge.status === 'En attente'"
               @click="valideConge(conge.oneConge.id)"

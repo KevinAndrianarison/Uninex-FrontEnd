@@ -7,6 +7,8 @@ export const useConge = defineStore('Conge', () => {
   const URL = useUrl().url
   const listConge = ref([])
   const oneConge = ref(null)
+  const idUserStore = ref(null)
+
 
   function getAllCongepermission() {
     listConge.value = []
@@ -37,6 +39,7 @@ export const useConge = defineStore('Conge', () => {
   return {
     listConge,
     oneConge,
+    idUserStore,
     getAllCongepermission,
     getAllCongepermissionById
   }
