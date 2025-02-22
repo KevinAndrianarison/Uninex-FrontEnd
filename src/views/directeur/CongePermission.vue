@@ -235,79 +235,82 @@
               <li class="font-bold w-[15%] text-center">Pièce jointe</li>
               <li class="font-bold w-[15%] text-center">Action(s)</li>
             </div>
-            <div
-              v-for="(cng, index) in filteredList"
-              :key="cng.id"
-              class="list-none flex text-xs w-full py-2 items-center border-b"
-            >
-              <li class="w-[20%] truncate">{{ cng.category || '...' }}</li>
-              <li class="w-[15%] text-blue-500">{{ cng.type }}</li>
-              <li class="w-[15%] flex justify-left">
-                <p
-                  v-if="cng.status === 'En attente'"
-                  class="text-white bg-yellow-400 px-2.5 py-1 rounded-xl"
-                >
-                  {{ cng.status }}
-                </p>
-                <p
-                  v-if="cng.status === 'Validé'"
-                  class="text-white bg-green-400 px-2.5 py-1 rounded-xl"
-                >
-                  {{ cng.status }}
-                </p>
-                <p
-                  v-if="cng.status === 'Réfusé'"
-                  class="text-white bg-red-400 px-2.5 py-1 rounded-xl"
-                >
-                  {{ cng.status }}
-                </p>
-              </li>
-              <li class="w-[10%] text-center">{{ cng.dateDebut }}</li>
-              <li class="w-[10%] text-center">{{ cng.dateFin }}</li>
-              <li class="w-[15%] text-center flex justify-center gap-2">
-                <p>
-                  <font-awesome-icon
-                    @click="showModale(cng)"
-                    :icon="['fas', 'eye']"
-                    class="text-blue-500 border-2 border-blue-500 p-1 rounded-full cursor-pointer"
-                  />
-                </p>
-                <p>
-                  <font-awesome-icon
-                    @click="telecharger(cng.fichier_nom)"
-                    :icon="['fas', 'download']"
-                    class="text-blue-500 border-2 border-blue-500 p-1 rounded-full cursor-pointer"
-                  />
-                </p>
-              </li>
-              <li class="w-[15%] text-center flex justify-center gap-1">
-                <p>
-                  <font-awesome-icon
-                    :icon="['fas', 'circle-check']"
-                    v-if="cng.status === 'Réfusé' || cng.status === 'En attente'"
-                    @click="valideConge(cng.id)"
-                    class="text-green-500 border-2 border-green-500 p-1 rounded-full cursor-pointer"
-                  />
-                </p>
-                <p>
-                  <font-awesome-icon
-                    :icon="['fas', 'xmark']"
-                    v-if="cng.status === 'Validé' || cng.status === 'En attente'"
-                    @click="refuseConge(cng.id)"
-                    class="text-red-500 border-2 border-red-500 px-1.5 p-1 rounded-full cursor-pointer"
-                  />
-                </p>
-                <p>
-                  <font-awesome-icon
-                    @click="deleteConge(cng.id)"
-                    :icon="['fas', 'trash']"
-                    class="text-red-500 border-2 border-red-500 p-1 rounded-full cursor-pointer"
-                  />
-                </p>
-              </li>
+            <div class="max-h-48 overflow-y-auto">
+              <div
+                v-for="(cng, index) in filteredList"
+                :key="cng.id"
+                class="list-none flex text-xs w-full py-2 items-center border-b"
+              >
+                <li class="w-[20%] truncate">{{ cng.category || '...' }}</li>
+                <li class="w-[15%] text-blue-500">{{ cng.type }}</li>
+                <li class="w-[15%] flex justify-left">
+                  <p
+                    v-if="cng.status === 'En attente'"
+                    class="text-white bg-yellow-400 px-2.5 py-1 rounded-xl"
+                  >
+                    {{ cng.status }}
+                  </p>
+                  <p
+                    v-if="cng.status === 'Validé'"
+                    class="text-white bg-green-400 px-2.5 py-1 rounded-xl"
+                  >
+                    {{ cng.status }}
+                  </p>
+                  <p
+                    v-if="cng.status === 'Réfusé'"
+                    class="text-white bg-red-400 px-2.5 py-1 rounded-xl"
+                  >
+                    {{ cng.status }}
+                  </p>
+                </li>
+                <li class="w-[10%] text-center">{{ cng.dateDebut }}</li>
+                <li class="w-[10%] text-center">{{ cng.dateFin }}</li>
+                <li class="w-[15%] text-center flex justify-center gap-2">
+                  <p>
+                    <font-awesome-icon
+                      @click="showModale(cng)"
+                      :icon="['fas', 'eye']"
+                      class="text-blue-500 border-2 border-blue-500 p-1 rounded-full cursor-pointer"
+                    />
+                  </p>
+                  <p>
+                    <font-awesome-icon
+                      @click="telecharger(cng.fichier_nom)"
+                      :icon="['fas', 'download']"
+                      class="text-blue-500 border-2 border-blue-500 p-1 rounded-full cursor-pointer"
+                    />
+                  </p>
+                </li>
+                <li class="w-[15%] text-center flex justify-center gap-1">
+                  <p>
+                    <font-awesome-icon
+                      :icon="['fas', 'circle-check']"
+                      v-if="cng.status === 'Réfusé' || cng.status === 'En attente'"
+                      @click="valideConge(cng.id)"
+                      class="text-green-500 border-2 border-green-500 p-1 rounded-full cursor-pointer"
+                    />
+                  </p>
+                  <p>
+                    <font-awesome-icon
+                      :icon="['fas', 'xmark']"
+                      v-if="cng.status === 'Validé' || cng.status === 'En attente'"
+                      @click="refuseConge(cng.id)"
+                      class="text-red-500 border-2 border-red-500 px-1.5 p-1 rounded-full cursor-pointer"
+                    />
+                  </p>
+                  <p>
+                    <font-awesome-icon
+                      @click="deleteConge(cng.id)"
+                      :icon="['fas', 'trash']"
+                      class="text-red-500 border-2 border-red-500 p-1 rounded-full cursor-pointer"
+                    />
+                  </p>
+                </li>
+              </div>
             </div>
+
             <div
-              v-if="filteredList.length === 0 "
+              v-if="filteredList.length === 0"
               class="flex items-center justify-center flex-col py-5"
             >
               <div

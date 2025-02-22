@@ -272,7 +272,7 @@
                   'background-size': 'cover',
                   'background-position': 'center'
                 }"
-                class="image mr-1"
+                class=" w-10 h-10 rounded-full mr-1"
               ></div>
               <div
                 :class="theme.theme === 'light' ? '' : 'bg-gray-300 border-none text-black'"
