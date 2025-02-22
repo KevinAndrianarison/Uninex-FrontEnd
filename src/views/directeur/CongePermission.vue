@@ -175,7 +175,7 @@
             ENREGISTRER
           </button>
         </div>
-        <div v-if="filteredList.length !== 0" class="bg-white mt-5 px-10 py-5 flex flex-col gap-5">
+        <div class="bg-white mt-5 px-10 py-5 flex flex-col gap-5">
           <div class="flex justify-between items-end">
             <h1 class="text-lg text-blue-500">
               {{ nomUser }} - {{ filteredList.length }} demande(s)
@@ -305,6 +305,15 @@
                   />
                 </p>
               </li>
+            </div>
+            <div
+              v-if="filteredList.length === 0 "
+              class="flex items-center justify-center flex-col py-5"
+            >
+              <div
+                class="h-20 w-36 bg-[url('../assets/pngtree-empty-box-icon-for-your-project-png-image_1533458-removebg-preview.png')] bg-cover bg-center"
+              ></div>
+              <p class="text-xs font-bold mt-2">Aucune demande n'a été trouvée</p>
             </div>
           </div>
         </div>
