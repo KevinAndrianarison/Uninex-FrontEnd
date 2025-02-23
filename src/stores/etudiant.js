@@ -334,7 +334,7 @@ export const useEtudiant = defineStore('Etudiant', () => {
     show.showSpinner = true
     let formData = {
       password: password.password,
-      validiter_compte: 'true'
+      validiter_compte: 'false'
     }
 
     axios
@@ -353,30 +353,67 @@ export const useEtudiant = defineStore('Etudiant', () => {
         show.showSpinner = false
       })
   }
+
   function setValiditeInscriptionEtudiant() {
     show.showSpinner = true
     let formData = {
-      validiter_inscri: 'true',
-      matricule_etud: `${au.oneAU.split('-')[1]}/${etudID.value}/${parcour.parcours_abr
-        .split('-')
-        .join('')}`
+      validiter_compte: 'true'
     }
+
     axios
-      .put(`${URL}/api/etudiant/${etudID.value}`, formData)
+      .put(`${URL}/api/user/setup/${user.user_id}`, formData)
       .then((response) => {
-        password.password = ''
-        getAllEtudiantBysemestre()
-        messages.messageSucces = 'Inscription validé !'
-        show.showSpinner = false
-        setTimeout(() => {
-          messages.messageSucces = ''
-        }, 3000)
+        let formdata = {
+          validiter_inscri: 'true',
+          matricule_etud: `${au.oneAU.split('-')[1]}/${etudID.value}/${parcour.parcours_abr
+            .split('-')
+            .join('')}`
+        }
+        axios
+          .put(`${URL}/api/etudiant/${etudID.value}`, formdata)
+          .then((response) => {
+            getAllEtudiantBysemestre()
+            messages.messageSucces = 'Inscription validé !'
+            show.showSpinner = false
+            setTimeout(() => {
+              messages.messageSucces = ''
+            }, 3000)
+          })
+          .catch((err) => {
+            console.error(err)
+            show.showSpinner = false
+          })
       })
       .catch((err) => {
         console.error(err)
         show.showSpinner = false
       })
   }
+
+  // function setValiditeInscriptionEtudiant() {
+  //   show.showSpinner = true
+  //   let formData = {
+  //     validiter_inscri: 'true',
+  //     matricule_etud: `${au.oneAU.split('-')[1]}/${etudID.value}/${parcour.parcours_abr
+  //       .split('-')
+  //       .join('')}`
+  //   }
+  //   axios
+  //     .put(`${URL}/api/etudiant/${etudID.value}`, formData)
+  //     .then((response) => {
+  //       password.password = ''
+  //       getAllEtudiantBysemestre()
+  //       messages.messageSucces = 'Inscription validé !'
+  //       show.showSpinner = false
+  //       setTimeout(() => {
+  //         messages.messageSucces = ''
+  //       }, 3000)
+  //     })
+  //     .catch((err) => {
+  //       console.error(err)
+  //       show.showSpinner = false
+  //     })
+  // }
 
   function setEtudiant() {
     show.showSpinner = true
@@ -451,8 +488,6 @@ export const useEtudiant = defineStore('Etudiant', () => {
     photoBordereaux.value = null
     fileName.value = ''
   }
-
-  
 
   return {
     nomComplet_etud,

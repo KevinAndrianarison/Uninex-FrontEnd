@@ -358,7 +358,7 @@ cre
               ><CheckBadgeIcon
                 @click="
                   () => {
-                    showValiderInscription(etd.id, etd.nomComplet_etud)
+                    showValiderInscription(etd.id, etd.nomComplet_etud, etd.user_id)
                   }
                 "
                 v-if="etd.validiter_inscri === 'false'"
@@ -447,9 +447,10 @@ function showMdp(id) {
   show.showMdpEtudiant = true
 }
 
-function showValiderInscription(id, nom) {
+function showValiderInscription(id, nom, idUser) {
   etudiant.etudnomComplet = nom
   etudiant.etudID = id
+  user.user_id = idUser
   show.showValiderInscription = true
 }
 
