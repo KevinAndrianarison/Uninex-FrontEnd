@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
 import { useUser } from '@/stores/User'
 import { useSemestre } from '@/stores/Semestre'
 import { useShow } from '@/stores/Show'
@@ -28,6 +28,8 @@ export const useEtudiant = defineStore('Etudiant', () => {
   const directeur = useDirecteur()
 
   const nomComplet_etud = ref('')
+  const email = ref('')
+  const code = ref('')
   const matricule_etud = ref('')
   const date_naissance_etud = ref('')
   const lieux_naissance_etud = ref('')
@@ -361,7 +363,7 @@ export const useEtudiant = defineStore('Etudiant', () => {
     }
 
     axios
-      .put(`${URL}/api/user/setup/${user.user_id}`, formData)
+      .put(`${URL}/api/user/setuser/${user.user_id}`, formData)
       .then((response) => {
         let formdata = {
           validiter_inscri: 'true',
@@ -449,44 +451,67 @@ export const useEtudiant = defineStore('Etudiant', () => {
   }
 
   function inscription() {
-    show.showSpinner = true
-    let formData = new FormData()
-    formData.append('nomComplet_etud', nomComplet_etud.value || '')
-    formData.append('date_naissance_etud', date_naissance_etud.value || '')
-    formData.append('lieux_naissance_etud', lieux_naissance_etud.value || '')
-    formData.append('nationalite_etud', nationalite_etud.value || '')
-    formData.append('nom_pere_etud', nom_pere_etud.value || '')
-    formData.append('nom_mere_etud', nom_mere_etud.value || '')
-    formData.append('nom_tuteur', nom_tuteur.value || '')
-    formData.append('adresse_etud', adresse_etud.value || '')
-    formData.append('serieBAC_etud', serieBAC_etud.value || '')
-    formData.append('sexe_etud', sexe_etud.value || '')
-    formData.append('etabOrigin_etud', etabOrigin_etud.value || '')
-    formData.append('CIN_etud', CIN_etud.value || '')
-    formData.append('anneeBAC_etud', anneeBAC_etud.value || '')
-    formData.append('telephone_etud', telephone_etud.value || '')
-    formData.append('photoBordereaux', photoBordereaux.value || '')
-    formData.append('_method', 'PUT')
-    axios
-      .post(`${URL}/api/etudiant/${id_etud.value}`, formData)
-      .then((response) => {
-        messages.messageSucces = 'Inscriprion réussi !'
-        show.showSpinner = false
-        setTimeout(() => {
-          messages.messageSucces = ''
-        }, 3000)
-        getEtudiantById()
-      })
-      .catch((err) => {
-        console.error(err)
-        messages.messageSucces = 'Inscription échouée !'
-        show.showSpinner = false
-        setTimeout(() => {
-          messages.messageSucces = ''
-        }, 3000)
-      })
-    photoBordereaux.value = null
-    fileName.value = ''
+    if (nomComplet_etud.value && photoBordereaux.value && email.value && code.value) {
+      show.showSpinner = true
+      let formData = new FormData()
+      formData.append('nomComplet_etud', nomComplet_etud.value || '')
+      formData.append('email', email.value || '')
+      formData.append('password', code.value || '')
+      formData.append('validiter_compte', false)
+      formData.append('date_naissance_etud', date_naissance_etud.value || '')
+      formData.append('lieux_naissance_etud', lieux_naissance_etud.value || '')
+      formData.append('nationalite_etud', nationalite_etud.value || '')
+      formData.append('nom_pere_etud', nom_pere_etud.value || '')
+      formData.append('nom_mere_etud', nom_mere_etud.value || '')
+      formData.append('nom_tuteur', nom_tuteur.value || '')
+      formData.append('adresse_etud', adresse_etud.value || '')
+      formData.append('serieBAC_etud', serieBAC_etud.value || '')
+      formData.append('sexe_etud', sexe_etud.value || '')
+      formData.append('etabOrigin_etud', etabOrigin_etud.value || '')
+      formData.append('CIN_etud', CIN_etud.value || '')
+      formData.append('anneeBAC_etud', anneeBAC_etud.value || '')
+      formData.append('telephone_etud', telephone_etud.value || '')
+      formData.append('photoBordereaux', photoBordereaux.value || '')
+      formData.append('_method', 'PUT')
+      axios
+        .post(`${URL}/api/updateByEmailAndPassword`, formData)
+        .then((response) => {
+          photoBordereaux.value = null
+          fileName.value = ''
+          nomComplet_etud.value = ''
+          date_naissance_etud.value = ''
+          lieux_naissance_etud.value = ''
+          nationalite_etud.value = ''
+          nom_pere_etud.value = ''
+          nom_tuteur.value = ''
+          nom_mere_etud.value = ''
+          adresse_etud.value = ''
+          serieBAC_etud.value = ''
+          etabOrigin_etud.value = ''
+          CIN_etud.value = ''
+          anneeBAC_etud.value = ''
+          telephone_etud.value = ''
+          email.value = ''
+          code.value = ''
+          messages.messageSucces = 'Inscriprion réussi !'
+          show.showSpinner = false
+          setTimeout(() => {
+            messages.messageSucces = ''
+          }, 3000)
+        })
+        .catch((err) => {
+          console.error(err)
+          messages.messageError = 'Inscription échouée !'
+          show.showSpinner = false
+          setTimeout(() => {
+            messages.messageError = ''
+          }, 3000)
+        })
+    } else {
+      Notiflix.Notify.warning(
+        '"Nom complet", "Adresse email", "Code" et le  "Bordereaux" doivent être remplis'
+      )
+    }
   }
 
   return {
@@ -532,6 +557,8 @@ export const useEtudiant = defineStore('Etudiant', () => {
     ListeEtudiantRH,
     ListeEtudiantRHTemp,
     searchalueRH,
+    email,
+    code,
     getEtudiantByIdAu,
     searchRH,
     createEtudiant,

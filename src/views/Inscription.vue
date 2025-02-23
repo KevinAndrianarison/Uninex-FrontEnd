@@ -4,23 +4,48 @@
       <b>Inscription</b> ou <b>Réinscription</b>
     </h1>
     <div class="flex items-center justify-center">
-      <div class="flex flex-col border w-[90%] bg-white px-2 rounded-lg items-center pt-10 pb-5 ">
+      <div class="flex flex-col border w-[90%] bg-white px-2 rounded-lg items-center pt-10 pb-5">
         <div class="formInput gap-4 flex justify-center items-center">
           <div class="w-52 sm:col-span-3">
             <label class="block text-sm font-medium leading-6">Nom complet</label>
             <div>
               <input
                 type="text"
+                v-model="etudiant.nomComplet_etud"
                 class="pl-3 pr-3 block w-full rounded-md py-1.5 bg-gray-300 shadow-sm focus:outline-none"
               />
             </div>
           </div>
 
           <div class="w-52 sm:col-span-3">
+            <label class="block text-sm font-medium leading-6">Adresse email</label>
+            <div>
+              <input
+                type="text"
+                v-model="etudiant.email"
+                class="pl-3 pr-3 block w-full rounded-md py-1.5 bg-gray-300 shadow-sm focus:outline-none"
+              />
+            </div>
+          </div>
+          <Tooltip content="Un code qui vous a été envoyé par mail 📧">
+            <div class="w-52 sm:col-span-3">
+              <label class="block text-sm font-medium leading-6">Code</label>
+              <div>
+                <input
+                  type="text"
+                  v-model="etudiant.code"
+                  class="pl-3 pr-3 block w-full rounded-md py-1.5 bg-gray-300 shadow-sm focus:outline-none"
+                />
+              </div>
+            </div>
+          </Tooltip>
+
+          <div class="w-52 sm:col-span-3">
             <label class="block text-sm font-medium leading-6">Date de naissance</label>
             <div>
               <input
                 type="date"
+                v-model="etudiant.date_naissance_etud"
                 class="pl-3 pr-3 block w-full rounded-md py-1.5 shadow-sm bg-gray-300 focus:outline-none"
               />
             </div>
@@ -31,6 +56,7 @@
             <div>
               <input
                 type="text"
+                v-model="etudiant.lieux_naissance_etud"
                 class="pl-3 pr-3 block w-full rounded-md py-1.5 shadow-sm bg-gray-300 focus:outline-none"
               />
             </div>
@@ -41,6 +67,7 @@
             <div>
               <input
                 type="text"
+                v-model="etudiant.nationalite_etud"
                 class="pl-3 pr-3 block w-full rounded-md py-1.5 shadow-sm bg-gray-300 focus:outline-none"
               />
             </div>
@@ -49,12 +76,12 @@
           <div class="w-52 sm:col-span-3">
             <label class="block text-sm font-medium leading-6">Sexe</label>
             <div>
-              <Listbox>
+              <Listbox v-model="etudiant.sexe_etud">
                 <div class="relative">
                   <ListboxButton
                     class="pl-3 pr-3 block w-full rounded-md py-1.5 shadow-sm bg-gray-300 focus:outline-none text-left"
                   >
-                    <span class="block truncate">Masculin</span>
+                    <span class="block truncate">{{ etudiant.sexe_etud }}</span>
                     <span
                       class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
                     >
@@ -107,6 +134,7 @@
             <div>
               <input
                 type="number"
+                v-model="etudiant.CIN_etud"
                 class="pl-3 pr-3 block w-full rounded-md py-1.5 shadow-sm bg-gray-300 focus:outline-none"
               />
             </div>
@@ -117,6 +145,7 @@
             <div>
               <input
                 type="number"
+                v-model="etudiant.telephone_etud"
                 class="pl-3 pr-3 block w-full rounded-md py-1.5 shadow-sm bg-gray-300 focus:outline-none"
               />
             </div>
@@ -127,6 +156,7 @@
             <div>
               <input
                 type="text"
+                v-model="etudiant.nom_pere_etud"
                 class="pl-3 pr-3 block w-full rounded-md py-1.5 shadow-sm bg-gray-300 focus:outline-none"
               />
             </div>
@@ -137,6 +167,7 @@
             <div>
               <input
                 type="text"
+                v-model="etudiant.nom_mere_etud"
                 class="pl-3 pr-3 block w-full rounded-md py-1.5 shadow-sm bg-gray-300 focus:outline-none"
               />
             </div>
@@ -146,6 +177,7 @@
             <div>
               <input
                 type="text"
+                v-model="etudiant.nom_tuteur"
                 class="pl-3 pr-3 block w-full rounded-md py-1.5 shadow-sm bg-gray-300 focus:outline-none"
               />
             </div>
@@ -156,6 +188,7 @@
             <div>
               <input
                 type="text"
+                v-model="etudiant.adresse_etud"
                 class="pl-3 pr-3 block w-full rounded-md py-1.5 shadow-sm bg-gray-300 focus:outline-none"
               />
             </div>
@@ -165,6 +198,7 @@
             <div>
               <input
                 type="text"
+                v-model="etudiant.serieBAC_etud"
                 class="pl-3 pr-3 block w-full rounded-md py-1.5 shadow-sm bg-gray-300 focus:outline-none"
               />
             </div>
@@ -175,6 +209,7 @@
             <div>
               <input
                 type="number"
+                v-model="etudiant.anneeBAC_etud"
                 class="pl-3 pr-3 block w-full rounded-md py-1.5 shadow-sm bg-gray-300 focus:outline-none"
               />
             </div>
@@ -185,6 +220,7 @@
             <div>
               <input
                 type="text"
+                v-model="etudiant.etabOrigin_etud"
                 class="pl-3 pr-3 block w-full rounded-md py-1.5 shadow-sm bg-gray-300 focus:outline-none"
               />
             </div>
@@ -206,11 +242,20 @@
                   📂 Importer (Photo ou Pdf)
                 </div>
               </div>
+              <div v-if="etudiant.fileName" class="flex text-xs absolute">
+                <p class="text-blue-500 mr-2 truncate w-48">{{ etudiant.fileName }}</p>
+                <font-awesome-icon
+                  @click="removeFile"
+                  class="text-red-500 cursor-pointer w-5 h-4"
+                  :icon="['fas', 'xmark']"
+                />
+              </div>
             </div>
           </div>
         </div>
         <div class="mt-10 border-b-4 border-white pb-2 sm:col-span-3 relative group">
           <Button
+            @click="etudiant.inscription()"
             class="text-yellow-500 flex items-center gap-4 mb-1 font-bold transition-colors duration-500 ease-in-out"
           >
             S'inscrire
@@ -231,8 +276,26 @@
 <script setup>
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
+import { useEtudiant } from '@/stores/Etudiant'
+import { onBeforeMount } from 'vue'
+import Tooltip from '../components/Tooltip.vue'
 
+const etudiant = useEtudiant()
 const sexes = ['Homme', 'Femme']
+
+onBeforeMount(() => {
+  etudiant.sexe_etud = sexes[0]
+})
+
+function removeFile() {
+  etudiant.photoBordereaux = null
+  etudiant.fileName = ''
+}
+
+function onPhotoFileChange(event) {
+  etudiant.photoBordereaux = event.target.files[0]
+  etudiant.fileName = event.target.files[0].name
+}
 </script>
 
 <style scoped src="../styles/Inscription.css"></style>
