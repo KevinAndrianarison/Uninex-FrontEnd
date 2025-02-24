@@ -54,6 +54,7 @@ export const useEtudiant = defineStore('Etudiant', () => {
   const isCompensation = ref(false)
   const isElimination = ref(false)
   const id_etud = ref(null)
+  const id_cursus = ref(null)
   const ListeEtudiant = ref([])
   const ListeEtudiantTemp = ref([])
   const ListeEtudiantRH = ref([])
@@ -70,6 +71,7 @@ export const useEtudiant = defineStore('Etudiant', () => {
   const searchalueRH = ref('')
   const searchalueDef = ref('')
   const moyenneGen = ref('')
+  const listCurscusNote = ref([])
   const noteElim = ref(5)
 
   function bigPostEtudiant() {
@@ -277,6 +279,19 @@ export const useEtudiant = defineStore('Etudiant', () => {
       .then((response) => {
         ListeEtudiantRH.value = response.data
         ListeEtudiantRHTemp.value = response.data
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  }
+
+  function getCursus() {
+    axios
+      .get(`${URL}/api/getEtudiantByCursusId/${id_cursus.value}`)
+      .then((response) => {
+        console.log(response.data)
+        listCurscusNote.value = response.data
+        listNote.value = response.data[0].etudiant.ec
       })
       .catch((err) => {
         console.error(err)
@@ -575,7 +590,10 @@ export const useEtudiant = defineStore('Etudiant', () => {
     searchalueRH,
     email,
     code,
+    listCurscusNote,
+    id_cursus,
     getEtudiantByIdAu,
+    getCursus,
     searchRH,
     createEtudiant,
     setValiditeInscriptionEtudiant,
