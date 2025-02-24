@@ -139,6 +139,18 @@ export const useEtudiant = defineStore('Etudiant', () => {
     })
   }
 
+  function createCurcus() {
+    return axios.post(
+      `${URL}/api/cursus`,
+      {},
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+  }
+
   function createEtudiant() {
     let formData = {
       email: user.email,
@@ -148,20 +160,24 @@ export const useEtudiant = defineStore('Etudiant', () => {
 
     if (nomComplet_etud.value && !show.showMessageErrorEmail && user.email) {
       show.showSpinner = true
-      axios
-        .post(`${URL}/api/user/createEtudiant`, formData, {
+      Promise.all([
+        createCurcus(),
+        axios.post(`${URL}/api/user/createEtudiant`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
         })
-        .then((response) => {
+      ])
+        .then(([cursusResponse, etudiantResponse]) => {
           let formDataEtudiant = {
-            user_id: response.data.id,
+            user_id: etudiantResponse.data.id,
             nomComplet_etud: nomComplet_etud.value,
             validiter_inscri: false,
             status_etud: 1,
-            au_id: au.idAU
+            au_id: au.idAU,
+            cursu_id: cursusResponse.data.id
           }
+
           axios
             .post(`${URL}/api/etudiant`, formDataEtudiant, {
               headers: {

@@ -1,4 +1,3 @@
-cre
 <template>
   <div :class="theme.theme === 'light' ? 'inscr' : 'inscr !bg-gray-600 !text-white'">
     <div class="flex items-center mb-2 justify-between ">
@@ -69,7 +68,6 @@ cre
         </Listbox>
       </div>
     </div>
-
     <div :class="theme.theme === 'light' ? 'createEtud' : '!bg-gray-600 !text-gray-200'">
       <div class="radio px-4 mt-2 pb-2 ml-2">
         <div class="mt-2">
@@ -289,7 +287,6 @@ cre
             </Listbox>
           </div>
         </div>
-
         <div v-if="semestre.semestreNom" class="divbtn text-black sm:col-span-3">
           <Button @click="etudiant.createEtudiant()" class="btn font-bold"> Valider</Button>
         </div>
