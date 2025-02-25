@@ -210,10 +210,7 @@
                 </p>
               </div>
               <ul class="mt-10 flex flex-col gap-4">
-                <li
-                  class="opacity-0 translate-y-10 transition-all duration-1000 ease-in-out"
-                  data-animate="counter"
-                >
+                <li>
                   <font-awesome-icon
                     class="cursor-pointer text-black mr-2"
                     :icon="['fas', 'terminal']"

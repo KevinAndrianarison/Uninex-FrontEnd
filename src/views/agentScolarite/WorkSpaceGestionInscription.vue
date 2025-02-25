@@ -358,10 +358,10 @@
                     showValiderInscription(etd.id, etd.nomComplet_etud, etd.user_id)
                   }
                 "
-                v-if="etd.validiter_inscri === 'false'"
+                v-if="etd.user.validiter_compte=== 'false'"
                 class="valider h-6 w-6"
             /></Tooltip>
-            <p class="already" v-if="etd.validiter_inscri === 'true'">Déjà validé</p>
+            <p class="already" v-if="etd.user.validiter_compte === 'true'">Déjà validé</p>
           </li>
           <TrashIcon class="delete h-5 w-5" @click="showDelete(etd.user_id)" />
         </div>
