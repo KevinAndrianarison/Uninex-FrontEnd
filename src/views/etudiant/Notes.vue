@@ -34,6 +34,16 @@
         Notes
       </button>
       <button
+        @click="switchToCours"
+        :class="
+          isCours
+            ? 'bg-yellow-500 border border-yellow-500 p-2 px-4 text-white rounded'
+            : 'bg-white border border-yellow-500 p-2 px-4 text-yellow-500 rounded'
+        "
+      >
+        Cours
+      </button>
+      <button
         @click="switchToEDT"
         :class="
           isEDPT
@@ -132,14 +142,27 @@
           </div>
         </button>
       </div>
-      <div
-        v-if="etudiant.listEDT[0]?.edt.length === 0"
-        class="flex items-center justify-center flex-col py-5"
-      >
-        <div
-          class="h-20 w-36 bg-[url('../assets/pngtree-empty-box-icon-for-your-project-png-image_1533458-removebg-preview.png')] bg-cover bg-center"
-        ></div>
-        <p class="text-xs font-bold mt-2">Aucun emploi du temps n'a été trouvé</p>
+    </div>
+    <div v-if="isCours">
+      <div v-for="(cours, index) in etudiant.listNote" :key="index">
+        <div class="flex items-center gap-4 text-xs mt-4" v-if="cours.cour">
+          <p>{{ cours.nom_ec }} :</p>
+          <button
+            class="bg-white border p-2 px-4 rounded flex items-center gap-4"
+            v-for="(COUR, index) in cours.cour"
+            :key="index"
+          >
+            <font-awesome-icon
+              @click="telechargerCours(COUR.cours_name)"
+              :icon="['fas', 'arrow-down']"
+              class="text-blue-500 bg-blue-200 py-1.5 p-2 rounded-full"
+            />
+            <div class="font-bold text-left">
+              <p class="font-bold">{{ COUR.nom_cours }}</p>
+              <p class="text-gray-500">{{ COUR.categorie_cours }}</p>
+            </div>
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -163,6 +186,18 @@ const etudiant = useEtudiant()
 const theme = useTheme()
 const isNotes = ref(true)
 const isEDPT = ref(false)
+const isCours = ref(false)
+
+function telechargerCours(nom) {
+  const url = `${URL}/api/cours/file/${nom}`
+  const link = document.createElement('a')
+  link.href = url
+  link.download = nom
+  link.style.display = 'none'
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+}
 
 function showOneEDT(id) {
   axios
@@ -207,12 +242,20 @@ function transformData(rawData) {
     }))
 }
 
+function switchToCours() {
+  isEDPT.value = false
+  isNotes.value = false
+  isCours.value = true
+}
+
 function switchToNote() {
+  isCours.value = false
   isEDPT.value = false
   isNotes.value = true
 }
 
 function switchToEDT() {
+  isCours.value = false
   isNotes.value = false
   isEDPT.value = true
 }

@@ -66,7 +66,7 @@ const router = createRouter({
       component: WorkSpaceGestionUE
     },
     {
-      path: '/etudiant/Notes',
+      path: '/etudiant/Cursus',
       name: 'notes',
       component: Notes
     },
