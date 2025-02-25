@@ -22,13 +22,13 @@
         <p>{{ etd.au.annee_debut }}-{{ etd.au.annee_fin }}</p>
       </button>
     </div>
-    <div class="mt-4 text-xs flex gap-2">
+    <div class="mt-4 text-xs flex ">
       <button
         @click="switchToNote"
         :class="
           isNotes
-            ? 'bg-yellow-500 border border-yellow-500 p-2 px-4 text-white rounded'
-            : 'bg-white border border-yellow-500 p-2 px-4 text-yellow-500 rounded'
+            ? 'bg-yellow-500 border border-yellow-500 p-2 px-4 text-white '
+            : 'bg-white p-2 px-4 text-yellow-500 '
         "
       >
         Notes
@@ -37,8 +37,8 @@
         @click="switchToCours"
         :class="
           isCours
-            ? 'bg-yellow-500 border border-yellow-500 p-2 px-4 text-white rounded'
-            : 'bg-white border border-yellow-500 p-2 px-4 text-yellow-500 rounded'
+            ? 'bg-yellow-500 border border-yellow-500 p-2 px-4 text-white '
+            : 'bg-white p-2 px-4 text-yellow-500 '
         "
       >
         Cours
@@ -47,8 +47,8 @@
         @click="switchToEDT"
         :class="
           isEDPT
-            ? 'bg-yellow-500 border border-yellow-500 p-2 px-4 text-white rounded'
-            : 'bg-white border border-yellow-500 p-2 px-4 text-yellow-500 rounded'
+            ? 'bg-yellow-500 border border-yellow-500 p-2 px-4 text-white '
+            : 'bg-white  p-2 px-4 text-yellow-500 '
         "
       >
         Emplois du temps
