@@ -73,6 +73,8 @@ export const useEtudiant = defineStore('Etudiant', () => {
   const moyenneGen = ref('')
   const listCurscusNote = ref([])
   const noteElim = ref(5)
+  const idCursus = ref(null)
+  const niveau = ref('')
 
   function bigPostEtudiant() {
     ListeEtudiantByExcel.value.forEach((etud) => {
@@ -289,8 +291,14 @@ export const useEtudiant = defineStore('Etudiant', () => {
     axios
       .get(`${URL}/api/getEtudiantByCursusId/${id_cursus.value}`)
       .then((response) => {
+        console.log(response.data)
         listCurscusNote.value = response.data
         listNote.value = response.data[0].etudiant.ec
+        idCursus.value = response.data[0].etudiant.id
+        niveau.value =
+          response.data[0].etudiant.matricule_etud.split('/')[
+            response.data[0].etudiant.matricule_etud.split('/').length - 1
+          ]
       })
       .catch((err) => {
         console.error(err)
@@ -587,10 +595,12 @@ export const useEtudiant = defineStore('Etudiant', () => {
     ListeEtudiantRH,
     ListeEtudiantRHTemp,
     searchalueRH,
+    niveau,
     email,
     code,
     listCurscusNote,
     id_cursus,
+    idCursus,
     getEtudiantByIdAu,
     getCursus,
     searchRH,

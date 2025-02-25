@@ -2,22 +2,27 @@
   <div :class="theme.theme === 'light' ? '' : ' !bg-gray-600 !text-white'">
     <div class="flex gap-5">
       <button
-        v-for="(etd, index) in etudiant.listCurscusNote"
-        class="bg-blue-500 text-xs p-2 text-white rounded border-2 border-blue-500"
-      >
-        <p>
-          {{
+        @click="
+          setListeNote(
+            etd.etudiant.ec,
+            etd.etudiant.id,
             etd.etudiant.matricule_etud.split('/')[
               etd.etudiant.matricule_etud.split('/').length - 1
             ]
-          }}
-        </p>
+          )
+        "
+        v-for="(etd, index) in etudiant.listCurscusNote"
+        :class="
+          etudiant.idCursus === etd.etudiant.id
+            ? 'bg-blue-500 text-xs p-2 text-white rounded border-2 border-blue-500'
+            : 'bg-white text-xs p-2 text-blue-500 rounded border-2 border-blue-500'
+        "
+      >
         <p>{{ etd.au.annee_debut }}-{{ etd.au.annee_fin }}</p>
       </button>
-      <!-- <button class="bg-white text-blue-500 text-xs p-2 rounded border-2 border-blue-500">
-        <p>BTP-L1</p>
-        <p>2023-2024</p>
-      </button> -->
+    </div>
+    <div class="mt-4">
+      Parcours : <b>{{ etudiant.niveau }}</b>
     </div>
     <div
       :class="theme.theme === 'light' ? '' : '!bg-gray-600 !border-gray-400'"
@@ -73,12 +78,15 @@
         <p class="text-xs font-bold mt-2">Aucune note n'a été trouvée</p>
       </div>
     </div>
-    <div class="flex mt-3 gap-2">
-      <button class="bg-blue-400 flex gap-2 rounded text-white text-xs px-5 py-2 cursoir-pointer">
-        <SparklesIcon class="text-yellow-400 h-4 w-4" /> Génerer un relevé des notes
+    <div v-if="etudiant.listNote.length !== 0" class="flex mt-4 gap-2">
+      <button
+        @click="getOneEtudiant"
+        class="bg-blue-400 flex gap-2 rounded text-white text-xs px-5 py-2 cursoir-pointer"
+      >
+        Relevé des notes
       </button>
       <button class="bg-green-500 flex gap-2 rounded text-white text-xs px-5 py-2 cursoir-pointer">
-        Demander un relevé des notes
+        Demander un relevé
       </button>
     </div>
   </div>
@@ -92,6 +100,18 @@ import { CheckBadgeIcon, SparklesIcon } from '@heroicons/vue/24/outline'
 
 const etudiant = useEtudiant()
 const theme = useTheme()
+
+function getOneEtudiant() {
+  etudiant.isshowNotes = true
+  etudiant.id_etud = etudiant.idCursus
+  etudiant.getEtudiantById()
+}
+
+function setListeNote(list, id, niveau) {
+  etudiant.niveau = niveau
+  etudiant.idCursus = id
+  etudiant.listNote = list
+}
 
 onBeforeMount(() => {
   const userString = localStorage.getItem('user')

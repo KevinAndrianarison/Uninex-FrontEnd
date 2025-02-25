@@ -7,8 +7,8 @@
     <div
       :class="
         theme.theme === 'light'
-          ? 'border-2 rounded-lg bg-white px-5 py-2 pb-4 '
-          : 'border-2 rounded-lg px-3 py-2 pb-4 !bg-gray-600 !text-gray-200 border-none'
+          ? 'border rounded-lg bg-white px-5 py-2 pb-4 '
+          : 'border rounded-lg px-3 py-2 pb-4 !bg-gray-600 !text-gray-200 border-none'
       "
     >
       <div class="flex gap-4 flex-wrap items-end mt-2">
@@ -544,8 +544,8 @@
       </div>
     </div>
 
-    <div class="flex items-end mt-5">
-      <p class="mr-2"><font-awesome-icon :icon="['fas', 'sort']" /> Trier par :</p>
+    <div class="flex items-center mt-5">
+      <p class="mr-2 text-xs"><font-awesome-icon :icon="['fas', 'sort']" /> Trier par :</p>
       <Listbox v-model="au.oneAUSelectFind" v-if="au.listeAU.length !== 0">
         <div class="relative text-xs w-40">
           <ListboxButton
@@ -604,9 +604,9 @@
     <div
       v-if="edt.listEDT.length !== 0"
       :class="theme.theme === 'light' ? '' : '!bg-gray-500'"
-      class="bg-white border mt-5 max-h-[25vh] oerflow-y-auto"
+      class="bg-white border rounded mt-5 max-h-[25vh] oerflow-y-auto"
     >
-      <div :key="EDT.id" v-for="EDT in edt.listEDT" class="list-none flex px-4 py-2 border text-xs">
+      <div :key="EDT.id" v-for="EDT in edt.listEDT" class="list-none flex px-4 py-2  text-xs">
         <li class="font-bold w-[35%]">{{ EDT.au.annee_debut }} - {{ EDT.au.annee_fin }}</li>
         <li class="w-[30%]">{{ EDT.parcour.abr_parcours }}</li>
         <li class="w-[30%]">{{ EDT.semestre.nom_semestre }}</li>
