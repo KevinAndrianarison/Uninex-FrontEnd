@@ -737,7 +737,7 @@
           type="number"
           v-model="noteElim"
           :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
-          class="w-20 pl-3 pr-1 mt-3 block text-center rounded-sm border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
+          class="hidden w-20 pl-3 pr-1 mt-3 block text-center rounded-sm border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
         />
         <p class="text-xs font-bold">( Note éliminatoire )</p>
       </div>

@@ -22,36 +22,44 @@
         <p>{{ etd.au.annee_debut }}-{{ etd.au.annee_fin }}</p>
       </button>
     </div>
-    <div class="mt-4 text-xs flex ">
+    <div class="mt-4 flex justify-between">
+      <div class="text-xs flex">
+        <button
+          @click="switchToNote"
+          :class="
+            isNotes
+              ? 'bg-yellow-500 border border-yellow-500 p-2 px-4 text-white '
+              : 'bg-white p-2 px-4 text-yellow-500 '
+          "
+        >
+          Notes
+        </button>
+        <button
+          @click="switchToCours"
+          :class="
+            isCours
+              ? 'bg-yellow-500 border border-yellow-500 p-2 px-4 text-white '
+              : 'bg-white p-2 px-4 text-yellow-500 '
+          "
+        >
+          Cours
+        </button>
+        <button
+          @click="switchToEDT"
+          :class="
+            isEDPT
+              ? 'bg-yellow-500 border border-yellow-500 p-2 px-4 text-white '
+              : 'bg-white  p-2 px-4 text-yellow-500 '
+          "
+        >
+          Emplois du temps
+        </button>
+      </div>
       <button
-        @click="switchToNote"
-        :class="
-          isNotes
-            ? 'bg-yellow-500 border border-yellow-500 p-2 px-4 text-white '
-            : 'bg-white p-2 px-4 text-yellow-500 '
-        "
+        @click="commandeCertificat"
+        class="text-xs text-white bg-yellow-500 px-5 py-2 rounded"
       >
-        Notes
-      </button>
-      <button
-        @click="switchToCours"
-        :class="
-          isCours
-            ? 'bg-yellow-500 border border-yellow-500 p-2 px-4 text-white '
-            : 'bg-white p-2 px-4 text-yellow-500 '
-        "
-      >
-        Cours
-      </button>
-      <button
-        @click="switchToEDT"
-        :class="
-          isEDPT
-            ? 'bg-yellow-500 border border-yellow-500 p-2 px-4 text-white '
-            : 'bg-white  p-2 px-4 text-yellow-500 '
-        "
-      >
-        Emplois du temps
+        Demander un certificat de scolarité
       </button>
     </div>
 
@@ -122,6 +130,7 @@
           Relevé des notes
         </button>
         <button
+          @click="commandeReleve"
           class="bg-green-500 flex gap-2 rounded text-white text-xs px-5 py-2 cursoir-pointer"
         >
           Demander un relevé
@@ -178,11 +187,14 @@ import { useShow } from '@/stores/Show'
 import { useUrl } from '@/stores/url'
 import { ref } from 'vue'
 import { useEdt } from '@/stores/Edt'
+import NProgress from 'nprogress'
+import { useMessages } from '@/stores/messages'
 
 const URL = useUrl().url
 const show = useShow()
 const edt = useEdt()
 const etudiant = useEtudiant()
+const messages = useMessages()
 const theme = useTheme()
 const isNotes = ref(true)
 const isEDPT = ref(false)
@@ -258,6 +270,57 @@ function switchToEDT() {
   isCours.value = false
   isNotes.value = false
   isEDPT.value = true
+}
+
+function commandeReleve() {
+  let currentDate = new Date()
+  let formattedDate = currentDate.toISOString().split('T')[0]
+  let formData = {
+    categorie: 'Relevé des notes',
+    status: 'En attente',
+    etudiant_id: etudiant.idCursus,
+    date: formattedDate
+  }
+  show.showSpinner = true
+
+  axios
+    .post(`${URL}/api/commande`, formData)
+    .then((response) => {
+      messages.messageSucces = 'Commande envoyé !'
+      show.showSpinner = false
+      setTimeout(() => {
+        messages.messageSucces = ''
+      }, 3000)
+    })
+    .catch((err) => {
+      console.error(err)
+      show.showSpinner = false
+    })
+}
+
+function commandeCertificat() {
+  let currentDate = new Date()
+  let formattedDate = currentDate.toISOString().split('T')[0]
+  let formData = {
+    categorie: 'Certificat de scolarité',
+    status: 'En attente',
+    etudiant_id: etudiant.idCursus,
+    date: formattedDate
+  }
+  show.showSpinner = true
+  axios
+    .post(`${URL}/api/commande`, formData)
+    .then((response) => {
+      messages.messageSucces = 'Commande envoyé !'
+      show.showSpinner = false
+      setTimeout(() => {
+        messages.messageSucces = ''
+      }, 3000)
+    })
+    .catch((err) => {
+      console.error(err)
+      show.showSpinner = false
+    })
 }
 
 function getOneEtudiant() {

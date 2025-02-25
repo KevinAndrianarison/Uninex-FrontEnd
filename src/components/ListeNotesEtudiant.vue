@@ -165,7 +165,7 @@ function close() {
               </p>
             </div>
           </div>
-          <div class="flex items-end ">
+          <div class="flex items-end hidden">
             <p class="mr-2 font-bold">Note éliminatoire :</p>
             <input
               type="text"
