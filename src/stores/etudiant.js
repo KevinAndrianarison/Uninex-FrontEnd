@@ -65,6 +65,7 @@ export const useEtudiant = defineStore('Etudiant', () => {
   const listDeliberation = ref([])
   const statusDeliberation = ref('')
   const listNote = ref([])
+  const listEDT = ref([])
   const listNoteParSemestre = ref([])
   const listIdDefinitive = ref([])
   const searchalue = ref('')
@@ -291,9 +292,9 @@ export const useEtudiant = defineStore('Etudiant', () => {
     axios
       .get(`${URL}/api/getEtudiantByCursusId/${id_cursus.value}`)
       .then((response) => {
-        console.log(response.data)
         listCurscusNote.value = response.data
         listNote.value = response.data[0].etudiant.ec
+        listEDT.value = response.data[0].semestres
         idCursus.value = response.data[0].etudiant.id
         niveau.value =
           response.data[0].etudiant.matricule_etud.split('/')[
@@ -601,6 +602,7 @@ export const useEtudiant = defineStore('Etudiant', () => {
     listCurscusNote,
     id_cursus,
     idCursus,
+    listEDT,
     getEtudiantByIdAu,
     getCursus,
     searchRH,

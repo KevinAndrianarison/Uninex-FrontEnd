@@ -8,7 +8,8 @@
             etd.etudiant.id,
             etd.etudiant.matricule_etud.split('/')[
               etd.etudiant.matricule_etud.split('/').length - 1
-            ]
+            ],
+            etd.semestres
           )
         "
         v-for="(etd, index) in etudiant.listCurscusNote"
@@ -21,73 +22,125 @@
         <p>{{ etd.au.annee_debut }}-{{ etd.au.annee_fin }}</p>
       </button>
     </div>
+    <div class="mt-4 text-xs flex gap-2">
+      <button
+        @click="switchToNote"
+        :class="
+          isNotes
+            ? 'bg-yellow-500 border border-yellow-500 p-2 px-4 text-white rounded'
+            : 'bg-white border border-yellow-500 p-2 px-4 text-yellow-500 rounded'
+        "
+      >
+        Notes
+      </button>
+      <button
+        @click="switchToEDT"
+        :class="
+          isEDPT
+            ? 'bg-yellow-500 border border-yellow-500 p-2 px-4 text-white rounded'
+            : 'bg-white border border-yellow-500 p-2 px-4 text-yellow-500 rounded'
+        "
+      >
+        Emplois du temps
+      </button>
+    </div>
+
     <div class="mt-4">
       Parcours : <b>{{ etudiant.niveau }}</b>
     </div>
-    <div
-      :class="theme.theme === 'light' ? '' : '!bg-gray-600 !border-gray-400'"
-      class="border rounded mt-2"
-    >
+    <div v-if="isNotes">
       <div
-        :class="theme.theme === 'light' ? '' : '!border-b-gray-400'"
-        class="flex list-none text-xs bg-blue-100 p-2"
+        :class="theme.theme === 'light' ? '' : '!bg-gray-600 !border-gray-400'"
+        class="border rounded mt-2"
       >
-        <li class="w-[30%] font-bold">Nom EC</li>
-        <li class="w-[30%] font-bold">Nom UE</li>
-        <li class="w-[20%] font-bold">Semestre</li>
-        <li class="w-[10%] font-bold">Status</li>
-        <li class="w-[10%] font-bold text-center">Note / 20</li>
-      </div>
-      <div class="max-h-[50vh] overflow-y-auto">
-        <div :key="etd.id" v-for="(etd, index) in etudiant.listNote">
-          <div
-            :class="theme.theme === 'light' ? '' : '!border-t-gray-400'"
-            class="flex list-none text-xs p-1 border-t px-2"
-          >
-            <li class="w-[30%]">{{ etd.nom_ec }}</li>
-            <li class="w-[30%]">{{ etd.ue.nom_ue }}</li>
-            <li class="w-[20%]">{{ etd.ue.semestre.nom_semestre }}</li>
-            <li class="w-[10%]">
-              <p v-if="etd.pivot.noteEc >= 10" class="flex items-center w-full">
-                <CheckBadgeIcon class="text-green-500 h-5 w-5 mr-1" /> Validé
-              </p>
-              <p v-if="etd.pivot.noteEc < 10" class="flex items-center w-full">
-                <font-awesome-icon class="mr-2 text-red-500" :icon="['fas', 'xmark']" /> Non validé
-              </p>
-            </li>
-            <li
-              :class="
-                etd.pivot.noteEc >= 10
-                  ? 'w-[10%] text-center'
-                  : 'w-[10%] text-center text-red-500 font-bold'
-              "
+        <div
+          :class="theme.theme === 'light' ? '' : '!border-b-gray-400'"
+          class="flex list-none text-xs bg-blue-100 p-2"
+        >
+          <li class="w-[30%] font-bold">Nom EC</li>
+          <li class="w-[30%] font-bold">Nom UE</li>
+          <li class="w-[20%] font-bold">Semestre</li>
+          <li class="w-[10%] font-bold">Status</li>
+          <li class="w-[10%] font-bold text-center">Note / 20</li>
+        </div>
+        <div class="max-h-[50vh] overflow-y-auto">
+          <div :key="etd.id" v-for="(etd, index) in etudiant.listNote">
+            <div
+              :class="theme.theme === 'light' ? '' : '!border-t-gray-400'"
+              class="flex list-none text-xs p-1 border-t px-2"
             >
-              {{ etd.pivot.noteEc }}
-            </li>
+              <li class="w-[30%]">{{ etd.nom_ec }}</li>
+              <li class="w-[30%]">{{ etd.ue.nom_ue }}</li>
+              <li class="w-[20%]">{{ etd.ue.semestre.nom_semestre }}</li>
+              <li class="w-[10%]">
+                <p v-if="etd.pivot.noteEc >= 10" class="flex items-center w-full">
+                  <CheckBadgeIcon class="text-green-500 h-5 w-5 mr-1" /> Validé
+                </p>
+                <p v-if="etd.pivot.noteEc < 10" class="flex items-center w-full">
+                  <font-awesome-icon class="mr-2 text-red-500" :icon="['fas', 'xmark']" /> Non
+                  validé
+                </p>
+              </li>
+              <li
+                :class="
+                  etd.pivot.noteEc >= 10
+                    ? 'w-[10%] text-center'
+                    : 'w-[10%] text-center text-red-500 font-bold'
+                "
+              >
+                {{ etd.pivot.noteEc }}
+              </li>
+            </div>
           </div>
         </div>
-      </div>
 
+        <div
+          v-if="etudiant.listNote.length === 0"
+          class="flex items-center justify-center flex-col py-5"
+        >
+          <div
+            class="h-20 w-36 bg-[url('../assets/pngtree-empty-box-icon-for-your-project-png-image_1533458-removebg-preview.png')] bg-cover bg-center"
+          ></div>
+          <p class="text-xs font-bold mt-2">Aucune note n'a été trouvée</p>
+        </div>
+      </div>
+      <div v-if="etudiant.listNote.length !== 0" class="flex mt-4 gap-2">
+        <button
+          @click="getOneEtudiant"
+          class="bg-blue-400 flex gap-2 rounded text-white text-xs px-5 py-2 cursoir-pointer"
+        >
+          Relevé des notes
+        </button>
+        <button
+          class="bg-green-500 flex gap-2 rounded text-white text-xs px-5 py-2 cursoir-pointer"
+        >
+          Demander un relevé
+        </button>
+      </div>
+    </div>
+    <div v-if="isEDPT">
+      <div v-for="(eplt, index) in etudiant.listEDT" :key="index" class="flex gap-4 text-xs mt-4">
+        <button
+          class="bg-gray-200 p-2 px-4 rounded flex items-center gap-2"
+          v-for="(EDT, index) in eplt.edt"
+          :key="index"
+          @click="showOneEDT(EDT.id)"
+        >
+          <font-awesome-icon :icon="['fas', 'eye']" />
+          <div class="font-bold">
+            <p>{{ eplt.nom_semestre }} ({{ index + 1 }})</p>
+          </div>
+        </button>
+      </div>
       <div
-        v-if="etudiant.listNote.length === 0"
+        v-if="etudiant.listEDT[0]?.edt.length === 0"
         class="flex items-center justify-center flex-col py-5"
       >
         <div
           class="h-20 w-36 bg-[url('../assets/pngtree-empty-box-icon-for-your-project-png-image_1533458-removebg-preview.png')] bg-cover bg-center"
         ></div>
-        <p class="text-xs font-bold mt-2">Aucune note n'a été trouvée</p>
+        <p class="text-xs font-bold mt-2">Aucun emploi du temps n'a été trouvé</p>
       </div>
-    </div>
-    <div v-if="etudiant.listNote.length !== 0" class="flex mt-4 gap-2">
-      <button
-        @click="getOneEtudiant"
-        class="bg-blue-400 flex gap-2 rounded text-white text-xs px-5 py-2 cursoir-pointer"
-      >
-        Relevé des notes
-      </button>
-      <button class="bg-green-500 flex gap-2 rounded text-white text-xs px-5 py-2 cursoir-pointer">
-        Demander un relevé
-      </button>
     </div>
   </div>
 </template>
@@ -96,10 +149,73 @@
 import { onBeforeMount } from 'vue'
 import { useEtudiant } from '@/stores/Etudiant'
 import { useTheme } from '@/stores/Theme'
-import { CheckBadgeIcon, SparklesIcon } from '@heroicons/vue/24/outline'
+import { CheckBadgeIcon } from '@heroicons/vue/24/outline'
+import axios from 'axios'
+import { useShow } from '@/stores/Show'
+import { useUrl } from '@/stores/url'
+import { ref } from 'vue'
+import { useEdt } from '@/stores/Edt'
 
+const URL = useUrl().url
+const show = useShow()
+const edt = useEdt()
 const etudiant = useEtudiant()
 const theme = useTheme()
+const isNotes = ref(true)
+const isEDPT = ref(false)
+
+function showOneEDT(id) {
+  axios
+    .get(`${URL}/api/grpedt/${id}`)
+    .then((response) => {
+      edt.oneEDT = transformData(response.data.edt)
+      edt.AUedt = `${response.data.au.annee_debut} - ${response.data.au.annee_fin}`
+      edt.parcoursEdt = response.data.parcour.abr_parcours
+      edt.SemestreEdt = response.data.semestre.nom_semestre
+      show.showEDT = true
+    })
+    .catch((err) => {
+      console.error(err)
+    })
+}
+
+function transformData(rawData) {
+  const order = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche']
+  const groupedByDay = {}
+
+  rawData.forEach((item) => {
+    const dayName = item.jour.nom
+    const horaire = item.heure.valeur
+    const seance = {
+      horaire: horaire,
+      matiere: `EC ${item.ec_id}`,
+      enseignant: item.enseignant.nomComplet_ens,
+      salle: item.salle.nom_salle
+    }
+    if (!groupedByDay[dayName]) {
+      groupedByDay[dayName] = {}
+    }
+    if (!groupedByDay[dayName][horaire]) {
+      groupedByDay[dayName][horaire] = seance
+    }
+  })
+  return Object.keys(groupedByDay)
+    .sort((a, b) => order.indexOf(a) - order.indexOf(b))
+    .map((dayName) => ({
+      jour: dayName,
+      seances: Object.values(groupedByDay[dayName])
+    }))
+}
+
+function switchToNote() {
+  isEDPT.value = false
+  isNotes.value = true
+}
+
+function switchToEDT() {
+  isNotes.value = false
+  isEDPT.value = true
+}
 
 function getOneEtudiant() {
   etudiant.isshowNotes = true
@@ -107,10 +223,11 @@ function getOneEtudiant() {
   etudiant.getEtudiantById()
 }
 
-function setListeNote(list, id, niveau) {
+function setListeNote(list, id, niveau, edt) {
   etudiant.niveau = niveau
   etudiant.idCursus = id
   etudiant.listNote = list
+  etudiant.listEDT = edt
 }
 
 onBeforeMount(() => {
