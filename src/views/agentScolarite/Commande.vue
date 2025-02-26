@@ -1,18 +1,18 @@
 <template>
   <div class="flex justify-center">
-    <div class="w-[75%] py-2">
+    <div class="w-[80%] py-2">
       <h1 class="text-lg font-bold flex items-center">
         <InboxArrowDownIcon class="h-5 w-5 mr-2" />Liste des commandes
       </h1>
 
-      <div class="hidden bg-white mt-2 px-10 py-5 flex flex-col gap-5">
+      <div class="bg-white mt-2 px-10 py-5 flex flex-col gap-5">
         <div class="flex justify-between items-end">
           <div class="relative text-xs" ref="menuRef">
             <button
               @click="showCategorieMenu = !showCategorieMenu"
               class="px-4 py-2 rounded flex gap-2 items-center text-gray-600 !bg-gray-200"
             >
-              Types <font-awesome-icon class="cursor-pointer" :icon="['fas', 'filter']" />
+              Catégorie <font-awesome-icon class="cursor-pointer" :icon="['fas', 'filter']" />
             </button>
 
             <div
@@ -34,7 +34,7 @@
                   <input
                     type="radio"
                     v-model="filterType"
-                    value="Permission"
+                    value="Relevé des notes"
                     class="cursor-pointer"
                   />Relevé des notes</span
                 >
@@ -44,7 +44,7 @@
                   <input
                     type="radio"
                     v-model="filterType"
-                    value="Congé"
+                    value="Certificat de scolarité"
                     class="cursor-pointer"
                   />Certificat de scolarité</span
                 >
@@ -54,81 +54,72 @@
         </div>
         <div>
           <div class="list-none flex text-xs w-full pb-2 border-b-2">
-            <li class="font-bold w-[20%]">Catégorie</li>
-            <li class="font-bold w-[15%]">Type</li>
+            <li class="font-bold w-[25%]">Nom</li>
+            <li class="font-bold w-[15%]">Catégorie</li>
             <li class="font-bold w-[15%]">Statut</li>
-            <li class="font-bold w-[10%] text-center">Début</li>
-            <li class="font-bold w-[10%] text-center">Fin</li>
-            <li class="font-bold w-[15%] text-center">Pièce jointe</li>
+            <li class="font-bold w-[15%] text-center">Parcours</li>
+            <li class="font-bold w-[15%] text-center">Date</li>
             <li class="font-bold w-[15%] text-center">Action(s)</li>
           </div>
           <div class="max-h-48 overflow-y-auto">
             <div
-              v-for="(cng, index) in filteredList"
-              :key="cng.id"
+              v-for="(cmnd, index) in filteredListCommand"
+              :key="cmnd.id"
               class="list-none flex text-xs w-full py-2 items-center border-b"
             >
-              <li class="w-[20%] truncate">{{ cng.category || '...' }}</li>
-              <li class="w-[15%] text-blue-500">{{ cng.type }}</li>
+              <li class="w-[25%] truncate">{{ cmnd.etudiant.nomComplet_etud }}</li>
+              <li class="w-[15%] text-blue-500">{{ cmnd.categorie }}</li>
               <li class="w-[15%] flex justify-left">
                 <p
-                  v-if="cng.status === 'En attente'"
+                  v-if="cmnd.status === 'En attente'"
                   class="text-white bg-yellow-400 px-2.5 py-1 rounded-xl"
                 >
-                  {{ cng.status }}
+                  {{ cmnd.status }}
                 </p>
                 <p
-                  v-if="cng.status === 'Validé'"
+                  v-if="cmnd.status === 'Validé'"
                   class="text-white bg-green-400 px-2.5 py-1 rounded-xl"
                 >
-                  {{ cng.status }}
-                </p>
-                <p
-                  v-if="cng.status === 'Réfusé'"
-                  class="text-white bg-red-400 px-2.5 py-1 rounded-xl"
-                >
-                  {{ cng.status }}
+                  {{ cmnd.status }}
                 </p>
               </li>
-              <li class="w-[10%] text-center">{{ cng.dateDebut }}</li>
-              <li class="w-[10%] text-center">{{ cng.dateFin }}</li>
-              <li class="w-[15%] text-center flex justify-center gap-2">
-                <p>
-                  <font-awesome-icon
-                    @click="showModale(cng)"
-                    :icon="['fas', 'eye']"
-                    class="text-blue-500 border-2 border-blue-500 p-1 rounded-full cursor-pointer"
-                  />
-                </p>
-                <p>
-                  <font-awesome-icon
-                    @click="telecharger(cng.fichier_nom)"
-                    :icon="['fas', 'download']"
-                    class="text-blue-500 border-2 border-blue-500 p-1 rounded-full cursor-pointer"
-                  />
-                </p>
+              <li class="w-[15%] text-center">
+                {{
+                  cmnd.etudiant.matricule_etud.split('/')[
+                    cmnd.etudiant.matricule_etud.split('/').length - 1
+                  ]
+                }}
               </li>
+              <li class="w-[15%] text-center">{{ cmnd.date }}</li>
               <li class="w-[15%] text-center flex justify-center gap-1">
                 <p>
                   <font-awesome-icon
+                    @click="validerCommande(cmnd.id)"
                     :icon="['fas', 'circle-check']"
-                    v-if="cng.status === 'Réfusé' || cng.status === 'En attente'"
-                    @click="valideConge(cng.id)"
-                    class="text-green-500 border-2 border-green-500 p-1 rounded-full cursor-pointer hidden"
+                    v-if="
+                      cmnd.status === 'En attente' && (show.showNavBarAS || show.showNavBarSECPAL)
+                    "
+                    class="text-green-500 border-2 border-green-500 p-1 rounded-full cursor-pointer"
                   />
                 </p>
                 <p>
                   <font-awesome-icon
                     :icon="['fas', 'xmark']"
-                    v-if="cng.status === 'Validé' || cng.status === 'En attente'"
-                    @click="refuseConge(cng.id)"
-                    class="text-red-500 border-2 border-red-500 px-1.5 p-1 rounded-full cursor-pointer hidden"
+                    v-if="cmnd.status === 'Validé' && (show.showNavBarAS || show.showNavBarSECPAL)"
+                    @click="AnnulerCommande(cmnd.id)"
+                    class="text-red-500 border-2 border-red-500 px-1.5 p-1 rounded-full cursor-pointer"
                   />
                 </p>
                 <p>
                   <font-awesome-icon
-                    v-if="cng.status === 'En attente'"
-                    @click="deleteConge(cng.id)"
+                    :icon="['fas', 'eye']"
+                    @click="getOneEtudiant(cmnd.categorie, cmnd.etudiant.id)"
+                    class="text-blue-500 border-2 border-blue-500 p-1 rounded-full cursor-pointer"
+                  />
+                </p>
+                <p>
+                  <font-awesome-icon
+                    v-if="show.showNavBarEtud"
                     :icon="['fas', 'trash']"
                     class="text-red-500 border-2 border-red-500 p-1 rounded-full cursor-pointer"
                   />
@@ -138,7 +129,7 @@
           </div>
 
           <div
-            v-if="filteredList.length === 0"
+            v-if="filteredListCommand.length === 0"
             class="flex items-center justify-center flex-col py-5"
           >
             <div
@@ -154,92 +145,64 @@
 
 <script setup>
 import { InboxArrowDownIcon } from '@heroicons/vue/24/outline'
-import { onMounted, onUnmounted, ref, watch, onBeforeMount, computed } from 'vue'
+import { onMounted, onUnmounted, ref, onBeforeMount, computed } from 'vue'
 import axios from 'axios'
 import { useUrl } from '@/stores/url'
-import { useCategory } from '@/stores/category'
 import { useMessages } from '@/stores/messages'
-import { useConge } from '@/stores/conge'
 import { useShow } from '@/stores/show'
+import { useEtudiant } from '@/stores/Etudiant'
 
 const filterType = ref('Tout')
 const showCategorieMenu = ref(false)
 const menuRef = ref(null)
+const listCommand = ref([])
 const URL = useUrl().url
-const category = useCategory()
-const conge = useConge()
 const show = useShow()
+const etudiant = useEtudiant()
+const messages = useMessages()
 
-const filteredList = computed(() => {
+function getAllCommande() {
+  axios
+    .get(`${URL}/api/commande`)
+    .then((response) => {
+      listCommand.value = response.data
+    })
+    .catch((err) => {
+      console.error(err)
+    })
+}
+
+onBeforeMount(() => {
+  getAllCommande()
+})
+
+const filteredListCommand = computed(() => {
   if (filterType.value === 'Tout') {
-    return conge.listConge
+    return listCommand.value
   }
-  return conge.listConge.filter((cng) => cng.type === filterType.value)
+  return listCommand.value.filter((cmnd) => cmnd.categorie === filterType.value)
 })
 
-
-
-function showModale(congeValue) {
-  conge.oneConge = congeValue
-  show.showConge = true
-}
-
-function telecharger(nom) {
-  const url = `${URL}/api/congepermission/files/${nom}`
-  const link = document.createElement('a')
-  link.href = url
-  link.download = nom
-  link.style.display = 'none'
-  document.body.appendChild(link)
-  link.click()
-  document.body.removeChild(link)
-}
-
-onBeforeMount(async () => {
-  await Promise.all([category.getAllCategorieConge(), conge.getAllCongepermission()])
-})
-
-function deleteConge(id) {
-  show.showSpinner = true
-  axios
-    .delete(`${URL}/api/congepermission/${id}`)
-    .then((response) => {
-      conge.getAllCongepermission()
-      show.showSpinner = false
-    })
-    .catch((err) => {
-      console.error(err)
-      show.showSpinner = false
-    })
-}
-
-function refuseConge(id) {
-  let formData = {
-    status: 'Réfusé'
+const handleClickOutside = (event) => {
+  if (menuRef.value && !menuRef.value.contains(event.target)) {
+    showCategorieMenu.value = false
   }
-  show.showSpinner = true
-  axios
-    .put(`${URL}/api/congepermission/${id}`, formData)
-    .then((response) => {
-      conge.getAllCongepermission()
-      show.showSpinner = false
-    })
-    .catch((err) => {
-      console.error(err)
-      show.showSpinner = false
-    })
 }
 
-function valideConge(id) {
+function validerCommande(id) {
   let formData = {
     status: 'Validé'
   }
   show.showSpinner = true
   axios
-    .put(`${URL}/api/congepermission/${id}`, formData)
+    .put(`${URL}/api/commande/${id}`, formData)
     .then((response) => {
-      conge.getAllCongepermission()
+      messages.messageSucces = 'Modification effectuée !'
       show.showSpinner = false
+      setTimeout(() => {
+        messages.messageSucces = ''
+      }, 3000)
+      getAllCommande()
     })
     .catch((err) => {
       console.error(err)
@@ -247,9 +210,32 @@ function valideConge(id) {
     })
 }
 
-const handleClickOutside = (event) => {
-  if (menuRef.value && !menuRef.value.contains(event.target)) {
-    showCategorieMenu.value = false
+function AnnulerCommande(id) {
+  let formData = {
+    status: 'En attente'
+  }
+  show.showSpinner = true
+  axios
+    .put(`${URL}/api/commande/${id}`, formData)
+    .then((response) => {
+      messages.messageSucces = 'Modification effectuée !'
+      show.showSpinner = false
+      setTimeout(() => {
+        messages.messageSucces = ''
+      }, 3000)
+      getAllCommande()
+    })
+    .catch((err) => {
+      console.error(err)
+      show.showSpinner = false
+    })
+}
+
+function getOneEtudiant(ctg, id) {
+  if (ctg === 'Relevé des notes') {
+    etudiant.isshowNotes = true
+    etudiant.id_etud = id
+    etudiant.getEtudiantById()
   }
 }
 
