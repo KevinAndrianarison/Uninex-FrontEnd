@@ -9,7 +9,8 @@
             etd.etudiant.matricule_etud.split('/')[
               etd.etudiant.matricule_etud.split('/').length - 1
             ],
-            etd.semestres
+            etd.semestres,
+            etd.au.id
           )
         "
         v-for="(etd, index) in etudiant.listCurscusNote"
@@ -187,7 +188,6 @@ import { useShow } from '@/stores/Show'
 import { useUrl } from '@/stores/url'
 import { ref } from 'vue'
 import { useEdt } from '@/stores/Edt'
-import NProgress from 'nprogress'
 import { useMessages } from '@/stores/messages'
 
 const URL = useUrl().url
@@ -199,6 +199,7 @@ const theme = useTheme()
 const isNotes = ref(true)
 const isEDPT = ref(false)
 const isCours = ref(false)
+
 
 function telechargerCours(nom) {
   const url = `${URL}/api/cours/file/${nom}`
@@ -279,6 +280,7 @@ function commandeReleve() {
     categorie: 'Relevé des notes',
     status: 'En attente',
     etudiant_id: etudiant.idCursus,
+    au_id: etudiant.auID,
     date: formattedDate
   }
   show.showSpinner = true
@@ -299,11 +301,14 @@ function commandeReleve() {
 }
 
 function commandeCertificat() {
+  const userString = localStorage.getItem('user')
+  const users = JSON.parse(userString)
   let currentDate = new Date()
   let formattedDate = currentDate.toISOString().split('T')[0]
   let formData = {
     categorie: 'Certificat de scolarité',
     status: 'En attente',
+    au_id: users.au_id,
     etudiant_id: etudiant.idCursus,
     date: formattedDate
   }
@@ -329,9 +334,10 @@ function getOneEtudiant() {
   etudiant.getEtudiantById()
 }
 
-function setListeNote(list, id, niveau, edt) {
+function setListeNote(list, id, niveau, edt, idANNU) {
   etudiant.niveau = niveau
   etudiant.idCursus = id
+  etudiant.auID = idANNU
   etudiant.listNote = list
   etudiant.listEDT = edt
 }

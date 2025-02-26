@@ -75,6 +75,7 @@ export const useEtudiant = defineStore('Etudiant', () => {
   const listCurscusNote = ref([])
   const noteElim = ref(5)
   const idCursus = ref(null)
+  const auID = ref(null)
   const niveau = ref('')
 
   function bigPostEtudiant() {
@@ -296,6 +297,7 @@ export const useEtudiant = defineStore('Etudiant', () => {
         listNote.value = response.data[0].etudiant.ec
         listEDT.value = response.data[0].semestres
         idCursus.value = response.data[0].etudiant.id
+        auID.value = response.data[0].au.id
         niveau.value =
           response.data[0].etudiant.matricule_etud.split('/')[
             response.data[0].etudiant.matricule_etud.split('/').length - 1
@@ -583,6 +585,7 @@ export const useEtudiant = defineStore('Etudiant', () => {
     isCarte,
     matricule_etud,
     listIdDefinitive,
+    auID,
     listNote,
     listNoteParSemestre,
     moyenneGen,
