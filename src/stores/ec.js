@@ -110,8 +110,6 @@ export const useEc = defineStore('Ec', () => {
             idBySemestre.value = ''
           }
         }
-        if (response.data.length === 0) {
-        }
       })
       .catch((err) => {
         console.error(err)
