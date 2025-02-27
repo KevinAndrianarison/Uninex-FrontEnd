@@ -200,7 +200,6 @@ const isNotes = ref(true)
 const isEDPT = ref(false)
 const isCours = ref(false)
 
-
 function telechargerCours(nom) {
   const url = `${URL}/api/cours/file/${nom}`
   const link = document.createElement('a')
@@ -301,14 +300,12 @@ function commandeReleve() {
 }
 
 function commandeCertificat() {
-  const userString = localStorage.getItem('user')
-  const users = JSON.parse(userString)
   let currentDate = new Date()
   let formattedDate = currentDate.toISOString().split('T')[0]
   let formData = {
     categorie: 'Certificat de scolarité',
     status: 'En attente',
-    au_id: users.au_id,
+    au_id: etudiant.auID,
     etudiant_id: etudiant.idCursus,
     date: formattedDate
   }

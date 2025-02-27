@@ -12,6 +12,7 @@ import { useInfossetup } from '@/stores/Infossetup'
 import { useDirecteur } from '@/stores/Directeur'
 import { useAu } from '@/stores/Au'
 import { useParcour } from '@/stores/Parcour'
+import { useNiveau } from '@/stores/Niveau'
 import Notiflix from 'notiflix'
 
 export const useEtudiant = defineStore('Etudiant', () => {
@@ -26,6 +27,8 @@ export const useEtudiant = defineStore('Etudiant', () => {
   const infosheader = useInfosheader()
   const infossetup = useInfossetup()
   const directeur = useDirecteur()
+  const niveaux = useNiveau()
+
 
   const nomComplet_etud = ref('')
   const email = ref('')
@@ -98,7 +101,8 @@ export const useEtudiant = defineStore('Etudiant', () => {
             nomComplet_etud: etud.nomComplet,
             validiter_inscri: false,
             status_etud: 1,
-            au_id: au.idAU
+            au_id: au.idAU,
+            niveau_id: niveaux.NiveauCheck.id
           }
           axios
             .post(`${URL}/api/etudiant`, formDataEtudiant, {
@@ -181,6 +185,7 @@ export const useEtudiant = defineStore('Etudiant', () => {
             validiter_inscri: false,
             status_etud: 1,
             au_id: au.idAU,
+            niveau_id: niveaux.NiveauCheck.id,
             cursu_id: cursusResponse.data.id
           }
 

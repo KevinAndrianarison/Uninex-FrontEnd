@@ -850,7 +850,8 @@ function delibAdmis() {
       semestre.semestreIdDelib,
       1,
       au.idAUDelib,
-      etd.cursu_id
+      etd.cursu_id,
+      niveau.idniveauDelib,
     )
   })
 }
@@ -864,12 +865,13 @@ function delibRed() {
       semestre.semestreIdDelibRed,
       0,
       au.idAUDelibRed,
-      etd.cursu_id
+      etd.cursu_id,
+      niveau.idniveauDelibRed,
     )
   })
 }
 
-function fetch(user_id, email, nomComplet_etud, Semestre, status, idAU, cursu_id) {
+function fetch(user_id, email, nomComplet_etud, Semestre, status, idAU, cursu_id, niveau) {
   show.showSpinner = true
   let formData = {
     password: '',
@@ -897,6 +899,7 @@ function fetch(user_id, email, nomComplet_etud, Semestre, status, idAU, cursu_id
             validiter_inscri: false,
             status_etud: status,
             cursu_id: cursu_id,
+            niveau_id : niveau,
             au_id: idAU
           }
           axios

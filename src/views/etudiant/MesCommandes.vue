@@ -165,7 +165,7 @@ function getAllCommande() {
   const userString = localStorage.getItem('user')
   const user = JSON.parse(userString)
   axios
-    .get(`${URL}/api/commandeGetByEtd/${user.cursu_id}`)
+    .get(`${URL}/api/commandeGetByEtd/${user.id}`)
     .then((response) => {
       listCommand.value = response.data
     })

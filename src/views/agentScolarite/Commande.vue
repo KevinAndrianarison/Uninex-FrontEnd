@@ -39,7 +39,7 @@
                     <li
                       class="leftLi"
                       :class="[
-                        au.oneAU  === AU.annee_debut + '-' + AU.annee_fin
+                        au.oneAU === AU.annee_debut + '-' + AU.annee_fin
                           ? 'bg-amber-100 text-amber-900'
                           : '',
                         'relative cursor-default  text-center select-none py-2 '
@@ -56,7 +56,7 @@
                       >
                       </span>
                       <span
-                        v-if="au.oneAU  === AU.annee_debut + '-' + AU.annee_fin"
+                        v-if="au.oneAU === AU.annee_debut + '-' + AU.annee_fin"
                         class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
                       >
                         <CheckIcon class="h-5 w-5" aria-hidden="true" />
@@ -159,7 +159,7 @@
               <li class="w-[15%] text-center flex justify-center gap-1">
                 <p>
                   <font-awesome-icon
-                    @click="validerCommande(cmnd.id)"
+                    @click="validerCommande(cmnd.id, cmnd.categorie, cmnd)"
                     :icon="['fas', 'circle-check']"
                     v-if="
                       cmnd.status === 'En attente' && (show.showNavBarAS || show.showNavBarSECPAL)
@@ -172,7 +172,7 @@
                     :icon="['fas', 'xmark']"
                     v-if="cmnd.status === 'Validé' && (show.showNavBarAS || show.showNavBarSECPAL)"
                     @click="AnnulerCommande(cmnd.id)"
-                    class="text-red-500 border-2 border-red-500 px-1.5 p-1 rounded-full cursor-pointer"
+                    class="text-red-500 border-2 border-red-500 px-1.5 p-1 rounded-full cursor-pointer hidden"
                   />
                 </p>
                 <p>
@@ -192,7 +192,6 @@
               </li>
             </div>
           </div>
-
           <div
             v-if="filteredListCommand.length === 0"
             class="flex items-center justify-center flex-col py-5"
@@ -269,7 +268,9 @@ const handleClickOutside = (event) => {
   }
 }
 
-function validerCommande(id) {
+function validerCommande(id, ctg, obj) {
+  const dateActuelle = new Date()
+  const dateFormatee = dateActuelle.toLocaleDateString('fr-FR')
   let formData = {
     status: 'Validé'
   }
@@ -277,16 +278,52 @@ function validerCommande(id) {
   axios
     .put(`${URL}/api/commande/${id}`, formData)
     .then((response) => {
-      messages.messageSucces = 'Modification effectuée !'
+      messages.messageSucces = 'Validation effectuée !'
       show.showSpinner = false
       setTimeout(() => {
         messages.messageSucces = ''
       }, 3000)
       getAllCommande()
+      if (ctg === 'Relevé des notes') {
+        let formData = {
+          montant: obj.au.montant_releve,
+          type: 'Recette',
+          description: `Droit de relevé des notes de Monsieur/Madame ${obj.etudiant.nomComplet_etud} en ${obj.etudiant.niveau.abr_niveau} pour l'année universitaire ${obj.au.annee_debut}-${obj.au.annee_fin}`,
+          categorie: 'Relevé de notes',
+          user_id: obj.etudiant.user_id,
+          date: dateFormatee,
+          au_id: obj.au_id,
+          niveau_id: obj.etudiant.niveau_id
+        }
+        postTransaction(formData)
+      }
+      if (ctg === 'Certificat de scolarité') {
+        let formData = {
+          montant: obj.etudiant.niveau.montant_droit,
+          type: 'Recette',
+          description: `Droit de certificat de scolarité de Monsieur/Madame ${obj.etudiant.nomComplet_etud} en ${obj.etudiant.niveau.abr_niveau} pour l'année universitaire ${obj.au.annee_debut}-${obj.au.annee_fin}`,
+          categorie: 'Certificat de scolarité',
+          user_id: obj.etudiant.user_id,
+          date: dateFormatee,
+          au_id: obj.au_id,
+          niveau_id: obj.etudiant.niveau_id
+        }
+        postTransaction(formData)
+      }
     })
     .catch((err) => {
       console.error(err)
       show.showSpinner = false
+    })
+}
+
+function postTransaction(formData) {
+  axios
+    .post(`${URL}/api/transaction`, formData)
+    .then((response) => {
+    })
+    .catch((err) => {
+      console.error(err)
     })
 }
 
@@ -298,7 +335,7 @@ function AnnulerCommande(id) {
   axios
     .put(`${URL}/api/commande/${id}`, formData)
     .then((response) => {
-      messages.messageSucces = 'Modification effectuée !'
+      messages.messageSucces = 'Annulation effectuée !'
       show.showSpinner = false
       setTimeout(() => {
         messages.messageSucces = ''
