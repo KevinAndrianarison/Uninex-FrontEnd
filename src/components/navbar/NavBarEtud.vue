@@ -14,13 +14,22 @@
   <RouterLink to="/etudiant/Cursus">
     <li><FolderOpenIcon class="h-5 w-5 mr-2" /> Cursus</li>
   </RouterLink>
+  <RouterLink to="/etudiant/mescommandes">
+    <li><InboxArrowDownIcon class="h-5 w-5 mr-2" /> Mes commandes</li>
+  </RouterLink>
   <RouterLink to="/etudiant/contacter">
     <li><EnvelopeIcon class="h-5 w-5 mr-2" /> Contacter</li>
   </RouterLink>
 </template>
 
 <script setup>
-import { PencilSquareIcon, DocumentDuplicateIcon, FolderOpenIcon, EnvelopeIcon } from '@heroicons/vue/24/outline'
+import {
+  PencilSquareIcon,
+  DocumentDuplicateIcon,
+  FolderOpenIcon,
+  EnvelopeIcon,
+  InboxArrowDownIcon
+} from '@heroicons/vue/24/outline'
 </script>
 
 <style src="../../styles/Dashboard.css" scoped></style>

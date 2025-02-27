@@ -33,6 +33,8 @@ import EtatFinancierDir from '@/views/directeur/EtatFinancierDir.vue'
 import RH from '@/views/directeur/RH.vue'
 import CongePermission from '@/views/directeur/CongePermission.vue'
 import DemandeConge from '@/views/DemandeConge.vue'
+import MesCommandes from '../views/etudiant/MesCommandes.vue'
+
 
 
 
@@ -69,6 +71,11 @@ const router = createRouter({
       path: '/etudiant/Cursus',
       name: 'notes',
       component: Notes
+    },
+    {
+      path: '/etudiant/mescommandes',
+      name: 'mescommandes',
+      component: MesCommandes
     },
     {
       path: '/etudiant/NotesEtudiant',
