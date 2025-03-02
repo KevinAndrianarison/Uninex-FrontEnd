@@ -332,22 +332,46 @@ const filterByDate = (date) => {
   const [day, month, year] = date.split('/').map(Number)
   const transDate = new Date(year, month - 1, day)
   const today = new Date()
-
   switch (selectedDateFilter.value) {
     case 'Ce mois':
       return (
-        transDate.getMonth() === today.getMonth() && transDate.getFullYear() === today.getFullYear()
+        (transDate.getMonth() === today.getMonth() &&
+          transDate.getFullYear() === today.getFullYear()) ||
+        (today.getDate() <= 7 &&
+          transDate.getMonth() === (today.getMonth() - 1) % 12 &&
+          transDate.getFullYear() === today.getFullYear())
       )
     case 'Il y a 1 mois':
-      return transDate < new Date(today.setMonth(today.getMonth() - 1))
+      return transDate < new Date(today.getFullYear(), today.getMonth() - 1, today.getDate())
     case 'Il y a 3 mois':
-      return transDate < new Date(today.setMonth(today.getMonth() - 3))
+      return transDate < new Date(today.getFullYear(), today.getMonth() - 3, today.getDate())
     case 'Plus de 6 mois':
-      return transDate < new Date(today.setMonth(today.getMonth() - 6))
+      return transDate < new Date(today.getFullYear(), today.getMonth() - 6, today.getDate())
     default:
       return true
   }
 }
+
+// const filterByDate = (date) => {
+//   const [day, month, year] = date.split('/').map(Number)
+//   const transDate = new Date(year, month - 1, day)
+//   const today = new Date()
+
+//   switch (selectedDateFilter.value) {
+//     case 'Ce mois':
+//       return (
+//         transDate.getMonth() === today.getMonth() && transDate.getFullYear() === today.getFullYear()
+//       )
+//     case 'Il y a 1 mois':
+//       return transDate < new Date(today.setMonth(today.getMonth() - 1))
+//     case 'Il y a 3 mois':
+//       return transDate < new Date(today.setMonth(today.getMonth() - 3))
+//     case 'Plus de 6 mois':
+//       return transDate < new Date(today.setMonth(today.getMonth() - 6))
+//     default:
+//       return true
+//   }
+// }
 
 function generateFac(trans) {
   transaction.oneFacture = trans

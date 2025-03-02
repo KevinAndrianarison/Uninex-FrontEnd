@@ -18,7 +18,7 @@ export const useTransaction = defineStore('Transaction', () => {
   function getByIdAU() {
     axios
       .get(`${URL}/api/transactionGetByAU/${au.idAU}`)
-      .then((response) => {        
+      .then((response) => {
         listTrans.value = response.data
         listDepense.value = regrouperParCategorie(response.data).listDepense
         listRecette.value = regrouperParCategorie(response.data).listRecette
