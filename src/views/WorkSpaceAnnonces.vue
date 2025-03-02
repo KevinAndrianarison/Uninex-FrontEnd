@@ -49,9 +49,19 @@
         type="text"
         v-model="recherche"
         placeholder="Rechercher une annonce..."
-        class="!w-60 py-2 pl-2 focus:outline-none !bg-white"
+        :class="
+          theme.theme === 'light'
+            ? '!w-60 py-2 pl-2 focus:outline-none rounded-l !bg-white'
+            : '!w-60 py-2 pl-2 focus:outline-none rounded-l !bg-gray-100 '
+        "
       />
-      <p class="bg-blue-500 px-4 flex items-center rounded-r bg-white justify-center">
+      <p
+        :class="
+          theme.theme === 'light'
+            ? 'px-4 flex items-center rounded-r bg-white justify-center'
+            : 'px-4 flex items-center rounded-r justify-center !bg-gray-100 '
+        "
+      >
         <font-awesome-icon
           class="cursor-pointer text-blue-500"
           :icon="['fas', 'magnifying-glass']"
@@ -81,7 +91,7 @@
     <div>
       <ul class="flex justify-center flex-wrap gap-10">
         <li class="w-[350px]" :key="ann.id" v-for="(ann, index) in annoncesAffichees">
-          <div class="course-card">
+          <div :class="theme.theme === 'light' ? 'course-card' : 'course-card !bg-gray-200 '">
             <figure class="card-banner img-holder h-[200px]">
               <img
                 :src="`${URL}/storage/annonce/${ann.fichier_nom}`"
@@ -119,7 +129,7 @@
               <div class="wrapper" v-else>
                 <p
                   v-html="highlightHashtags(ann.description)"
-                  class="card-text text-sm whitespace-pre-wrap truncate"
+                  class="card-text text-sm whitespace-pre-wrap truncate text-black"
                 ></p>
               </div>
               <ul class="card-meta-list mt-4">
@@ -272,7 +282,7 @@
                   'background-size': 'cover',
                   'background-position': 'center'
                 }"
-                class=" w-10 h-10 rounded-full mr-1"
+                class="w-10 h-10 rounded-full mr-1"
               ></div>
               <div
                 :class="theme.theme === 'light' ? '' : 'bg-gray-300 border-none text-black'"
@@ -339,12 +349,18 @@
     v-if="annoncesAffichees.length !== 0"
     class="flex text-xs items-center justify-center gap-4 mt-5"
   >
-    <p class="text-xs font-bold">Affichage :</p>
+    <p :class="theme.theme === 'light' ? 'text-xs font-bold' : 'text-xs text-white'">Affichage :</p>
     <Select @update:modelValue="handlePage">
-      <SelectTrigger class="w-40 text-center select-trigger !bg-white">
+      <SelectTrigger
+        :class="
+          theme.theme === 'light'
+            ? ' w-40 text-center select-trigger !bg-white'
+            : ' w-40 text-center select-trigger !bg-gray-100'
+        "
+      >
         <SelectValue class="focus:outline-none" placeholder="10" />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent :class="theme.theme === 'light' ? '' : '!bg-gray-100 '">
         <SelectGroup>
           <SelectItem value="10"> 10 par page</SelectItem>
           <SelectItem value="20"> 20 par page</SelectItem>

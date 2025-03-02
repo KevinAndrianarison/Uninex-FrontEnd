@@ -12,7 +12,7 @@
             type="number"
             v-model="au.montant_certificatScol"
             :disabled="!isEditing"
-            class="w-60 rounded text-center py-2 text-xs focus:outline-none focus:ring cursor-pointer transition-all duration-300"
+            class="w-60 rounded text-center text-black py-2 text-xs focus:outline-none focus:ring cursor-pointer transition-all duration-300"
             :class="isEditing ? 'bg-white' : 'bg-gray-200 cursor-not-allowed'"
           />
           <button

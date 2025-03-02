@@ -20,6 +20,7 @@
                 v-if="isEditable === mention.id"
                 type="text"
                 v-model="mention.nomMention"
+                :class="theme.theme === 'light' ? '' : '!bg-gray-300 text-black'"
                 class="focus:outline-none ring-1 rounded px-2 py-1 focus:ring"
                 @blur="setMentionFunct(mention)"
               />
@@ -31,6 +32,7 @@
               v-if="isEditable === mention.id"
               v-model="mention.descriptionMention"
               @blur="setMentionFunct(mention)"
+              :class="theme.theme === 'light' ? '' : '!bg-gray-300 text-black'"
               class="focus:outline-none w-full mt-2 ring-1 rounded px-2 h-20 py-1 focus:ring"
             ></textarea>
             <p class="text-xs mt-2 whitespace-pre-wrap truncate" v-else>
@@ -53,7 +55,7 @@
             <div class="relative flex items-center">
               <font-awesome-icon
                 :icon="['fas', 'arrow-up-from-bracket']"
-                class="text-white bg-yellow-500  p-1.5 rounded-full cursor-pointer"
+                class="text-white bg-yellow-500 p-1.5 rounded-full cursor-pointer"
               />
               <input
                 class="absolute inset-0 opacity-0 cursor-pointer"
@@ -96,6 +98,7 @@
           <input
             type="text"
             placeholder="Mention"
+            :class="theme.theme === 'light' ? '' : '!bg-gray-300  text-black'"
             v-model="acceuil.nomMention"
             class="rounded ring-1 focus:outline-none focus:ring py-2 px-2 text-xs w-full"
           />
@@ -103,6 +106,7 @@
             <textarea
               class="rounded ring-1 h-20 focus:outline-none focus:ring py-2 px-2 text-xs w-full"
               placeholder="Description"
+              :class="theme.theme === 'light' ? '' : '!bg-gray-300 text-black'"
               v-model="acceuil.descrMention"
             ></textarea>
             <div v-if="acceuil.logoMentionName" class="flex gap-1 items-center text-xs">
@@ -150,11 +154,13 @@ import { useUrl } from '@/stores/url'
 import axios from 'axios'
 import { useShow } from '@/stores/Show'
 import { useMessages } from '@/stores/messages'
+import { useTheme } from '@/stores/Theme'
 
 const acceuil = useAcceuil()
 const show = useShow()
 const messages = useMessages()
 const URL = useUrl().url
+const theme = useTheme()
 
 const createMention = ref(false)
 const isEditable = ref(null)
@@ -163,7 +169,7 @@ const logoMention = ref(null)
 const logoMentionName = ref('')
 
 onBeforeMount(() => {
-    acceuil.getAllMention()
+  acceuil.getAllMention()
 })
 
 function setMention(id) {

@@ -103,7 +103,7 @@
       <Switch
         v-model="isDarkMode"
         :class="isDarkMode ? 'bg-gray-800' : 'bg-gray-400'"
-        class="relative inline-flex h-[24px] w-[48px] shrink-0 cursor-pointer ml-4 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75"
+        class="hidden relative inline-flex h-[24px] w-[48px] shrink-0 cursor-pointer ml-4 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75"
       >
         <span class="sr-only">Use setting</span>
         <span

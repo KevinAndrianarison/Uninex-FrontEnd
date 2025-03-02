@@ -9,12 +9,14 @@ import { onBeforeMount } from 'vue'
 import { useUrl } from '@/stores/url'
 import { useShow } from '@/stores/Show'
 import { useUser } from '@/stores/User'
+import { useTheme } from '@/stores/Theme'
 
 const enseignant = useEnseignant()
 const agentscolarite = useAgentscolarite()
 const URL = useUrl().url
 const show = useShow()
 const user = useUser()
+const theme = useTheme()
 
 onBeforeMount(() => {
   enseignant.getAllENS()
@@ -54,11 +56,14 @@ function showdeleteAS(id) {
 </script>
 
 <template>
-  <h1 class="titre font-bold max-w-5xl flex items-center gap-2 text-xl mx-auto px-6 py-4">
+  <h1
+    :class="theme.theme === 'light' ? '' : 'text-white'"
+    class="titre font-bold max-w-5xl flex items-center gap-2 text-xl mx-auto px-6 py-4"
+  >
     <UserGroupIcon class="h-7 w-7" />
     Gestion RH
   </h1>
-  <div class="overflow-y-auto h-[80vh] py-2">
+  <div :class="theme.theme === 'light' ? '' : 'text-white'" class="overflow-y-auto h-[80vh] py-2">
     <div class="px-6 max-w-5xl mx-auto text-xs">
       <div class="flex flex-row-reverse justify-between">
         <div class="flex mb-4">
@@ -66,9 +71,13 @@ function showdeleteAS(id) {
             v-model="searchQueryAS"
             type="text"
             placeholder="Rechercher..."
-            class="p-2 w-60 focus:outline-none focus:ring-2 focus:mr-0.5 rounded-l"
+            :class="theme.theme === 'light' ? '' : ' bg-gray-300'"
+            class="p-2 w-60 focus:outline-none text-black focus:ring-2 focus:mr-0.5 rounded-l"
           />
-          <p class="bg-blue-500 px-4 flex items-center rounded-r bg-white justify-center">
+          <p
+            :class="theme.theme === 'light' ? '' : ' !bg-gray-300'"
+            class="px-4 flex items-center rounded-r bg-white justify-center"
+          >
             <font-awesome-icon
               class="cursor-pointer text-blue-500"
               :icon="['fas', 'magnifying-glass']"
@@ -82,7 +91,11 @@ function showdeleteAS(id) {
           </p>
         </div>
       </div>
-      <div v-if="filteredAgents.length !== 0" class="border">
+      <div
+        v-if="filteredAgents.length !== 0"
+        :class="theme.theme === 'light' ? '' : 'border-0'"
+        class="border"
+      >
         <div class="flex bg-blue-200/20 p-3 border-gray-300">
           <span class="w-8"></span>
           <span class="w-1/4 font-bold px-2"> Nom</span>
@@ -93,7 +106,8 @@ function showdeleteAS(id) {
         <div
           v-for="agent in filteredAgents"
           :key="agent.id"
-          class="flex items-center p-2 bg-white transition cursor-pointer"
+          :class="theme.theme === 'light' ? 'bg-white' : ''"
+          class="flex items-center p-2 transition cursor-pointer"
         >
           <div
             :style="{
@@ -127,9 +141,13 @@ function showdeleteAS(id) {
             v-model="searchQueryENS"
             type="text"
             placeholder="Rechercher..."
+            :class="theme.theme === 'light' ? '' : ' bg-gray-300'"
             class="p-2 w-60 focus:outline-none focus:ring-2 focus:mr-0.5 rounded-l"
           />
-          <p class="bg-blue-500 px-4 flex items-center rounded-r bg-white justify-center">
+          <p
+            :class="theme.theme === 'light' ? '' : ' !bg-gray-300'"
+            class="px-4 flex items-center rounded-r bg-white justify-center"
+          >
             <font-awesome-icon
               class="cursor-pointer text-blue-500"
               :icon="['fas', 'magnifying-glass']"
@@ -143,7 +161,11 @@ function showdeleteAS(id) {
           </p>
         </div>
       </div>
-      <div v-if="filteredEnseignants.length !== 0" class="border">
+      <div
+        v-if="filteredEnseignants.length !== 0"
+        :class="theme.theme === 'light' ? '' : ' border-0'"
+        class="border"
+      >
         <div class="flex bg-blue-200/20 p-3 border-gray-300">
           <span class="w-8"></span>
           <span class="w-1/4 flex items-center font-bold px-2"> Nom</span>
@@ -154,7 +176,8 @@ function showdeleteAS(id) {
         <div
           v-for="ens in filteredEnseignants"
           :key="ens.id"
-          class="flex items-center p-2 bg-white transition cursor-pointer"
+          :class="theme.theme === 'light' ? 'bg-white' : ''"
+          class="flex items-center p-2 transition cursor-pointer"
         >
           <div
             :style="{
@@ -178,7 +201,7 @@ function showdeleteAS(id) {
               Enseignant
             </span>
           </div>
-          <span class="w-1/4 flex justify-end ">
+          <span class="w-1/4 flex justify-end">
             <button @click="() => showdelete(ens.user.id)" class="text-red-500">
               <FontAwesomeIcon :icon="faTrash" class="bg-red-200 p-2 rounded-full" />
             </button>

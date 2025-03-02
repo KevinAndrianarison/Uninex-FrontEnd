@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center">
-    <div class="w-[75%] py-2 px-5">
+    <div :class="theme.theme === 'light' ? '' : 'text-white'" class="w-[75%] py-2 px-5">
       <div class="flex items-center justify-end gap-2">
         <p class="font-bold">Année universitaire :</p>
         <Listbox v-model="au.oneAU">
@@ -101,7 +101,7 @@
           Modifier les frais de scolarité
           <p class="text-xs">({{ au.oneAU }})</p>
         </h1>
-        <div v-if="niveau.ListNiveau.length !== 0" class="mt-5 list-none flex w-[75%] text-sm">
+        <div v-if="niveau.ListNiveau.length !== 0" class="mt-5 list-none flex w-[75%] text-sm text-black">
           <li class="w-[30%] border-t border-l px-3 py-2 font-bold bg-gray-200">Niveau</li>
           <li class="w-[30%] border-l border-t px-3 py-2 font-bold bg-gray-200">Abréviation</li>
           <li class="w-[30%] border-l border-r border-t text-center py-2 font-bold bg-gray-200">
@@ -126,7 +126,7 @@
             />
             <li
               @click="deleteNiveau(niv.nom_niveau, niv.id)"
-              class="flex items-center justify-center w-[10%] border-t border-b border-r bg-white  rounded-r-lg"
+              class="flex items-center justify-center w-[10%] border-t border-b border-r bg-white rounded-r-lg"
             >
               <font-awesome-icon
                 class="text-gray-500 cursor-pointer text-red-500"

@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center">
-    <div class="w-[75%] py-2 px-5">
+    <div :class="theme.theme === 'light' ? '' : 'text-white '" class="w-[75%] py-2 px-5">
       <div class="flex items-center justify-end gap-2">
         <p class="font-bold">Année universitaire :</p>
         <Listbox v-model="au.oneAU">
@@ -125,7 +125,7 @@
           </p>
           <button
             @click="showDetails"
-            class="text-xs border w-20 border-yellow-500 text-white bg-yellow-500 py-1 flex justify-center items-center gap-2  rounded mt-2"
+            class="text-xs border w-20 border-yellow-500 text-white bg-yellow-500 py-1 flex justify-center items-center gap-2 rounded mt-2"
           >
             <font-awesome-icon :icon="['fas', 'eye']" />
             Détails
