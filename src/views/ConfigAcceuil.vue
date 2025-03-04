@@ -8,12 +8,12 @@
         class="border flex flex-col justify-between gap-2 rounded w-80 p-4"
       >
         <div>
-          <div class="flex items-center gap-2">
+          <div class="flex flex-col items-center gap-2">
             <div
               :style="{
                 'background-image': 'url(' + `${URL}/storage/mentions/${mention.photo_name} ` + ')'
               }"
-              class="w-12 h-12 logo"
+              class="w-12 h-12 logo rounded-full ring"
             ></div>
             <div>
               <input
@@ -24,7 +24,7 @@
                 class="focus:outline-none ring-1 rounded px-2 py-1 focus:ring"
                 @blur="setMentionFunct(mention)"
               />
-              <p class="font-bold" v-else>{{ mention.nomMention }}</p>
+              <p class="font-bold text-center" v-else>{{ mention.nomMention }}</p>
             </div>
           </div>
           <div>

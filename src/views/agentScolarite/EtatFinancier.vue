@@ -287,7 +287,7 @@ const niveau = useNiveau()
 const transaction = useTransaction()
 const URL = useUrl().url
 
-const dateFiltreOptions = ['Ce mois', 'Il y a 1 mois', 'Il y a 3 mois', 'Plus de 6 mois']
+const dateFiltreOptions = ['Récemment', 'Il y a 1 mois', 'Il y a 3 mois', 'Plus de 6 mois']
 const CategorieOptions = [
   'Tout',
   'Frais de scolarité',
@@ -298,7 +298,7 @@ const CategorieOptions = [
 const showCategorieMenu = ref(false)
 const menuRef = ref(null)
 const filtreCategorie = ref('Tout')
-const selectedDateFilter = ref('Ce mois')
+const selectedDateFilter = ref('Récemment')
 
 watch(
   () => au.oneAU,
@@ -333,7 +333,7 @@ const filterByDate = (date) => {
   const transDate = new Date(year, month - 1, day)
   const today = new Date()
   switch (selectedDateFilter.value) {
-    case 'Ce mois':
+    case 'Récemment':
       return (
         (transDate.getMonth() === today.getMonth() &&
           transDate.getFullYear() === today.getFullYear()) ||
@@ -358,7 +358,7 @@ const filterByDate = (date) => {
 //   const today = new Date()
 
 //   switch (selectedDateFilter.value) {
-//     case 'Ce mois':
+//     case 'Récemment':
 //       return (
 //         transDate.getMonth() === today.getMonth() && transDate.getFullYear() === today.getFullYear()
 //       )

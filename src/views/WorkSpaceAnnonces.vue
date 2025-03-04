@@ -422,7 +422,7 @@ const pageActuelle = ref(1)
 const annoncesParPage = ref(10)
 const showOptions = ref(null)
 const dateFiltreOptions = [
-  'Ce mois',
+  'Tout',
   'Il y a 1 mois',
   'Il y a 3 mois',
   'Il y a 6 mois',

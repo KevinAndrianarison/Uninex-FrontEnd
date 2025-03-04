@@ -82,17 +82,17 @@
                   <div class="img-holder one">
                     <img
                       :src="`${URL}/storage/acceuil/${acceuil.photoAcceuil.photoNameOne}`"
-                      width="270"
+                      width="330"
                       height="300"
-                      class="img-cover !w-[270px] !h-[300px]"
+                      class="img-cover !w-[330px] !h-[300px]"
                     />
                   </div>
                   <div class="img-holder two">
                     <img
                       :src="`${URL}/storage/acceuil/${acceuil.photoAcceuil.photoNameTwo}`"
-                      width="240"
-                      height="370"
-                      class="img-cover !w-[240px] !h-[370px]"
+                      width="330"
+                      height="300"
+                      class="img-cover !w-[330px] !h-[300px]"
                     />
                   </div>
                 </figure>
@@ -160,13 +160,13 @@
                 class="category-card w-80"
                 data-animate="fade-in"
               >
-                <div class="card-icon !bg-gray-200">
+                <div class="card-icon !bg-gray-400/20">
                   <img
                     :src="`${URL}/storage/mentions/${mention.photo_name}`"
                     width="40"
                     height="40"
                     loading="lazy"
-                    class="img !w-[40px] !h-[40px]"
+                    class="img !w-[40px] !h-[40px] rounded-full"
                   />
                 </div>
                 <p class="font-bold text-lg">{{ mention.nomMention }}</p>
@@ -578,7 +578,7 @@ import { useEnseignant } from '@/stores/Enseignant'
 import { useEtudiant } from '@/stores/Etudiant'
 
 const dateFiltreOptions = [
-  'Ce mois',
+  'Tout',
   'Il y a 1 mois',
   'Il y a 3 mois',
   'Il y a 6 mois',
