@@ -20,7 +20,6 @@ export const useEtablissement = defineStore('Etablissement', () => {
   const messages = useMessages()
   const password = usePassword()
   const admin = useAdmin()
-
   const nom_etab = ref('')
   const slogan_etab = ref('')
   const descri_etab = ref('')
@@ -140,7 +139,6 @@ export const useEtablissement = defineStore('Etablissement', () => {
     }
   }
 
-
   function modifierEtabissement() {
     show.showSpinner = true
     let formData = new FormData()
@@ -151,6 +149,8 @@ export const useEtablissement = defineStore('Etablissement', () => {
     formData.append('abr_etab', etablissement.abr_etab || '')
     formData.append('email_etab', etablissement.email_etab || '')
     formData.append('codePostal_etab', etablissement.codePostal_etab || '')
+    formData.append('numero', etablissement.numero || '')
+    formData.append('historique', etablissement.historique || '')
     formData.append('ville_etab', etablissement.ville_etab || '')
     formData.append('mdpAppGmail_etab', etablissement.mdpAppGmail_etab || '')
     formData.append('pays_etab', etablissement.pays_etab || '')
@@ -223,12 +223,13 @@ export const useEtablissement = defineStore('Etablissement', () => {
         if (!auth_token) {
           show.showAdmin = false
           show.showLogin = true
-        }        
+        }
         etablissement.nom_etab = response.data.nom_etab
         etablissement.slogan_etab = response.data.slogan_etab
         mdpAppGmail_etab.value = response.data.mdpAppGmail_etab
         etablissement.descri_etab = response.data.descri_etab
         etablissement.numero = response.data.numero
+        etablissement.historique = response.data.historique
         etablissement.dateCreation_etab = response.data.dateCreation_etab
         etablissement.abr_etab = response.data.abr_etab
         etablissement.email_etab = response.data.email_etab

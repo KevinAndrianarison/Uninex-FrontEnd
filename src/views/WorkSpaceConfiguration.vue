@@ -68,6 +68,17 @@
               />
             </div>
           </div>
+          <div  class="sm:col-span-3 mt-2 mr-4">
+            <label class="block text-sm font-medium leading-6">Numéros</label>
+            <div class="mt-2">
+              <input
+                type="number"
+                :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+                v-model="etablissement.etablissement.numero"
+                class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
+              />
+            </div>
+          </div>
 
           <div class="sm:col-span-3 mt-2 mr-4">
             <label class="block text-sm font-medium leading-6">Pays</label>
@@ -181,8 +192,25 @@
             >
           </div>
         </div>
+        <div v-if="show.showNavBarAdmin" class="flex flex-col gap-2 px-4 mt-2">
+          <p class="create mt-2">Historiques de l'établissement :</p>
+          <Editor
+            apiKey="grqm2ym9jtrry4atbeq5xsrd1rf2fe5jpsu3qwpvl7w9s7va"
+            class="text-xs"
+            v-model="etablissement.etablissement.historique"
+            @blur="etablissement.modifierEtabissement()"
+            :init="{
+              height: 400,
+              branding: false,
+              elementpath: false,
+              menubar: false,
+              toolbar: 'undo redo bold italic  forecolor ',
+              content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:12px }'
+            }"
+          />
+        </div>
 
-        <h1 class="create pl-5 mt-2">Modifier vos informations personnelles :</h1>
+        <h1 class="create pl-5 mt-4">Modifier vos informations personnelles :</h1>
         <div class="class flex gap-5 formInputs border-gray-900/10 p-5 pl-5">
           <div
             :style="{
@@ -324,7 +352,7 @@
           </div>
         </div>
 
-        <h1 class="create pl-5 mt-2">Changer de mot de passe :</h1>
+        <h1 class="create pl-5 mt-4">Changer de mot de passe :</h1>
         <div class="class formInput border-gray-900/10 pb-5 pl-5">
           <div class="sm:col-span-3 mt-2 mr-4">
             <label class="block text-sm font-medium leading-6">Ancien mot de passe</label>
@@ -406,19 +434,6 @@
         </div>
         <div v-if="show.showNavBarAdmin" class="p-2 px-4">
           <PhotoEtab />
-        </div>
-        <div class="flex flex-col gap-2 px-4 text-xs">
-          <p class="mx-2 font-bold">Historiques de l'établissement :</p>
-          <Editor
-            apiKey="grqm2ym9jtrry4atbeq5xsrd1rf2fe5jpsu3qwpvl7w9s7va"
-            :init="{
-              height: 400,
-              branding: false,
-              elementpath: false,
-              menubar: false,
-              content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:12px }'
-            }"
-          />
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="font-bold">Modifier les informations sur la page d'accueil :</h1>
+    <h1 class="font-bold mt-2">Modifier les informations sur la page d'accueil :</h1>
     <div class="mt-4 flex gap-4 flex-wrap">
       <div
         v-for="mention in acceuil.listMention"
