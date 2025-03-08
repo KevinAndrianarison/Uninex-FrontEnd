@@ -510,7 +510,7 @@
                 <span class="span"
                   ><font-awesome-icon class="cursor-pointer" :icon="['fas', 'phone']"
                 /></span>
-                <a href="tel:+011234567890">+01 123 4567 890</a>
+                <a href="tel:+011234567890">{{ etablissement.etablissement.numero }}</a>
               </div>
               <div class="wrapper">
                 <span class="span"

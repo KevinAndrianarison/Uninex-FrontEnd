@@ -24,6 +24,7 @@ export const useEtablissement = defineStore('Etablissement', () => {
   const nom_etab = ref('')
   const slogan_etab = ref('')
   const descri_etab = ref('')
+  const numero = ref(null)
   const abr_etab = ref('')
   const logo_etab = ref(null)
   const logo_etabName = ref('')
@@ -44,6 +45,7 @@ export const useEtablissement = defineStore('Etablissement', () => {
         nom_etab: nom_etab.value,
         slogan_etab: slogan_etab.value,
         descri_etab: descri_etab.value,
+        numero: numero.value,
         abr_etab: abr_etab.value,
         email_etab: email_etab.value,
         codePostal_etab: codePostal_etab.value,
@@ -112,6 +114,7 @@ export const useEtablissement = defineStore('Etablissement', () => {
       nom_etab.value = ''
       slogan_etab.value = ''
       descri_etab.value = ''
+      numero.value = ''
       abr_etab.value = ''
       pays_etab.value = ''
       ville_etab.value = ''
@@ -220,12 +223,12 @@ export const useEtablissement = defineStore('Etablissement', () => {
         if (!auth_token) {
           show.showAdmin = false
           show.showLogin = true
-        }
-
+        }        
         etablissement.nom_etab = response.data.nom_etab
         etablissement.slogan_etab = response.data.slogan_etab
         mdpAppGmail_etab.value = response.data.mdpAppGmail_etab
         etablissement.descri_etab = response.data.descri_etab
+        etablissement.numero = response.data.numero
         etablissement.dateCreation_etab = response.data.dateCreation_etab
         etablissement.abr_etab = response.data.abr_etab
         etablissement.email_etab = response.data.email_etab
@@ -247,6 +250,7 @@ export const useEtablissement = defineStore('Etablissement', () => {
     nom_etab,
     slogan_etab,
     descri_etab,
+    numero,
     abr_etab,
     logo_etab,
     dateCreation_etab,

@@ -68,6 +68,17 @@
             </div>
 
             <div class="sm:col-span-3">
+              <label class="block text-sm font-medium leading-6 text-gray-900">Télephone</label>
+              <div class="mt-2">
+                <input
+                  type="number"
+                  v-model="etablissement.numero"
+                  class="pl-3 pr-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
+                />
+              </div>
+            </div>
+
+            <div class="sm:col-span-3">
               <label class="block text-sm font-medium leading-6 text-gray-900">Pays</label>
               <div class="mt-2">
                 <input

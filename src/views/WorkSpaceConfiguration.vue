@@ -407,6 +407,19 @@
         <div v-if="show.showNavBarAdmin" class="p-2 px-4">
           <PhotoEtab />
         </div>
+        <div class="flex flex-col gap-2 px-4 text-xs">
+          <p class="mx-2 font-bold">Historiques de l'établissement :</p>
+          <Editor
+            apiKey="grqm2ym9jtrry4atbeq5xsrd1rf2fe5jpsu3qwpvl7w9s7va"
+            :init="{
+              height: 400,
+              branding: false,
+              elementpath: false,
+              menubar: false,
+              content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:12px }'
+            }"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -414,6 +427,7 @@
 
 <script setup>
 import { WrenchScrewdriverIcon, EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/outline'
+import Editor from '@tinymce/tinymce-vue'
 import { useEtablissement } from '@/stores/Etablissement'
 import { useUser } from '@/stores/User'
 import { useRegex } from '@/stores/Regex'
