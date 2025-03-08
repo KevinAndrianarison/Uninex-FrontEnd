@@ -180,7 +180,7 @@
                   class="text-2xl font-bold border-t-0 border-x-0 border-4 py-4 border-b-gray-100/20"
                 >
                   {{ etablissement.etablissement.ville_etab }}
-                  <b class="text-sm font-light">(Historiques)</b>
+                  <b class="text-lg font-light">(Historiques)</b>
                 </p>
               </div>
               <ul class="mt-10 flex flex-col gap-4 hidden">
