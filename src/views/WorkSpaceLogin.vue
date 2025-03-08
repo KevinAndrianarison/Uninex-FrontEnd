@@ -151,6 +151,75 @@
           </div>
         </div>
 
+        <section v-if="!isAllAnnonce" class="section about" id="apropos" aria-label="about">
+          <div class="container">
+            <figure class="about-banner mx-auto">
+              <div class="img-holder">
+                <img
+                  :src="`${URL}/storage/acceuil/${acceuil.photoAcceuil.photoNameThree}`"
+                  width="520"
+                  height="370"
+                  loading="lazy"
+                  class="img-cover !w-[520px] !h-[370px]"
+                />
+              </div>
+              <img
+                src="./assets/images/about-shape-3.png"
+                width="722"
+                height="528"
+                loading="lazy"
+                class="shape about-shape-3"
+              />
+            </figure>
+            <div class="about-content w-[600px]">
+              <div class="flex items-center gap-4 logoESP">
+                <p class="text-2xl font-bold border-t-0 border-x-0 border-4 border-b-blue-500 py-4">
+                  {{ etablissement.etablissement.abr_etab }}
+                </p>
+                <p
+                  class="text-2xl font-bold border-t-0 border-x-0 border-4 py-4 border-b-gray-100/20"
+                >
+                  {{ etablissement.etablissement.ville_etab }}
+                  <b class="text-sm font-light">(Historiques)</b>
+                </p>
+              </div>
+              <ul class="mt-10 flex flex-col gap-4 hidden">
+                <li>
+                  <font-awesome-icon
+                    class="cursor-pointer text-black mr-2"
+                    :icon="['fas', 'terminal']"
+                  />
+                  <b class="text-3xl text-black mr-2 logoESP">{{ enseignant.ListeENS.length }}</b>
+                  Enseignants
+                </li>
+                <p class="text-gray-600 mt-2 text-sm">
+                  ✅ Nos
+                  <font-awesome-icon
+                    class="cursor-pointer text-gray-500"
+                    :icon="['fas', 'quote-left']"
+                  /><b> ENSEIGNANTS </b
+                  ><font-awesome-icon
+                    class="cursor-pointer text-gray-500"
+                    :icon="['fas', 'quote-right']"
+                  />, experts et expérimentés, offrent un <b>enseignement de qualité</b> alliant
+                  théorie et pratique. Leur pédagogie et leur engagement garantissent une
+                  <b>formation enrichissante</b> pour chaque apprenant.
+                </p>
+              </ul>
+              <div
+                class="mt-5 w-full text-xs"
+                v-html="etablissement.etablissement.historique"
+              ></div>
+              <img
+                src="./assets/images/about-shape-4.svg"
+                width="100"
+                height="100"
+                loading="lazy"
+                class="shape about-shape-4"
+              />
+            </div>
+          </div>
+        </section>
         <section v-if="!isAllAnnonce" class="section category mt-20" aria-label="category">
           <div class="container">
             <ul class="flex justify-center flex-wrap gap-4 items-center">
@@ -177,72 +246,6 @@
             </ul>
           </div>
         </section>
-
-        <section v-if="!isAllAnnonce" class="section about" id="apropos" aria-label="about">
-          <div class="container">
-            <figure class="about-banner">
-              <div class="img-holder">
-                <img
-                  :src="`${URL}/storage/acceuil/${acceuil.photoAcceuil.photoNameThree}`"
-                  width="520"
-                  height="370"
-                  loading="lazy"
-                  class="img-cover !w-[520px] !h-[370px]"
-                />
-              </div>
-              <img
-                src="./assets/images/about-shape-3.png"
-                width="722"
-                height="528"
-                loading="lazy"
-                class="shape about-shape-3"
-              />
-            </figure>
-            <div class="about-content">
-              <div class="flex items-center gap-4 logoESP">
-                <p class="text-2xl font-bold border-t-0 border-x-0 border-4 border-b-blue-500 py-4">
-                  {{ etablissement.etablissement.abr_etab }}
-                </p>
-                <p
-                  class="text-2xl font-bold border-t-0 border-x-0 border-4 py-4 border-b-gray-100/20"
-                >
-                  {{ etablissement.etablissement.ville_etab }}
-                </p>
-              </div>
-              <ul class="mt-10 flex flex-col gap-4">
-                <li>
-                  <font-awesome-icon
-                    class="cursor-pointer text-black mr-2"
-                    :icon="['fas', 'terminal']"
-                  />
-                  <b class="text-3xl text-black mr-2 logoESP">{{ enseignant.ListeENS.length }}</b>
-                  Enseignants
-                </li>
-                <p class="text-gray-600 mt-2 text-sm">
-                  ✅ Nos
-                  <font-awesome-icon
-                    class="cursor-pointer text-gray-500"
-                    :icon="['fas', 'quote-left']"
-                  /><b> ENSEIGNANTS </b
-                  ><font-awesome-icon
-                    class="cursor-pointer text-gray-500"
-                    :icon="['fas', 'quote-right']"
-                  />, experts et expérimentés, offrent un <b>enseignement de qualité</b> alliant
-                  théorie et pratique. Leur pédagogie et leur engagement garantissent une
-                  <b>formation enrichissante</b> pour chaque apprenant.
-                </p>
-              </ul>
-              <img
-                src="./assets/images/about-shape-4.svg"
-                width="100"
-                height="100"
-                loading="lazy"
-                class="shape about-shape-4"
-              />
-            </div>
-          </div>
-        </section>
-
         <section
           v-if="!isAllAnnonce && annonces.listAnnonce.length !== 0"
           class="section course"
