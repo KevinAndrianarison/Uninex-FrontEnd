@@ -273,7 +273,7 @@ defineProps({
           <div class="bg-blue-100 mt-4 p-2 pb-4 rounded">
             <h1 class="font-bold flex items-center">
               <font-awesome-icon class="cursor-pointer mr-2" :icon="['fas', 'gear']" />Modifier
-              (catégorie/grade)
+              (Statut/grade)
             </h1>
             <div class="flex flex-col gap-2 mt-2">
               <Select @update:modelValue="handleCtgSelection">
@@ -281,12 +281,13 @@ defineProps({
                   :class="theme.theme === 'light' ? '' : '!bg-gray-100 '"
                   class="w-full select-trigger"
                 >
-                  <SelectValue class="focus:outline-none" placeholder="Nouvelle catégorie" />
+                  <SelectValue class="focus:outline-none" placeholder="Nouveau statut" />
                 </SelectTrigger>
                 <SelectContent :class="theme.theme === 'light' ? '' : '!bg-gray-100 '">
                   <SelectGroup>
                     <SelectItem value="Permanent"> Permanent</SelectItem>
                     <SelectItem value="Vacataire"> Vacataire </SelectItem>
+                    <SelectItem value="Stagiaire"> Stagiaire</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
@@ -299,7 +300,7 @@ defineProps({
                 </SelectTrigger>
                 <SelectContent :class="theme.theme === 'light' ? '' : '!bg-gray-100 '">
                   <SelectGroup>
-                    <SelectItem value="Ingénieur"> Ingénieur</SelectItem>
+                    <SelectItem value="Assistant"> Assistant</SelectItem>
                     <SelectItem value="Docteur"> Docteur </SelectItem>
                     <SelectItem value="Professeur"> Professeur </SelectItem>
                   </SelectGroup>

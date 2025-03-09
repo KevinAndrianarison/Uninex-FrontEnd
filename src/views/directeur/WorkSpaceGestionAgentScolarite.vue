@@ -44,7 +44,7 @@
         </div>
 
         <div class="sm:col-span-3 mt-2 ctgr mr-4">
-          <label class="block text-sm font-medium leading-6">Catégorie</label>
+          <label class="block text-sm font-medium leading-6">Statut</label>
           <div class="w-60">
             <Listbox v-model="agentscolarite.categorie_scol">
               <div class="relative mt-2">
@@ -273,7 +273,7 @@ const show = useShow()
 const agentscolarite = useAgentscolarite()
 const password = usePassword()
 
-const categories = ['Permanent', 'Vacataire']
+const categories = ['Permanent', 'Vacataire', 'Stagiaire']
 
 const status = ['Agent de scolarité', 'Sécrétaire principale']
 

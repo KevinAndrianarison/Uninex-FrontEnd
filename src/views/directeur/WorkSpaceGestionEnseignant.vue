@@ -42,7 +42,7 @@
           </div>
         </div>
         <div class="sm:col-span-3 mt-2 mr-4">
-          <label class="block text-sm font-medium leading-6">Titre académique</label>
+          <label class="block text-sm font-medium leading-6">Titre </label>
           <div class="w-60">
             <Listbox v-model="enseignant.grade_ens">
               <div class="relative mt-2">
@@ -132,7 +132,7 @@
         </div>
 
         <div class="sm:col-span-3 mt-2 mr-4 ctgr">
-          <label class="block text-sm font-medium leading-6">Catégorie</label>
+          <label class="block text-sm font-medium leading-6">Statut</label>
           <div class="w-60">
             <Listbox v-model="enseignant.categorie_ens">
               <div class="relative mt-2">
@@ -219,7 +219,7 @@
           <li class="widthnom">Nom complet</li>
           <li class="widthemail">Adresse email</li>
           <li class="width">Numéro téléphone</li>
-          <li class="width">Catégorie</li>
+          <li class="width">Statut</li>
           <li class="h-5 w-5"></li>
         </div>
         <div
@@ -262,9 +262,9 @@ const show = useShow()
 const enseignant = useEnseignant()
 const password = usePassword()
 
-const grades = ['Ingénieur', 'Docteur', 'Professeur']
+const grades = ['Assistant', 'Docteur', 'Professeur']
 
-const categories = ['Permanent', 'Vacataire']
+const categories = ['Permanent', 'Vacataire', 'Stagiaire']
 
 function showMdp() {
   if (user.email && enseignant.nomComplet_ens && !show.showMessageErrorEmail) {

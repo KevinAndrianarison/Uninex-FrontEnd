@@ -353,7 +353,7 @@
 
             <div class="sm:col-span-3 mr-4 ctgr">
               <label class="block text-sm font-medium leading-6 text-gray-900"
-                >Titre académique</label
+                >Titre </label
               >
               <div class="w-60">
                 <Listbox v-model="directeur.grade_dir">
@@ -483,7 +483,7 @@ const etablissement = useEtablissement()
 const password = usePassword()
 const admin = useAdmin()
 
-const grades = ['Ingénieur', 'Docteur', 'Professeur']
+const grades = ['Assistant', 'Docteur', 'Professeur']
 
 function firstConfig() {
   password.generatePassword()

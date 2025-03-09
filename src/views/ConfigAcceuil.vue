@@ -13,7 +13,7 @@
               :style="{
                 'background-image': 'url(' + `${URL}/storage/mentions/${mention.photo_name} ` + ')'
               }"
-              class="w-12 h-12 logo rounded-full ring"
+              class="w-12 h-12 logo rounded-full "
             ></div>
             <div>
               <input
@@ -35,7 +35,7 @@
               :class="theme.theme === 'light' ? '' : '!bg-gray-300 text-black'"
               class="focus:outline-none w-full mt-2 ring-1 rounded px-2 h-20 py-1 focus:ring"
             ></textarea>
-            <p class="text-xs mt-2 whitespace-pre-wrap truncate" v-else>
+            <p class="text-xs mt-2 text-center whitespace-pre-wrap truncate" v-else>
               {{ mention.descriptionMention }}
             </p>
           </div>
@@ -218,6 +218,7 @@ function setMentionLogoFunct() {
   axios
     .post(`${URL}/api/acceuilmention/${isEditablePhoto.value}`, formData)
     .then((response) => {
+      console.log(response.data)
       isEditablePhoto.value = null
       show.showSpinner = false
       acceuil.getAllMention()

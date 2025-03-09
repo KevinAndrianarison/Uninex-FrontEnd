@@ -151,7 +151,15 @@
           </div>
         </div>
 
-        <section v-if="!isAllAnnonce" class="section about" id="apropos" aria-label="about">
+        <section
+          v-if="
+            !isAllAnnonce &&
+            (etablissement.etablissement.descri_etab || etablissement.etablissement.historique)
+          "
+          class="section about"
+          id="apropos"
+          aria-label="about"
+        >
           <div class="container">
             <figure class="about-banner mx-auto">
               <div class="img-holder">
@@ -180,7 +188,6 @@
                   class="text-2xl font-bold border-t-0 border-x-0 border-4 py-4 border-b-gray-100/20"
                 >
                   {{ etablissement.etablissement.ville_etab }}
-                  <b class="text-lg font-light">(Historiques)</b>
                 </p>
               </div>
               <ul class="mt-10 flex flex-col gap-4 hidden">
@@ -206,10 +213,14 @@
                   <b>formation enrichissante</b> pour chaque apprenant.
                 </p>
               </ul>
-              <div
-                class="mt-5 w-full text-xs"
-                v-html="etablissement.etablissement.historique"
-              ></div>
+              <div class="mt-5 flex flex-col gap-2">
+                <b class="text-lg font-light text-blue-500">À propos</b>
+                <p class="text-xs">{{ etablissement.etablissement.descri_etab }}</p>
+              </div>
+              <div class="mt-5 flex flex-col gap-2">
+                <b class="text-lg font-light text-blue-500">Historiques :</b>
+                <p class="w-full text-xs" v-html="etablissement.etablissement.historique"></p>
+              </div>
               <img
                 src="./assets/images/about-shape-4.svg"
                 width="100"
@@ -220,7 +231,17 @@
             </div>
           </div>
         </section>
-        <section v-if="!isAllAnnonce" class="section category mt-20" aria-label="category">
+        <section
+          v-if="!isAllAnnonce && acceuil.listMention.length !== 0"
+          class="section category mt-20"
+          aria-label="category"
+        >
+          <p class="text-lg text-center logoESP text-green-500">
+            <font-awesome-icon
+              class="cursor-pointer text-green-500 mr-2"
+              :icon="['fas', 'graduation-cap']"
+            />Offres de formation
+          </p>
           <div class="container">
             <ul class="flex justify-center flex-wrap gap-4 items-center">
               <div

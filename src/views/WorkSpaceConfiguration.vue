@@ -46,14 +46,14 @@
               />
             </div>
           </div>
-          <div class="sm:col-span-3 mt-2 mr-4">
+          <div class="w-[600px] sm:col-span-3 mt-2 mr-4">
             <label class="block text-sm font-medium leading-6">Description</label>
             <div class="mt-2">
               <textarea
                 type="text"
                 v-model="etablissement.etablissement.descri_etab"
                 :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
-                class="pl-3 pr-3 h-8 min-h-8 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
+                class="p-3 h-8 min-h-20 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none"
               ></textarea>
             </div>
           </div>
@@ -257,7 +257,7 @@
               </div>
             </div>
             <div v-if="show.showNavBarDir" class="sm:col-span-3">
-              <label class="block text-sm font-medium leading-6">Titre académique</label>
+              <label class="block text-sm font-medium leading-6">Titre </label>
               <div class="w-60">
                 <Listbox v-model="infossetup.grade">
                   <div class="relative mt-2">
@@ -476,7 +476,7 @@ const infosheader = useInfosheader()
 const theme = useTheme()
 const URL = useUrl().url
 
-const grades = ['Ingénieur', 'Docteur', 'Professeur']
+const grades = ['Assistant', 'Docteur', 'Professeur']
 
 function onFileLogoChange(event) {
   etablissement.logo_etab = event.target.files[0]
