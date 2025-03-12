@@ -289,7 +289,10 @@
                 v-for="(ann, index) in annonces.listAnnonce.slice(0, 3)"
               >
                 <div class="course-card">
-                  <figure class="card-banner img-holder h-[200px]">
+                  <figure
+                    v-if="isImageFileName(ann.fichier_nom)"
+                    class="card-banner img-holder h-[200px]"
+                  >
                     <img
                       :src="`${URL}/storage/annonce/${ann.fichier_nom}`"
                       width="370"
@@ -312,10 +315,19 @@
                         class="card-text text-sm whitespace-pre-wrap truncate"
                       ></p>
                     </div>
+                    <div
+                      v-if="!isImageFileName(ann.fichier_nom)"
+                      @click="telecharger(ann.fichier_nom)"
+                      class="underline cursor-pointer flex text-xs items-center mt-4 text-blue-500"
+                    >
+                      <p class="w-60 truncate">{{ ann.fichier_nom }}</p>
+                      <font-awesome-icon :icon="['fas', 'arrow-down']" />
+                    </div>
                     <ul class="card-meta-list mt-4">
                       <li class="card-meta-item flex justify-between items-center w-full">
                         <span class="text-sm">{{ ann.likes_count }} J'aime</span>
                         <font-awesome-icon
+                          v-if="isImageFileName(ann.fichier_nom)"
                           @click="telecharger(ann.fichier_nom)"
                           class="cursor-pointer text-blue-500 bg-blue-200 py-1.5 p-2 rounded-full relative overflow-hidden transition duration-500 ease-in-out hover:bg-yellow-400 hover:text-white hover:shadow-lg before:absolute before:inset-0 before:-left-full before:bg-white/30 before:w-full before:h-full before:transition before:duration-700 hover:before:left-full"
                           :icon="['fas', 'arrow-down']"
@@ -414,7 +426,10 @@
             <ul class="flex justify-center flex-wrap gap-10 mt-10 px-5">
               <li class="w-[350px]" :key="ann.id" v-for="(ann, index) in annoncesAffichees">
                 <div class="course-card">
-                  <figure class="card-banner img-holder h-[200px]">
+                  <figure
+                    v-if="isImageFileName(ann.fichier_nom)"
+                    class="card-banner img-holder h-[200px]"
+                  >
                     <img
                       :src="`${URL}/storage/annonce/${ann.fichier_nom}`"
                       width="370"
@@ -437,10 +452,19 @@
                         class="card-text text-sm whitespace-pre-wrap truncate"
                       ></p>
                     </div>
+                    <div
+                      v-if="!isImageFileName(ann.fichier_nom)"
+                      @click="telecharger(ann.fichier_nom)"
+                      class="underline cursor-pointer flex text-xs items-center mt-4 text-blue-500"
+                    >
+                      <p class="w-60 truncate">{{ ann.fichier_nom }}</p>
+                      <font-awesome-icon :icon="['fas', 'arrow-down']" />
+                    </div>
                     <ul class="card-meta-list mt-4">
                       <li class="card-meta-item flex justify-between items-center w-full">
                         <span class="text-sm">{{ ann.likes_count }} J'aime</span>
                         <font-awesome-icon
+                          v-if="isImageFileName(ann.fichier_nom)"
                           @click="telecharger(ann.fichier_nom)"
                           class="cursor-pointer text-blue-500 bg-blue-200 py-1.5 p-2 rounded-full relative overflow-hidden transition duration-500 ease-in-out hover:bg-yellow-400 hover:text-white hover:shadow-lg before:absolute before:inset-0 before:-left-full before:bg-white/30 before:w-full before:h-full before:transition before:duration-700 hover:before:left-full"
                           :icon="['fas', 'arrow-down']"
@@ -646,6 +670,13 @@ const sendEmail = () => {
 
 function handlePage(valeur) {
   annoncesParPage.value = valeur
+}
+
+function isImageFileName(fileName) {
+  if (typeof fileName !== 'string') return false
+  const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg', 'tiff', 'ico', 'avif']
+  const extension = fileName.split('.').pop().toLowerCase()
+  return imageExtensions.includes(extension)
 }
 
 function telecharger(nom) {

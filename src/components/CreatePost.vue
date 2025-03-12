@@ -10,14 +10,14 @@ import { useCategory } from '@/stores/Category'
 import { useAnnonce } from '@/stores/Annonce'
 import { useTheme } from '@/stores/Theme'
 import Notiflix from 'notiflix'
-import "emoji-picker-element";
+import 'emoji-picker-element'
 import {
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from '@/components/ui/select'
 
 const file = ref(null)
@@ -27,9 +27,9 @@ const descriptionAnnonce = ref('')
 const idCategorie = ref(null)
 const showCreateCategory = ref(false)
 const showListeCategory = ref(false)
-const showEmojiPicker = ref(false) 
-const showEmojiCtg = ref(false) 
-const showEmojiPickerDescr = ref(false) 
+const showEmojiPicker = ref(false)
+const showEmojiCtg = ref(false)
+const showEmojiPickerDescr = ref(false)
 const newCategory = reactive({
   emoji: '',
   title: ''
@@ -42,9 +42,9 @@ const show = useShow()
 const category = useCategory()
 const userString = localStorage.getItem('user')
 const user = JSON.parse(userString)
-const titreAnnonceInput = ref(null);
-const descriptionAnnonceInput = ref(null);
-const newCategoryEmojiInput = ref(null);
+const titreAnnonceInput = ref(null)
+const descriptionAnnonceInput = ref(null)
+const newCategoryEmojiInput = ref(null)
 
 function closeCreatePost() {
   titreAnnonce.value = ''
@@ -56,10 +56,9 @@ function closeCreatePost() {
   showEmojiPickerDescr.value = false
 }
 
-function handleSelection(valeur){
+function handleSelection(valeur) {
   idCategorie.value = valeur
 }
-
 
 function postAnnonce() {
   const userString = localStorage.getItem('user')
@@ -68,6 +67,7 @@ function postAnnonce() {
   formData.append('titre', titreAnnonce.value || '')
   formData.append('description', descriptionAnnonce.value || '')
   formData.append('fichier', file.value || '')
+  formData.append('status', 'attente')
   formData.append('categori_id', Number(idCategorie.value) || null)
   formData.append('user_id', Number(user.user.id) || null)
   if (titreAnnonce.value && idCategorie.value) {
@@ -210,42 +210,42 @@ function toggleEmojiPickerDescr() {
 }
 
 function addEmoji(event) {
-  const input = titreAnnonceInput.value;
-  const emoji = event.detail.unicode;
-  const start = input.selectionStart;
-  const end = input.selectionEnd;
-  titreAnnonce.value = titreAnnonce.value.substring(0, start) + emoji + titreAnnonce.value.substring(end);
+  const input = titreAnnonceInput.value
+  const emoji = event.detail.unicode
+  const start = input.selectionStart
+  const end = input.selectionEnd
+  titreAnnonce.value =
+    titreAnnonce.value.substring(0, start) + emoji + titreAnnonce.value.substring(end)
   setTimeout(() => {
-    input.selectionStart = input.selectionEnd = start + emoji.length;
-    input.focus();
-  }, 0);
-
+    input.selectionStart = input.selectionEnd = start + emoji.length
+    input.focus()
+  }, 0)
 }
 
 function addEmojiCtg(event) {
-  const input = newCategoryEmojiInput.value;
-  const emoji = event.detail.unicode;
-  const start = input.selectionStart;
-  const end = input.selectionEnd;
-  newCategory.emoji = newCategory.emoji.substring(0, start) + emoji + newCategory.emoji.substring(end);
+  const input = newCategoryEmojiInput.value
+  const emoji = event.detail.unicode
+  const start = input.selectionStart
+  const end = input.selectionEnd
+  newCategory.emoji =
+    newCategory.emoji.substring(0, start) + emoji + newCategory.emoji.substring(end)
   setTimeout(() => {
-    input.selectionStart = input.selectionEnd = start + emoji.length;
-    input.focus();
-  }, 0);
-
+    input.selectionStart = input.selectionEnd = start + emoji.length
+    input.focus()
+  }, 0)
 }
 
 function addEmojiDecr(event) {
-  const input = descriptionAnnonceInput.value;
-  const emoji = event.detail.unicode;
-  const start = input.selectionStart;
-  const end = input.selectionEnd;
-  descriptionAnnonce.value = descriptionAnnonce.value.substring(0, start) + emoji + descriptionAnnonce.value.substring(end);
+  const input = descriptionAnnonceInput.value
+  const emoji = event.detail.unicode
+  const start = input.selectionStart
+  const end = input.selectionEnd
+  descriptionAnnonce.value =
+    descriptionAnnonce.value.substring(0, start) + emoji + descriptionAnnonce.value.substring(end)
   setTimeout(() => {
-    input.selectionStart = input.selectionEnd = start + emoji.length;
-    input.focus();
-  }, 0);
-
+    input.selectionStart = input.selectionEnd = start + emoji.length
+    input.focus()
+  }, 0)
 }
 
 function handleInputChange() {
@@ -282,37 +282,46 @@ function handleInputChangeDescr() {
             @input="handleInputChange"
           />
           <Tooltip content="Emoji">
-          <font-awesome-icon
-            @click="toggleEmojiPicker"
-            :class="theme.theme === 'light' ? 'text-gray-400 cursor-pointer' : 'text-gray-400 cursor-pointer'"
-            :icon="['fas', 'smile']"
-            class="absolute right-3 bottom-1 transform -translate-y-1/2"
+            <font-awesome-icon
+              @click="toggleEmojiPicker"
+              :class="
+                theme.theme === 'light'
+                  ? 'text-gray-400 cursor-pointer'
+                  : 'text-gray-400 cursor-pointer'
+              "
+              :icon="['fas', 'smile']"
+              class="absolute right-3 bottom-1 transform -translate-y-1/2"
           /></Tooltip>
           <div v-if="showEmojiPicker" class="emoji-picker-modal absolute top-full left-0 mt-2">
-            <emoji-picker :class="theme.theme === 'light' ? 'light' : 'dark'" @emoji-click="addEmoji"></emoji-picker>
+            <emoji-picker
+              :class="theme.theme === 'light' ? 'light' : 'dark'"
+              @emoji-click="addEmoji"
+            ></emoji-picker>
           </div>
         </div>
         <div class="mt-2 flex items-end gap-2 justify-between">
-        <Select @update:modelValue="handleSelection">
-        <SelectTrigger
-          :class="theme.theme === 'light' ? '' : '!bg-gray-300 '"
-          class="w-full py-0 select-trigger"
-          >
-        <SelectValue class="focus:outline-none " placeholder="Choisissez une catégorie" />
-        </SelectTrigger>
-        <SelectContent :class="theme.theme === 'light' ? '' : '!bg-gray-300'">
-            <SelectGroup>
-                    <SelectItem                 
-                    :key="ctg.id"
-                    v-for="(ctg, index) in category.listCategorie"
-                    :value="ctg.id" 
-                    >
-                    {{ ctg.titre }}
-                    </SelectItem>
-                    <SelectItem v-if="category.listCategorie.length === 0" disabled value="Mes annonces">Aucune catégorie trouvée...</SelectItem>
-            </SelectGroup>
-        </SelectContent>
-        </Select>
+          <Select @update:modelValue="handleSelection">
+            <SelectTrigger
+              :class="theme.theme === 'light' ? '' : '!bg-gray-300 '"
+              class="w-full py-0 select-trigger"
+            >
+              <SelectValue class="focus:outline-none" placeholder="Choisissez une catégorie" />
+            </SelectTrigger>
+            <SelectContent :class="theme.theme === 'light' ? '' : '!bg-gray-300'">
+              <SelectGroup>
+                <SelectItem
+                  :key="ctg.id"
+                  v-for="(ctg, index) in category.listCategorie"
+                  :value="ctg.id"
+                >
+                  {{ ctg.titre }}
+                </SelectItem>
+                <SelectItem v-if="category.listCategorie.length === 0" disabled value="Mes annonces"
+                  >Aucune catégorie trouvée...</SelectItem
+                >
+              </SelectGroup>
+            </SelectContent>
+          </Select>
           <div v-if="show.showNavBarAdmin" class="flex flex-col justify-center">
             <Tooltip content="Créer une nouvelle catégorie">
               <font-awesome-icon
@@ -338,22 +347,29 @@ function handleInputChangeDescr() {
         </div>
         <div class="relative">
           <textarea
-          placeholder="Description"
-          ref='descriptionAnnonceInput'
-          v-model="descriptionAnnonce"
-          @input="handleInputChangeDescr"
-          :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
-          class="text-black text-sm min-h-[100px] focus:border-2 border border-gray-200 focus:outline-none border rounded w-full px-3 mt-4 py-2"
-        ></textarea>
-        <Tooltip content="Emoji">
-          <font-awesome-icon
-            @click="toggleEmojiPickerDescr"
-            :class="theme.theme === 'light' ? 'text-gray-400 cursor-pointer' : 'text-gray-400 cursor-pointer'"
-            :icon="['fas', 'smile']"
-            class="absolute right-3 bottom-1 transform -translate-y-1/2"
+            placeholder="Description"
+            ref="descriptionAnnonceInput"
+            v-model="descriptionAnnonce"
+            @input="handleInputChangeDescr"
+            :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+            class="text-black text-sm min-h-[100px] focus:border-2 border border-gray-200 focus:outline-none border rounded w-full px-3 mt-4 py-2"
+          ></textarea>
+          <Tooltip content="Emoji">
+            <font-awesome-icon
+              @click="toggleEmojiPickerDescr"
+              :class="
+                theme.theme === 'light'
+                  ? 'text-gray-400 cursor-pointer'
+                  : 'text-gray-400 cursor-pointer'
+              "
+              :icon="['fas', 'smile']"
+              class="absolute right-3 bottom-1 transform -translate-y-1/2"
           /></Tooltip>
           <div v-if="showEmojiPickerDescr" class="emoji-picker-modal absolute top-full left-0 mt-2">
-            <emoji-picker :class="theme.theme === 'light' ? 'light' : 'dark'" @emoji-click="addEmojiDecr"></emoji-picker>
+            <emoji-picker
+              :class="theme.theme === 'light' ? 'light' : 'dark'"
+              @emoji-click="addEmojiDecr"
+            ></emoji-picker>
           </div>
         </div>
         <div class="relative flex items-center">
@@ -370,8 +386,8 @@ function handleInputChangeDescr() {
             📂 Importer un fichier
           </div>
         </div>
-        <div v-if="fileName" class="flex text-xs ">
-          <p class="text-blue-500 mr-2 break-words  max-w-full">{{ fileName }}</p>
+        <div v-if="fileName" class="flex text-xs">
+          <p class="text-blue-500 mr-2 break-words max-w-full">{{ fileName }}</p>
           <font-awesome-icon
             @click="removeFile"
             class="text-red-500 cursor-pointer w-5 h-4"
@@ -400,16 +416,16 @@ function handleInputChangeDescr() {
         </div>
         <h1 class="font-bold text-sm">Nouvelle catégorie :</h1>
         <div class="relative">
-        <input
-          v-model="newCategory.emoji"
-          @input="handleInputChangeCtg"
-          ref="newCategoryEmojiInput"
-          type="text"
-          placeholder="Emoji (e.g., 📚)"
-          :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
-          class="focus:outline-none hidden border-2 text-xs rounded w-full px-3 mt-5 py-2 text-black"
-        />
-        <!-- <Tooltip content="Emoji">
+          <input
+            v-model="newCategory.emoji"
+            @input="handleInputChangeCtg"
+            ref="newCategoryEmojiInput"
+            type="text"
+            placeholder="Emoji (e.g., 📚)"
+            :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
+            class="focus:outline-none hidden border-2 text-xs rounded w-full px-3 mt-5 py-2 text-black"
+          />
+          <!-- <Tooltip content="Emoji">
           <font-awesome-icon
             @click="toggleEmojiCtg"
             :class="theme.theme === 'light' ? 'text-gray-500 cursor-pointer' : 'text-gray-500 cursor-pointer'"
@@ -418,9 +434,12 @@ function handleInputChangeDescr() {
           />
           </Tooltip> -->
           <div v-if="showEmojiCtg" class="emoji-picker-modal absolute top-full left-0 mt-2">
-            <emoji-picker :class="theme.theme === 'light' ? 'light' : 'dark'" @emoji-click="addEmojiCtg"></emoji-picker>
+            <emoji-picker
+              :class="theme.theme === 'light' ? 'light' : 'dark'"
+              @emoji-click="addEmojiCtg"
+            ></emoji-picker>
           </div>
-          </div>
+        </div>
         <input
           v-model="newCategory.title"
           type="text"

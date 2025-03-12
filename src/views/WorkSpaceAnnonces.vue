@@ -5,7 +5,31 @@
       annonces
     </p>
   </div>
-  <div class="flex items-center justify-center text-xs gap-4">
+  <div v-if="show.showNavBarAdmin" class="flex justify-center text-xs">
+    <h1
+      @click="switchStatus('valide')"
+      :class="
+        isStatut === 'valide'
+          ? 'bg-yellow-500 p-2 px-4 text-white'
+          : 'bg-white p-2 px-4 text-yellow-500'
+      "
+      class="cursor-pointer rounded-l"
+    >
+      Déjà validé
+    </h1>
+    <h1
+      @click="switchStatus('attente')"
+      class="cursor-pointer rounded-r"
+      :class="
+        isStatut === 'attente'
+          ? 'bg-yellow-500 p-2 px-4 text-white'
+          : 'bg-white p-2 px-4 text-yellow-500'
+      "
+    >
+      En attente
+    </h1>
+  </div>
+  <div class="flex items-center justify-center text-xs gap-4 mt-5">
     <div class="relative" ref="menuRef">
       <button
         @click="showCategorieMenu = !showCategorieMenu"
@@ -92,7 +116,10 @@
       <ul class="flex justify-center flex-wrap gap-10">
         <li class="w-[350px]" :key="ann.id" v-for="(ann, index) in annoncesAffichees">
           <div :class="theme.theme === 'light' ? 'course-card' : 'course-card !bg-gray-200 '">
-            <figure class="card-banner img-holder h-[200px]">
+            <figure
+              v-if="isImageFileName(ann.fichier_nom)"
+              class="card-banner img-holder h-[200px]"
+            >
               <img
                 :src="`${URL}/storage/annonce/${ann.fichier_nom}`"
                 width="370"
@@ -105,7 +132,10 @@
               <span class="span text-xs">{{ ann.timeAgo }}</span>
             </div>
             <div class="flex flex-col justify-between p-4">
-              <span class="badge text-xs">{{ ann.user.email }}</span>
+              <div class="flex flex justify-between">
+                <span class="badge text-xs">{{ ann.user.email }}</span>
+                <span v-if="ann.status === 'attente'" class="!bg-red-100 !text-red-500 font-bold badge flex items-center text-xs">En attente</span>
+              </div>
               <div v-if="editableId === ann.id && isEditingTitle">
                 <input
                   v-model="ann.editableTitre"
@@ -131,6 +161,14 @@
                   v-html="highlightHashtags(ann.description)"
                   class="card-text text-sm whitespace-pre-wrap truncate text-black"
                 ></p>
+              </div>
+              <div
+                v-if="!isImageFileName(ann.fichier_nom)"
+                @click="telecharger(ann.fichier_nom)"
+                class="underline cursor-pointer flex text-xs items-center mt-4 text-blue-500"
+              >
+                <p class="w-60 truncate">{{ ann.fichier_nom }}</p>
+                <font-awesome-icon :icon="['fas', 'arrow-down']" />
               </div>
               <ul class="card-meta-list mt-4">
                 <li class="card-meta-item flex justify-between items-center w-full">
@@ -163,7 +201,10 @@
                   <div class="flex items-center space-x-2">
                     <div v-if="showOptions === ann.id" class="flex items-center space-x-2">
                       <font-awesome-icon
-                        v-if="ann.user.id !== user.user.id || show.showNavBarAdmin"
+                        v-if="
+                          (ann.user.id !== user.user.id || show.showNavBarAdmin) &&
+                          isImageFileName(ann.fichier_nom)
+                        "
                         @click="telecharger(ann.fichier_nom)"
                         class="cursor-pointer text-blue-500 bg-blue-200 py-1.5 p-2 rounded-full relative overflow-hidden transition duration-500 ease-in-out hover:bg-yellow-400 hover:text-white hover:shadow-lg before:absolute before:inset-0 before:-left-full before:bg-white/30 before:w-full before:h-full before:transition before:duration-700 hover:before:left-full"
                         :icon="['fas', 'arrow-down']"
@@ -177,8 +218,20 @@
                       <font-awesome-icon
                         v-if="ann.user.id === user.user.id || show.showNavBarAdmin"
                         class="cursor-pointer text-red-500 bg-red-200 py-1.5 p-2 rounded-full relative overflow-hidden transition duration-500 ease-in-out hover:bg-red-400 hover:text-white hover:shadow-lg before:absolute before:inset-0 before:-left-full before:bg-white/30 before:w-full before:h-full before:transition before:duration-700 hover:before:left-full"
-                        :icon="['fas', 'xmark']"
+                        :icon="['fas', 'trash']"
                         @click="showDeletePost(ann.id)"
+                      />
+                      <font-awesome-icon
+                        v-if="ann.status === 'attente'"
+                        @click="validerPOST(ann.id)"
+                        class="cursor-pointer text-green-500 bg-green-200 p-2 rounded-full relative overflow-hidden transition duration-500 ease-in-out hover:bg-green-400 hover:text-white hover:shadow-lg before:absolute before:inset-0 before:-left-full before:bg-white/30 before:w-full before:h-full before:transition before:duration-700 hover:before:left-full"
+                        :icon="['fas', 'circle-check']"
+                      />
+                      <font-awesome-icon
+                        v-if="ann.status === 'valide'"
+                        @click="annullerPOST(ann.id)"
+                        class="cursor-pointer text-red-500 bg-red-200 py-1.5 p-2 rounded-full relative overflow-hidden transition duration-500 ease-in-out hover:bg-red-400 hover:text-white hover:shadow-lg before:absolute before:inset-0 before:-left-full before:bg-white/30 before:w-full before:h-full before:transition before:duration-700 hover:before:left-full"
+                        :icon="['fas', 'xmark']"
                       />
                     </div>
                     <font-awesome-icon
@@ -411,15 +464,18 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
+import { useMessages } from '@/stores/messages'
 
 // ---------------------------------------------------------------------------------------------------------
 const showCategorieMenu = ref(false)
+const messages = useMessages()
 const menuRef = ref(null)
 const filtreCategorie = ref('Tout')
 const recherche = ref('')
 const filtreDate = ref('')
 const pageActuelle = ref(1)
 const annoncesParPage = ref(10)
+const isStatut = ref('valide')
 const showOptions = ref(null)
 const dateFiltreOptions = [
   'Tout',
@@ -435,12 +491,23 @@ const handleClickOutside = (event) => {
   }
 }
 
+function isImageFileName(fileName) {
+  if (typeof fileName !== 'string') return false
+  const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg', 'tiff', 'ico', 'avif']
+  const extension = fileName.split('.').pop().toLowerCase()
+  return imageExtensions.includes(extension)
+}
+
 const toggleOptions = (id) => {
   if (showOptions.value === id) {
     showOptions.value = null
   } else {
     showOptions.value = id
   }
+}
+
+function switchStatus(statut) {
+  isStatut.value = statut
 }
 
 const totalPages = computed(() => Math.ceil(annoncesFiltrees.value.length / annoncesParPage.value))
@@ -492,10 +559,19 @@ onUnmounted(() => {
 const annoncesFiltrees = computed(() => {
   let result = annonces.listAnnonce
 
+  // Filtrer par statut
+  if (isStatut.value === 'valide') {
+    result = result.filter((a) => a.status === 'valide')
+  } else if (isStatut.value === 'attente') {
+    result = result.filter((a) => a.status === 'attente')
+  }
+
+  // Filtrer par catégorie
   if (filtreCategorie.value !== 'Tout') {
     result = result.filter((a) => a.categori.titre === filtreCategorie.value)
   }
 
+  // Filtrer par recherche
   if (recherche.value) {
     result = result.filter(
       (a) =>
@@ -504,6 +580,7 @@ const annoncesFiltrees = computed(() => {
     )
   }
 
+  // Filtrer par date
   if (filtreDate.value) {
     const now = new Date()
     const oneYearAgo = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate())
@@ -766,6 +843,56 @@ function saveChanges(ann, field) {
 function showDeletePost(id) {
   annonces.idAnnonce = id
   show.showDeletePost = true
+}
+
+function validerPOST(id) {
+  let formData = new FormData()
+  formData.append('status', 'valide')
+  formData.append('_method', 'PUT')
+  show.showSpinner = true
+  axios
+    .post(`${URL}/api/annonce/${id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    .then((response) => {
+      messages.messageSucces = 'Annonce modifié avec succès !'
+      show.showSpinner = false
+      setTimeout(() => {
+        messages.messageSucces = ''
+      }, 3000)
+      annonces.getAllAnnonce()
+    })
+    .catch((error) => {
+      console.error(error)
+      show.showSpinner = false
+    })
+}
+
+function annullerPOST(id) {
+  let formData = new FormData()
+  formData.append('status', 'attente')
+  formData.append('_method', 'PUT')
+  show.showSpinner = true
+  axios
+    .post(`${URL}/api/annonce/${id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    .then((response) => {
+      messages.messageSucces = 'Annonce modifié avec succès !'
+      show.showSpinner = false
+      setTimeout(() => {
+        messages.messageSucces = ''
+      }, 3000)
+      annonces.getAllAnnonce()
+    })
+    .catch((error) => {
+      console.error(error)
+      show.showSpinner = false
+    })
 }
 
 function telecharger(nom) {
