@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue'
-import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faTrash, faHourglassHalf } from '@fortawesome/free-solid-svg-icons'
 import { UserGroupIcon } from '@heroicons/vue/24/outline'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { useEnseignant } from '@/stores/Enseignant'
@@ -10,6 +10,8 @@ import { useUrl } from '@/stores/url'
 import { useShow } from '@/stores/Show'
 import { useUser } from '@/stores/User'
 import { useTheme } from '@/stores/Theme'
+import Tooltip from '../../components/Tooltip.vue'
+import { useConge } from '@/stores/conge'
 
 const enseignant = useEnseignant()
 const agentscolarite = useAgentscolarite()
@@ -17,6 +19,7 @@ const URL = useUrl().url
 const show = useShow()
 const user = useUser()
 const theme = useTheme()
+const conge = useConge()
 
 onBeforeMount(() => {
   enseignant.getAllENS()
@@ -72,7 +75,7 @@ function showdeleteAS(id) {
             type="text"
             placeholder="Rechercher..."
             :class="theme.theme === 'light' ? '' : ' bg-gray-300'"
-            class="p-2 w-60 focus:outline-none text-black focus:ring-2 focus:mr-0.5 rounded-l"
+            class="p-2 w-60 focus:outline-none text-black rounded-l"
           />
           <p
             :class="theme.theme === 'light' ? '' : ' !bg-gray-300'"
@@ -94,7 +97,7 @@ function showdeleteAS(id) {
       <div
         v-if="filteredAgents.length !== 0"
         :class="theme.theme === 'light' ? '' : 'border-0'"
-        class="border"
+        class="rounded"
       >
         <div class="flex bg-blue-200/20 p-3 border-gray-300">
           <span class="w-8"></span>
@@ -125,9 +128,29 @@ function showdeleteAS(id) {
           <span class="w-1/4 px-2">{{ agent.nomComplet_scol }}</span>
           <span class="w-1/4 text-xs text-blue-500">{{ agent.user.email }}</span>
           <span class="w-1/4"> Sécretaire principale </span>
-          <span class="w-1/4 flex justify-end">
+          <span class="w-1/4 flex justify-end gap-2">
+            <button
+              @click="
+                () => {
+                  show.showModaleEtatCong = true
+                  conge.nomUser = agent.nomComplet_scol
+                  conge.getAllCongepermissionById(agent.user.id)
+                }
+              "
+              class="text-gay-500"
+            >
+              <Tooltip content="Etat de congé ">
+                <FontAwesomeIcon
+                  :icon="faHourglassHalf"
+                  class="bg-gray-200 p-2 px-2.5 rounded-full"
+                />
+              </Tooltip>
+            </button>
+
             <button @click="() => showdeleteAS(agent.user.id)" class="text-red-500">
-              <FontAwesomeIcon :icon="faTrash" class="bg-red-200 p-2 rounded-full" />
+              <Tooltip content="Supprimer ">
+                <FontAwesomeIcon :icon="faTrash" class="bg-red-200 p-2 rounded-full"
+              /></Tooltip>
             </button>
           </span>
         </div>
@@ -142,7 +165,7 @@ function showdeleteAS(id) {
             type="text"
             placeholder="Rechercher..."
             :class="theme.theme === 'light' ? '' : ' bg-gray-300'"
-            class="p-2 w-60 focus:outline-none focus:ring-2 focus:mr-0.5 rounded-l"
+            class="p-2 w-60 focus:outline-none rounded-l"
           />
           <p
             :class="theme.theme === 'light' ? '' : ' !bg-gray-300'"
@@ -164,7 +187,7 @@ function showdeleteAS(id) {
       <div
         v-if="filteredEnseignants.length !== 0"
         :class="theme.theme === 'light' ? '' : ' border-0'"
-        class="border"
+        class="rounded"
       >
         <div class="flex bg-blue-200/20 p-3 border-gray-300">
           <span class="w-8"></span>
@@ -177,7 +200,7 @@ function showdeleteAS(id) {
           v-for="ens in filteredEnseignants"
           :key="ens.id"
           :class="theme.theme === 'light' ? 'bg-white' : ''"
-          class="flex items-center p-2 transition cursor-pointer"
+          class="flex items-center p-2 transition cursor-pointer transition"
         >
           <div
             :style="{
@@ -201,9 +224,28 @@ function showdeleteAS(id) {
               Enseignant
             </span>
           </div>
-          <span class="w-1/4 flex justify-end">
+          <span class="w-1/4 flex justify-end gap-2">
+            <button
+              @click="
+                () => {
+                  show.showModaleEtatCong = true
+                  conge.nomUser = ens.nomComplet_ens
+                  conge.getAllCongepermissionById(ens.user.id)
+                }
+              "
+              class="text-gay-500"
+            >
+              <Tooltip content="Etat de congé ">
+                <FontAwesomeIcon
+                  :icon="faHourglassHalf"
+                  class="bg-gray-200 p-2 px-2.5 rounded-full"
+                />
+              </Tooltip>
+            </button>
             <button @click="() => showdelete(ens.user.id)" class="text-red-500">
-              <FontAwesomeIcon :icon="faTrash" class="bg-red-200 p-2 rounded-full" />
+              <Tooltip content="Supprimer ">
+                <FontAwesomeIcon :icon="faTrash" class="bg-red-200 p-2 rounded-full" />
+              </Tooltip>
             </button>
           </span>
         </div>

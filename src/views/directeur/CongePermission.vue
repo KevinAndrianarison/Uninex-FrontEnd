@@ -3,6 +3,53 @@
     <div class="w-[75%] py-2">
       <h1 class="text-lg font-bold flex items-center">
         <ClipboardDocumentCheckIcon class="h-5 w-5 mr-2" />Permissions - Congés
+        <Dialog>
+          <DialogTrigger as-child>
+            <Tooltip content="Nouveau type de congé">
+              <font-awesome-icon
+                variant="outline"
+                :icon="['fas', 'square-plus']"
+                class="text-blue-500 cursor-pointer ml-2"
+            /></Tooltip>
+          </DialogTrigger>
+          <DialogContent class="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle class="text-sm">Types de congé :</DialogTitle>
+              <div class="mt-2 flex flex-col gap-2 list-none max-h-80 overflow-y-auto">
+                <li
+                  v-for="(ctg, index) in category.listCategorieConge"
+                  :key="ctg.id"
+                  class="flex justify-between items-center text-xs"
+                >
+                  {{ ctg.titre }}
+                  <font-awesome-icon
+                    @click="deleteCtg(ctg.id)"
+                    variant="outline"
+                    :icon="['fas', 'trash']"
+                    class="text-red-500 cursor-pointer text-xs"
+                  />
+                </li>
+              </div>
+              <div class="mt-2 flex flex-col gap-2">
+                <input
+                  placeholder="Nouvelle catégorie"
+                  v-model="categConge"
+                  type="text"
+                  class="text-xs ring-1 w-full focus:ring py-2 px-2 rounded focus:outline-none"
+                />
+                <div class="w-full flex justify-end">
+                  <button
+                    @click="createConge"
+                    :disabled="!categConge"
+                    class="bg-blue-500 rounded px-4 py-2 text-xs text-white"
+                  >
+                    ENREGISTRER
+                  </button>
+                </div>
+              </div>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
       </h1>
       <div class="relative w-64 mt-5 text-xs">
         <div class="relative w-64">
@@ -74,10 +121,7 @@
             <div class="flex items-center gap-2" v-if="selectedType === 'Congé'">
               <Select @update:modelValue="handleCtgSelection">
                 <SelectTrigger class="w-full select-trigger">
-                  <SelectValue
-                    class="focus:outline-none text-xs"
-                    placeholder="Nouvelle catégorie"
-                  />
+                  <SelectValue class="focus:outline-none text-xs" placeholder="Catégorie" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
@@ -95,53 +139,6 @@
                   </SelectGroup>
                 </SelectContent>
               </Select>
-              <Dialog>
-                <DialogTrigger as-child>
-                  <Tooltip content="Nouvelle catégorie">
-                    <font-awesome-icon
-                      variant="outline"
-                      :icon="['fas', 'square-plus']"
-                      class="text-blue-500 cursor-pointer"
-                  /></Tooltip>
-                </DialogTrigger>
-                <DialogContent class="sm:max-w-[425px]">
-                  <DialogHeader>
-                    <DialogTitle class="text-sm">Types de congé :</DialogTitle>
-                    <div class="mt-2 flex flex-col gap-2 list-none max-h-80 overflow-y-auto">
-                      <li
-                        v-for="(ctg, index) in category.listCategorieConge"
-                        :key="ctg.id"
-                        class="flex justify-between items-center text-xs"
-                      >
-                        {{ ctg.titre }}
-                        <font-awesome-icon
-                          @click="deleteCtg(ctg.id)"
-                          variant="outline"
-                          :icon="['fas', 'trash']"
-                          class="text-red-500 cursor-pointer text-xs"
-                        />
-                      </li>
-                    </div>
-                    <div class="mt-2 flex flex-col gap-2">
-                      <input
-                        placeholder="Nouvelle catégorie"
-                        v-model="categConge"
-                        type="text"
-                        class="text-xs ring-1 w-full focus:ring py-2 px-2 rounded focus:outline-none"
-                      />
-                      <div class="w-full flex justify-end">
-                        <button
-                          @click="createConge"
-                          :disabled="!categConge"
-                          class="bg-blue-500 rounded px-4 py-2 text-xs text-white"
-                        >
-                          ENREGISTRER
-                        </button>
-                      </div>
-                    </div>
-                  </DialogHeader>
-                </DialogContent>
-              </Dialog>
             </div>
 
             <div v-if="nomFichier" class="text-xs flex items-center gap-1">

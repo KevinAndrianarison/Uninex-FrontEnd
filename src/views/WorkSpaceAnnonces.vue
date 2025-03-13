@@ -22,11 +22,14 @@
       class="cursor-pointer rounded-r"
       :class="
         isStatut === 'attente'
-          ? 'bg-yellow-500 p-2 px-4 text-white'
-          : 'bg-white p-2 px-4 text-yellow-500'
+          ? 'bg-yellow-500 p-2 px-4 text-white flex gap-1'
+          : 'bg-white p-2 px-4 text-yellow-500 flex gap-1'
       "
     >
       En attente
+      <p v-if="annonces.listAnnonce.filter((a) => a.status === 'attente').length !== 0">
+        ({{ annonces.listAnnonce.filter((a) => a.status === 'attente').length }})
+      </p>
     </h1>
   </div>
   <div class="flex items-center justify-center text-xs gap-4 mt-5">
@@ -134,7 +137,11 @@
             <div class="flex flex-col justify-between p-4">
               <div class="flex flex justify-between">
                 <span class="badge text-xs">{{ ann.user.email }}</span>
-                <span v-if="ann.status === 'attente'" class="!bg-red-100 !text-red-500 font-bold badge flex items-center text-xs">En attente</span>
+                <span
+                  v-if="ann.status === 'attente'"
+                  class="!bg-red-100 !text-red-500 font-bold badge flex items-center text-xs"
+                  >En attente</span
+                >
               </div>
               <div v-if="editableId === ann.id && isEditingTitle">
                 <input

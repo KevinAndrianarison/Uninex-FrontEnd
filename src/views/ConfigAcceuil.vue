@@ -218,7 +218,6 @@ function setMentionLogoFunct() {
   axios
     .post(`${URL}/api/acceuilmention/${isEditablePhoto.value}`, formData)
     .then((response) => {
-      console.log(response.data)
       isEditablePhoto.value = null
       show.showSpinner = false
       acceuil.getAllMention()

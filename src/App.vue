@@ -120,6 +120,9 @@
   <Teleport to="body">
     <ShowConge />
   </Teleport>
+  <Teleport to="body">
+    <ModaleEtatCong />
+  </Teleport>
 </template>
 
 <script setup>
@@ -173,6 +176,8 @@ import QuitterGroup from './components/QuitterGroup.vue'
 import { useAnnonce } from '@/stores/Annonce'
 import { useCategory } from '@/stores/Category'
 import ShowConge from './components/ShowConge.vue'
+import ModaleEtatCong from './components/ModaleEtatCong.vue'
+
 
 const show = useShow()
 const etablissement = useEtablissement()

@@ -21,6 +21,7 @@ Notiflix.Notify.init({
 
 import {
   faUserTie,
+  faHourglassHalf,
   faPersonChalkboard,
   faClipboardCheck,
   faFolderTree,
@@ -112,6 +113,7 @@ import {
 
 library.add(
   faUserTie,
+  faHourglassHalf,
   faPersonChalkboard,
   faClipboardCheck,
   faFolderTree,

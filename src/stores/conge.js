@@ -8,6 +8,8 @@ export const useConge = defineStore('Conge', () => {
   const listConge = ref([])
   const oneConge = ref(null)
   const idUserStore = ref(null)
+  const nomUser = ref('')
+
 
 
   function getAllCongepermission() {
@@ -40,6 +42,7 @@ export const useConge = defineStore('Conge', () => {
     listConge,
     oneConge,
     idUserStore,
+    nomUser,
     getAllCongepermission,
     getAllCongepermissionById
   }

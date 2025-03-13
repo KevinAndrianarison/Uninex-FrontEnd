@@ -63,6 +63,7 @@ export const useShow = defineStore('Show', () => {
   const showSetGroupMember = ref(false)
   const showSetGroup = ref(false)
   const showQuitGroup = ref(false)
+  const showModaleEtatCong = ref(false)
   const isLandingPage = ref(true)
   const isSingIn = ref(false)
 
@@ -145,6 +146,7 @@ export const useShow = defineStore('Show', () => {
     showNavBarAdmin,
     showMessageErrorEmailDirFirst,
     showConge,
+    showModaleEtatCong,
     toggleCreatePasswordVisibility,
     togglePasswordVisibility,
     toggleVerifyPasswordVisibility
