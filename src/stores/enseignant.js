@@ -9,6 +9,8 @@ import { useMessages } from '@/stores/messages'
 import { useInfosheader } from '@/stores/Infosheader'
 import { useInfossetup } from '@/stores/Infossetup'
 import { useEc } from '@/stores/Ec'
+import { useMention } from '@/stores/mention'
+import { useParcour } from '@/stores/parcour'
 
 export const useEnseignant = defineStore('Enseignant', () => {
   const URL = useUrl().url
@@ -19,6 +21,8 @@ export const useEnseignant = defineStore('Enseignant', () => {
   const messages = useMessages()
   const infosheader = useInfosheader()
   const infossetup = useInfossetup()
+  const mention = useMention()
+  const parcour = useParcour()
 
   const ListeENS = ref([])
   const ListeChefMention = ref([])
@@ -38,7 +42,7 @@ export const useEnseignant = defineStore('Enseignant', () => {
   const grade_ens = ref('')
   const searchalue = ref('')
   const telephone_ens = ref(null)
-  
+  const selectedType = ref('enseignant')
 
   function createEnseignant() {
     show.showSpinner = true
@@ -73,6 +77,12 @@ export const useEnseignant = defineStore('Enseignant', () => {
             })
             .then((response) => {
               getAllENS()
+              if (selectedType.value === 'mention' && mention.mentionParcours.id) {
+                mention.addRespMentionAdd(response.data.id)
+              }
+              if (selectedType.value === 'parcours' && parcour.parcours_id) {
+                parcour.addRespParcoursAdd(response.data.id)
+              }
             })
             .catch((err) => {
               console.error(err)
@@ -210,6 +220,7 @@ export const useEnseignant = defineStore('Enseignant', () => {
     id_ensEDT,
     ListeChefMention,
     ListeChefParcours,
+    selectedType,
     getAllENSEDT,
     createEnseignant,
     setEnseignant,

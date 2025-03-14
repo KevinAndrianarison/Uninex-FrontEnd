@@ -170,6 +170,47 @@ export const useMention = defineStore('Mention', () => {
       })
   }
 
+  
+  function addRespMentionAdd(id) {
+    let formData = {
+      enseignant_id: id
+    }
+    show.showSpinner = true
+    axios
+      .put(`${URL}/api/mention/${mentionParcours.id}`, formData)
+      .then((response) => {
+        let formDatasetEns = {
+          chefMention_status: true
+        }
+        if (response.data.message === 'Un enseignant est déjà associé à cette mention !') {
+          messages.messageError = response.data.message
+          show.showSpinner = false
+          setTimeout(() => {
+            messages.messageError = ''
+          }, 3000)
+        } else {
+          axios
+            .put(`${URL}/api/enseignant/${id}`, formDatasetEns)
+            .then((response) => {
+              messages.messageSucces = 'Chef de mention ajouté !'
+              setTimeout(() => {
+                messages.messageSucces = ''
+              }, 3000)
+              show.showSpinner = false
+              enseignant.getAllENS()
+            })
+            .catch((err) => {
+              console.error(err)
+              show.showSpinner = false
+            })
+        }
+      })
+      .catch((err) => {
+        console.error(err)
+        show.showSpinner = false
+      })
+  }
+
   function clearEnseignantId(id, endId) {
     show.showSpinner = true
 
@@ -233,6 +274,7 @@ export const useMention = defineStore('Mention', () => {
     ListMentionByEns,
     abr_mention,
     abreviation,
+    addRespMentionAdd,
     postMentionByNiveau,
     clearEnseignantId,
     getByAuId,

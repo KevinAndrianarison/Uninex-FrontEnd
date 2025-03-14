@@ -258,6 +258,46 @@ export const useParcour = defineStore('Parcour', () => {
       })
   }
 
+  function addRespParcoursAdd(id) {
+    let formData = {
+      enseignant_id: id
+    }
+    show.showSpinner = true
+    axios
+      .put(`${URL}/api/parcours/${parcours_id.value}`, formData)
+      .then((response) => {
+        let formDatasetEns = {
+          chefParcours_status: true
+        }
+        if (response.data.message === 'Un enseignant est déjà associé à ce parcours !') {
+          messages.messageError = response.data.message
+          show.showSpinner = false
+          setTimeout(() => {
+            messages.messageError = ''
+          }, 3000)
+        } else {
+          axios
+            .put(`${URL}/api/enseignant/${id}`, formDatasetEns)
+            .then((response) => {
+              messages.messageSucces = 'Chef de parcours ajouté !'
+              setTimeout(() => {
+                messages.messageSucces = ''
+              }, 3000)
+              show.showSpinner = false
+              enseignant.getAllENS()
+            })
+            .catch((err) => {
+              console.error(err)
+              show.showSpinner = false
+            })
+        }
+      })
+      .catch((err) => {
+        console.error(err)
+        show.showSpinner = false
+      })
+  }
+
   function getAllParcours() {
     axios
       .get(`${URL}/api/parcours`)
@@ -346,6 +386,7 @@ export const useParcour = defineStore('Parcour', () => {
     ListParcoursDelibRed,
     abr_parcoursDelibRed,
     parcours_idDelibRed,
+    addRespParcoursAdd,
     getByNiveauIdDelib,
     postParcour,
     getParcoursByIdEns,
