@@ -484,7 +484,6 @@ watch(
 )
 
 const categoriesRecette = [
-  'Frais de scolarité',
   'Subventions publiques',
   'Dons',
   'Revenus de recherche',
@@ -543,25 +542,34 @@ function postTransaction() {
   }
 
   if (motif.value && montant.value) {
-    show.showSpinner = true
-    axios
-      .post(`${URL}/api/transaction`, formData)
-      .then((response) => {
-        transaction.getByIdAU()
-        messages.messageSucces = 'Transaction réussi !'
-        montant.value = null
-        motif.value = ''
-        show.showSpinner = false
-        setTimeout(() => {
-          messages.messageSucces = ''
-        }, 3000)
-      })
-      .catch((err) => {
-        console.error(err)
-        show.showSpinner = false
-      })
+    Notiflix.Confirm.show(
+      'Confirmation',
+      'Voulez-vous vraiment valider cette transaction ?',
+      'Oui',
+      'Non',
+      () => {
+        show.showSpinner = true
+        axios
+          .post(`${URL}/api/transaction`, formData)
+          .then((response) => {
+            transaction.getByIdAU()
+            messages.messageSucces = 'Transaction réussie !'
+            montant.value = null
+            motif.value = ''
+            show.showSpinner = false
+            setTimeout(() => {
+              messages.messageSucces = ''
+            }, 3000)
+          })
+          .catch((err) => {
+            console.error(err)
+            show.showSpinner = false
+          })
+      },
+      () => {}
+    )
   } else {
-    Notiflix.Notify.warning('Tout les champs" doivent être remplis')
+    Notiflix.Notify.warning('Tous les champs doivent être remplis')
   }
 }
 </script>

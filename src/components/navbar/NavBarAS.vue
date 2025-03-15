@@ -81,14 +81,14 @@
   <RouterLink to="/agentScolarite/GestionEDP">
     <li><CalendarDaysIcon class="h-5 w-5 mr-2" /> Emplois du temps</li>
   </RouterLink>
-  <RouterLink  to="/agentScolarite/GestionFinanciere">
-    <li v-if="show.showNavBarSECPAL">
-      <PresentationChartLineIcon class="h-5 w-5 mr-2" /> Gestion financière
-    </li>
-  </RouterLink>
   <RouterLink to="/agentScolarite/Commande">
     <li><InboxArrowDownIcon class="h-5 w-5 mr-2" /> Commandes</li>
   </RouterLink>
+  <RouterLink to="/agentScolarite/GestionFinanciere">
+    <li v-if="show.showNavBarSECPAL">
+      <ChartPieIcon class="h-5 w-5 mr-2" /> Gestion financière
+    </li></RouterLink
+  >
   <RouterLink to="/agentScolarite/EtatsFinanciers">
     <li><PresentationChartLineIcon class="h-5 w-5 mr-2" /> États financiers</li>
   </RouterLink>
@@ -99,6 +99,7 @@
 <script setup>
 import {
   HomeModernIcon,
+  ChartPieIcon,
   BriefcaseIcon,
   PresentationChartLineIcon,
   CalendarDaysIcon,

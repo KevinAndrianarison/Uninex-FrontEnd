@@ -219,7 +219,7 @@
                 class="w-[30px] h-[30px] rounded-3xl"
               ></div>
               <div class="text-gray-500 w-[20%] truncate">{{ trans.user.email }}</div>
-              <div class="text-gray-500 w-[20%]">{{ trans.niveau.abr_niveau }}</div>
+              <div class="text-gray-500 w-[20%]">{{ trans.niveau?.abr_niveau }}</div>
               <div class="text-gray-500 w-[20%]">{{ trans.date || 'Inconnue' }}</div>
               <div
                 :class="
@@ -349,7 +349,7 @@ watch(
 
 const filteredTransactions = computed(() => {
   const filtered = transaction.listTrans.filter((trans) => {
-    const niveauMatch = niveau.NiveauCheck.id ? trans.niveau.id === niveau.NiveauCheck.id : true
+    const niveauMatch = niveau.NiveauCheck.id ? trans.niveau?.id === niveau.NiveauCheck.id : true
     const categorieMatch =
       filtreCategorie.value === 'Tout' ? true : trans.categorie === filtreCategorie.value
     const dateMatch = filterByDate(trans.date)
@@ -362,7 +362,7 @@ const totalMontantNiveau = computed(() => {
   const niveauId = niveau.NiveauCheck.id
   closeDetails()
   return transaction.listTrans.reduce((total, trans) => {
-    if (trans.niveau.id === niveauId) {
+    if (trans.niveau?.id === niveauId) {
       return total + (trans.type === 'Recette' ? trans.montant : -trans.montant)
     }
     return total
