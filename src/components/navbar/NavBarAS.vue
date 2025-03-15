@@ -81,7 +81,7 @@
   <RouterLink to="/agentScolarite/GestionEDP">
     <li><CalendarDaysIcon class="h-5 w-5 mr-2" /> Emplois du temps</li>
   </RouterLink>
-  <RouterLink class="hidden" to="/agentScolarite/GestionFinanciere">
+  <RouterLink  to="/agentScolarite/GestionFinanciere">
     <li v-if="show.showNavBarSECPAL">
       <PresentationChartLineIcon class="h-5 w-5 mr-2" /> Gestion financière
     </li>
@@ -96,7 +96,6 @@
     <li><ClipboardDocumentCheckIcon class="h-5 w-5 mr-2" />Demande de congé</li>
   </RouterLink>
 </template>
-
 <script setup>
 import {
   HomeModernIcon,

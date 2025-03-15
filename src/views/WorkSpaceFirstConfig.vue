@@ -426,7 +426,7 @@
         </div>
 
         <p class="msg border-t border-gray-900/10">
-          *Veuillez remplir tous les champs pour pouvoir continuer !
+          <b class="text-red-500 mr-1">*</b>Veuillez remplir tous les champs pour pouvoir continuer !
         </p>
       </div>
 
