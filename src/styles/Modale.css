@@ -1,317 +1,334 @@
 .login {
-    font-size: 16px;
-    font-weight: 500;
-    text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
 }
 
+.logoESP{
+  background-image: url('../assets/logo_espa-removebg-preview.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 
 .showModal {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 10;
-    width: 100%;
-    height: 100%;
-    display: block;
-    background: rgba(43, 38, 38, 0.53);
-    backdrop-filter: blur(2px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: rgba(43, 38, 38, 0.53);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .showModalCNG {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 5;
-    width: 100%;
-    height: 100%;
-    display: block;
-    background: rgba(43, 38, 38, 0.53);
-    backdrop-filter: blur(2px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: rgba(43, 38, 38, 0.53);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .valueinfos {
-    font-weight: bold;
-    color: var(--color-secondary);
-    text-decoration: underline;
+  font-weight: bold;
+  color: var(--color-secondary);
+  text-decoration: underline;
 }
 
-
 .formInputs {
-    background-color: red;
-    height: 200px;
-    background-image: url("../assets/excel.PNG");
-    background-repeat: no-repeat;
-    background-size: cover;
+  background-color: red;
+  height: 200px;
+  background-image: url('../assets/excel.PNG');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .semsetre {
-    width: 300px;
+  width: 300px;
 }
 
 .select-trigger:focus {
-    outline: none;
-    box-shadow: none;
-  }
-
-.formInput {
-    display: flex;
-    flex-wrap: wrap;
+  outline: none;
+  box-shadow: none;
 }
 
+.formInput {
+  display: flex;
+  flex-wrap: wrap;
+}
 
 .grids {
-    background: blue;
+  background: blue;
 }
 
 .formModales {
-    width: 370px;
-    background: rgb(255, 255, 255);
-    padding: 35px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    z-index: 12;
+  width: 370px;
+  background: rgb(255, 255, 255);
+  padding: 35px;
+  border-radius: 10px;
+  box-shadow:
+    0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  z-index: 12;
 }
 
-
 .formModale {
-    width: 370px;
-    background: rgb(255, 255, 255);
-    padding: 35px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    z-index: 12;
+  width: 370px;
+  background: rgb(255, 255, 255);
+  padding: 35px;
+  border-radius: 10px;
+  box-shadow:
+    0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  z-index: 12;
 }
 
 .formModal {
-    width: 370px;
-    background: rgb(255, 255, 255);
-    padding: 35px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    z-index: 12;
+  width: 370px;
+  background: rgb(255, 255, 255);
+  padding: 35px;
+  border-radius: 10px;
+  box-shadow:
+    0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  z-index: 12;
 }
 
 .info {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .formMod {
-    width: 370px;
-    background: rgb(255, 255, 255);
-    padding: 35px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    z-index: 12;
+  width: 370px;
+  background: rgb(255, 255, 255);
+  padding: 35px;
+  border-radius: 10px;
+  box-shadow:
+    0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  z-index: 12;
 }
 
 .formModals {
-    width: 370px;
-    background: rgb(255, 255, 255);
-    padding: 35px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    z-index: 12;
+  width: 370px;
+  background: rgb(255, 255, 255);
+  padding: 35px;
+  border-radius: 10px;
+  box-shadow:
+    0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  z-index: 12;
 }
 
+.formModalCERT {
+  background: rgb(255, 255, 255);
+  padding: 35px;
+  border-radius: 10px;
+  box-shadow:
+    0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  z-index: 12;
+}
+
+
 .formModalsCNG {
-    width: 50vw;
-    background: rgb(255, 255, 255);
-    padding: 35px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    z-index: 12;
+  width: 50vw;
+  background: rgb(255, 255, 255);
+  padding: 35px;
+  border-radius: 10px;
+  box-shadow:
+    0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  z-index: 12;
 }
 
 .formModalsInfosEtud {
-    width: 1000px;
-    background: white;
-    padding: 35px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    z-index: 12;
+  width: 1000px;
+  background: white;
+  padding: 35px;
+  border-radius: 10px;
+  box-shadow:
+    0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  z-index: 12;
 }
 
 .infos {
-    border-bottom: 2px solid rgba(128, 128, 128, 0.311);
-    font-weight: 600;
-    font-size: 16px;
+  border-bottom: 2px solid rgba(128, 128, 128, 0.311);
+  font-weight: 600;
+  font-size: 16px;
 }
 
 .valider {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
 }
 
 .valide {
-    display: flex;
-    justify-content: space-around;
+  display: flex;
+  justify-content: space-around;
 }
 
 .delete:hover {
-    cursor: pointer;
-
-
+  cursor: pointer;
 }
 
 h6 {
-    text-align: center;
-    font-weight: 400;
+  text-align: center;
+  font-weight: 400;
 }
 
 .delete {
-    background-color: var(--color-text-danger);
-    padding: 7px 15px 7px 15px;
-    border: none;
-    color: white;
-    font-weight: 600;
-    border-radius: 2px;
-    transition: all 0.7s ease-in-out;
+  background-color: var(--color-text-danger);
+  padding: 7px 15px 7px 15px;
+  border: none;
+  color: white;
+  font-weight: 600;
+  border-radius: 2px;
+  transition: all 0.7s ease-in-out;
 }
 
 .divbtn {
-    text-align: right;
-    height: 0px;
+  text-align: right;
+  height: 0px;
 }
 
 .Annullers {
-    color: gray;
-    font-weight: bold;
-    position: relative;
-    bottom: 30px;
-    font-weight: bold;
-    left: 30px;
-    border: none;
-    padding: 5px 12px 5px 12px;
-    border-radius: 50px;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva,
-        Verdana, sans-serif;
+  color: gray;
+  font-weight: bold;
+  position: relative;
+  bottom: 30px;
+  font-weight: bold;
+  left: 30px;
+  border: none;
+  padding: 5px 12px 5px 12px;
+  border-radius: 50px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva,
+    Verdana, sans-serif;
 }
 
 .Annullers:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
-
 .Modifier:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .Modifier {
-    background-color: var(--color-primary);
-    padding: 7px 15px 7px 15px;
-    border: none;
-    color: white;
-    font-weight: 600;
-    border-radius: 2px;
-    transition: all 0.7s ease-in-out;
-
+  background-color: var(--color-primary);
+  padding: 7px 15px 7px 15px;
+  border: none;
+  color: white;
+  font-weight: 600;
+  border-radius: 2px;
+  transition: all 0.7s ease-in-out;
 }
 
 .Modifie {
-    background-color: var(--color-primary);
-    width: 100%;
-    height: 100%;
-    border: none;
-    color: white;
-    font-weight: 400;
-    padding: 5px 0 5px 0;
-    border-radius: 2px;
-    transition: all 0.7s ease-in-out;
-
+  background-color: var(--color-primary);
+  width: 100%;
+  height: 100%;
+  border: none;
+  color: white;
+  font-weight: 400;
+  padding: 5px 0 5px 0;
+  border-radius: 2px;
+  transition: all 0.7s ease-in-out;
 }
 
 .Annuller {
-    background-color: var(--color-third);
-    padding: 7px 15px 7px 15px;
-    border: none;
-    color: white;
-    font-weight: 600;
-    border-radius: 2px;
-    transition: all 0.7s ease-in-out;
-
+  background-color: var(--color-third);
+  padding: 7px 15px 7px 15px;
+  border: none;
+  color: white;
+  font-weight: 600;
+  border-radius: 2px;
+  transition: all 0.7s ease-in-out;
 }
 
 .Annuller:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
-
-
 .fade-enter-active {
-    transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+  transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
 }
 
 .fade-enter-to {
-    opacity: 1;
+  opacity: 1;
 }
 
 .fade-leave-from {
-    opacity: 1;
+  opacity: 1;
 }
 
 .fade-leave-active {
-    transition: all 0.2s cubic-bezier(0.55, 0, 0.1, 1);
+  transition: all 0.2s cubic-bezier(0.55, 0, 0.1, 1);
 }
 
 .fade-leave-to {
-    opacity: 0;
+  opacity: 0;
 }
 
 .v-enter-from {
-    opacity: 0;
+  opacity: 0;
 }
 
 .v-enter-active {
-    transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease;
 }
 
 .v-enter-to {
-    opacity: 1;
+  opacity: 1;
 }
 
 .v-leave-from {
-    opacity: 1;
+  opacity: 1;
 }
 
 .v-leave-active {
-    transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease;
 }
 
 .v-leave-to {
-    opacity: 0;
+  opacity: 0;
 }
 
 .listNiv {
-    padding: 5px 5px 5px 15px;
-    border-radius: 2px;
-    border: 1px solid rgba(128, 128, 128, 0.311);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
+  padding: 5px 5px 5px 15px;
+  border-radius: 2px;
+  border: 1px solid rgba(128, 128, 128, 0.311);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .DisclosurePanel {
-    max-height: 125px;
-    overflow-y: scroll;
-
+  max-height: 125px;
+  overflow-y: scroll;
 }
 
 .DisclosurePanels {
-    max-height: 75px;
-    overflow-y: scroll;
-
+  max-height: 75px;
+  overflow-y: scroll;
 }
 
 .deletes {
-    color: red;
-    cursor: pointer;
+  color: red;
+  cursor: pointer;
 }

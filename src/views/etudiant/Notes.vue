@@ -57,7 +57,7 @@
         </button>
       </div>
       <button
-        @click="commandeCertificat"
+        @click="confirmCommandeCertificat"
         class="text-xs text-white bg-yellow-500 px-5 py-2 rounded"
       >
         Demander un certificat de scolarité
@@ -126,13 +126,13 @@
       <div v-if="etudiant.listNote.length !== 0" class="flex mt-4 gap-2">
         <button
           @click="getOneEtudiant"
-          class="bg-blue-400 flex gap-2 rounded text-white text-xs px-5 py-2 cursoir-pointer"
+          class="bg-blue-400 flex gap-2 rounded text-white text-xs px-5 py-2 cursor-pointer"
         >
           Relevé des notes
         </button>
         <button
-          @click="commandeReleve"
-          class="bg-green-500 flex gap-2 rounded text-white text-xs px-5 py-2 cursoir-pointer"
+          @click="confirmCommandeReleve"
+          class="bg-green-500 flex gap-2 rounded text-white text-xs px-5 py-2 cursor-pointer"
         >
           Demander un relevé
         </button>
@@ -179,16 +179,16 @@
 </template>
 
 <script setup>
-import { onBeforeMount } from 'vue'
+import { onBeforeMount, ref } from 'vue'
 import { useEtudiant } from '@/stores/Etudiant'
 import { useTheme } from '@/stores/Theme'
 import { CheckBadgeIcon } from '@heroicons/vue/24/outline'
 import axios from 'axios'
 import { useShow } from '@/stores/Show'
 import { useUrl } from '@/stores/url'
-import { ref } from 'vue'
 import { useEdt } from '@/stores/Edt'
 import { useMessages } from '@/stores/messages'
+import Notiflix from 'notiflix';
 
 const URL = useUrl().url
 const show = useShow()
@@ -299,6 +299,20 @@ function commandeReleve() {
     })
 }
 
+function confirmCommandeReleve() {
+  Notiflix.Confirm.show(
+    'Confirmation',
+    'Voulez-vous vraiment demander un relevé de notes ?',
+    'Oui',
+    'Non',
+    () => {
+      commandeReleve();
+    },
+    () => {
+    }
+  );
+}
+
 function commandeCertificat() {
   let currentDate = new Date()
   let formattedDate = currentDate.toISOString().split('T')[0]
@@ -323,6 +337,20 @@ function commandeCertificat() {
       console.error(err)
       show.showSpinner = false
     })
+}
+
+function confirmCommandeCertificat() {
+  Notiflix.Confirm.show(
+    'Confirmation',
+    'Voulez-vous vraiment demander un certificat de scolarité ?',
+    'Oui',
+    'Non',
+    () => {
+      commandeCertificat();
+    },
+    () => {
+    }
+  );
 }
 
 function getOneEtudiant() {

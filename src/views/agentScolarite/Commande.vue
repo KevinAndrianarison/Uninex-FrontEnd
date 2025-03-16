@@ -159,7 +159,7 @@
               <li class="w-[15%] text-center flex justify-center gap-1">
                 <p>
                   <font-awesome-icon
-                    @click="validerCommande(cmnd.id, cmnd.categorie, cmnd)"
+                    @click="confirmValiderCommande(cmnd.id, cmnd.categorie, cmnd)"
                     :icon="['fas', 'circle-check']"
                     v-if="
                       cmnd.status === 'En attente' && (show.showNavBarAS || show.showNavBarSECPAL)
@@ -171,14 +171,14 @@
                   <font-awesome-icon
                     :icon="['fas', 'xmark']"
                     v-if="cmnd.status === 'Validé' && (show.showNavBarAS || show.showNavBarSECPAL)"
-                    @click="AnnulerCommande(cmnd.id)"
-                    class="text-red-500 border-2 border-red-500 px-1.5 p-1 rounded-full cursor-pointer hidden"
+                    @click="confirmAnnulerCommande(cmnd.id)"
+                    class="text-red-500 border-2 border-red-500 px-1.5 p-1 rounded-full cursor-pointer"
                   />
                 </p>
                 <p>
                   <font-awesome-icon
                     :icon="['fas', 'eye']"
-                    @click="getOneEtudiant(cmnd.categorie, cmnd.etudiant.id)"
+                    @click="getOneEtudiant(cmnd.categorie, cmnd.etudiant.id, cmnd.etudiant, cmnd.au)"
                     class="text-blue-500 border-2 border-blue-500 p-1 rounded-full cursor-pointer"
                   />
                 </p>
@@ -186,6 +186,7 @@
                   <font-awesome-icon
                     v-if="show.showNavBarEtud"
                     :icon="['fas', 'trash']"
+                    @click="confirmDeleteCommande(cmnd.id)"
                     class="text-red-500 border-2 border-red-500 p-1 rounded-full cursor-pointer"
                   />
                 </p>
@@ -219,6 +220,8 @@ import { useShow } from '@/stores/show'
 import { useEtudiant } from '@/stores/Etudiant'
 import { useAu } from '@/stores/Au'
 import { useTheme } from '@/stores/Theme'
+import { useDirecteur } from '@/stores/Directeur'
+import Notiflix from 'notiflix'
 
 const filterType = ref('Tout')
 const showCategorieMenu = ref(false)
@@ -231,11 +234,15 @@ const etudiant = useEtudiant()
 const messages = useMessages()
 const theme = useTheme()
 const au = useAu()
+const directeur = useDirecteur()
+
 
 function getAllCommande() {
   axios
     .get(`${URL}/api/commande`)
     .then((response) => {
+      console.log(response.data);
+      
       listCommand.value = response.data
       if (listCommand.value.length > 0) {
         selectedAU.value = listCommand.value[0].au.id
@@ -317,11 +324,23 @@ function validerCommande(id, ctg, obj) {
     })
 }
 
+function confirmValiderCommande(id, ctg, obj) {
+  Notiflix.Confirm.show(
+    'Confirmation',
+    'Voulez-vous vraiment valider cette commande ?',
+    'Oui',
+    'Non',
+    () => {
+      validerCommande(id, ctg, obj)
+    },
+    () => {}
+  )
+}
+
 function postTransaction(formData) {
   axios
     .post(`${URL}/api/transaction`, formData)
-    .then((response) => {
-    })
+    .then((response) => {})
     .catch((err) => {
       console.error(err)
     })
@@ -348,11 +367,61 @@ function AnnulerCommande(id) {
     })
 }
 
-function getOneEtudiant(ctg, id) {
+function confirmAnnulerCommande(id) {
+  Notiflix.Confirm.show(
+    'Confirmation',
+    'Voulez-vous vraiment annuler cette commande ?',
+    'Oui',
+    'Non',
+    () => {
+      AnnulerCommande(id)
+    },
+    () => {}
+  )
+}
+
+function deleteCommande(id) {
+  show.showSpinner = true
+  axios
+    .delete(`${URL}/api/commande/${id}`)
+    .then((response) => {
+      messages.messageSucces = 'Commande supprimée !'
+      show.showSpinner = false
+      setTimeout(() => {
+        messages.messageSucces = ''
+      }, 3000)
+      getAllCommande()
+    })
+    .catch((err) => {
+      console.error(err)
+      show.showSpinner = false
+    })
+}
+
+function confirmDeleteCommande(id) {
+  Notiflix.Confirm.show(
+    'Confirmation',
+    'Voulez-vous vraiment supprimer cette commande ?',
+    'Oui',
+    'Non',
+    () => {
+      deleteCommande(id)
+    },
+    () => {}
+  )
+}
+
+function getOneEtudiant(ctg, id, etd, annee) {
   if (ctg === 'Relevé des notes') {
     etudiant.isshowNotes = true
     etudiant.id_etud = id
     etudiant.getEtudiantById()
+  }
+  if (ctg === 'Certificat de scolarité') {
+    directeur.getFirst()
+    etudiant.auCert = annee
+    etudiant.etudiantCert = etd
+    show.showCertificatModal = true
   }
 }
 

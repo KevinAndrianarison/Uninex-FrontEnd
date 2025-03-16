@@ -43,7 +43,10 @@
       </p>
       <p class="mt-2 sousTitre">Le Directeur de l'{{ etablissement.etablissement.abr_etab }}</p>
 
-      <p class="mt-20 sousTitre">{{ directeur.grade_dir }} {{ directeur.nomComplet_dir }}</p>
+      <p class="mt-20 sousTitre">
+        {{ directeur.grade_dir !== 'Assistant' ? directeur.grade_dir : 'Madame/Monsieur' }}
+        {{ directeur.nomComplet_dir }}
+      </p>
     </div>
   </div>
 </template>
@@ -61,7 +64,6 @@ import { useDirecteur } from '@/stores/Directeur'
 import { useUrl } from '@/stores/url'
 import { useShow } from '@/stores/Show'
 
-
 const elementToPrint = ref(null)
 const formattedDate = ref('')
 const htmltopdf = useHtml2pdf()
@@ -74,7 +76,6 @@ const parcour = useParcour()
 const etablissement = useEtablissement()
 const directeur = useDirecteur()
 const show = useShow()
-
 
 onMounted(() => {
   directeur.isListeEtud = false

@@ -94,7 +94,7 @@
               <li class="w-[20%] text-center flex justify-center gap-1">
                 <p>
                   <font-awesome-icon
-                    @click="validerCommande(cmnd.id)"
+                    @click="confirmValiderCommande(cmnd.id)"
                     :icon="['fas', 'circle-check']"
                     v-if="
                       cmnd.status === 'En attente' && (show.showNavBarAS || show.showNavBarSECPAL)
@@ -106,7 +106,7 @@
                   <font-awesome-icon
                     :icon="['fas', 'xmark']"
                     v-if="cmnd.status === 'Validé' && (show.showNavBarAS || show.showNavBarSECPAL)"
-                    @click="AnnulerCommande(cmnd.id)"
+                    @click="confirmAnnulerCommande(cmnd.id)"
                     class="text-red-500 border-2 border-red-500 px-1.5 p-1 rounded-full cursor-pointer"
                   />
                 </p>
@@ -120,6 +120,7 @@
                 <p>
                   <font-awesome-icon
                     v-if="show.showNavBarEtud && cmnd.status === 'En attente'"
+                    @click="confirmDeleteCommande(cmnd.id)"
                     :icon="['fas', 'trash']"
                     class="text-red-500 border-2 border-red-500 p-1 rounded-full cursor-pointer"
                   />
@@ -151,6 +152,7 @@ import { useUrl } from '@/stores/url'
 import { useMessages } from '@/stores/messages'
 import { useShow } from '@/stores/show'
 import { useEtudiant } from '@/stores/Etudiant'
+import Notiflix from 'notiflix';
 
 const filterType = ref('Tout')
 const showCategorieMenu = ref(false)
@@ -212,6 +214,52 @@ function validerCommande(id) {
     })
 }
 
+function confirmValiderCommande(id) {
+  Notiflix.Confirm.show(
+    'Confirmation',
+    'Voulez-vous vraiment valider cette commande ?',
+    'Oui',
+    'Non',
+    () => {
+      validerCommande(id);
+    },
+    () => {
+    }
+  );
+}
+
+function deleteCommande(id) {
+  show.showSpinner = true
+  axios
+    .delete(`${URL}/api/commande/${id}`)
+    .then((response) => {
+      messages.messageSucces = 'Commande supprimée !'
+      show.showSpinner = false
+      setTimeout(() => {
+        messages.messageSucces = ''
+      }, 3000)
+      getAllCommande()
+    })
+    .catch((err) => {
+      console.error(err)
+      show.showSpinner = false
+    })
+}
+
+function confirmDeleteCommande(id) {
+  Notiflix.Confirm.show(
+    'Confirmation',
+    'Voulez-vous vraiment supprimer cette commande ?',
+    'Oui',
+    'Non',
+    () => {
+      deleteCommande(id);
+    },
+    () => {
+    }
+  );
+}
+
 function AnnulerCommande(id) {
   let formData = {
     status: 'En attente'
@@ -231,6 +279,20 @@ function AnnulerCommande(id) {
       console.error(err)
       show.showSpinner = false
     })
+}
+
+function confirmAnnulerCommande(id) {
+  Notiflix.Confirm.show(
+    'Confirmation',
+    'Voulez-vous vraiment annuler cette commande ?',
+    'Oui',
+    'Non',
+    () => {
+      AnnulerCommande(id);
+    },
+    () => {
+    }
+  );
 }
 
 function getOneEtudiant(ctg, id) {

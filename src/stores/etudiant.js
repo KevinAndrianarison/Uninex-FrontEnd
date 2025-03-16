@@ -80,6 +80,10 @@ export const useEtudiant = defineStore('Etudiant', () => {
   const idCursus = ref(null)
   const auID = ref(null)
   const niveau = ref('')
+  const etudiantCert = ref({})
+  const auCert = ref({})
+
+
 
   function bigPostEtudiant() {
     ListeEtudiantByExcel.value.forEach((etud) => {
@@ -611,6 +615,8 @@ export const useEtudiant = defineStore('Etudiant', () => {
     id_cursus,
     idCursus,
     listEDT,
+    etudiantCert,
+    auCert,
     getEtudiantByIdAu,
     getCursus,
     searchRH,

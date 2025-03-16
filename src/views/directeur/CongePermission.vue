@@ -10,7 +10,8 @@
                 variant="outline"
                 :icon="['fas', 'square-plus']"
                 class="text-blue-500 cursor-pointer ml-2"
-            /></Tooltip>
+              />
+            </Tooltip>
           </DialogTrigger>
           <DialogContent class="sm:max-w-[425px]">
             <DialogHeader>
@@ -23,7 +24,7 @@
                 >
                   {{ ctg.titre }}
                   <font-awesome-icon
-                    @click="deleteCtg(ctg.id)"
+                    @click="confirmDeleteCtg(ctg.id)"
                     variant="outline"
                     :icon="['fas', 'trash']"
                     class="text-red-500 cursor-pointer text-xs"
@@ -283,7 +284,7 @@
                     <font-awesome-icon
                       :icon="['fas', 'circle-check']"
                       v-if="cng.status === 'Réfusé' || cng.status === 'En attente'"
-                      @click="valideConge(cng.id)"
+                      @click="confirmValideConge(cng.id)"
                       class="text-green-500 border-2 border-green-500 p-1 rounded-full cursor-pointer"
                     />
                   </p>
@@ -291,13 +292,14 @@
                     <font-awesome-icon
                       :icon="['fas', 'xmark']"
                       v-if="cng.status === 'Validé' || cng.status === 'En attente'"
-                      @click="refuseConge(cng.id)"
+                      @click="confirmRefuseConge(cng.id)"
                       class="text-red-500 border-2 border-red-500 px-1.5 p-1 rounded-full cursor-pointer"
                     />
                   </p>
                   <p>
                     <font-awesome-icon
-                      @click="deleteConge(cng.id)"
+                      v-if="cng.status === 'En attente'"
+                      @click="confirmDeleteConge(cng.id)"
                       :icon="['fas', 'trash']"
                       class="text-red-500 border-2 border-red-500 p-1 rounded-full cursor-pointer"
                     />
@@ -412,7 +414,9 @@ onBeforeMount(async () => {
   ])
 })
 
-function deleteCtg(id) {
+
+
+function confirmDeleteCtg(id) {
   NProgress.start()
   axios
     .delete(`${URL}/api/categorieconge/${id}`)
@@ -424,6 +428,20 @@ function deleteCtg(id) {
       console.error(err)
       NProgress.done()
     })
+}
+
+function confirmDeleteConge(id) {
+  Notiflix.Confirm.show(
+    'Confirmation',
+    'Voulez-vous vraiment supprimer cette demande ?',
+    'Oui',
+    'Non',
+    () => {
+      deleteConge(id);
+    },
+    () => {
+    }
+  );
 }
 
 function deleteConge(id) {
@@ -438,6 +456,20 @@ function deleteConge(id) {
       console.error(err)
       show.showSpinner = false
     })
+}
+
+function confirmRefuseConge(id) {
+  Notiflix.Confirm.show(
+    'Confirmation',
+    'Voulez-vous vraiment refuser cette demande ?',
+    'Oui',
+    'Non',
+    () => {
+      refuseConge(id);
+    },
+    () => {
+    }
+  );
 }
 
 function refuseConge(id) {
@@ -455,6 +487,20 @@ function refuseConge(id) {
       console.error(err)
       show.showSpinner = false
     })
+}
+
+function confirmValideConge(id) {
+  Notiflix.Confirm.show(
+    'Confirmation',
+    'Voulez-vous vraiment valider cette demande ?',
+    'Oui',
+    'Non',
+    () => {
+      valideConge(id);
+    },
+    () => {
+    }
+  );
 }
 
 function valideConge(id) {

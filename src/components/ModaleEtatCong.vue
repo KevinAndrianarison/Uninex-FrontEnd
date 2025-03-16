@@ -8,6 +8,7 @@ import { useCategory } from '@/stores/category'
 import { useUrl } from '@/stores/url'
 import axios from 'axios'
 import { onUnmounted } from 'vue'
+import Notiflix from 'notiflix'
 
 const show = useShow()
 const theme = useTheme()
@@ -29,6 +30,7 @@ const handleClickOutside = (event) => {
     showCategorieMenu.value = false
   }
 }
+
 onMounted(() => {
   document.addEventListener('click', handleClickOutside)
   const observer = new IntersectionObserver((entries) => {
@@ -75,6 +77,20 @@ function telecharger(nom) {
   document.body.removeChild(link)
 }
 
+function confirmValideConge(id, idUser) {
+  Notiflix.Confirm.show(
+    'Confirmation',
+    'Voulez-vous vraiment valider cette demande ?',
+    'Oui',
+    'Non',
+    () => {
+      valideConge(id, idUser);
+    },
+    () => {
+    }
+  );
+}
+
 function valideConge(id, idUser) {
   let formData = {
     status: 'Validé'
@@ -92,6 +108,20 @@ function valideConge(id, idUser) {
     })
 }
 
+function confirmDeleteConge(id, idUser) {
+  Notiflix.Confirm.show(
+    'Confirmation',
+    'Voulez-vous vraiment supprimer cette demande ?',
+    'Oui',
+    'Non',
+    () => {
+      deleteConge(id, idUser);
+    },
+    () => {
+    }
+  );
+}
+
 function deleteConge(id, idUser) {
   show.showSpinner = true
   axios
@@ -104,6 +134,20 @@ function deleteConge(id, idUser) {
       console.error(err)
       show.showSpinner = false
     })
+}
+
+function confirmRefuseConge(id, idUser) {
+  Notiflix.Confirm.show(
+    'Confirmation',
+    'Voulez-vous vraiment refuser cette demande ?',
+    'Oui',
+    'Non',
+    () => {
+      refuseConge(id, idUser);
+    },
+    () => {
+    }
+  );
 }
 
 function refuseConge(id, idUser) {
@@ -264,7 +308,7 @@ onBeforeMount(() => {
                   <font-awesome-icon
                     :icon="['fas', 'circle-check']"
                     v-if="cng.status === 'Réfusé' || cng.status === 'En attente'"
-                    @click="valideConge(cng.id, cng.user.id)"
+                    @click="confirmValideConge(cng.id, cng.user.id)"
                     class="text-green-500 border-2 border-green-500 p-1 rounded-full cursor-pointer"
                   />
                 </p>
@@ -272,13 +316,13 @@ onBeforeMount(() => {
                   <font-awesome-icon
                     :icon="['fas', 'xmark']"
                     v-if="cng.status === 'Validé' || cng.status === 'En attente'"
-                    @click="refuseConge(cng.id, cng.user.id)"
+                    @click="confirmRefuseConge(cng.id, cng.user.id)"
                     class="text-red-500 border-2 border-red-500 px-1.5 p-1 rounded-full cursor-pointer"
                   />
                 </p>
                 <p>
                   <font-awesome-icon
-                    @click="deleteConge(cng.id, cng.user.id)"
+                    @click="confirmDeleteConge(cng.id, cng.user.id)"
                     :icon="['fas', 'trash']"
                     class="text-red-500 border-2 border-red-500 p-1 rounded-full cursor-pointer"
                   />

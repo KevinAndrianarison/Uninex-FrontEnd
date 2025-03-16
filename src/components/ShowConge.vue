@@ -6,6 +6,7 @@ import { useTheme } from '@/stores/Theme'
 import { useConge } from '@/stores/conge'
 import NProgress from 'nprogress'
 import axios from 'axios'
+import Notiflix from 'notiflix'
 
 const URL = useUrl().url
 const show = useShow()
@@ -14,6 +15,20 @@ const conge = useConge()
 
 function closeShowConge() {
   show.showConge = false
+}
+
+function confirmRefuseConge(id) {
+  Notiflix.Confirm.show(
+    'Confirmation',
+    'Voulez-vous vraiment refuser cette demande ?',
+    'Oui',
+    'Non',
+    () => {
+      refuseConge(id);
+    },
+    () => {
+    }
+  );
 }
 
 function refuseConge(id) {
@@ -32,6 +47,20 @@ function refuseConge(id) {
       console.error(err)
       NProgress.done()
     })
+}
+
+function confirmValideConge(id) {
+  Notiflix.Confirm.show(
+    'Confirmation',
+    'Voulez-vous vraiment valider cette demande ?',
+    'Oui',
+    'Non',
+    () => {
+      valideConge(id);
+    },
+    () => {
+    }
+  );
 }
 
 function valideConge(id) {
@@ -76,7 +105,7 @@ function valideConge(id) {
                   'url(' +
                   `${URL}/storage/users/${
                     conge.oneConge.user.photo_name || 'téléchargement-removebg-preview.png'
-                  } ` +
+                  }` +
                   ')',
                 'background-size': 'cover',
                 'background-position': 'center'
@@ -109,13 +138,13 @@ function valideConge(id) {
           <div v-if="show.showNavBarDir" class="text-xs">
             <button
               v-if="conge.oneConge.status === 'Réfusé' || conge.oneConge.status === 'En attente'"
-              @click="valideConge(conge.oneConge.id)"
+              @click="confirmValideConge(conge.oneConge.id)"
               class="bg-yellow-500 text-white px-4 flex gap-2 items-center py-2 rounded"
             >
               <font-awesome-icon :icon="['fas', 'circle-check']" />Valider la demande
             </button>
             <button
-              @click="refuseConge(conge.oneConge.id)"
+              @click="confirmRefuseConge(conge.oneConge.id)"
               v-if="conge.oneConge.status === 'Validé' || conge.oneConge.status === 'En attente'"
               class="bg-red-500 text-white px-4 flex gap-2 items-center py-2 rounded mt-2"
             >

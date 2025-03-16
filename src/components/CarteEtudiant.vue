@@ -73,7 +73,8 @@
             <p class="font-bold">L'étudiant</p>
           </div>
           <p class="mt-16 font-bold pl-10">
-            {{ directeur.grade_dir }} {{ directeur.nomComplet_dir }}
+            {{ directeur.grade_dir !== 'Assistant' ? directeur.grade_dir : 'Madame/Monsieur' }}
+            {{ directeur.nomComplet_dir }}
           </p>
         </div>
       </div>

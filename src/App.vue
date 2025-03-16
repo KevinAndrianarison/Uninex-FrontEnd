@@ -97,6 +97,9 @@
     <CreateSalle />
   </Teleport>
   <Teleport to="body">
+    <CertificatModale />
+  </Teleport>
+  <Teleport to="body">
     <DeleteSalle />
   </Teleport>
   <Teleport to="body">
@@ -177,6 +180,8 @@ import { useAnnonce } from '@/stores/Annonce'
 import { useCategory } from '@/stores/Category'
 import ShowConge from './components/ShowConge.vue'
 import ModaleEtatCong from './components/ModaleEtatCong.vue'
+import CertificatModale from './components/CertificatModale.vue'
+
 
 
 const show = useShow()

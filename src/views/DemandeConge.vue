@@ -250,22 +250,22 @@
                   <font-awesome-icon
                     :icon="['fas', 'circle-check']"
                     v-if="cng.status === 'Réfusé' || cng.status === 'En attente'"
-                    @click="valideConge(cng.id)"
-                    class="text-green-500 border-2 border-green-500 p-1 rounded-full cursor-pointer hidden"
+                    @click="confirmValideConge(cng.id)"
+                    class="text-green-500 border-2 border-green-500 p-1 rounded-full cursor-pointer"
                   />
                 </p>
                 <p>
                   <font-awesome-icon
                     :icon="['fas', 'xmark']"
                     v-if="cng.status === 'Validé' || cng.status === 'En attente'"
-                    @click="refuseConge(cng.id)"
-                    class="text-red-500 border-2 border-red-500 px-1.5 p-1 rounded-full cursor-pointer hidden"
+                    @click="confirmRefuseConge(cng.id)"
+                    class="text-red-500 border-2 border-red-500 px-1.5 p-1 rounded-full cursor-pointer"
                   />
                 </p>
                 <p>
                   <font-awesome-icon
                     v-if="cng.status === 'En attente'"
-                    @click="deleteConge(cng.id)"
+                    @click="confirmDeleteConge(cng.id)"
                     :icon="['fas', 'trash']"
                     class="text-red-500 border-2 border-red-500 p-1 rounded-full cursor-pointer"
                   />
@@ -381,6 +381,20 @@ function deleteCtg(id) {
     })
 }
 
+function confirmDeleteConge(id) {
+  Notiflix.Confirm.show(
+    'Confirmation',
+    'Voulez-vous vraiment supprimer cette demande ?',
+    'Oui',
+    'Non',
+    () => {
+      deleteConge(id);
+    },
+    () => {
+    }
+  );
+}
+
 function deleteConge(id) {
   show.showSpinner = true
   axios
@@ -393,6 +407,20 @@ function deleteConge(id) {
       console.error(err)
       show.showSpinner = false
     })
+}
+
+function confirmRefuseConge(id) {
+  Notiflix.Confirm.show(
+    'Confirmation',
+    'Voulez-vous vraiment refuser cette demande ?',
+    'Oui',
+    'Non',
+    () => {
+      refuseConge(id);
+    },
+    () => {
+    }
+  );
 }
 
 function refuseConge(id) {
@@ -410,6 +438,20 @@ function refuseConge(id) {
       console.error(err)
       show.showSpinner = false
     })
+}
+
+function confirmValideConge(id) {
+  Notiflix.Confirm.show(
+    'Confirmation',
+    'Voulez-vous vraiment valider cette demande ?',
+    'Oui',
+    'Non',
+    () => {
+      valideConge(id);
+    },
+    () => {
+    }
+  );
 }
 
 function valideConge(id) {

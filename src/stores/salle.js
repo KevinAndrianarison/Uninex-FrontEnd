@@ -15,8 +15,8 @@ export const useSalle = defineStore('Salle', () => {
       .get(`${URL}/api/salle`)
       .then((response) => {
         listSalle.value = response.data
-        NomSalle.value = response.data[0].nom_salle
-        idSalle.value = response.data[0].id
+        NomSalle.value = response.data[0]?.nom_salle
+        idSalle.value = response.data[0]?.id
       })
       .catch((err) => {
         console.error(err)
