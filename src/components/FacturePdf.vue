@@ -19,8 +19,8 @@
           <p>{{ transaction.oneFacture.au.etablissement.email_etab }}</p>
         </div>
         <div class="text-right">
-          <p>{{ transaction.oneFacture.user.agentscolarite[0].nomComplet_scol }}</p>
-          <p>{{ transaction.oneFacture.user.agentscolarite[0].telephone_scol }}</p>
+          <p>{{ transaction.oneFacture.user.agentscolarite[0]?.nomComplet_scol }}</p>
+          <p>{{ transaction.oneFacture.user.agentscolarite[0]?.telephone_scol }}</p>
           <p>{{ transaction.oneFacture.user.email }}</p>
         </div>
       </div>

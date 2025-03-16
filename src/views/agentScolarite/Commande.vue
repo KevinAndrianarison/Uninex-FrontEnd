@@ -240,9 +240,7 @@ const directeur = useDirecteur()
 function getAllCommande() {
   axios
     .get(`${URL}/api/commande`)
-    .then((response) => {
-      console.log(response.data);
-      
+    .then((response) => {      
       listCommand.value = response.data
       if (listCommand.value.length > 0) {
         selectedAU.value = listCommand.value[0].au.id
