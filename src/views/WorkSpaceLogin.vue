@@ -268,7 +268,7 @@
           </div>
         </section>
         <section
-          v-if="!isAllAnnonce && annonces.listAnnonce.length !== 0"
+          v-if="!isAllAnnonce && annonces.listAnnonce.filter((a) => a.status !== 'attente').length !== 0"
           class="section course"
           id="actualite"
           aria-label="course"
@@ -286,7 +286,7 @@
               <li
                 class="w-80"
                 :key="ann.id"
-                v-for="(ann, index) in annonces.listAnnonce.slice(0, 3)"
+                v-for="(ann, index) in annonces.listAnnonce.filter((a) => a.status !== 'attente').slice(0, 3)"
               >
                 <div class="course-card">
                   <figure
@@ -750,7 +750,7 @@ onUnmounted(() => {
 })
 
 const annoncesFiltrees = computed(() => {
-  let result = annonces.listAnnonce
+  let result = annonces.listAnnonce.filter((a) => a.status !== 'attente')
 
   if (filtreCategorie.value !== 'Tout') {
     result = result.filter((a) => a.categori.titre === filtreCategorie.value)
