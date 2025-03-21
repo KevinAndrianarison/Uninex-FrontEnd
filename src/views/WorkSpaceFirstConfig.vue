@@ -437,6 +437,7 @@
           :disabled="
             !etablissement.nom_etab ||
             !etablissement.email_etab ||
+            !etablissement.numero ||
             !au.annee_debut ||
             !au.annee_fin ||
             !directeur.nomComplet_dir ||

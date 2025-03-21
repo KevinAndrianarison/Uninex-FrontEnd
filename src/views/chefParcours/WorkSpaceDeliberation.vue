@@ -714,7 +714,7 @@
           semestre.semestreIdDelibRed.length !== 0 &&
           (countAdmis !== 0 || countRedouble !== 0)
         "
-        @click="delibaration()"
+        @click="confirmDeliberation()"
         class="bg-blue-500 text-white rounded px-4 py-1.5"
       >
         Valider la déliberation
@@ -809,6 +809,7 @@ import axios from 'axios'
 import { useTheme } from '@/stores/Theme'
 import { useShow } from '@/stores/Show'
 import { useMessages } from '@/stores/messages'
+import Notiflix from 'notiflix';
 
 const niveau = useNiveau()
 const show = useShow()
@@ -827,6 +828,21 @@ const messages = useMessages()
 function setIdParcours(id, name) {
   parcour.parcours_id = id
   parcour.nomByEns = name
+}
+
+
+function confirmDeliberation() {
+  Notiflix.Confirm.show(
+    'Confirmation',
+    'Voulez-vous vraiment valider la délibération ?',
+    'Oui',
+    'Non',
+    () => {
+      delibaration();
+    },
+    () => {
+    }
+  );
 }
 
 function delibaration() {

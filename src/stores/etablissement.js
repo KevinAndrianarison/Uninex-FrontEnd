@@ -8,7 +8,6 @@ import axios from 'axios'
 import { useMessages } from '@/stores/messages'
 import { usePassword } from '@/stores/Password'
 import { useAdmin } from '@/stores/Admin'
-
 import { reactive, ref } from 'vue'
 
 export const useEtablissement = defineStore('Etablissement', () => {
