@@ -170,7 +170,7 @@
                 <p>
                   <font-awesome-icon
                     :icon="['fas', 'xmark']"
-                    v-if="cmnd.status === 'Validé' && (show.showNavBarAS || show.showNavBarSECPAL)"
+                    v-if="cmnd.status === 'En attente' && (show.showNavBarAS || show.showNavBarSECPAL)"
                     @click="confirmAnnulerCommande(cmnd.id)"
                     class="text-red-500 border-2 border-red-500 px-1.5 p-1 rounded-full cursor-pointer"
                   />

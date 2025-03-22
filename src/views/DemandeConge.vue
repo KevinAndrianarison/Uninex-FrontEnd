@@ -14,7 +14,7 @@
       </div>
       <div class="flex items-end gap-5 mt-5">
         <div class="flex flex-col gap-2">
-          <p class="text-xs font-bold">Description</p>
+          <p class="text-xs font-bold">Description :</p>
           <textarea
             placeholder="Ecrire ici"
             v-model="description"
@@ -24,7 +24,7 @@
         <div class="flex flex-col gap-2">
           <div class="flex gap-5">
             <div class="flex flex-col gap-2">
-              <p class="text-xs font-bold">Début</p>
+              <p class="text-xs font-bold">Début :</p>
               <input
                 class="h-10 rounded p-2 focus:ring text-xs w-40 ring-1 focus:outline-none"
                 type="date"
@@ -32,7 +32,7 @@
               />
             </div>
             <div class="flex flex-col gap-2">
-              <p class="text-xs font-bold">Fin</p>
+              <p class="text-xs font-bold">Fin :</p>
               <input
                 class="h-10 rounded p-2 focus:ring text-xs w-40 ring-1 focus:outline-none"
                 type="date"
@@ -43,7 +43,7 @@
           <div class="flex items-center gap-2" v-if="selectedType === 'Congé'">
             <Select @update:modelValue="handleCtgSelection">
               <SelectTrigger class="w-full select-trigger">
-                <SelectValue class="focus:outline-none text-xs" placeholder="Nouvelle catégorie" />
+                <SelectValue class="focus:outline-none text-xs" placeholder="Type de congé" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
@@ -246,22 +246,6 @@
                 </p>
               </li>
               <li class="w-[15%] text-center flex justify-center gap-1">
-                <p>
-                  <font-awesome-icon
-                    :icon="['fas', 'circle-check']"
-                    v-if="cng.status === 'Réfusé' || cng.status === 'En attente'"
-                    @click="confirmValideConge(cng.id)"
-                    class="text-green-500 border-2 border-green-500 p-1 rounded-full cursor-pointer"
-                  />
-                </p>
-                <p>
-                  <font-awesome-icon
-                    :icon="['fas', 'xmark']"
-                    v-if="cng.status === 'Validé' || cng.status === 'En attente'"
-                    @click="confirmRefuseConge(cng.id)"
-                    class="text-red-500 border-2 border-red-500 px-1.5 p-1 rounded-full cursor-pointer"
-                  />
-                </p>
                 <p>
                   <font-awesome-icon
                     v-if="cng.status === 'En attente'"

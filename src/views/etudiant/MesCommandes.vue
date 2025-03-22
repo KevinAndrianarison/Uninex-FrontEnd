@@ -113,7 +113,7 @@
                 <p>
                   <font-awesome-icon
                     :icon="['fas', 'eye']"
-                    @click="getOneEtudiant(cmnd.categorie, cmnd.etudiant.id)"
+                    @click="getOneEtudiant(cmnd.categorie, cmnd.etudiant.id, cmnd.etudiant, cmnd.au)"
                     class="text-blue-500 border-2 border-blue-500 p-1 rounded-full cursor-pointer"
                   />
                 </p>
@@ -153,6 +153,9 @@ import { useMessages } from '@/stores/messages'
 import { useShow } from '@/stores/show'
 import { useEtudiant } from '@/stores/Etudiant'
 import Notiflix from 'notiflix';
+import { useDirecteur } from '@/stores/Directeur'
+
+
 
 const filterType = ref('Tout')
 const showCategorieMenu = ref(false)
@@ -162,6 +165,8 @@ const URL = useUrl().url
 const show = useShow()
 const etudiant = useEtudiant()
 const messages = useMessages()
+const directeur = useDirecteur()
+
 
 function getAllCommande() {
   const userString = localStorage.getItem('user')
@@ -295,11 +300,17 @@ function confirmAnnulerCommande(id) {
   );
 }
 
-function getOneEtudiant(ctg, id) {
+function getOneEtudiant(ctg, id, etd, annee) {
   if (ctg === 'Relevé des notes') {
     etudiant.isshowNotes = true
     etudiant.id_etud = id
     etudiant.getEtudiantById()
+  }
+  if (ctg === 'Certificat de scolarité') {
+    directeur.getFirst()
+    etudiant.auCert = annee
+    etudiant.etudiantCert = etd
+    show.showCertificatModal = true
   }
 }
 

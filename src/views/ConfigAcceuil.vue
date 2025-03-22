@@ -43,7 +43,7 @@
         <div class="flex justify-between justify-end">
           <div class="flex gap-1">
             <font-awesome-icon
-              @click="deleteMention(mention.id)"
+              @click="confirmDelete(mention.id)"
               :icon="['fas', 'trash']"
               class="text-white bg-red-400 p-1.5 px-2 rounded-full cursor-pointer"
             />
@@ -174,6 +174,19 @@ onBeforeMount(() => {
 
 function setMention(id) {
   isEditable.value = id
+}
+
+function confirmDelete(id) {
+  Notiflix.Confirm.show(
+    'Confirmation',
+    'Voulez-vous vraiment supprimer cette mention ?',
+    'Oui',
+    'Non',
+    () => {
+      deleteMention(id)
+    },
+    () => {}
+  )
 }
 
 function deleteMention(id) {
