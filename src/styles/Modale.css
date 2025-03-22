@@ -44,7 +44,6 @@
 .valueinfos {
   font-weight: bold;
   color: var(--color-secondary);
-  text-decoration: underline;
 }
 
 .formInputs {

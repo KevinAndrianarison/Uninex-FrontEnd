@@ -176,7 +176,7 @@
           <label class="block text-sm font-medium leading-6">Titre </label>
           <div class="w-60">
             <Listbox v-model="enseignant.grade_ens">
-              <div class="relative mt-2">
+              <div class="relative mt-2 z-10">
                 <ListboxButton
                   :class="theme.theme === 'light' ? '' : '!bg-gray-300'"
                   class="text-black relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-[rgba(45, 52, 54,1.0)] focus:ring-2 focus:ring-inset focus:ring-[rgba(0, 184, 148,1.0)] focus:outline-none focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"

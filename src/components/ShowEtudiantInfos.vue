@@ -41,7 +41,7 @@ function closeCreateNiveau() {
               <label class="valueinfos block text-sm font-medium leading-6 text-gray-900"
                 >Nom complet :</label
               >
-              <p>&nbsp; {{ etudiant.nomComplet_etud ? etudiant.nomComplet_etud : 'Vide' }} ,</p>
+              <p>&nbsp; {{ etudiant.nomComplet_etud ? etudiant.nomComplet_etud : '...' }} ,</p>
             </div>
           </div>
           <div class="mr-5 grid grid-cols-1 gap-x-6 gap-y-8 mt-5">
@@ -50,7 +50,7 @@ function closeCreateNiveau() {
                 >Date de naissance :</label
               >
               <p>
-                &nbsp; {{ etudiant.date_naissance_etud ? etudiant.date_naissance_etud : 'Vide' }} ,
+                &nbsp; {{ etudiant.date_naissance_etud ? etudiant.date_naissance_etud : '...' }} ,
               </p>
             </div>
           </div>
@@ -61,7 +61,7 @@ function closeCreateNiveau() {
               >
               <p>
                 &nbsp;
-                {{ etudiant.lieux_naissance_etud ? etudiant.lieux_naissance_etud : 'Vide' }} ,
+                {{ etudiant.lieux_naissance_etud ? etudiant.lieux_naissance_etud : '...' }} ,
               </p>
             </div>
           </div>
@@ -70,7 +70,7 @@ function closeCreateNiveau() {
               <label class="valueinfos block text-sm font-medium leading-6 text-gray-900"
                 >Nationalité :</label
               >
-              <p>&nbsp; {{ etudiant.nationalite_etud ? etudiant.nationalite_etud : 'Vide' }} ,</p>
+              <p>&nbsp; {{ etudiant.nationalite_etud ? etudiant.nationalite_etud : '...' }} ,</p>
             </div>
           </div>
           <div class="mr-5 grid grid-cols-1 gap-x-6 gap-y-8 mt-5">
@@ -78,7 +78,7 @@ function closeCreateNiveau() {
               <label class="valueinfos block text-sm font-medium leading-6 text-gray-900"
                 >Sexe :</label
               >
-              <p>&nbsp; {{ etudiant.sexe_etud ? etudiant.sexe_etud : 'Vide' }} ,</p>
+              <p>&nbsp; {{ etudiant.sexe_etud ? etudiant.sexe_etud : '...' }} ,</p>
             </div>
           </div>
           <div class="mr-5 grid grid-cols-1 gap-x-6 gap-y-8 mt-5">
@@ -86,7 +86,7 @@ function closeCreateNiveau() {
               <label class="valueinfos block text-sm font-medium leading-6 text-gray-900"
                 >Numéro CIN :</label
               >
-              <p>&nbsp; {{ etudiant.CIN_etud ? etudiant.CIN_etud : 'Vide' }} ,</p>
+              <p>&nbsp; {{ etudiant.CIN_etud ? etudiant.CIN_etud : '...' }} ,</p>
             </div>
           </div>
           <div class="mr-5 grid grid-cols-1 gap-x-6 gap-y-8 mt-5">
@@ -94,7 +94,7 @@ function closeCreateNiveau() {
               <label class="valueinfos block text-sm font-medium leading-6 text-gray-900"
                 >Téléphone :</label
               >
-              <p>&nbsp; {{ etudiant.telephone_etud ? etudiant.telephone_etud : 'Vide' }} ,</p>
+              <p>&nbsp; {{ etudiant.telephone_etud ? etudiant.telephone_etud : '...' }} ,</p>
             </div>
           </div>
           <div class="mr-5 grid grid-cols-1 gap-x-6 gap-y-8 mt-5">
@@ -102,7 +102,7 @@ function closeCreateNiveau() {
               <label class="valueinfos block text-sm font-medium leading-6 text-gray-900"
                 >Nom du père :</label
               >
-              <p>&nbsp; {{ etudiant.nom_pere_etud ? etudiant.nom_pere_etud : 'Vide' }} ,</p>
+              <p>&nbsp; {{ etudiant.nom_pere_etud ? etudiant.nom_pere_etud : '...' }} ,</p>
             </div>
           </div>
           <div class="mr-5 grid grid-cols-1 gap-x-6 gap-y-8 mt-5">
@@ -110,7 +110,7 @@ function closeCreateNiveau() {
               <label class="valueinfos block text-sm font-medium leading-6 text-gray-900"
                 >Nom du mère :</label
               >
-              <p>&nbsp; {{ etudiant.nom_mere_etud ? etudiant.nom_mere_etud : 'Vide' }} ,</p>
+              <p>&nbsp; {{ etudiant.nom_mere_etud ? etudiant.nom_mere_etud : '...' }} ,</p>
             </div>
           </div>
 
@@ -119,7 +119,7 @@ function closeCreateNiveau() {
               <label class="valueinfos block text-sm font-medium leading-6 text-gray-900"
                 >Tuteur/Tutrice :</label
               >
-              <p>&nbsp; {{ etudiant.nom_tuteur ? etudiant.nom_tuteur : 'Vide' }} ,</p>
+              <p>&nbsp; {{ etudiant.nom_tuteur ? etudiant.nom_tuteur : '...' }} ,</p>
             </div>
           </div>
 
@@ -128,7 +128,7 @@ function closeCreateNiveau() {
               <label class="valueinfos block text-sm font-medium leading-6 text-gray-900"
                 >Adresse :</label
               >
-              <p>&nbsp; {{ etudiant.adresse_etud ? etudiant.adresse_etud : 'Vide' }} ,</p>
+              <p>&nbsp; {{ etudiant.adresse_etud ? etudiant.adresse_etud : '...' }} ,</p>
             </div>
           </div>
           <div class="mr-5 grid grid-cols-1 gap-x-6 gap-y-8 mt-5">
@@ -136,7 +136,7 @@ function closeCreateNiveau() {
               <label class="valueinfos block text-sm font-medium leading-6 text-gray-900"
                 >Série BAC :</label
               >
-              <p>&nbsp; {{ etudiant.serieBAC_etud ? etudiant.serieBAC_etud : 'Vide' }} ,</p>
+              <p>&nbsp; {{ etudiant.serieBAC_etud ? etudiant.serieBAC_etud : '...' }} ,</p>
             </div>
           </div>
           <div class="mr-5 grid grid-cols-1 gap-x-6 gap-y-8 mt-5">
@@ -144,7 +144,7 @@ function closeCreateNiveau() {
               <label class="valueinfos block text-sm font-medium leading-6 text-gray-900"
                 >Année d'obtention du BAC :</label
               >
-              <p>&nbsp; {{ etudiant.anneeBAC_etud ? etudiant.anneeBAC_etud : 'Vide' }} ,</p>
+              <p>&nbsp; {{ etudiant.anneeBAC_etud ? etudiant.anneeBAC_etud : '...' }} ,</p>
             </div>
           </div>
           <div class="mr-5 grid grid-cols-1 gap-x-6 gap-y-8 mt-5">
@@ -152,7 +152,7 @@ function closeCreateNiveau() {
               <label class="valueinfos block text-sm font-medium leading-6 text-gray-900"
                 >Etablissement d'origine :</label
               >
-              <p>&nbsp; {{ etudiant.etabOrigin_etud ? etudiant.etabOrigin_etud : 'Vide' }} ,</p>
+              <p>&nbsp; {{ etudiant.etabOrigin_etud ? etudiant.etabOrigin_etud : '...' }} ,</p>
             </div>
           </div>
           <div class="mr-5 grid grid-cols-1 gap-x-6 gap-y-8 mt-5">
@@ -164,7 +164,7 @@ function closeCreateNiveau() {
                 :href="`${URL}/storage/bordereaux/${etudiant.photoBordereaux_name}`"
                 target="_blank"
               >
-                &nbsp; {{ etudiant.photoBordereaux_name ? '🔗 Cliquez ici' : 'Vide' }}
+                &nbsp; {{ etudiant.photoBordereaux_name ? '🔗 Cliquez ici' : '...' }}
               </a>
             </div>
           </div>

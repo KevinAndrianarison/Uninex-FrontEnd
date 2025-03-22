@@ -136,10 +136,11 @@ export const useParcour = defineStore('Parcour', () => {
 
   function getByNiveauId() {
     parcours_nom.value = ''
+    ListParcours.value = []
     axios
       .get(`${URL}/api/parcours/getById/${niveau.niveau.id_niveau}`)
       .then((response) => {
-        ListParcours.value = []
+        
         if (response.data.length !== 0) {
           ListParcours.value = response.data
           parcours_nom.value = ListParcours.value[0].nom_parcours
